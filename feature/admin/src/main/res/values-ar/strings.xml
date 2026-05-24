@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="admin_title_administration">الإدارة</string>
+    <string name="admin_back">رجوع</string>
+
+    <!-- Dashboard quick stats -->
+    <string name="admin_stat_students">الطلاب</string>
+    <string name="admin_stat_attendance">الحضور</string>
+    <string name="admin_stat_avg_gpa">المعدل التراكمي</string>
+    <string name="admin_stat_fees">الرسوم</string>
+
+    <!-- Dashboard section -->
+    <string name="admin_section_management">الإدارة</string>
+
+    <!-- Menu items -->
+    <string name="admin_menu_school_info">معلومات المدرسة</string>
+    <string name="admin_menu_school_info_subtitle">عرض وتعديل تفاصيل المدرسة</string>
+    <string name="admin_menu_staff_directory">دليل الموظفين</string>
+    <string name="admin_menu_staff_subtitle">إدارة موظفي المدرسة</string>
+    <string name="admin_menu_class_rosters">قوائم الفصول</string>
+    <string name="admin_menu_class_rosters_subtitle">عرض وإدارة تسجيلات الفصول</string>
+    <string name="admin_menu_school_stats">إحصائيات المدرسة</string>
+    <string name="admin_menu_school_stats_subtitle">عرض مقاييس الأداء</string>
+
+    <!-- Class Roster screen -->
+    <string name="admin_class_rosters_title">قوائم الفصول</string>
+    <string name="admin_add_student">إضافة طالب</string>
+    <string name="admin_no_classes_title">لا توجد فصول</string>
+    <string name="admin_no_classes_subtitle">لا توجد قوائم فصول متاحة.</string>
+    <string name="admin_students_count">%1$d طالب</string>
+    <string name="admin_no_students_title">لا يوجد طلاب</string>
+    <string name="admin_no_students_subtitle">لا يوجد طلاب مسجلون في هذا الفصل.</string>
+    <string name="admin_enrolled_prefix">تاريخ التسجيل: %1$s</string>
+    <string name="admin_remove_student">إزالة الطالب</string>
+    <string name="admin_add_student_dialog_title">إضافة طالب</string>
+    <string name="admin_student_id_label">رقم الطالب</string>
+    <string name="admin_add">إضافة</string>
+    <string name="admin_cancel">إلغاء</string>
+    <string name="admin_grade_section">الصف %1$s - الشعبة %2$s</string>
+    <string name="admin_students_badge">%1$d طالب</string>
+
+    <!-- School Info screen -->
+    <string name="admin_school_info_title">معلومات المدرسة</string>
+    <string name="admin_save">حفظ</string>
+    <string name="admin_edit">تعديل</string>
+    <string name="admin_error_title">خطأ</string>
+    <string name="admin_error_load_school_info">فشل تحميل معلومات المدرسة.</string>
+    <string name="admin_section_contact">التواصل</string>
+    <string name="admin_label_email">البريد الإلكتروني</string>
+    <string name="admin_label_phone">الهاتف</string>
+    <string name="admin_label_address">العنوان</string>
+    <string name="admin_section_academic">الأكاديمية</string>
+    <string name="admin_label_academic_year">العام الدراسي</string>
+    <string name="admin_label_active_terms">الفصول النشطة</string>
+    <string name="admin_label_school_name">اسم المدرسة</string>
+    <string name="admin_label_contact_email">البريد الإلكتروني للتواصل</string>
+    <string name="admin_label_contact_phone">هاتف التواصل</string>
+    <string name="admin_save_changes">حفظ التغييرات</string>
+
+    <!-- School Stats screen -->
+    <string name="admin_stats_title">إحصائيات المدرسة</string>
+    <string name="admin_stats_kpi_title">مؤشرات الأداء الرئيسية</string>
+    <string name="admin_stats_total_enrollment">إجمالي المسجلين</string>
+    <string name="admin_stats_active_students">الطلاب النشطون</string>
+    <string name="admin_stats_attendance_rate">نسبة الحضور</string>
+    <string name="admin_stats_average_gpa">المعدل التراكمي</string>
+    <string name="admin_stats_out_of_4">من 4.0</string>
+    <string name="admin_stats_fee_collection">نسبة تحصيل الرسوم</string>
+    <string name="admin_stats_error_load">فشل تحميل الإحصائيات.</string>
+
+    <!-- Staff Directory screen -->
+    <string name="admin_staff_title">دليل الموظفين</string>
+    <string name="admin_staff_search_placeholder">البحث في الموظفين\u2026</string>
+    <string name="admin_staff_filter_all">الكل</string>
+    <string name="admin_staff_no_results_title">لم يتم العثور على موظفين</string>
+    <string name="admin_staff_no_results_subtitle">لا يوجد موظفون يطابقون معايير البحث.</string>
+    <string name="admin_staff_call">اتصال</string>
+    <string name="admin_staff_email">بريد إلكتروني</string>
+    <string name="admin_staff_role_admin">مدير</string>
+    <string name="admin_staff_role_teacher">معلم</string>
+    <string name="admin_staff_role_counselor">مرشد</string>
+    <string name="admin_staff_role_staff">موظف</string>
+</resources>

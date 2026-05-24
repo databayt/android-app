@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ui section -->
+    <string name="messaging_ui_title">الرسائل</string>
+    <string name="messaging_ui_description">إرسال واستقبال الرسائل، التواصل مع مجتمع المدرسة</string>
+    <string name="messaging_ui_empty_inbox">لا توجد محادثات بعد</string>
+    <string name="messaging_ui_empty_inbox_description">ابدأ محادثة مع شخص ما للبدء</string>
+    <string name="messaging_ui_start_conversation">ابدأ محادثة</string>
+    <string name="messaging_ui_new_conversation">محادثة جديدة</string>
+    <string name="messaging_ui_new_message">رسالة جديدة</string>
+    <string name="messaging_ui_search_placeholder">البحث في المحادثات…</string>
+    <string name="messaging_ui_search_messages_placeholder">البحث في الرسائل…</string>
+    <string name="messaging_ui_no_results">لم يتم العثور على محادثات</string>
+    <string name="messaging_ui_no_messages">لا توجد رسائل بعد</string>
+    <string name="messaging_ui_no_participants">لا يوجد مشاركون</string>
+    <string name="messaging_ui_typing">%1$s يكتب…</string>
+    <string name="messaging_ui_typing_multiple">%1$d أشخاص يكتبون…</string>
+    <string name="messaging_ui_read_by">قرأها %1$d</string>
+    <string name="messaging_ui_read_by_all">قرأها الجميع</string>
+    <string name="messaging_ui_message_deleted">[تم حذف الرسالة]</string>
+    <string name="messaging_ui_message_edited">(تم التعديل)</string>
+    <string name="messaging_ui_today">اليوم</string>
+    <string name="messaging_ui_yesterday">أمس</string>
+    <string name="messaging_ui_online">متصل</string>
+    <string name="messaging_ui_offline">غير متصل</string>
+    <string name="messaging_ui_last_seen">آخر ظهور %1$s</string>
+    <string name="messaging_ui_members">%1$d أعضاء</string>
+    <string name="messaging_ui_member">عضو واحد</string>
+    <string name="messaging_ui_select_conversation">اختر محادثة لبدء المراسلة</string>
+    <string name="messaging_ui_conversation_info">معلومات المحادثة</string>
+    <string name="messaging_ui_participants">المشاركون</string>
+    <string name="messaging_ui_media_files">الوسائط والملفات</string>
+    <string name="messaging_ui_shared_links">الروابط المشتركة</string>
+    <string name="messaging_ui_attachment">مرفق</string>
+    <string name="messaging_ui_attachments">%1$d مرفقات</string>
+    <string name="messaging_ui_download">تحميل</string>
+    <string name="messaging_ui_loading_messages">جارٍ تحميل الرسائل…</string>
+    <string name="messaging_ui_loading_more">جارٍ تحميل المزيد…</string>
+    <string name="messaging_ui_scroll_to_bottom">التمرير للأسفل</string>
+    <string name="messaging_ui_new_messages">رسائل جديدة</string>
+    <string name="messaging_ui_unread_messages">%1$d غير مقروءة</string>
+    <string name="messaging_ui_you_prefix">أنت: </string>
+    <string name="messaging_ui_user_fallback">مستخدم</string>
+    <string name="messaging_ui_conversation_fallback">محادثة</string>
+    <string name="messaging_ui_welcome_title">مرحباً بك في الرسائل</string>
+    <string name="messaging_ui_welcome_description">ابدأ محادثة مع زملائك ومعلميك. ابق على اتصال مع مجتمعك المدرسي.</string>
+    <string name="messaging_ui_no_messages_description">ابدأ المحادثة بإرسال رسالة. يمكنك إرفاق صور ومستندات أيضاً!</string>
+    <string name="messaging_ui_sign_in_required">يجب تسجيل الدخول</string>
+    <string name="messaging_ui_no_matching_conversations">لا توجد محادثات مطابقة</string>
+    <string name="messaging_ui_try_different_terms">جرب كلمات بحث مختلفة</string>
+    <string name="messaging_ui_no_permission_send">ليس لديك صلاحية لإرسال رسائل في هذه المحادثة</string>
+    <string name="messaging_ui_this_message_deleted">تم حذف هذه الرسالة</string>
+    <string name="messaging_ui_replying_to">الرد على</string>
+    <string name="messaging_ui_copied">تم النسخ</string>
+    <string name="messaging_ui_copy_failed">فشل النسخ</string>
+    <string name="messaging_ui_edited">معدلة</string>
+    <string name="messaging_ui_is_typing">يكتب…</string>
+    <string name="messaging_ui_are_typing">يكتبون…</string>
+    <string name="messaging_ui_details">التفاصيل</string>
+    <string name="messaging_ui_voice_call">مكالمة صوتية</string>
+    <string name="messaging_ui_video_call">مكالمة فيديو</string>
+    <string name="messaging_ui_archived">الأرشيف</string>
+    <string name="messaging_ui_starred">الرسائل المميزة</string>
+    <string name="messaging_ui_back">رجوع</string>
+    <string name="messaging_ui_someone">شخص ما</string>
+    <string name="messaging_ui_no_conversations">لا توجد محادثات بعد</string>
+    <string name="messaging_ui_retry">إعادة المحاولة</string>
+    <string name="messaging_ui_you">أنت</string>
+    <string name="messaging_ui_photo">صورة</string>
+    <string name="messaging_ui_video">فيديو</string>
+    <string name="messaging_ui_voice_message">رسالة صوتية</string>
+    <string name="messaging_ui_document">مستند</string>
+    <string name="messaging_ui_forwarded">تم إعادة التوجيه</string>
+    <string name="messaging_ui_contact_info">معلومات الاتصال</string>
+    <string name="messaging_ui_connecting">جارٍ الاتصال…</string>
+    <string name="messaging_ui_chat_title">محادثة</string>
+
+    <!-- contacts section -->
+    <string name="messaging_contacts_search_placeholder">بحث في جهات الاتصال…</string>
+    <string name="messaging_contacts_filter_all">الكل</string>
+    <string name="messaging_contacts_filter_unread">غير مقروءة</string>
+    <string name="messaging_contacts_filter_unread_count">غير مقروءة (%1$d)</string>
+    <string name="messaging_contacts_filter_favourites">المفضلة</string>
+    <string name="messaging_contacts_no_contacts">لا توجد جهات اتصال</string>
+    <string name="messaging_contacts_no_results">لا توجد نتائج</string>
+    <string name="messaging_contacts_no_unread">لا توجد رسائل غير مقروءة</string>
+    <string name="messaging_contacts_no_favourites">لا توجد مفضلات بعد</string>
+    <string name="messaging_contacts_start_chat">بدء محادثة</string>
+    <string name="messaging_contacts_empty_title">لا توجد جهات اتصال بعد</string>
+    <string name="messaging_contacts_empty_subtitle">تحقق مرة أخرى قريباً أو ابحث عن شخص معين.</string>
+    <!-- categories -->
+    <string name="messaging_contacts_category_teachers">المعلمون</string>
+    <string name="messaging_contacts_category_students">الطلاب</string>
+    <string name="messaging_contacts_category_parents">أولياء الأمور</string>
+    <string name="messaging_contacts_category_staff">الموظفون</string>
+    <string name="messaging_contacts_category_admin">الإدارة</string>
+    <string name="messaging_contacts_category_accountants">المحاسبون</string>
+    <string name="messaging_contacts_category_my_students">طلابي</string>
+    <string name="messaging_contacts_category_my_teachers">معلمي</string>
+    <string name="messaging_contacts_category_classmates">زملاء الصف</string>
+    <string name="messaging_contacts_category_my_children_teachers">معلمو أبنائي</string>
+
+    <!-- types section -->
+    <string name="messaging_types_direct">رسالة مباشرة</string>
+    <string name="messaging_types_group">محادثة جماعية</string>
+    <string name="messaging_types_class">محادثة الصف</string>
+    <string name="messaging_types_department">محادثة القسم</string>
+    <string name="messaging_types_announcement">إعلان</string>
+    <string name="messaging_types_broadcast">بث</string>
+
+    <!-- status section -->
+    <string name="messaging_status_sending">جارٍ الإرسال…</string>
+    <string name="messaging_status_sent">تم الإرسال</string>
+    <string name="messaging_status_delivered">تم التسليم</string>
+    <string name="messaging_status_read">تمت القراءة</string>
+    <string name="messaging_status_failed">فشل الإرسال</string>
+    <string name="messaging_status_pending">قيد الانتظار</string>
+
+    <!-- time section -->
+    <string name="messaging_time_just_now">الآن</string>
+    <string name="messaging_time_minutes_ago">منذ %1$d د</string>
+    <string name="messaging_time_hours_ago">منذ %1$d س</string>
+    <string name="messaging_time_days_ago">منذ %1$d ي</string>
+    <string name="messaging_time_weeks_ago">منذ %1$d أ</string>
+
+    <!-- accessibility section -->
+    <string name="messaging_accessibility_send_message">إرسال رسالة</string>
+    <string name="messaging_accessibility_attach_file">إرفاق ملف</string>
+    <string name="messaging_accessibility_emoji_picker">فتح منتقي الرموز التعبيرية</string>
+    <string name="messaging_accessibility_more_options">المزيد من الخيارات</string>
+    <string name="messaging_accessibility_close_conversation">إغلاق المحادثة</string>
+    <string name="messaging_accessibility_open_conversation">فتح المحادثة</string>
+    <string name="messaging_accessibility_scroll_to_newest">التمرير لأحدث الرسائل</string>
+    <string name="messaging_accessibility_message_from">رسالة من %1$s</string>
+    <string name="messaging_accessibility_unread_indicator">رسائل غير مقروءة أدناه</string>
+    <string name="messaging_accessibility_previous_result">النتيجة السابقة</string>
+    <string name="messaging_accessibility_next_result">النتيجة التالية</string>
+
+    <!-- actions section -->
+    <string name="messaging_actions_send">إرسال</string>
+    <string name="messaging_actions_reply">رد</string>
+    <string name="messaging_actions_edit">تعديل</string>
+    <string name="messaging_actions_delete">حذف</string>
+    <string name="messaging_actions_archive">أرشفة</string>
+    <string name="messaging_actions_unarchive">إلغاء الأرشفة</string>
+    <string name="messaging_actions_pin">تثبيت</string>
+    <string name="messaging_actions_unpin">إلغاء التثبيت</string>
+    <string name="messaging_actions_mute">كتم</string>
+    <string name="messaging_actions_unmute">إلغاء الكتم</string>
+    <string name="messaging_actions_leave">مغادرة</string>
+    <string name="messaging_actions_add_members">إضافة أعضاء</string>
+    <string name="messaging_actions_remove_member">إزالة عضو</string>
+    <string name="messaging_actions_make_admin">جعل مشرف</string>
+    <string name="messaging_actions_remove_admin">إزالة المشرف</string>
+    <string name="messaging_actions_copy_text">نسخ النص</string>
+    <string name="messaging_actions_copy_link">نسخ الرابط</string>
+    <string name="messaging_actions_forward">إعادة توجيه</string>
+    <string name="messaging_actions_react">تفاعل</string>
+    <string name="messaging_actions_mark_read">تحديد كمقروء</string>
+    <string name="messaging_actions_mark_unread">تحديد كغير مقروء</string>
+    <string name="messaging_actions_report">إبلاغ</string>
+    <string name="messaging_actions_block">حظر</string>
+    <string name="messaging_actions_unblock">إلغاء الحظر</string>
+    <string name="messaging_actions_upload_file">رفع ملف</string>
+    <string name="messaging_actions_attach_file">إرفاق ملف</string>
+    <string name="messaging_actions_take_photo">التقاط صورة</string>
+    <string name="messaging_actions_record_voice">تسجيل صوتي</string>
+    <string name="messaging_actions_send_location">إرسال الموقع</string>
+    <string name="messaging_actions_create_group">إنشاء مجموعة</string>
+    <string name="messaging_actions_edit_group">تعديل المجموعة</string>
+    <string name="messaging_actions_save_changes">حفظ التغييرات</string>
+    <string name="messaging_actions_cancel">إلغاء</string>
+    <string name="messaging_actions_confirm">تأكيد</string>
+    <string name="messaging_actions_copy">نسخ</string>
+    <string name="messaging_actions_start_chat">بدء محادثة</string>
+    <string name="messaging_actions_try_again">إعادة المحاولة</string>
+    <string name="messaging_actions_star">إضافة نجمة</string>
+    <string name="messaging_actions_unstar">إزالة النجمة</string>
+    <string name="messaging_actions_delete_chat">حذف المحادثة</string>
+
+    <!-- errors section -->
+    <string name="messaging_errors_send_failed">فشل إرسال الرسالة</string>
+    <string name="messaging_errors_edit_failed">فشل تعديل الرسالة</string>
+    <string name="messaging_errors_delete_failed">فشل حذف الرسالة</string>
+    <string name="messaging_errors_archive_failed">فشل أرشفة المحادثة</string>
+    <string name="messaging_errors_permission_denied">ليس لديك صلاحية لفعل ذلك</string>
+    <string name="messaging_errors_conversation_locked">هذه المحادثة مقفلة</string>
+    <string name="messaging_errors_conversation_not_found">المحادثة غير موجودة</string>
+    <string name="messaging_errors_message_not_found">الرسالة غير موجودة</string>
+    <string name="messaging_errors_message_too_long">الرسالة تتجاوز %1$d حرف</string>
+    <string name="messaging_errors_rate_limited">رسائل كثيرة جداً. الرجاء الانتظار %1$d ثانية</string>
+    <string name="messaging_errors_attachment_too_large">الملف يتجاوز حد %1$d ميجابايت</string>
+    <string name="messaging_errors_attachment_upload_failed">فشل رفع المرفق</string>
+    <string name="messaging_errors_invalid_file_type">نوع الملف غير مسموح</string>
+    <string name="messaging_errors_network_error">خطأ في الشبكة. الرجاء التحقق من الاتصال</string>
+    <string name="messaging_errors_edit_window_expired">يمكنك تعديل الرسائل خلال %1$d دقيقة فقط</string>
+    <string name="messaging_errors_cannot_delete">لا يمكنك حذف هذه الرسالة</string>
+    <string name="messaging_errors_react_failed">فشل إضافة التفاعل</string>
+    <string name="messaging_errors_load_failed">فشل تحميل الرسائل</string>
+    <string name="messaging_errors_conversation_start_failed">فشل بدء المحادثة</string>
+
+    <!-- confirmation section -->
+    <string name="messaging_confirmation_delete_message">هل أنت متأكد من حذف هذه الرسالة؟</string>
+    <string name="messaging_confirmation_delete_message_description">لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="messaging_confirmation_archive_conversation">هل أنت متأكد من أرشفة هذه المحادثة؟</string>
+    <string name="messaging_confirmation_archive_conversation_description">يمكنك إلغاء الأرشفة لاحقاً من الإعدادات.</string>
+    <string name="messaging_confirmation_leave_conversation">هل أنت متأكد من مغادرة هذه المحادثة؟</string>
+    <string name="messaging_confirmation_leave_conversation_description">لن تتلقى رسائل من هذه المحادثة بعد الآن.</string>
+
+    <!-- notifications section -->
+    <string name="messaging_notifications_archived">تمت الأرشفة</string>
+    <string name="messaging_notifications_archived_success">تم أرشفة المحادثة بنجاح</string>
+    <string name="messaging_notifications_pinned_success">تم تثبيت المحادثة</string>
+    <string name="messaging_notifications_unpinned_success">تم إلغاء تثبيت المحادثة</string>
+    <string name="messaging_notifications_muted_success">تم كتم المحادثة</string>
+    <string name="messaging_notifications_unmuted_success">تم إلغاء كتم المحادثة</string>
+    <string name="messaging_notifications_error">خطأ</string>
+
+    <!-- info section -->
+    <string name="messaging_info_close">إغلاق</string>
+    <string name="messaging_info_about">نبذة</string>
+    <string name="messaging_info_media_links_docs">الوسائط والروابط والمستندات</string>
+    <string name="messaging_info_media">الوسائط</string>
+    <string name="messaging_info_links">الروابط</string>
+    <string name="messaging_info_docs">المستندات</string>
+    <string name="messaging_info_mute_notifications">كتم الإشعارات</string>
+    <string name="messaging_info_starred_messages">الرسائل المميزة بنجمة</string>
+    <string name="messaging_info_participants">المشاركون</string>
+    <string name="messaging_info_exit_group">مغادرة المجموعة</string>
+    <string name="messaging_info_delete_conversation">حذف المحادثة</string>
+    <string name="messaging_info_you">أنت</string>
+    <string name="messaging_info_group_info">معلومات المجموعة</string>
+    <string name="messaging_info_contact_info">معلومات جهة الاتصال</string>
+    <string name="messaging_info_participants_count">مشارك</string>
+
+    <!-- search section -->
+    <string name="messaging_search_title">البحث</string>
+    <string name="messaging_search_placeholder">البحث في الرسائل والمحادثات…</string>
+    <string name="messaging_search_messages_placeholder">البحث في الرسائل…</string>
+    <string name="messaging_search_conversations_placeholder">البحث في المحادثات…</string>
+    <string name="messaging_search_no_results">لم يتم العثور على نتائج</string>
+    <string name="messaging_search_no_results_description">جرب كلمات مختلفة أو تحقق من الإملاء</string>
+    <string name="messaging_search_searching">جارٍ البحث…</string>
+    <string name="messaging_search_results">%1$d نتائج</string>
+    <string name="messaging_search_result">نتيجة واحدة</string>
+    <string name="messaging_search_in_conversation">في %1$s</string>
+    <string name="messaging_search_from_user">من %1$s</string>
+    <string name="messaging_search_recent">عمليات البحث الأخيرة</string>
+    <string name="messaging_search_clear_recent">مسح الأخيرة</string>
+    <string name="messaging_search_error">فشل البحث. يرجى المحاولة مرة أخرى</string>
+    <string name="messaging_search_min_query_length">أدخل حرفين على الأقل للبحث</string>
+
+    <!-- roles section -->
+    <string name="messaging_roles_owner">المالك</string>
+    <string name="messaging_roles_admin">مشرف</string>
+    <string name="messaging_roles_member">عضو</string>
+    <string name="messaging_roles_read_only">قراءة فقط</string>
+    <string name="messaging_roles_guest">ضيف</string>
+
+    <!-- Legacy keys kept for existing chat-screen.kt / message-input.kt until Phase 2 rename -->
+    <string name="messaging_title">@string/messaging_ui_title</string>
+    <string name="messaging_back">@string/messaging_ui_back</string>
+    <string name="messaging_chat_title">@string/messaging_ui_chat_title</string>
+    <string name="messaging_type_placeholder">اكتب رسالة…</string>
+    <string name="messaging_send">إرسال</string>
+    <string name="messaging_no_messages_title">لا توجد رسائل بعد</string>
+    <string name="messaging_no_messages_subtitle">أرسل الرسالة الأولى لبدء المحادثة.</string>
+    <string name="messaging_filter_all">@string/messaging_contacts_filter_all</string>
+    <string name="messaging_no_conversations_title">@string/messaging_ui_empty_inbox</string>
+    <string name="messaging_no_conversations_subtitle">@string/messaging_ui_empty_inbox_description</string>
+    <string name="messaging_showing_cached">عرض البيانات المخزنة. %1$s</string>
+
+    <!-- whatsapp-chat-list-screen, whatsapp-messages-screen -->
+    <string name="messaging_search_messages">البحث في الرسائل</string>
+    <string name="messaging_archived">المؤرشفة</string>
+    <string name="messaging_personal_messages_prefix">"رسائلك الشخصية "</string>
+    <string name="messaging_e2e_encrypted">مشفّرة من طرف إلى طرف</string>
+    <string name="messaging_compose_hint">رسالة</string>
+
+    <!-- whatsapp-qr-screen, whatsapp-settings-dialog -->
+    <string name="whatsapp_connect_title">ربط واتساب</string>
+    <string name="whatsapp_back">رجوع</string>
+    <string name="whatsapp_qr_content_description">رمز QR الخاص بواتساب</string>
+    <string name="whatsapp_qr_decode_failed">فشل فك ترميز رمز QR</string>
+    <string name="whatsapp_qr_scan_instructions">امسح رمز QR هذا من تطبيق واتساب على جوالك للربط</string>
+    <string name="whatsapp_generating_qr">جاري إنشاء رمز QR…</string>
+    <string name="whatsapp_qr_unavailable">تعذر إنشاء رمز QR</string>
+    <string name="whatsapp_connection_title">اتصال واتساب</string>
+    <string name="whatsapp_status_connected">متصل</string>
+    <string name="whatsapp_status_connecting">جاري الاتصال…</string>
+    <string name="whatsapp_status_qr_pending">بانتظار مسح رمز QR</string>
+    <string name="whatsapp_status_disconnected">غير متصل</string>
+    <string name="whatsapp_disconnect">قطع الاتصال</string>
+    <string name="whatsapp_connect_button">ربط واتساب</string>
+</resources>

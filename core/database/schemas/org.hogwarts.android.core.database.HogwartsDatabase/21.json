@@ -1,0 +1,4422 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 21,
+    "identityHash": "1905fa67fd99e7cd0715c64829375758",
+    "entities": [
+      {
+        "tableName": "users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `email` TEXT NOT NULL, `role` TEXT NOT NULL, `givenName` TEXT, `familyName` TEXT, `avatarUrl` TEXT, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "givenName",
+            "columnName": "givenName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "familyName",
+            "columnName": "familyName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "avatarUrl",
+            "columnName": "avatarUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_users_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_users_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_users_email",
+            "unique": false,
+            "columnNames": [
+              "email"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_users_email` ON `${TABLE_NAME}` (`email`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "pending_operations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `type` TEXT NOT NULL, `entityType` TEXT NOT NULL, `entityId` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `payload` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `retryCount` INTEGER NOT NULL, `maxRetries` INTEGER NOT NULL, `lastError` TEXT, `status` TEXT NOT NULL, `lastAttemptAt` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityType",
+            "columnName": "entityType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityId",
+            "columnName": "entityId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "payload",
+            "columnName": "payload",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "retryCount",
+            "columnName": "retryCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxRetries",
+            "columnName": "maxRetries",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastError",
+            "columnName": "lastError",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastAttemptAt",
+            "columnName": "lastAttemptAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_pending_operations_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pending_operations_status` ON `${TABLE_NAME}` (`status`)"
+          },
+          {
+            "name": "index_pending_operations_entityType",
+            "unique": false,
+            "columnNames": [
+              "entityType"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pending_operations_entityType` ON `${TABLE_NAME}` (`entityType`)"
+          },
+          {
+            "name": "index_pending_operations_createdAt",
+            "unique": false,
+            "columnNames": [
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pending_operations_createdAt` ON `${TABLE_NAME}` (`createdAt`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "attendance",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `studentId` TEXT NOT NULL, `studentName` TEXT NOT NULL, `classId` TEXT NOT NULL, `className` TEXT NOT NULL, `date` INTEGER NOT NULL, `status` TEXT NOT NULL, `checkInTime` INTEGER, `note` TEXT, `markedBy` TEXT, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentName",
+            "columnName": "studentName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "classId",
+            "columnName": "classId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "className",
+            "columnName": "className",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkInTime",
+            "columnName": "checkInTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "markedBy",
+            "columnName": "markedBy",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_attendance_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_attendance_studentId_date",
+            "unique": false,
+            "columnNames": [
+              "studentId",
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_studentId_date` ON `${TABLE_NAME}` (`studentId`, `date`)"
+          },
+          {
+            "name": "index_attendance_classId_date",
+            "unique": false,
+            "columnNames": [
+              "classId",
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_classId_date` ON `${TABLE_NAME}` (`classId`, `date`)"
+          },
+          {
+            "name": "index_attendance_schoolId_date",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_schoolId_date` ON `${TABLE_NAME}` (`schoolId`, `date`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "grades",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `studentId` TEXT NOT NULL, `subjectId` TEXT NOT NULL, `subjectName` TEXT NOT NULL, `assessmentType` TEXT NOT NULL, `assessmentName` TEXT NOT NULL, `score` REAL NOT NULL, `maxScore` REAL NOT NULL, `grade` TEXT, `date` INTEGER NOT NULL, `term` TEXT, `remarks` TEXT, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectId",
+            "columnName": "subjectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectName",
+            "columnName": "subjectName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "assessmentType",
+            "columnName": "assessmentType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "assessmentName",
+            "columnName": "assessmentName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxScore",
+            "columnName": "maxScore",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarks",
+            "columnName": "remarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_grades_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_grades_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_grades_studentId",
+            "unique": false,
+            "columnNames": [
+              "studentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_grades_studentId` ON `${TABLE_NAME}` (`studentId`)"
+          },
+          {
+            "name": "index_grades_schoolId_studentId",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "studentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_grades_schoolId_studentId` ON `${TABLE_NAME}` (`schoolId`, `studentId`)"
+          },
+          {
+            "name": "index_grades_subjectId",
+            "unique": false,
+            "columnNames": [
+              "subjectId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_grades_subjectId` ON `${TABLE_NAME}` (`subjectId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "timetable",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `userId` TEXT NOT NULL, `subjectName` TEXT NOT NULL, `teacherName` TEXT NOT NULL, `roomNumber` TEXT NOT NULL, `dayOfWeek` INTEGER NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `section` TEXT, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectName",
+            "columnName": "subjectName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teacherName",
+            "columnName": "teacherName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roomNumber",
+            "columnName": "roomNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayOfWeek",
+            "columnName": "dayOfWeek",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "endTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "section",
+            "columnName": "section",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_timetable_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_timetable_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_timetable_schoolId_userId",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_timetable_schoolId_userId` ON `${TABLE_NAME}` (`schoolId`, `userId`)"
+          },
+          {
+            "name": "index_timetable_dayOfWeek",
+            "unique": false,
+            "columnNames": [
+              "dayOfWeek"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_timetable_dayOfWeek` ON `${TABLE_NAME}` (`dayOfWeek`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "students",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `email` TEXT, `phone` TEXT, `dateOfBirth` INTEGER, `gender` TEXT, `enrollmentNumber` TEXT, `classId` TEXT, `className` TEXT, `section` TEXT, `guardianName` TEXT, `guardianPhone` TEXT, `status` TEXT NOT NULL, `avatarUrl` TEXT, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "firstName",
+            "columnName": "firstName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastName",
+            "columnName": "lastName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "phone",
+            "columnName": "phone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateOfBirth",
+            "columnName": "dateOfBirth",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "enrollmentNumber",
+            "columnName": "enrollmentNumber",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "classId",
+            "columnName": "classId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "className",
+            "columnName": "className",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "section",
+            "columnName": "section",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "guardianName",
+            "columnName": "guardianName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "guardianPhone",
+            "columnName": "guardianPhone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avatarUrl",
+            "columnName": "avatarUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_students_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_students_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_students_schoolId_classId",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "classId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_students_schoolId_classId` ON `${TABLE_NAME}` (`schoolId`, `classId`)"
+          },
+          {
+            "name": "index_students_schoolId_status",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_students_schoolId_status` ON `${TABLE_NAME}` (`schoolId`, `status`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "conversations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `avatarUrl` TEXT, `lastMessageContent` TEXT, `lastMessageSenderName` TEXT, `lastMessageSentAt` INTEGER, `lastMessageStatus` TEXT, `unreadCount` INTEGER NOT NULL, `isWhatsAppEnabled` INTEGER NOT NULL, `isPinned` INTEGER NOT NULL, `isMuted` INTEGER NOT NULL, `updatedAt` INTEGER NOT NULL, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avatarUrl",
+            "columnName": "avatarUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastMessageContent",
+            "columnName": "lastMessageContent",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastMessageSenderName",
+            "columnName": "lastMessageSenderName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastMessageSentAt",
+            "columnName": "lastMessageSentAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastMessageStatus",
+            "columnName": "lastMessageStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "unreadCount",
+            "columnName": "unreadCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isWhatsAppEnabled",
+            "columnName": "isWhatsAppEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isPinned",
+            "columnName": "isPinned",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isMuted",
+            "columnName": "isMuted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "updatedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_conversations_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_conversations_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_conversations_schoolId_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_conversations_schoolId_updatedAt` ON `${TABLE_NAME}` (`schoolId`, `updatedAt`)"
+          },
+          {
+            "name": "index_conversations_schoolId_isPinned_updatedAt",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "isPinned",
+              "updatedAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_conversations_schoolId_isPinned_updatedAt` ON `${TABLE_NAME}` (`schoolId`, `isPinned`, `updatedAt`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "messages",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `conversationId` TEXT NOT NULL, `senderId` TEXT NOT NULL, `senderName` TEXT NOT NULL, `senderAvatarUrl` TEXT, `content` TEXT NOT NULL, `contentType` TEXT NOT NULL, `status` TEXT NOT NULL, `sentAt` INTEGER NOT NULL, `isRead` INTEGER NOT NULL, `isEdited` INTEGER NOT NULL, `isDeleted` INTEGER NOT NULL, `replyToId` TEXT, `nonce` TEXT, `whatsappStatus` TEXT, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conversationId",
+            "columnName": "conversationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "senderId",
+            "columnName": "senderId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "senderName",
+            "columnName": "senderName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "senderAvatarUrl",
+            "columnName": "senderAvatarUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentType",
+            "columnName": "contentType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sentAt",
+            "columnName": "sentAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isRead",
+            "columnName": "isRead",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEdited",
+            "columnName": "isEdited",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isDeleted",
+            "columnName": "isDeleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "replyToId",
+            "columnName": "replyToId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nonce",
+            "columnName": "nonce",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "whatsappStatus",
+            "columnName": "whatsappStatus",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_messages_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_messages_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_messages_conversationId_sentAt",
+            "unique": false,
+            "columnNames": [
+              "conversationId",
+              "sentAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_messages_conversationId_sentAt` ON `${TABLE_NAME}` (`conversationId`, `sentAt`)"
+          },
+          {
+            "name": "index_messages_schoolId_conversationId",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "conversationId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_messages_schoolId_conversationId` ON `${TABLE_NAME}` (`schoolId`, `conversationId`)"
+          },
+          {
+            "name": "index_messages_schoolId_nonce",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "nonce"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_messages_schoolId_nonce` ON `${TABLE_NAME}` (`schoolId`, `nonce`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "notifications",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `title` TEXT NOT NULL, `body` TEXT NOT NULL, `type` TEXT NOT NULL, `isRead` INTEGER NOT NULL, `deepLink` TEXT, `createdAt` INTEGER NOT NULL, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "body",
+            "columnName": "body",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isRead",
+            "columnName": "isRead",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deepLink",
+            "columnName": "deepLink",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_notifications_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_notifications_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_notifications_schoolId_createdAt",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "createdAt"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_notifications_schoolId_createdAt` ON `${TABLE_NAME}` (`schoolId`, `createdAt`)"
+          },
+          {
+            "name": "index_notifications_schoolId_isRead",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "isRead"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_notifications_schoolId_isRead` ON `${TABLE_NAME}` (`schoolId`, `isRead`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "fees",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `studentId` TEXT NOT NULL, `studentName` TEXT NOT NULL, `description` TEXT NOT NULL, `amount` REAL NOT NULL, `paidAmount` REAL NOT NULL, `dueDate` INTEGER NOT NULL, `status` TEXT NOT NULL, `category` TEXT, `term` TEXT, `lastSyncAt` INTEGER NOT NULL, `serverVersion` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentName",
+            "columnName": "studentName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paidAmount",
+            "columnName": "paidAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "term",
+            "columnName": "term",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "serverVersion",
+            "columnName": "serverVersion",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_fees_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fees_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_fees_schoolId_studentId",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "studentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fees_schoolId_studentId` ON `${TABLE_NAME}` (`schoolId`, `studentId`)"
+          },
+          {
+            "name": "index_fees_schoolId_status",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_fees_schoolId_status` ON `${TABLE_NAME}` (`schoolId`, `status`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "exams",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `title` TEXT NOT NULL, `subjectId` TEXT NOT NULL, `subjectName` TEXT NOT NULL, `date` INTEGER NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `venue` TEXT, `instructions` TEXT, `type` TEXT NOT NULL, `status` TEXT NOT NULL, `maxMarks` INTEGER, `passingMarks` INTEGER, `marksObtained` REAL, `grade` TEXT, `remarks` TEXT, `isPassed` INTEGER, `lastSyncAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectId",
+            "columnName": "subjectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectName",
+            "columnName": "subjectName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "endTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "venue",
+            "columnName": "venue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "instructions",
+            "columnName": "instructions",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxMarks",
+            "columnName": "maxMarks",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "passingMarks",
+            "columnName": "passingMarks",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "marksObtained",
+            "columnName": "marksObtained",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "remarks",
+            "columnName": "remarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isPassed",
+            "columnName": "isPassed",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_exams_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exams_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_exams_schoolId_date",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exams_schoolId_date` ON `${TABLE_NAME}` (`schoolId`, `date`)"
+          },
+          {
+            "name": "index_exams_schoolId_status",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exams_schoolId_status` ON `${TABLE_NAME}` (`schoolId`, `status`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "announcements",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `title` TEXT NOT NULL, `content` TEXT NOT NULL, `type` TEXT NOT NULL, `category` TEXT, `authorId` TEXT, `authorName` TEXT, `targetAudience` TEXT, `date` INTEGER NOT NULL, `startTime` INTEGER, `endTime` INTEGER, `venue` TEXT, `isImportant` INTEGER NOT NULL, `attachmentUrl` TEXT, `status` TEXT NOT NULL, `lastSyncAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "authorId",
+            "columnName": "authorId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "authorName",
+            "columnName": "authorName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "targetAudience",
+            "columnName": "targetAudience",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "endTime",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "venue",
+            "columnName": "venue",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isImportant",
+            "columnName": "isImportant",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attachmentUrl",
+            "columnName": "attachmentUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncAt",
+            "columnName": "lastSyncAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_announcements_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_announcements_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "children",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `guardianId` TEXT NOT NULL, `studentId` TEXT NOT NULL, `givenName` TEXT NOT NULL, `familyName` TEXT NOT NULL, `grade` TEXT NOT NULL, `section` TEXT NOT NULL, `avatarUrl` TEXT, `attendanceRate` REAL NOT NULL, `latestGrade` TEXT, `feeBalance` REAL NOT NULL, `className` TEXT NOT NULL, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "guardianId",
+            "columnName": "guardianId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "givenName",
+            "columnName": "givenName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "familyName",
+            "columnName": "familyName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "section",
+            "columnName": "section",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avatarUrl",
+            "columnName": "avatarUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "attendanceRate",
+            "columnName": "attendanceRate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latestGrade",
+            "columnName": "latestGrade",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "feeBalance",
+            "columnName": "feeBalance",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "className",
+            "columnName": "className",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_children_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_children_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_children_guardianId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "guardianId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_children_guardianId_schoolId` ON `${TABLE_NAME}` (`guardianId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "classes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `name` TEXT NOT NULL, `grade` TEXT NOT NULL, `section` TEXT NOT NULL, `subjectId` TEXT NOT NULL, `subjectName` TEXT NOT NULL, `teacherCount` INTEGER NOT NULL, `studentCount` INTEGER NOT NULL, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "section",
+            "columnName": "section",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectId",
+            "columnName": "subjectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectName",
+            "columnName": "subjectName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teacherCount",
+            "columnName": "teacherCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentCount",
+            "columnName": "studentCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_classes_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_classes_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_classes_subjectId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "subjectId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_classes_subjectId_schoolId` ON `${TABLE_NAME}` (`subjectId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "class_assignments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `classId` TEXT NOT NULL, `teacherId` TEXT NOT NULL, `role` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "classId",
+            "columnName": "classId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teacherId",
+            "columnName": "teacherId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "role",
+            "columnName": "role",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_class_assignments_classId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "classId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_class_assignments_classId_schoolId` ON `${TABLE_NAME}` (`classId`, `schoolId`)"
+          },
+          {
+            "name": "index_class_assignments_teacherId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "teacherId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_class_assignments_teacherId_schoolId` ON `${TABLE_NAME}` (`teacherId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "events",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `type` TEXT NOT NULL, `startDate` TEXT NOT NULL, `endDate` TEXT, `startTime` TEXT, `endTime` TEXT, `location` TEXT, `isAllDay` INTEGER NOT NULL, `maxAttendees` INTEGER, `currentAttendees` INTEGER NOT NULL, `isRegistered` INTEGER NOT NULL, `registrationRequired` INTEGER NOT NULL, `imageUrl` TEXT, `organizerName` TEXT, `status` TEXT NOT NULL, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "endDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "endTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isAllDay",
+            "columnName": "isAllDay",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxAttendees",
+            "columnName": "maxAttendees",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "currentAttendees",
+            "columnName": "currentAttendees",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isRegistered",
+            "columnName": "isRegistered",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "registrationRequired",
+            "columnName": "registrationRequired",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "organizerName",
+            "columnName": "organizerName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_events_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_events_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_events_type_schoolId",
+            "unique": false,
+            "columnNames": [
+              "type",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_events_type_schoolId` ON `${TABLE_NAME}` (`type`, `schoolId`)"
+          },
+          {
+            "name": "index_events_startDate_schoolId",
+            "unique": false,
+            "columnNames": [
+              "startDate",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_events_startDate_schoolId` ON `${TABLE_NAME}` (`startDate`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "event_registrations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `eventId` TEXT NOT NULL, `userId` TEXT NOT NULL, `registeredAt` TEXT NOT NULL, `status` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventId",
+            "columnName": "eventId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "registeredAt",
+            "columnName": "registeredAt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_event_registrations_eventId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "eventId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_event_registrations_eventId_schoolId` ON `${TABLE_NAME}` (`eventId`, `schoolId`)"
+          },
+          {
+            "name": "index_event_registrations_userId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "userId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_event_registrations_userId_schoolId` ON `${TABLE_NAME}` (`userId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "books",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `title` TEXT NOT NULL, `author` TEXT NOT NULL, `isbn` TEXT NOT NULL, `category` TEXT NOT NULL, `description` TEXT NOT NULL, `coverImageUrl` TEXT, `availableCopies` INTEGER NOT NULL, `totalCopies` INTEGER NOT NULL, `shelfLocation` TEXT, `sectionName` TEXT, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "author",
+            "columnName": "author",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isbn",
+            "columnName": "isbn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coverImageUrl",
+            "columnName": "coverImageUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "availableCopies",
+            "columnName": "availableCopies",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalCopies",
+            "columnName": "totalCopies",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "shelfLocation",
+            "columnName": "shelfLocation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "sectionName",
+            "columnName": "sectionName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_books_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_books_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_books_category_schoolId",
+            "unique": false,
+            "columnNames": [
+              "category",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_books_category_schoolId` ON `${TABLE_NAME}` (`category`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "borrowings",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `bookId` TEXT NOT NULL, `bookTitle` TEXT NOT NULL, `userId` TEXT NOT NULL, `borrowedDate` TEXT NOT NULL, `dueDate` TEXT NOT NULL, `returnedDate` TEXT, `status` TEXT NOT NULL, `fine` REAL, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookId",
+            "columnName": "bookId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bookTitle",
+            "columnName": "bookTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "borrowedDate",
+            "columnName": "borrowedDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "returnedDate",
+            "columnName": "returnedDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fine",
+            "columnName": "fine",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_borrowings_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_borrowings_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_borrowings_userId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "userId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_borrowings_userId_schoolId` ON `${TABLE_NAME}` (`userId`, `schoolId`)"
+          },
+          {
+            "name": "index_borrowings_bookId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "bookId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_borrowings_bookId_schoolId` ON `${TABLE_NAME}` (`bookId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "subjects",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `name` TEXT NOT NULL, `code` TEXT NOT NULL, `department` TEXT NOT NULL, `description` TEXT NOT NULL, `teacherCount` INTEGER NOT NULL, `studentCount` INTEGER NOT NULL, `iconUrl` TEXT, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "code",
+            "columnName": "code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "department",
+            "columnName": "department",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teacherCount",
+            "columnName": "teacherCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentCount",
+            "columnName": "studentCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconUrl",
+            "columnName": "iconUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_subjects_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_subjects_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_subjects_department_schoolId",
+            "unique": false,
+            "columnNames": [
+              "department",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_subjects_department_schoolId` ON `${TABLE_NAME}` (`department`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "report_cards",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `studentId` TEXT NOT NULL, `studentName` TEXT NOT NULL, `termId` TEXT NOT NULL, `termName` TEXT NOT NULL, `academicYear` TEXT NOT NULL, `gpa` REAL, `rank` INTEGER, `totalStudents` INTEGER, `status` TEXT NOT NULL, `overallRemarks` TEXT, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentName",
+            "columnName": "studentName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "termId",
+            "columnName": "termId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "termName",
+            "columnName": "termName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "academicYear",
+            "columnName": "academicYear",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gpa",
+            "columnName": "gpa",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalStudents",
+            "columnName": "totalStudents",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "overallRemarks",
+            "columnName": "overallRemarks",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_report_cards_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_report_cards_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_report_cards_studentId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "studentId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_report_cards_studentId_schoolId` ON `${TABLE_NAME}` (`studentId`, `schoolId`)"
+          },
+          {
+            "name": "index_report_cards_termId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "termId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_report_cards_termId_schoolId` ON `${TABLE_NAME}` (`termId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "subject_reports",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `reportCardId` TEXT NOT NULL, `subjectId` TEXT NOT NULL, `subjectName` TEXT NOT NULL, `teacherName` TEXT NOT NULL, `marks` REAL NOT NULL, `maxMarks` REAL NOT NULL, `grade` TEXT NOT NULL, `percentage` REAL NOT NULL, `remarks` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reportCardId",
+            "columnName": "reportCardId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectId",
+            "columnName": "subjectId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectName",
+            "columnName": "subjectName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teacherName",
+            "columnName": "teacherName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marks",
+            "columnName": "marks",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxMarks",
+            "columnName": "maxMarks",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "percentage",
+            "columnName": "percentage",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remarks",
+            "columnName": "remarks",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_subject_reports_reportCardId",
+            "unique": false,
+            "columnNames": [
+              "reportCardId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_subject_reports_reportCardId` ON `${TABLE_NAME}` (`reportCardId`)"
+          },
+          {
+            "name": "index_subject_reports_subjectId",
+            "unique": false,
+            "columnNames": [
+              "subjectId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_subject_reports_subjectId` ON `${TABLE_NAME}` (`subjectId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "invoices",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `invoiceNumber` TEXT NOT NULL, `studentId` TEXT NOT NULL, `studentName` TEXT NOT NULL, `issueDate` TEXT NOT NULL, `dueDate` TEXT NOT NULL, `status` TEXT NOT NULL, `subtotal` REAL NOT NULL, `taxAmount` REAL NOT NULL, `discountAmount` REAL NOT NULL, `totalAmount` REAL NOT NULL, `paidAmount` REAL NOT NULL, `notes` TEXT, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "invoiceNumber",
+            "columnName": "invoiceNumber",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentName",
+            "columnName": "studentName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "issueDate",
+            "columnName": "issueDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subtotal",
+            "columnName": "subtotal",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "taxAmount",
+            "columnName": "taxAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "discountAmount",
+            "columnName": "discountAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalAmount",
+            "columnName": "totalAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paidAmount",
+            "columnName": "paidAmount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notes",
+            "columnName": "notes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_invoices_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_invoices_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_invoices_studentId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "studentId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_invoices_studentId_schoolId` ON `${TABLE_NAME}` (`studentId`, `schoolId`)"
+          },
+          {
+            "name": "index_invoices_status_schoolId",
+            "unique": false,
+            "columnNames": [
+              "status",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_invoices_status_schoolId` ON `${TABLE_NAME}` (`status`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "invoice_line_items",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `invoiceId` TEXT NOT NULL, `description` TEXT NOT NULL, `quantity` INTEGER NOT NULL, `unitPrice` REAL NOT NULL, `amount` REAL NOT NULL, `category` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "invoiceId",
+            "columnName": "invoiceId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unitPrice",
+            "columnName": "unitPrice",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_invoice_line_items_invoiceId",
+            "unique": false,
+            "columnNames": [
+              "invoiceId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_invoice_line_items_invoiceId` ON `${TABLE_NAME}` (`invoiceId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "payment_transactions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `invoiceId` TEXT, `feeId` TEXT, `amount` REAL NOT NULL, `currency` TEXT NOT NULL, `paymentMethod` TEXT NOT NULL, `status` TEXT NOT NULL, `transactionRef` TEXT, `processedAt` INTEGER, `description` TEXT, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "invoiceId",
+            "columnName": "invoiceId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "feeId",
+            "columnName": "feeId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "paymentMethod",
+            "columnName": "paymentMethod",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "transactionRef",
+            "columnName": "transactionRef",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "processedAt",
+            "columnName": "processedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_payment_transactions_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_payment_transactions_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_payment_transactions_invoiceId",
+            "unique": false,
+            "columnNames": [
+              "invoiceId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_payment_transactions_invoiceId` ON `${TABLE_NAME}` (`invoiceId`)"
+          },
+          {
+            "name": "index_payment_transactions_status_schoolId",
+            "unique": false,
+            "columnNames": [
+              "status",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_payment_transactions_status_schoolId` ON `${TABLE_NAME}` (`status`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "courses",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `instructorName` TEXT NOT NULL, `thumbnailUrl` TEXT, `category` TEXT NOT NULL, `enrollmentCount` INTEGER NOT NULL, `lessonCount` INTEGER NOT NULL, `totalDuration` INTEGER NOT NULL, `status` TEXT NOT NULL, `grade` INTEGER, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "instructorName",
+            "columnName": "instructorName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thumbnailUrl",
+            "columnName": "thumbnailUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enrollmentCount",
+            "columnName": "enrollmentCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonCount",
+            "columnName": "lessonCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalDuration",
+            "columnName": "totalDuration",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "grade",
+            "columnName": "grade",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_courses_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_courses_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_courses_category_schoolId",
+            "unique": false,
+            "columnNames": [
+              "category",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_courses_category_schoolId` ON `${TABLE_NAME}` (`category`, `schoolId`)"
+          },
+          {
+            "name": "index_courses_grade_schoolId",
+            "unique": false,
+            "columnNames": [
+              "grade",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_courses_grade_schoolId` ON `${TABLE_NAME}` (`grade`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "chapters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `courseId` TEXT NOT NULL, `title` TEXT NOT NULL, `orderIndex` INTEGER NOT NULL, `lessonCount` INTEGER NOT NULL, `completedLessons` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "courseId",
+            "columnName": "courseId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderIndex",
+            "columnName": "orderIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonCount",
+            "columnName": "lessonCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completedLessons",
+            "columnName": "completedLessons",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_chapters_courseId",
+            "unique": false,
+            "columnNames": [
+              "courseId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_chapters_courseId` ON `${TABLE_NAME}` (`courseId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "lessons",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `chapterId` TEXT NOT NULL, `title` TEXT NOT NULL, `type` TEXT NOT NULL, `duration` INTEGER NOT NULL, `contentUrl` TEXT, `orderIndex` INTEGER NOT NULL, `isCompleted` INTEGER NOT NULL, `isLocked` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "chapterId",
+            "columnName": "chapterId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentUrl",
+            "columnName": "contentUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "orderIndex",
+            "columnName": "orderIndex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCompleted",
+            "columnName": "isCompleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isLocked",
+            "columnName": "isLocked",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lessons_chapterId",
+            "unique": false,
+            "columnNames": [
+              "chapterId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lessons_chapterId` ON `${TABLE_NAME}` (`chapterId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "enrollments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `courseId` TEXT NOT NULL, `userId` TEXT NOT NULL, `progress` REAL NOT NULL, `startedAt` INTEGER NOT NULL, `lastAccessedAt` INTEGER NOT NULL, `completedAt` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "courseId",
+            "columnName": "courseId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "progress",
+            "columnName": "progress",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAt",
+            "columnName": "startedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastAccessedAt",
+            "columnName": "lastAccessedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "completedAt",
+            "columnName": "completedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_enrollments_courseId_userId",
+            "unique": false,
+            "columnNames": [
+              "courseId",
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_enrollments_courseId_userId` ON `${TABLE_NAME}` (`courseId`, `userId`)"
+          },
+          {
+            "name": "index_enrollments_userId",
+            "unique": false,
+            "columnNames": [
+              "userId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_enrollments_userId` ON `${TABLE_NAME}` (`userId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "lesson_progress",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `lessonId` TEXT NOT NULL, `enrollmentId` TEXT NOT NULL, `status` TEXT NOT NULL, `score` REAL, `startedAt` INTEGER, `completedAt` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonId",
+            "columnName": "lessonId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enrollmentId",
+            "columnName": "enrollmentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "score",
+            "columnName": "score",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startedAt",
+            "columnName": "startedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "completedAt",
+            "columnName": "completedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lesson_progress_lessonId",
+            "unique": false,
+            "columnNames": [
+              "lessonId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_progress_lessonId` ON `${TABLE_NAME}` (`lessonId`)"
+          },
+          {
+            "name": "index_lesson_progress_enrollmentId",
+            "unique": false,
+            "columnNames": [
+              "enrollmentId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_progress_enrollmentId` ON `${TABLE_NAME}` (`enrollmentId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "attendance_badges",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `userId` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `iconUrl` TEXT, `type` TEXT NOT NULL, `earnedAt` INTEGER, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userId",
+            "columnName": "userId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconUrl",
+            "columnName": "iconUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "earnedAt",
+            "columnName": "earnedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_attendance_badges_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_badges_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_attendance_badges_userId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "userId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_badges_userId_schoolId` ON `${TABLE_NAME}` (`userId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "hall_passes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `studentId` TEXT NOT NULL, `studentName` TEXT NOT NULL, `teacherId` TEXT NOT NULL, `destination` TEXT NOT NULL, `reason` TEXT, `requestedAt` INTEGER NOT NULL, `approvedAt` INTEGER, `expiresAt` INTEGER, `status` TEXT NOT NULL, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentName",
+            "columnName": "studentName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "teacherId",
+            "columnName": "teacherId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "destination",
+            "columnName": "destination",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reason",
+            "columnName": "reason",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "requestedAt",
+            "columnName": "requestedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "approvedAt",
+            "columnName": "approvedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "expiresAt",
+            "columnName": "expiresAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_hall_passes_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_hall_passes_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_hall_passes_studentId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "studentId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_hall_passes_studentId_schoolId` ON `${TABLE_NAME}` (`studentId`, `schoolId`)"
+          },
+          {
+            "name": "index_hall_passes_teacherId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "teacherId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_hall_passes_teacherId_schoolId` ON `${TABLE_NAME}` (`teacherId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "attendance_interventions",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `studentId` TEXT NOT NULL, `studentName` TEXT NOT NULL, `type` TEXT NOT NULL, `threshold` REAL NOT NULL, `currentRate` REAL NOT NULL, `status` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `resolvedAt` INTEGER, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentId",
+            "columnName": "studentId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentName",
+            "columnName": "studentName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "threshold",
+            "columnName": "threshold",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currentRate",
+            "columnName": "currentRate",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "resolvedAt",
+            "columnName": "resolvedAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_attendance_interventions_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_interventions_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_attendance_interventions_studentId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "studentId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_attendance_interventions_studentId_schoolId` ON `${TABLE_NAME}` (`studentId`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "exam_answers",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `examId` TEXT NOT NULL, `questionId` TEXT NOT NULL, `studentAnswer` TEXT, `isCorrect` INTEGER, `marksObtained` REAL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "examId",
+            "columnName": "examId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "questionId",
+            "columnName": "questionId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "studentAnswer",
+            "columnName": "studentAnswer",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isCorrect",
+            "columnName": "isCorrect",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "marksObtained",
+            "columnName": "marksObtained",
+            "affinity": "REAL",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_exam_answers_examId",
+            "unique": false,
+            "columnNames": [
+              "examId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exam_answers_examId` ON `${TABLE_NAME}` (`examId`)"
+          },
+          {
+            "name": "index_exam_answers_examId_questionId",
+            "unique": false,
+            "columnNames": [
+              "examId",
+              "questionId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exam_answers_examId_questionId` ON `${TABLE_NAME}` (`examId`, `questionId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "exam_violations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `examId` TEXT NOT NULL, `type` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `description` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "examId",
+            "columnName": "examId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_exam_violations_examId",
+            "unique": false,
+            "columnNames": [
+              "examId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_exam_violations_examId` ON `${TABLE_NAME}` (`examId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "question_bank",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `subject` TEXT NOT NULL, `topic` TEXT NOT NULL, `difficulty` TEXT NOT NULL, `type` TEXT NOT NULL, `question` TEXT NOT NULL, `options` TEXT, `correctAnswer` TEXT NOT NULL, `explanation` TEXT, `isBookmarked` INTEGER NOT NULL, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subject",
+            "columnName": "subject",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "topic",
+            "columnName": "topic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "difficulty",
+            "columnName": "difficulty",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "question",
+            "columnName": "question",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "options",
+            "columnName": "options",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "correctAnswer",
+            "columnName": "correctAnswer",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "explanation",
+            "columnName": "explanation",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isBookmarked",
+            "columnName": "isBookmarked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_question_bank_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_question_bank_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_question_bank_subject_schoolId",
+            "unique": false,
+            "columnNames": [
+              "subject",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_question_bank_subject_schoolId` ON `${TABLE_NAME}` (`subject`, `schoolId`)"
+          },
+          {
+            "name": "index_question_bank_difficulty_schoolId",
+            "unique": false,
+            "columnNames": [
+              "difficulty",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_question_bank_difficulty_schoolId` ON `${TABLE_NAME}` (`difficulty`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "lesson_plans",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `classId` TEXT NOT NULL, `subjectName` TEXT NOT NULL, `topic` TEXT NOT NULL, `date` TEXT NOT NULL, `objectives` TEXT NOT NULL, `activities` TEXT NOT NULL, `homework` TEXT, `teacherNotes` TEXT, `status` TEXT NOT NULL, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "classId",
+            "columnName": "classId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "subjectName",
+            "columnName": "subjectName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "topic",
+            "columnName": "topic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "objectives",
+            "columnName": "objectives",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "activities",
+            "columnName": "activities",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "homework",
+            "columnName": "homework",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "teacherNotes",
+            "columnName": "teacherNotes",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lesson_plans_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_plans_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_lesson_plans_classId_schoolId",
+            "unique": false,
+            "columnNames": [
+              "classId",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_plans_classId_schoolId` ON `${TABLE_NAME}` (`classId`, `schoolId`)"
+          },
+          {
+            "name": "index_lesson_plans_date_schoolId",
+            "unique": false,
+            "columnNames": [
+              "date",
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_plans_date_schoolId` ON `${TABLE_NAME}` (`date`, `schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "lesson_resources",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `lessonPlanId` TEXT NOT NULL, `name` TEXT NOT NULL, `type` TEXT NOT NULL, `url` TEXT NOT NULL, `fileSize` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lessonPlanId",
+            "columnName": "lessonPlanId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileSize",
+            "columnName": "fileSize",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lesson_resources_lessonPlanId",
+            "unique": false,
+            "columnNames": [
+              "lessonPlanId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lesson_resources_lessonPlanId` ON `${TABLE_NAME}` (`lessonPlanId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "school_settings",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `name` TEXT NOT NULL, `domain` TEXT NOT NULL, `logoUrl` TEXT, `contactEmail` TEXT, `contactPhone` TEXT, `address` TEXT, `subscription` TEXT, `academicYear` TEXT, `activeTerms` TEXT, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "domain",
+            "columnName": "domain",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "logoUrl",
+            "columnName": "logoUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contactEmail",
+            "columnName": "contactEmail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "contactPhone",
+            "columnName": "contactPhone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "subscription",
+            "columnName": "subscription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "academicYear",
+            "columnName": "academicYear",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "activeTerms",
+            "columnName": "activeTerms",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_school_settings_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_school_settings_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "academic_years",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `name` TEXT NOT NULL, `startDate` TEXT NOT NULL, `endDate` TEXT NOT NULL, `isCurrent` INTEGER NOT NULL, `terms` TEXT, `lastSyncedAt` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startDate",
+            "columnName": "startDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endDate",
+            "columnName": "endDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isCurrent",
+            "columnName": "isCurrent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "terms",
+            "columnName": "terms",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSyncedAt",
+            "columnName": "lastSyncedAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_academic_years_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_academic_years_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "pending_messages",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `conversationId` TEXT NOT NULL, `content` TEXT NOT NULL, `contentType` TEXT NOT NULL, `replyToId` TEXT, `attachmentUri` TEXT, `status` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `retryCount` INTEGER NOT NULL, `lastAttemptAt` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "conversationId",
+            "columnName": "conversationId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contentType",
+            "columnName": "contentType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "replyToId",
+            "columnName": "replyToId",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "attachmentUri",
+            "columnName": "attachmentUri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "createdAt",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "retryCount",
+            "columnName": "retryCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastAttemptAt",
+            "columnName": "lastAttemptAt",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_pending_messages_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pending_messages_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_pending_messages_schoolId_conversationId",
+            "unique": false,
+            "columnNames": [
+              "schoolId",
+              "conversationId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pending_messages_schoolId_conversationId` ON `${TABLE_NAME}` (`schoolId`, `conversationId`)"
+          },
+          {
+            "name": "index_pending_messages_status",
+            "unique": false,
+            "columnNames": [
+              "status"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_pending_messages_status` ON `${TABLE_NAME}` (`status`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "message_attachments",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `schoolId` TEXT NOT NULL, `messageId` TEXT NOT NULL, `fileName` TEXT NOT NULL, `fileUrl` TEXT NOT NULL, `fileSize` INTEGER NOT NULL, `fileType` TEXT NOT NULL, `thumbnail` TEXT, `width` INTEGER, `height` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "schoolId",
+            "columnName": "schoolId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "messageId",
+            "columnName": "messageId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileName",
+            "columnName": "fileName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileUrl",
+            "columnName": "fileUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileSize",
+            "columnName": "fileSize",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileType",
+            "columnName": "fileType",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thumbnail",
+            "columnName": "thumbnail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "width",
+            "columnName": "width",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "height",
+            "columnName": "height",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_message_attachments_schoolId",
+            "unique": false,
+            "columnNames": [
+              "schoolId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_message_attachments_schoolId` ON `${TABLE_NAME}` (`schoolId`)"
+          },
+          {
+            "name": "index_message_attachments_messageId",
+            "unique": false,
+            "columnNames": [
+              "messageId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_message_attachments_messageId` ON `${TABLE_NAME}` (`messageId`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1905fa67fd99e7cd0715c64829375758')"
+    ]
+  }
+}

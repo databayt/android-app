@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+   Backup rules for Android Auto Backup.
+   Excludes sensitive data like tokens and credentials.
+-->
+<full-backup-content>
+    <!-- Include app preferences (excluding sensitive ones) -->
+    <include domain="sharedpref" path="." />
+
+    <!-- Exclude sensitive shared preferences -->
+    <exclude domain="sharedpref" path="hogwarts_secure_prefs.xml" />
+    <exclude domain="sharedpref" path="hogwarts_biometric_creds.xml" />
+</full-backup-content>

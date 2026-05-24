@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="events_back">Back</string>
+    <string name="events_share_content_desc">Share</string>
+
+    <!-- Events List Screen -->
+    <string name="events_title">Events</string>
+    <string name="events_calendar_content_desc">Calendar</string>
+    <string name="events_filter_all">All</string>
+    <string name="events_no_events_title">No Events</string>
+    <string name="events_no_events_subtitle">No events found for the selected filter.</string>
+    <string name="events_upcoming_section">Upcoming</string>
+    <string name="events_past_section">Past</string>
+    <string name="events_at_time">at %1$s</string>
+    <string name="events_registered">Registered</string>
+    <string name="events_attending_count">%1$d/%2$s attending</string>
+
+    <!-- Event Type Display Names -->
+    <string name="events_type_academic">Academic</string>
+    <string name="events_type_sports">Sports</string>
+    <string name="events_type_cultural">Cultural</string>
+    <string name="events_type_parent_meeting">Parent Meeting</string>
+    <string name="events_type_holiday">Holiday</string>
+    <string name="events_type_exam">Exam</string>
+    <string name="events_type_other">Other</string>
+
+    <!-- Event Detail Screen -->
+    <string name="events_detail_title">Event Details</string>
+    <string name="events_share_event">Share Event</string>
+    <string name="events_about_section">About</string>
+    <string name="events_attending_info">%1$d/%2$s attending</string>
+    <string name="events_add_to_calendar">Add to Calendar</string>
+    <string name="events_unregister">Unregister</string>
+    <string name="events_register">Register</string>
+
+    <!-- Event Calendar Screen -->
+    <string name="events_calendar_title">Events Calendar</string>
+    <string name="events_previous_month">Previous month</string>
+    <string name="events_next_month">Next month</string>
+    <string name="events_day_sun">Sun</string>
+    <string name="events_day_mon">Mon</string>
+    <string name="events_day_tue">Tue</string>
+    <string name="events_day_wed">Wed</string>
+    <string name="events_day_thu">Thu</string>
+    <string name="events_day_fri">Fri</string>
+    <string name="events_day_sat">Sat</string>
+    <string name="events_on_date">Events on %1$s</string>
+</resources>

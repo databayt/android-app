@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- children-screen -->
+    <string name="guardian_children_title">My Children</string>
+    <string name="guardian_back">Back</string>
+    <string name="guardian_no_children_title">No Children Linked</string>
+    <string name="guardian_no_children_subtitle">Contact your school administrator to link your children to your account.</string>
+
+    <!-- child-attendance-screen -->
+    <string name="guardian_attendance_title">Attendance</string>
+    <string name="guardian_attendance_filter_all">All</string>
+    <string name="guardian_attendance_filter_present">Present</string>
+    <string name="guardian_attendance_filter_absent">Absent</string>
+    <string name="guardian_attendance_filter_late">Late</string>
+    <string name="guardian_attendance_filter_excused">Excused</string>
+    <string name="guardian_attendance_rate">%1$d%% Attendance</string>
+    <string name="guardian_attendance_present">Present</string>
+    <string name="guardian_attendance_absent">Absent</string>
+    <string name="guardian_attendance_late">Late</string>
+    <string name="guardian_attendance_excused">Excused</string>
+
+    <!-- child-grades-screen -->
+    <string name="guardian_grades_title">Grades</string>
+    <string name="guardian_grades_average">Average</string>
+    <string name="guardian_grades_subjects">Subjects</string>
+
+    <!-- child-fees-screen -->
+    <string name="guardian_fees_title">Fees</string>
+    <string name="guardian_fees_filter_all">All</string>
+    <string name="guardian_fees_filter_pending">Pending</string>
+    <string name="guardian_fees_filter_paid">Paid</string>
+    <string name="guardian_fees_filter_overdue">Overdue</string>
+    <string name="guardian_fees_outstanding">Outstanding</string>
+    <string name="guardian_fees_overdue">Overdue</string>
+    <string name="guardian_fees_due">Due: %1$s</string>
+
+    <!-- child-timetable-screen -->
+    <string name="guardian_timetable_title">Timetable</string>
+    <string name="guardian_timetable_sun">Sun</string>
+    <string name="guardian_timetable_mon">Mon</string>
+    <string name="guardian_timetable_tue">Tue</string>
+    <string name="guardian_timetable_wed">Wed</string>
+    <string name="guardian_timetable_thu">Thu</string>
+    <string name="guardian_timetable_fri">Fri</string>
+    <string name="guardian_timetable_sat">Sat</string>
+    <string name="guardian_timetable_room">Room %1$s</string>
+
+    <!-- meeting-booking-screen -->
+    <string name="guardian_meeting_title">Book Meeting</string>
+    <string name="guardian_meeting_select_teacher">Select Teacher</string>
+    <string name="guardian_meeting_select_date">Select Date</string>
+    <string name="guardian_meeting_time_slots">Available Time Slots</string>
+    <string name="guardian_meeting_booked">Booked</string>
+    <string name="guardian_meeting_agenda_label">Meeting Agenda</string>
+    <string name="guardian_meeting_agenda_placeholder">Describe the purpose of the meeting...</string>
+    <string name="guardian_meeting_book_button">Book Meeting</string>
+
+    <!-- consent-forms-screen -->
+    <string name="guardian_consent_title">Consent Forms</string>
+    <string name="guardian_consent_pending">Pending</string>
+    <string name="guardian_consent_signed">Signed</string>
+    <string name="guardian_consent_sign_form">Sign Form</string>
+    <string name="guardian_consent_draw_signature">Draw Signature</string>
+    <string name="guardian_consent_sign_below">Sign below using your finger:</string>
+    <string name="guardian_consent_clear">Clear</string>
+    <string name="guardian_consent_submit_signature">Submit Signature</string>
+    <string name="guardian_consent_cancel">Cancel</string>
+
+    <!-- trip-permission-screen -->
+    <string name="guardian_trip_title">Trip Permissions</string>
+    <string name="guardian_trip_status_granted">Granted</string>
+    <string name="guardian_trip_status_denied">Denied</string>
+    <string name="guardian_trip_status_pending">Pending</string>
+    <string name="guardian_trip_deny">Deny</string>
+    <string name="guardian_trip_grant">Grant</string>
+
+    <!-- communication-preferences-screen -->
+    <string name="guardian_prefs_title">Notification Preferences</string>
+    <string name="guardian_prefs_notification_types">Notification Types</string>
+    <string name="guardian_prefs_attendance_alerts">Attendance Alerts</string>
+    <string name="guardian_prefs_grade_updates">Grade Updates</string>
+    <string name="guardian_prefs_fee_reminders">Fee Reminders</string>
+    <string name="guardian_prefs_school_announcements">School Announcements</string>
+    <string name="guardian_prefs_event_notifications">Event Notifications</string>
+    <string name="guardian_prefs_quiet_hours">Quiet Hours</string>
+    <string name="guardian_prefs_enable_quiet_hours">Enable Quiet Hours</string>
+    <string name="guardian_prefs_change">Change</string>
+    <string name="guardian_prefs_emergency_override">Allow Emergency Override</string>
+    <string name="guardian_prefs_save">Save Preferences</string>
+
+    <!-- guardian-notifications-screen -->
+    <string name="guardian_notifications_title">Notifications</string>
+    <string name="guardian_notifications_filter_all">All</string>
+    <string name="guardian_notifications_filter_attendance">Attendance</string>
+    <string name="guardian_notifications_filter_grades">Grades</string>
+    <string name="guardian_notifications_filter_fees">Fees</string>
+    <string name="guardian_notifications_filter_general">General</string>
+    <string name="guardian_notifications_empty_title">No Notifications</string>
+    <string name="guardian_notifications_empty_subtitle">You\'re all caught up!</string>
+
+    <!-- guardian-messages-screen -->
+    <string name="guardian_messages_title">Messages</string>
+</resources>

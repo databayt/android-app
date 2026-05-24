@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen title -->
+    <string name="grades_title">الدرجات والنتائج</string>
+
+    <!-- Navigation -->
+    <string name="grades_back">رجوع</string>
+
+    <!-- Empty state -->
+    <string name="grades_empty_title">لا توجد درجات</string>
+    <string name="grades_empty_subtitle">لم يتم العثور على سجلات درجات للفلتر المحدد.</string>
+
+    <!-- Section header -->
+    <string name="grades_section_results">النتائج</string>
+
+    <!-- Error message -->
+    <string name="grades_showing_cached_data">عرض البيانات المحفوظة. %1$s</string>
+
+    <!-- Filter chip labels -->
+    <string name="grades_filter_all">الكل</string>
+    <string name="grades_filter_exam">اختبار</string>
+    <string name="grades_filter_quiz">اختبار قصير</string>
+    <string name="grades_filter_assignment">واجب</string>
+    <string name="grades_filter_midterm">منتصف الفصل</string>
+    <string name="grades_filter_final">نهائي</string>
+
+    <!-- Grade row: assessment type labels -->
+    <string name="grades_type_exam">اختبار</string>
+    <string name="grades_type_quiz">اختبار قصير</string>
+    <string name="grades_type_assignment">واجب</string>
+    <string name="grades_type_project">مشروع</string>
+    <string name="grades_type_midterm">منتصف الفصل</string>
+    <string name="grades_type_final">نهائي</string>
+
+    <!-- Grade row: score and percentage formats -->
+    <string name="grades_score_format">%1$d/%2$d</string>
+    <string name="grades_percentage_format">%1$d%%</string>
+
+    <!-- Grade row: type and date line -->
+    <string name="grades_type_date_format">%1$s - %2$s</string>
+</resources>

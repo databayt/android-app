@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Students list screen -->
+    <string name="students_title">Students</string>
+    <string name="students_back">Back</string>
+    <string name="students_search_placeholder">Search students...</string>
+    <string name="students_empty_title">No Students Found</string>
+    <string name="students_empty_search">No students match your search.</string>
+    <string name="students_empty_none">No students enrolled yet.</string>
+    <string name="students_count">%1$d Students</string>
+    <string name="students_cached_data">Showing cached data. %1$s</string>
+
+    <!-- Student detail screen -->
+    <string name="students_detail_title">Student Detail</string>
+    <string name="students_detail_edit">Edit</string>
+    <string name="students_detail_not_found">Student not found</string>
+    <string name="students_detail_personal_info">Personal Information</string>
+    <string name="students_detail_label_email">Email</string>
+    <string name="students_detail_label_phone">Phone</string>
+    <string name="students_detail_label_dob">Date of Birth</string>
+    <string name="students_detail_label_gender">Gender</string>
+    <string name="students_detail_academic_info">Academic Information</string>
+    <string name="students_detail_label_enrollment">Enrollment #</string>
+    <string name="students_detail_label_class">Class</string>
+    <string name="students_detail_label_section">Section</string>
+    <string name="students_detail_guardian_info">Guardian Information</string>
+    <string name="students_detail_label_name">Name</string>
+
+    <!-- Student form screen -->
+    <string name="students_form_title_edit">Edit Student</string>
+    <string name="students_form_title_new">New Student</string>
+    <string name="students_form_label_first_name">First Name</string>
+    <string name="students_form_label_last_name">Last Name</string>
+    <string name="students_form_label_email">Email</string>
+    <string name="students_form_label_phone">Phone</string>
+    <string name="students_form_label_gender">Gender</string>
+    <string name="students_form_label_class_id">Class ID</string>
+    <string name="students_form_label_section">Section</string>
+    <string name="students_form_label_status">Status</string>
+    <string name="students_form_label_guardian_name">Guardian Name</string>
+    <string name="students_form_label_guardian_phone">Guardian Phone</string>
+    <string name="students_form_button_update">Update Student</string>
+    <string name="students_form_button_create">Create Student</string>
+
+    <!-- Student card -->
+    <string name="students_card_section_prefix">Section %1$s</string>
+</resources>

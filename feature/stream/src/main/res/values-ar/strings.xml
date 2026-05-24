@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="stream_back">رجوع</string>
+
+    <!-- Stream Home Screen -->
+    <string name="stream_home_top_bar_title">البث</string>
+    <string name="stream_home_hero_title">لوموس</string>
+    <string name="stream_home_hero_tagline">أضئ نوراً.</string>
+    <string name="stream_home_explore_courses">استكشف</string>
+    <string name="stream_home_my_learning">المفضلة</string>
+
+    <string name="stream_home_feature_curated_title">دورات منتقاة</string>
+    <string name="stream_home_feature_curated_desc">اطّلع على مجموعة واسعة من الدورات المختارة من قِبَل خبراء في مجالاتهم.</string>
+    <string name="stream_home_feature_interactive_title">تعلّم تفاعلي</string>
+    <string name="stream_home_feature_interactive_desc">انخرط في محتوى تفاعلي واختبارات وتمارين عملية.</string>
+    <string name="stream_home_feature_progress_title">تتبّع التقدم</string>
+    <string name="stream_home_feature_progress_desc">تابع تقدمك وإنجازاتك عبر تحليلات تفصيلية.</string>
+    <string name="stream_home_feature_community_title">دعم المجتمع</string>
+    <string name="stream_home_feature_community_desc">انضم إلى مجتمع نابض بالحياة من المتعلمين والمدربين للتعاون.</string>
+
+    <string name="stream_home_continue_watching">متابعة المشاهدة</string>
+
+    <string name="stream_home_ai_badge">جديد</string>
+    <string name="stream_home_ai_title">طوّر إتقان الذكاء الاصطناعي في مؤسستك</string>
+    <string name="stream_home_ai_description">تساعد باقات الذكاء الاصطناعي الجديدة لدينا الموظفين في جميع المستويات على فهم حلول الذكاء الاصطناعي وتطبيقها بثقة ووعي أخلاقي.</string>
+    <string name="stream_home_ai_cta">تواصل معنا</string>
+
+    <string name="stream_home_skills_title">تعلّم المهارات المهنية والحياتية الأساسية</string>
+    <string name="stream_home_skills_description">تساعدك هوغورتس على بناء المهارات المطلوبة بسرعة وتطوير مسيرتك المهنية في سوق عمل متغيّر.</string>
+    <string name="stream_home_learners_format">%1$s متعلّم</string>
+    <string name="stream_home_progress_short">%1$d%%</string>
+    <string name="stream_home_skill_generative_ai">الذكاء الاصطناعي التوليدي</string>
+    <string name="stream_home_skill_it_certifications">شهادات تقنية المعلومات</string>
+    <string name="stream_home_skill_data_science">علم البيانات</string>
+
+    <string name="stream_home_hot_releases">إصدارات ساخنة جديدة</string>
+
+    <string name="stream_home_curriculum_title">منهج متكامل</string>
+    <string name="stream_home_curriculum_description">فنون التعلّم عبر دورات آسرة صاغها نخبة السحرة في التعليم.</string>
+    <string name="stream_home_curriculum_world_class_title">محتوى عالمي</string>
+    <string name="stream_home_curriculum_world_class_desc">دورات منتقاة من روّاد الصناعة وأفضل الجامعات.</string>
+    <string name="stream_home_curriculum_guided_title">مشاريع موجّهة</string>
+    <string name="stream_home_curriculum_guided_desc">مشاريع عملية لتمرين المهارات والتميّز أمام أصحاب العمل.</string>
+    <string name="stream_home_curriculum_certificates_title">شهادات احترافية</string>
+    <string name="stream_home_curriculum_certificates_desc">بناء الثقة المهنية وصقل المهارات في مجالات سريعة النمو.</string>
+    <string name="stream_home_curriculum_lms_title">تكامل مع نظام إدارة التعلّم</string>
+    <string name="stream_home_curriculum_lms_desc">اربط الدورات بنظام إدارة التعلّم لديك بسلاسة.</string>
+
+    <string name="stream_home_teaching_title">علّم معنا</string>
+    <string name="stream_home_teaching_description">كن مدرّباً وغيّر حياة الآخرين — وحياتك كذلك.</string>
+    <string name="stream_home_teaching_get_started">ابدأ الآن</string>
+    <string name="stream_home_teaching_learn_more">اعرف المزيد</string>
+
+    <string name="stream_home_reasons_heading">أسباب كثيرة لتبدأ</string>
+    <string name="stream_home_reason_teach_title">علّم بطريقتك</string>
+    <string name="stream_home_reason_teach_desc">انشر الدورة التي تريدها بالطريقة التي تناسبك، وحافظ دائماً على التحكم بمحتواك.</string>
+    <string name="stream_home_reason_inspire_title">ألهم المتعلمين</string>
+    <string name="stream_home_reason_inspire_desc">علّم ما تتقنه وساعد المتعلمين على استكشاف اهتماماتهم واكتساب المهارات وتطوير مسيرتهم.</string>
+    <string name="stream_home_reason_reward_title">احصد المكافآت</string>
+    <string name="stream_home_reason_reward_desc">وسّع شبكتك المهنية، عزّز خبراتك، واكسب من كل تسجيل مدفوع.</string>
+
+    <string name="stream_home_begin_heading">كيف تبدأ</string>
+    <string name="stream_home_begin_plan_tab">خطّط منهجك</string>
+    <string name="stream_home_begin_plan_desc">ابدأ من شغفك ومعرفتك، ثم اختر موضوعاً واعداً بمساعدة أداة رؤى السوق لدينا.</string>
+    <string name="stream_home_begin_plan_tip">طريقة تعليمك وما تضيفه إليها متروك لك.</string>
+    <string name="stream_home_begin_record_tab">سجّل فيديوك</string>
+    <string name="stream_home_begin_record_desc">استخدم أدوات بسيطة كالهاتف الذكي أو كاميرا DSLR، وأضف ميكروفوناً جيداً لتبدأ.</string>
+    <string name="stream_home_begin_record_tip">إن لم ترغب بالظهور أمام الكاميرا، سجّل شاشتك فقط. بأيّ طريقة، يمكننا مساعدتك على إنتاج أول دورة لك.</string>
+    <string name="stream_home_begin_launch_tab">أطلق دورتك</string>
+    <string name="stream_home_begin_launch_desc">احصل على أول التقييمات والمراجعات بالترويج لدورتك عبر وسائل التواصل وشبكتك المهنية.</string>
+    <string name="stream_home_begin_launch_tip">ستظهر دورتك في سوقنا حيث تكسب من كل تسجيل مدفوع.</string>
+    <string name="stream_home_begin_help_title">كيف نساعدك</string>
+    <string name="stream_home_begin_plan_help">نوفّر الكثير من الموارد لمساعدتك على إنشاء أول دورة، ولوحة المدرّب وصفحات المنهج تساعدك على التنظيم.</string>
+    <string name="stream_home_begin_record_help">نقدّم إرشادات الإنتاج وميزات إدارة الدورات ودعماً من فريق الثقة والسلامة.</string>
+    <string name="stream_home_begin_launch_help">أداة القسائم المخصّصة لدينا تتيح لك تقديم حوافز التسجيل، وعروضنا العالمية تجلب الزيارات لدوراتك.</string>
+
+
+    <!-- Course Catalog Screen -->
+    <string name="stream_courses_title">استكشف الدورات</string>
+    <string name="stream_courses_grade_label">الصف %1$d</string>
+    <string name="stream_search_courses">البحث عن دورات\u2026</string>
+    <string name="stream_filter_all">الكل</string>
+    <string name="stream_no_courses_title">لا توجد دورات</string>
+    <string name="stream_no_courses_subtitle">لم يتم العثور على دورات. جرّب بحثًا أو فلترًا مختلفًا.</string>
+    <string name="stream_percent_complete">%1$d%% مكتمل</string>
+
+    <!-- Course Detail Screen -->
+    <string name="stream_course_details_title">تفاصيل الدورة</string>
+    <string name="stream_detail_enroll_free">سجّل مجاناً</string>
+    <string name="stream_detail_continue_learning">متابعة التعلم</string>
+    <string name="stream_detail_processing">جاري المعالجة…</string>
+    <string name="stream_detail_free_badge">مجاناً</string>
+    <string name="stream_detail_breadcrumb_stream">البث</string>
+    <string name="stream_detail_breadcrumb_courses">الدورات</string>
+    <string name="stream_detail_stat_lectures">محاضرات</string>
+    <string name="stream_detail_stat_min_video">دقيقة فيديو</string>
+    <string name="stream_detail_stat_quiz">اختبار</string>
+    <string name="stream_detail_stat_certificate">شهادة إتمام</string>
+    <string name="stream_detail_about_title">عن هذه الدورة</string>
+    <string name="stream_detail_learning_objectives">أهداف التعلم</string>
+    <string name="stream_detail_by_the_end">بنهاية هذه الدورة ستكون قادراً على:</string>
+    <string name="stream_detail_prerequisites">المتطلبات</string>
+    <string name="stream_detail_no_prerequisites">لا توجد متطلبات محددة. هذه الدورة مصممة لجميع المستويات.</string>
+    <string name="stream_detail_who_is_for">لمن هذه الدورة</string>
+    <string name="stream_detail_default_audience">الطلاب والمتعلمون من جميع المستويات المهتمون بهذا الموضوع.</string>
+    <string name="stream_detail_chapters_title">الفصول</string>
+    <string name="stream_detail_lesson_duration">%1$s</string>
+    <string name="stream_progress_content_desc">التقدم</string>
+    <string name="stream_lessons_label">الدروس</string>
+    <string name="stream_duration_label">المدة</string>
+    <string name="stream_enrolled_label">المسجلون</string>
+    <string name="stream_your_progress">تقدمك</string>
+    <string name="stream_about_this_course">عن هذه الدورة</string>
+    <string name="stream_syllabus">المنهج</string>
+    <string name="stream_view_all_chapters">عرض جميع الفصول</string>
+    <string name="stream_view_all_chapters_count">عرض جميع الفصول (%1$d)</string>
+    <string name="stream_view_certificate">عرض الشهادة</string>
+    <string name="stream_continue_learning">متابعة التعلم</string>
+    <string name="stream_enroll_now">سجّل الآن</string>
+    <string name="stream_completed_content_desc">مكتمل</string>
+    <string name="stream_lessons_count">%1$d/%2$d دروس</string>
+
+    <!-- Chapter List Screen -->
+    <string name="stream_chapters_title">الفصول</string>
+    <string name="stream_no_chapters_title">لا توجد فصول</string>
+    <string name="stream_no_chapters_subtitle">لا توجد فصول لهذه الدورة بعد.</string>
+    <string name="stream_chapter_number">الفصل %1$d</string>
+    <string name="stream_collapse">طي</string>
+    <string name="stream_expand">توسيع</string>
+    <string name="stream_no_lessons_available">لا توجد دروس متاحة بعد</string>
+
+    <!-- Course Progress Screen -->
+    <string name="stream_progress_title">التقدم</string>
+    <string name="stream_complete_label">مكتمل</string>
+    <string name="stream_completed_stat">مكتمل</string>
+    <string name="stream_total_lessons_stat">إجمالي الدروس</string>
+    <string name="stream_duration_stat">المدة</string>
+    <string name="stream_chapter_progress">تقدم الفصول</string>
+
+    <!-- Course Certificate Screen -->
+    <string name="stream_certificate_title">الشهادة</string>
+    <string name="stream_share_content_desc">مشاركة</string>
+    <string name="stream_share_certificate">مشاركة الشهادة</string>
+    <string name="stream_share_certificate_text">أكملت %1$s! التحقق: %2$s</string>
+    <string name="stream_certificate_of_completion">شهادة إتمام</string>
+    <string name="stream_this_certifies_that">هذا يشهد بأن</string>
+    <string name="stream_has_successfully_completed">قد أتم بنجاح</string>
+    <string name="stream_completed_on">تاريخ الإتمام: %1$s</string>
+    <string name="stream_qr_code_content_desc">رمز QR</string>
+    <string name="stream_qr_fallback">QR</string>
+    <string name="stream_download_pdf">تحميل PDF</string>
+    <string name="stream_certificate_not_available">الشهادة غير متاحة بعد</string>
+    <string name="stream_complete_course_to_earn">أكمل الدورة للحصول على شهادتك.</string>
+
+    <!-- Text Lesson Screen -->
+    <string name="stream_text_lesson_title">درس نصي</string>
+    <string name="stream_reading_time">وقت القراءة: %1$s</string>
+    <string name="stream_lesson_completed">تم إكمال الدرس</string>
+    <string name="stream_mark_as_complete">وضع علامة مكتمل</string>
+
+    <!-- Video Lesson Screen -->
+    <string name="stream_video_lesson_title">درس فيديو</string>
+    <string name="stream_playback_speed_content_desc">سرعة التشغيل</string>
+    <string name="stream_speed_label">السرعة: %1$sx</string>
+
+    <!-- Lesson Quiz Screen -->
+    <string name="stream_quiz_title">اختبار</string>
+    <string name="stream_question_of">السؤال %1$d من %2$d</string>
+    <string name="stream_explanation">الشرح</string>
+    <string name="stream_previous">السابق</string>
+    <string name="stream_check_answer">تحقق من الإجابة</string>
+    <string name="stream_finish_quiz">إنهاء الاختبار</string>
+    <string name="stream_next">التالي</string>
+    <string name="stream_correct_content_desc">صحيح</string>
+    <string name="stream_incorrect_content_desc">خطأ</string>
+    <string name="stream_congratulations">تهانينا!</string>
+    <string name="stream_keep_trying">حاول مرة أخرى!</string>
+    <string name="stream_score_out_of">%1$d من %2$d صحيح</string>
+    <string name="stream_you_passed">لقد اجتزت الاختبار!</string>
+    <string name="stream_you_need_to_pass">تحتاج إلى 70%% للنجاح. راجع المادة وحاول مرة أخرى.</string>
+    <string name="stream_done">تم</string>
+</resources>

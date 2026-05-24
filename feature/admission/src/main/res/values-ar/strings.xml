@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- applications-screen -->
+    <string name="admission_title">القبول</string>
+    <string name="admission_back">رجوع</string>
+    <string name="admission_new_application">طلب جديد</string>
+    <string name="admission_no_applications_title">لا توجد طلبات</string>
+    <string name="admission_no_applications_subtitle">ابدأ طلب قبول جديد.</string>
+    <string name="admission_new_application_fallback">طلب جديد</string>
+    <string name="admission_tracking">رقم التتبع: %1$s</string>
+    <string name="admission_step_progress">الخطوة %1$d/6 - %2$s</string>
+    <string name="admission_applying_for">التقديم لـ: %1$s</string>
+    <string name="admission_status_draft">مسودة</string>
+    <string name="admission_status_submitted">مقدم</string>
+    <string name="admission_status_under_review">قيد المراجعة</string>
+    <string name="admission_status_interview">مقابلة</string>
+    <string name="admission_status_accepted">مقبول</string>
+    <string name="admission_status_rejected">مرفوض</string>
+    <string name="admission_status_waitlisted">قائمة الانتظار</string>
+
+    <!-- application-form-screen -->
+    <string name="admission_form_step_of">الخطوة %1$d من 6</string>
+    <string name="admission_form_previous">السابق</string>
+    <string name="admission_form_next">التالي</string>
+    <string name="admission_form_submit">تقديم الطلب</string>
+
+    <!-- Personal info step -->
+    <string name="admission_form_given_name_en">الاسم الأول (إنجليزي)</string>
+    <string name="admission_form_given_name_en_placeholder">أدخل الاسم الأول</string>
+    <string name="admission_form_family_name_en">اسم العائلة (إنجليزي)</string>
+    <string name="admission_form_family_name_en_placeholder">أدخل اسم العائلة</string>
+    <string name="admission_form_given_name_ar">الاسم الأول (عربي)</string>
+    <string name="admission_form_given_name_ar_placeholder">أدخل الاسم الأول</string>
+    <string name="admission_form_family_name_ar">اسم العائلة (عربي)</string>
+    <string name="admission_form_family_name_ar_placeholder">أدخل اسم العائلة</string>
+    <string name="admission_form_dob">تاريخ الميلاد</string>
+    <string name="admission_form_dob_placeholder">سنة-شهر-يوم</string>
+    <string name="admission_form_gender">الجنس</string>
+    <string name="admission_form_gender_placeholder">ذكر / أنثى</string>
+    <string name="admission_form_nationality">الجنسية</string>
+    <string name="admission_form_nationality_placeholder">أدخل الجنسية</string>
+    <string name="admission_form_national_id">رقم الهوية</string>
+    <string name="admission_form_national_id_placeholder">أدخل رقم الهوية</string>
+
+    <!-- Contact info step -->
+    <string name="admission_form_address">العنوان</string>
+    <string name="admission_form_address_placeholder">أدخل العنوان</string>
+    <string name="admission_form_city">المدينة</string>
+    <string name="admission_form_city_placeholder">أدخل المدينة</string>
+    <string name="admission_form_phone">الهاتف</string>
+    <string name="admission_form_phone_placeholder">أدخل رقم الهاتف</string>
+    <string name="admission_form_email">البريد الإلكتروني</string>
+    <string name="admission_form_email_placeholder">أدخل البريد الإلكتروني</string>
+
+    <!-- Guardian info step -->
+    <string name="admission_form_guardian_number">ولي الأمر %1$d</string>
+    <string name="admission_form_guardian_name">الاسم</string>
+    <string name="admission_form_guardian_name_placeholder">أدخل اسم ولي الأمر</string>
+    <string name="admission_form_guardian_relationship">صلة القرابة</string>
+    <string name="admission_form_guardian_relationship_placeholder">أب / أم / آخر</string>
+    <string name="admission_form_guardian_occupation">المهنة</string>
+    <string name="admission_form_guardian_occupation_placeholder">أدخل المهنة</string>
+    <string name="admission_form_guardian_phone">الهاتف</string>
+    <string name="admission_form_guardian_phone_placeholder">أدخل رقم الهاتف</string>
+    <string name="admission_form_guardian_email">البريد الإلكتروني</string>
+    <string name="admission_form_guardian_email_placeholder">أدخل البريد الإلكتروني</string>
+    <string name="admission_form_add_guardian">+ إضافة ولي أمر</string>
+
+    <!-- Academic history step -->
+    <string name="admission_form_previous_school">المدرسة السابقة</string>
+    <string name="admission_form_previous_school_placeholder">أدخل اسم المدرسة السابقة</string>
+    <string name="admission_form_last_grade">آخر صف دراسي</string>
+    <string name="admission_form_last_grade_placeholder">مثال: الصف الخامس</string>
+    <string name="admission_form_applying_grade">التقديم للصف</string>
+    <string name="admission_form_applying_grade_placeholder">مثال: الصف السادس</string>
+    <string name="admission_form_special_needs">تفاصيل الاحتياجات الخاصة</string>
+    <string name="admission_form_special_needs_placeholder">صف الاحتياجات الخاصة</string>
+
+    <!-- Documents step -->
+    <string name="admission_form_upload_title">ارفع المستندات المطلوبة</string>
+    <string name="admission_form_upload_formats">الصيغ المقبولة: JPG, PNG, PDF (حد أقصى 5 ميغابايت)</string>
+    <string name="admission_form_upload_button">رفع مستند</string>
+
+    <!-- Review step -->
+    <string name="admission_form_review_personal">المعلومات الشخصية</string>
+    <string name="admission_form_review_dob">تاريخ الميلاد: %1$s</string>
+    <string name="admission_form_review_contact">معلومات التواصل</string>
+    <string name="admission_form_review_guardians">أولياء الأمور: %1$d</string>
+    <string name="admission_form_review_applying">التقديم لـ: %1$s</string>
+    <string name="admission_form_review_documents">المستندات: %1$d مرفوعة</string>
+    <string name="admission_form_review_confirm">أؤكد أن جميع المعلومات المقدمة دقيقة وكاملة.</string>
+
+    <!-- application-status-screen -->
+    <string name="admission_status_title">حالة الطلب</string>
+    <string name="admission_status_tracking_label">رقم التتبع</string>
+    <string name="admission_status_tracking_pending">قيد الانتظار</string>
+    <string name="admission_status_timeline_title">الجدول الزمني للحالة</string>
+    <string name="admission_status_step_submitted">تم تقديم الطلب</string>
+    <string name="admission_status_step_review">قيد المراجعة</string>
+    <string name="admission_status_step_interview">تمت جدولة المقابلة</string>
+    <string name="admission_status_step_decision">تم اتخاذ القرار</string>
+    <string name="admission_status_applicant">المتقدم</string>
+    <string name="admission_status_applying_for">التقديم لـ: %1$s</string>
+</resources>

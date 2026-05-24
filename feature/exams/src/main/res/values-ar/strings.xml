@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- exams-screen -->
+    <string name="exams_title">الاختبارات</string>
+    <string name="exams_back">رجوع</string>
+    <string name="exams_filter_all">الكل</string>
+    <string name="exams_no_exams_title">لا توجد اختبارات</string>
+    <string name="exams_no_exams_subtitle">لم يتم العثور على سجلات اختبارات.</string>
+    <string name="exams_section_upcoming">القادمة والحديثة</string>
+    <string name="exams_showing_cached">عرض البيانات المخزنة. %1$s</string>
+
+    <!-- exam-detail-screen -->
+    <string name="exams_detail_title">تفاصيل الاختبار</string>
+    <string name="exams_detail_failed_load">فشل تحميل تفاصيل الاختبار</string>
+    <string name="exams_detail_section_info">معلومات الاختبار</string>
+    <string name="exams_detail_label_subject">المادة</string>
+    <string name="exams_detail_label_type">النوع</string>
+    <string name="exams_detail_label_date">التاريخ</string>
+    <string name="exams_detail_label_time">الوقت</string>
+    <string name="exams_detail_label_duration">المدة</string>
+    <string name="exams_detail_duration_minutes">%1$d دقيقة</string>
+    <string name="exams_detail_label_venue">المكان</string>
+    <string name="exams_detail_label_status">الحالة</string>
+    <string name="exams_detail_section_marks">الدرجات</string>
+    <string name="exams_detail_label_max_marks">الدرجة القصوى</string>
+    <string name="exams_detail_label_passing_marks">درجة النجاح</string>
+    <string name="exams_detail_section_instructions">التعليمات</string>
+    <string name="exams_detail_section_result">النتيجة</string>
+    <string name="exams_detail_label_marks_obtained">الدرجات المحصلة</string>
+    <string name="exams_detail_label_percentage">النسبة المئوية</string>
+    <string name="exams_detail_label_grade">التقدير</string>
+    <string name="exams_detail_label_result">النتيجة</string>
+    <string name="exams_detail_passed">ناجح</string>
+    <string name="exams_detail_failed">راسب</string>
+    <string name="exams_detail_label_remarks">ملاحظات</string>
+    <string name="exams_detail_section_countdown">العد التنازلي</string>
+    <string name="exams_detail_countdown_today">اليوم</string>
+    <string name="exams_detail_countdown_tomorrow">غداً</string>
+    <string name="exams_detail_countdown_days">%1$d يوم متبقي</string>
+
+    <!-- quiz-screen -->
+    <string name="exams_quiz_default_title">اختبار قصير</string>
+    <string name="exams_quiz_question_of">السؤال %1$d من %2$d</string>
+    <string name="exams_quiz_previous">السابق</string>
+    <string name="exams_quiz_submit">إرسال</string>
+    <string name="exams_quiz_next">التالي</string>
+    <string name="exams_quiz_well_done">أحسنت!</string>
+    <string name="exams_quiz_keep_trying">حاول مرة أخرى!</string>
+    <string name="exams_quiz_done">تم</string>
+
+    <!-- online-exam-screen -->
+    <string name="exams_online_default_title">اختبار إلكتروني</string>
+    <string name="exams_online_question_status">س %1$d/%2$d | تمت الإجابة: %3$d</string>
+    <string name="exams_online_preparing">جارٍ تحضير الاختبار...</string>
+    <string name="exams_online_failed_load">فشل تحميل الاختبار</string>
+    <string name="exams_online_go_back">رجوع</string>
+    <string name="exams_online_question_number">السؤال %1$d</string>
+    <string name="exams_online_marks_singular">%1$.0f درجة</string>
+    <string name="exams_online_marks_plural">%1$.0f درجات</string>
+    <string name="exams_online_your_answer">إجابتك</string>
+    <string name="exams_online_answer_placeholder">اكتب إجابتك هنا...</string>
+    <string name="exams_online_question_navigator">التنقل بين الأسئلة</string>
+    <string name="exams_online_previous">السابق</string>
+    <string name="exams_online_submit_exam">تسليم الاختبار</string>
+    <string name="exams_online_next">التالي</string>
+    <string name="exams_online_true">صح</string>
+    <string name="exams_online_false">خطأ</string>
+    <string name="exams_online_violations">المخالفات: %1$d/%2$d</string>
+    <string name="exams_online_final_warning">تحذير أخير!</string>
+    <string name="exams_online_exam_terminated">تم إنهاء الاختبار</string>
+    <string name="exams_online_exam_submitted">تم تسليم الاختبار</string>
+    <string name="exams_online_terminated_reason">تم إنهاء اختبارك بسبب كثرة المخالفات.</string>
+    <string name="exams_online_answered_count">أجبت على %1$d من %2$d سؤال.</string>
+    <string name="exams_online_view_results">عرض النتائج</string>
+    <string name="exams_online_done">تم</string>
+    <string name="exams_online_submit_title">تسليم الاختبار؟</string>
+    <string name="exams_online_submit_answered">لقد أجبت على %1$d من %2$d سؤال.</string>
+    <string name="exams_online_submit_remaining_singular">%1$d سؤال متبقي بدون إجابة.</string>
+    <string name="exams_online_submit_remaining_plural">%1$d أسئلة متبقية بدون إجابة.</string>
+    <string name="exams_online_submit_warning">بمجرد التسليم، لا يمكنك تغيير إجاباتك.</string>
+    <string name="exams_online_confirm_submit">تسليم</string>
+    <string name="exams_online_continue_exam">متابعة الاختبار</string>
+    <string name="exams_online_violation_app_switch">تم اكتشاف تبديل التطبيق</string>
+    <string name="exams_online_violation_screenshot">تم اكتشاف محاولة لقطة شاشة</string>
+    <string name="exams_online_violation_multiple_face">تم اكتشاف وجوه متعددة</string>
+    <string name="exams_online_violation_no_face">لم يتم اكتشاف وجه</string>
+    <string name="exams_online_violation_tab_change">تم اكتشاف تغيير علامة التبويب</string>
+    <string name="exams_online_violation_generic">تم اكتشاف مخالفة</string>
+    <string name="exams_online_warning_title">تحذير: %1$s</string>
+    <string name="exams_online_violation_count">المخالفة %1$d من %2$d</string>
+    <string name="exams_online_violation_max_reached">تم الوصول للحد الأقصى من المخالفات. سيتم تسليم اختبارك تلقائياً.</string>
+    <string name="exams_online_violation_remaining">التحذيرات المتبقية: %1$d. سيتم تسليم اختبارك تلقائياً بعد %2$d مخالفات.</string>
+    <string name="exams_online_i_understand">أفهم ذلك</string>
+
+    <!-- question-bank-screen -->
+    <string name="exams_qbank_practice_mode">وضع التدريب</string>
+    <string name="exams_qbank_title">بنك الأسئلة</string>
+    <string name="exams_qbank_practice_cd">وضع التدريب</string>
+    <string name="exams_qbank_filter_all">الكل</string>
+    <string name="exams_qbank_filter_all_levels">جميع المستويات</string>
+    <string name="exams_qbank_bookmarked_only">المحفوظة فقط</string>
+    <string name="exams_qbank_questions_count">%1$d سؤال</string>
+    <string name="exams_qbank_practice">تدريب</string>
+    <string name="exams_qbank_generate_more">توليد المزيد</string>
+    <string name="exams_qbank_no_questions_title">لا توجد أسئلة</string>
+    <string name="exams_qbank_no_questions_subtitle">جرب تعديل عوامل التصفية أو توليد المزيد من الأسئلة.</string>
+    <string name="exams_qbank_section_questions">الأسئلة</string>
+    <string name="exams_qbank_remove_bookmark">إزالة الإشارة المرجعية</string>
+    <string name="exams_qbank_add_bookmark">إشارة مرجعية</string>
+    <string name="exams_qbank_no_practice_title">لا توجد أسئلة</string>
+    <string name="exams_qbank_no_practice_subtitle">لا توجد أسئلة تطابق عوامل التصفية للتدريب.</string>
+    <string name="exams_qbank_question_of">السؤال %1$d من %2$d</string>
+    <string name="exams_qbank_bookmark_cd">إشارة مرجعية</string>
+    <string name="exams_qbank_correct_cd">صحيح</string>
+    <string name="exams_qbank_check_answer">تحقق من الإجابة</string>
+    <string name="exams_qbank_correct">صحيح!</string>
+    <string name="exams_qbank_incorrect">غير صحيح</string>
+    <string name="exams_qbank_correct_answer">الإجابة الصحيحة: %1$s</string>
+    <string name="exams_qbank_previous">السابق</string>
+    <string name="exams_qbank_next">التالي</string>
+
+    <!-- exam-results-screen -->
+    <string name="exams_results_title">نتائج الاختبار</string>
+    <string name="exams_results_failed_load">فشل تحميل النتائج</string>
+    <string name="exams_results_passed">ناجح</string>
+    <string name="exams_results_not_passed">غير ناجح</string>
+    <string name="exams_results_section_details">التفاصيل</string>
+    <string name="exams_results_label_grade">التقدير</string>
+    <string name="exams_results_label_rank">الترتيب</string>
+    <string name="exams_results_label_percentile">النسبة المئوية التراكمية</string>
+    <string name="exams_results_label_total_marks">مجموع الدرجات</string>
+    <string name="exams_results_label_obtained_marks">الدرجات المحصلة</string>
+    <string name="exams_results_label_correct_answers">الإجابات الصحيحة</string>
+    <string name="exams_results_section_certificate">الشهادة</string>
+    <string name="exams_results_view_certificate">عرض الشهادة</string>
+    <string name="exams_results_no_answers">لا توجد تفاصيل إجابات متاحة.</string>
+    <string name="exams_results_section_answer_review">مراجعة الإجابات</string>
+    <string name="exams_results_your_answer">إجابتك: %1$s</string>
+    <string name="exams_results_not_answered">لم يتم الإجابة</string>
+    <string name="exams_results_correct_prefix">الصحيح: %1$s</string>
+    <string name="exams_results_section_distribution">توزيع الدرجات</string>
+    <string name="exams_results_legend_correct">صحيح (%1$d)</string>
+    <string name="exams_results_legend_incorrect">خطأ (%1$d)</string>
+    <string name="exams_results_legend_unanswered">بدون إجابة (%1$d)</string>
+    <string name="exams_results_section_performance">الأداء</string>
+    <string name="exams_results_label_accuracy">الدقة</string>
+    <string name="exams_results_label_attempted">تمت المحاولة</string>
+    <string name="exams_results_label_avg_score">متوسط الدرجات</string>
+    <string name="exams_results_na">غ/م</string>
+
+    <!-- exam-certificate-screen -->
+    <string name="exams_cert_title">الشهادة</string>
+    <string name="exams_cert_failed_load">فشل تحميل الشهادة</string>
+    <string name="exams_cert_share">مشاركة</string>
+    <string name="exams_cert_share_chooser">مشاركة الشهادة</string>
+    <string name="exams_cert_download">تحميل PDF</string>
+    <string name="exams_cert_qr_content_description">رمز QR للتحقق</string>
+    <string name="exams_cert_verification_code">رمز التحقق: %1$s</string>
+    <string name="exams_cert_header">شهادة إنجاز</string>
+    <string name="exams_cert_certify_that">نشهد بأن</string>
+    <string name="exams_cert_completed_exam">قد أتم بنجاح الاختبار</string>
+    <string name="exams_cert_label_score">الدرجة</string>
+    <string name="exams_cert_label_grade">التقدير</string>
+    <string name="exams_cert_completed_on">أُنجز في %1$s</string>
+    <string name="exams_cert_qr_cd">رمز QR للتحقق</string>
+    <string name="exams_cert_scan_to_verify">امسح للتحقق</string>
+
+    <!-- hall-ticket -->
+    <string name="exams_hall_ticket_title">بطاقة الدخول</string>
+    <string name="exams_hall_ticket_label_student">الطالب</string>
+    <string name="exams_hall_ticket_label_id">الرقم</string>
+    <string name="exams_hall_ticket_label_exam">الاختبار</string>
+    <string name="exams_hall_ticket_label_subject">المادة</string>
+    <string name="exams_hall_ticket_label_date">التاريخ</string>
+    <string name="exams_hall_ticket_label_time">الوقت</string>
+    <string name="exams_hall_ticket_label_venue">المكان</string>
+    <string name="exams_hall_ticket_qr_cd">رمز QR لبطاقة الدخول</string>
+    <string name="exams_hall_ticket_scan">امسح للتحقق</string>
+
+    <!-- question-bank-screen -->
+    <string name="exams_filter_all_levels">جميع المستويات</string>
+    <string name="exams_filter_bookmarked_only">المحفوظة فقط</string>
+    <string name="exams_action_practice">تدريب</string>
+    <string name="exams_action_generate_more">إنشاء المزيد</string>
+</resources>

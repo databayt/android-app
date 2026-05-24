@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Attendance Screen -->
+    <string name="attendance_title">الحضور</string>
+    <string name="attendance_back">رجوع</string>
+    <string name="attendance_no_records_title">لا توجد سجلات</string>
+    <string name="attendance_no_records_subtitle">لم يتم العثور على سجلات حضور للفلتر المحدد.</string>
+    <string name="attendance_history_header">سجل الحضور</string>
+    <string name="attendance_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
+
+    <!-- Attendance Row -->
+    <string name="attendance_checked_in">تسجيل الدخول: %1$s</string>
+
+    <!-- Excuse Request Dialog -->
+    <string name="attendance_submit_excuse_title">تقديم عذر</string>
+    <string name="attendance_request_excuse_for">طلب عذر ليوم %1$s</string>
+    <string name="attendance_reason_label">السبب</string>
+    <string name="attendance_reason_placeholder">أدخل سبب الغياب\u2026</string>
+    <string name="attendance_reason_required">السبب مطلوب</string>
+    <string name="attendance_submit">إرسال</string>
+    <string name="attendance_cancel">إلغاء</string>
+
+    <!-- Attendance Analytics Card -->
+    <string name="attendance_present">حاضر</string>
+    <string name="attendance_absent">غائب</string>
+    <string name="attendance_late">متأخر</string>
+    <string name="attendance_excused">معذور</string>
+    <string name="attendance_monthly_trend">الاتجاه الشهري</string>
+
+    <!-- Gamification Screen -->
+    <string name="attendance_achievements_title">الإنجازات</string>
+    <string name="attendance_error_title">خطأ</string>
+    <string name="attendance_something_went_wrong">حدث خطأ ما</string>
+    <string name="attendance_streak_icon_desc">سلسلة متتالية</string>
+    <string name="attendance_day_streak">سلسلة %1$d يوم</string>
+    <string name="attendance_longest_streak">الأطول: %1$d يوم</string>
+    <string name="attendance_badges_title">الشارات</string>
+    <string name="attendance_earned_label">مكتسبة</string>
+    <string name="attendance_total_label">المجموع</string>
+    <string name="attendance_progress_label">التقدم</string>
+    <string name="attendance_earned_icon_desc">مكتسبة</string>
+    <string name="attendance_not_earned_icon_desc">غير مكتسبة</string>
+
+    <!-- Hall Pass Screen -->
+    <string name="attendance_hall_pass_title">تصريح الخروج</string>
+    <string name="attendance_request_hall_pass">طلب تصريح خروج</string>
+    <string name="attendance_no_passes_title">لا توجد تصاريح</string>
+    <string name="attendance_no_passes_subtitle">لا توجد تصاريح خروج للفلتر المحدد.</string>
+    <string name="attendance_destination_label">الوجهة:</string>
+    <string name="attendance_destination_field_label">الوجهة</string>
+    <string name="attendance_time_remaining">الوقت المتبقي</string>
+    <string name="attendance_time_remaining_format">%1$d د %2$d ث متبقية</string>
+    <string name="attendance_deny_icon_desc">رفض</string>
+    <string name="attendance_deny">رفض</string>
+    <string name="attendance_approve_icon_desc">موافقة</string>
+    <string name="attendance_approve">موافقة</string>
+    <string name="attendance_reason_field_label">السبب</string>
+    <string name="attendance_reason_leave_placeholder">لماذا تحتاج إلى المغادرة؟</string>
+
+    <!-- Interventions Screen -->
+    <string name="attendance_interventions_title">التدخلات</string>
+    <string name="attendance_critical_count">%1$d حرجة</string>
+    <string name="attendance_no_interventions_title">لا توجد تدخلات</string>
+    <string name="attendance_no_interventions_subtitle">لا يوجد طلاب يحتاجون إلى اهتمام للفلتر المحدد.</string>
+    <string name="attendance_critical_icon_desc">حرج</string>
+    <string name="attendance_attendance_rate">معدل الحضور</string>
+    <string name="attendance_rate_threshold">%.1f%% / %.1f%% الحد الأدنى</string>
+    <string name="attendance_alert_parent_icon_desc">تنبيه ولي الأمر</string>
+    <string name="attendance_alert_parent">تنبيه ولي الأمر</string>
+    <string name="attendance_refer_counselor_icon_desc">تحويل للمرشد</string>
+    <string name="attendance_refer_counselor">تحويل للمرشد</string>
+    <string name="attendance_intervention_parent_alert">مطلوب تنبيه ولي الأمر</string>
+    <string name="attendance_intervention_counselor_referral">تحويل للمرشد الطلابي</string>
+    <string name="attendance_intervention_admin_review">مطلوب مراجعة الإدارة</string>
+
+    <!-- Attendance Analytics Screen -->
+    <string name="attendance_analytics_title">تحليلات الحضور</string>
+    <string name="attendance_heatmap_title">خريطة الحضور الحرارية</string>
+    <string name="attendance_heatmap_subtitle">شدة اللون تمثل معدل الحضور حسب التاريخ</string>
+    <string name="attendance_day_pattern_title">نمط أيام الأسبوع</string>
+    <string name="attendance_day_pattern_subtitle">متوسط معدل الحضور حسب يوم الأسبوع</string>
+    <string name="attendance_subject_correlation_title">ارتباط المواد</string>
+    <string name="attendance_subject_correlation_subtitle">معدل الحضور حسب المادة</string>
+    <string name="attendance_legend_less">أقل</string>
+    <string name="attendance_legend_more">أكثر</string>
+    <string name="attendance_tab_heatmap">خريطة حرارية</string>
+    <string name="attendance_tab_day_pattern">نمط يومي</string>
+    <string name="attendance_tab_subjects">المواد</string>
+
+    <!-- Attendance Method Selector Screen -->
+    <string name="attendance_methods_title">طرق الحضور</string>
+    <string name="attendance_methods_description">إعداد طريقة تسجيل الحضور. فعّل الطرق واختر الافتراضية.</string>
+    <string name="attendance_settings_saved">تم حفظ الإعدادات بنجاح</string>
+    <string name="attendance_save_settings">حفظ الإعدادات</string>
+    <string name="attendance_default_label">افتراضي</string>
+    <string name="attendance_permission_granted">تم منح الإذن</string>
+    <string name="attendance_permission_denied">تم رفض الإذن</string>
+    <string name="attendance_permission_not_requested">لم يتم طلب الإذن</string>
+    <string name="attendance_permission_not_available">غير متوفر على هذا الجهاز</string>
+    <string name="attendance_method_manual">يدوي</string>
+    <string name="attendance_method_geofence">نطاق جغرافي</string>
+    <string name="attendance_method_nfc">لمسة NFC</string>
+    <string name="attendance_method_bluetooth">قرب البلوتوث</string>
+    <string name="attendance_method_barcode">مسح الباركود</string>
+    <string name="attendance_method_qr">رمز QR</string>
+    <string name="attendance_method_manual_desc">المعلم يسجل الحضور يدويًا</string>
+    <string name="attendance_method_geofence_desc">كشف تلقائي عند دخول الطالب منطقة المدرسة</string>
+    <string name="attendance_method_nfc_desc">الطالب يلمس بطاقة NFC عند مدخل الفصل</string>
+    <string name="attendance_method_bluetooth_desc">كشف الوجود عبر إشارة البلوتوث في الفصل</string>
+    <string name="attendance_method_barcode_desc">مسح باركود بطاقة الطالب</string>
+    <string name="attendance_method_qr_desc">مسح رمز QR المعروض في الفصل</string>
+
+    <!-- Kiosk Mode Screen -->
+    <string name="attendance_kiosk_scan_qr_desc">مسح رمز QR</string>
+    <string name="attendance_kiosk_scan_student_id">مسح هوية الطالب</string>
+    <string name="attendance_kiosk_scan_instruction">قرّب رمز QR أو بطاقة NFC من الجهاز</string>
+    <string name="attendance_kiosk_recent_scans">عمليات المسح الأخيرة</string>
+    <string name="attendance_kiosk_exit_desc">الخروج من وضع الكشك</string>
+    <string name="attendance_kiosk_exit_title">الخروج من وضع الكشك</string>
+    <string name="attendance_kiosk_exit_instruction">أدخل رقم PIN الإداري للخروج من وضع الكشك:</string>
+    <string name="attendance_kiosk_admin_pin_label">رقم PIN الإداري</string>
+    <string name="attendance_kiosk_exit_button">خروج</string>
+    <string name="attendance_kiosk_present">حاضر</string>
+    <string name="attendance_kiosk_late">متأخر</string>
+    <string name="attendance_kiosk_total_scans">إجمالي عمليات المسح</string>
+</resources>

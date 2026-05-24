@@ -1,0 +1,32 @@
+Hogwarts Academy - The Smart School Companion
+
+Stay connected with your school like never before. Hogwarts Academy brings your entire school experience to your fingertips.
+
+FOR STUDENTS:
+- View your class schedule and timetable
+- Check grades, exam results, and GPA
+- Track attendance records and submit excuses
+- Pay school fees online
+- Receive instant notifications for announcements
+
+FOR TEACHERS:
+- Mark attendance with manual entry, bulk marking, or QR codes
+- Submit grades and assessment scores
+- Communicate with parents and guardians
+- View class schedules and student lists
+
+FOR PARENTS & GUARDIANS:
+- Monitor your child's academic progress
+- Track attendance and receive absence alerts
+- View and pay school fees
+- Communicate directly with teachers
+
+KEY FEATURES:
+- Offline support - Access your data even without internet
+- Multi-language - Available in English and Arabic (RTL)
+- Secure - Biometric login, encrypted data, certificate pinning
+- Beautiful UI - Apple-inspired design with glassmorphism effects
+- Real-time notifications - Never miss an important update
+- Multi-school support - Switch between schools seamlessly
+
+Built with love for education.

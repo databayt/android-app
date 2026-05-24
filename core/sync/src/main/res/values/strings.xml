@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- sync-settings-screen -->
+    <string name="sync_settings_title">Sync Settings</string>
+    <string name="sync_back">Back</string>
+    <string name="sync_frequency_heading">Sync Frequency</string>
+    <string name="sync_frequency_15min">Every 15 min</string>
+    <string name="sync_frequency_30min">Every 30 min</string>
+    <string name="sync_frequency_hour">Every hour</string>
+    <string name="sync_frequency_manual">Manual only</string>
+    <string name="sync_network_heading">Network</string>
+    <string name="sync_wifi_only">WiFi Only</string>
+    <string name="sync_data_heading">Data to Sync</string>
+    <string name="sync_entity_attendance">Attendance</string>
+    <string name="sync_entity_grades">Grades</string>
+    <string name="sync_entity_timetable">Timetable</string>
+    <string name="sync_entity_messages">Messages</string>
+    <string name="sync_entity_notifications">Notifications</string>
+    <string name="sync_entity_fees">Fees &amp; Invoices</string>
+    <string name="sync_entity_library">Library</string>
+    <string name="sync_data_usage_heading">Data Usage</string>
+    <string name="sync_total_cached">Total cached data</string>
+    <string name="sync_last_sync">Last sync</string>
+    <string name="sync_now_button">Sync Now</string>
+    <string name="sync_clear_cache">Clear Cache</string>
+
+    <!-- sync-progress-screen -->
+    <string name="sync_progress_title">Sync Progress</string>
+    <string name="sync_overall_heading">Overall Sync</string>
+    <string name="sync_last_sync_label">Last sync: %1$s</string>
+    <string name="sync_entity_status_heading">Entity Status</string>
+    <string name="sync_record_count">%1$d records</string>
+    <string name="sync_history_heading">Sync History</string>
+
+    <!-- conflict-resolution-screen -->
+    <string name="sync_conflicts_title">Sync Conflicts (%1$d)</string>
+    <string name="sync_conflict_accept_all_server">Accept All Server</string>
+    <string name="sync_conflict_none_title">No Conflicts</string>
+    <string name="sync_conflict_none_subtitle">Everything is in sync</string>
+    <string name="sync_conflict_local_label">Local</string>
+    <string name="sync_conflict_server_label">Server</string>
+    <string name="sync_conflict_keep_local">Keep Local</string>
+    <string name="sync_conflict_keep_server">Keep Server</string>
+</resources>

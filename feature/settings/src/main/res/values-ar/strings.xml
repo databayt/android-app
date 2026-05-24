@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top bar -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_back">رجوع</string>
+
+    <!-- Account section -->
+    <string name="settings_section_account">الحساب</string>
+    <string name="settings_profile">الملف الشخصي</string>
+
+    <!-- Appearance section -->
+    <string name="settings_section_appearance">المظهر</string>
+    <string name="settings_theme">السمة</string>
+    <string name="settings_theme_light">فاتح</string>
+    <string name="settings_theme_dark">داكن</string>
+    <string name="settings_theme_system">النظام</string>
+    <string name="settings_theme_system_default">الافتراضي للنظام</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_language_arabic">العربية</string>
+    <string name="settings_language_english">English</string>
+    <string name="settings_wallpaper">الخلفية</string>
+    <string name="settings_wallpaper_preview">معاينة الخلفية</string>
+
+    <!-- Notifications section -->
+    <string name="settings_section_notifications">الإشعارات</string>
+    <string name="settings_push_notifications">الإشعارات الفورية</string>
+
+    <!-- About section -->
+    <string name="settings_section_about">حول</string>
+    <string name="settings_version">الإصدار</string>
+
+    <!-- Logout -->
+    <string name="settings_logout">تسجيل الخروج</string>
+    <string name="settings_logout_title">تسجيل الخروج</string>
+    <string name="settings_logout_message">هل أنت متأكد من تسجيل الخروج؟ ستحتاج إلى تسجيل الدخول مرة أخرى.</string>
+    <string name="settings_logout_confirm">تسجيل الخروج</string>
+
+    <!-- Dialogs -->
+    <string name="settings_cancel">إلغاء</string>
+</resources>

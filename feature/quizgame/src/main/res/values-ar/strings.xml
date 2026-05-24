@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Game Hub Screen -->
+    <string name="quizgame_title">\u0644\u0639\u0628\u0629 \u0627\u0644\u0627\u062e\u062a\u0628\u0627\u0631</string>
+    <string name="quizgame_back">\u0631\u062c\u0648\u0639</string>
+    <string name="quizgame_game_modes">\u0623\u0648\u0636\u0627\u0639 \u0627\u0644\u0644\u0639\u0628</string>
+    <string name="quizgame_practice">\u062a\u062f\u0631\u064a\u0628</string>
+    <string name="quizgame_practice_description">\u062a\u0639\u0644\u0651\u0645 \u0628\u0633\u0631\u0639\u062a\u0643 \u0627\u0644\u062e\u0627\u0635\u0629</string>
+    <string name="quizgame_timed">\u0645\u0624\u0642\u0651\u062a</string>
+    <string name="quizgame_timed_description">\u0633\u0627\u0628\u0642 \u0627\u0644\u0632\u0645\u0646</string>
+    <string name="quizgame_tournament">\u0628\u0637\u0648\u0644\u0629</string>
+    <string name="quizgame_tournament_description">\u062a\u0646\u0627\u0641\u0633 \u0645\u0639 \u0627\u0644\u0622\u062e\u0631\u064a\u0646</string>
+    <string name="quizgame_achievements">\u0627\u0644\u0625\u0646\u062c\u0627\u0632\u0627\u062a</string>
+    <string name="quizgame_leaderboard">\u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u062a\u0635\u062f\u0631\u064a\u0646</string>
+    <string name="quizgame_view_all">\u0639\u0631\u0636 \u0627\u0644\u0643\u0644</string>
+    <string name="quizgame_daily_challenge">\u0627\u0644\u062a\u062d\u062f\u064a \u0627\u0644\u064a\u0648\u0645\u064a</string>
+    <string name="quizgame_daily_challenge_completed">\u0627\u0643\u062a\u0645\u0644 \u0627\u0644\u062a\u062d\u062f\u064a \u0627\u0644\u064a\u0648\u0645\u064a!</string>
+    <string name="quizgame_daily_challenge_info">%1$s - %2$d \u0623\u0633\u0626\u0644\u0629</string>
+    <string name="quizgame_xp_reward">+%1$d \u0646\u0642\u0627\u0637 \u062e\u0628\u0631\u0629</string>
+    <string name="quizgame_rank_number">#%1$d</string>
+    <string name="quizgame_score_pts">%1$d \u0646\u0642\u0637\u0629</string>
+
+    <!-- Practice Mode Screen -->
+    <string name="quizgame_practice_mode">\u0648\u0636\u0639 \u0627\u0644\u062a\u062f\u0631\u064a\u0628</string>
+    <string name="quizgame_choose_subject">\u0627\u062e\u062a\u0631 \u0627\u0644\u0645\u0627\u062f\u0629</string>
+    <string name="quizgame_difficulty">\u0627\u0644\u0635\u0639\u0648\u0628\u0629</string>
+    <string name="quizgame_number_of_questions">\u0639\u062f\u062f \u0627\u0644\u0623\u0633\u0626\u0644\u0629</string>
+    <string name="quizgame_questions_count">%1$d \u0623\u0633\u0626\u0644\u0629</string>
+    <string name="quizgame_start_practice">\u0627\u0628\u062f\u0623 \u0627\u0644\u062a\u062f\u0631\u064a\u0628</string>
+    <string name="quizgame_starting">\u062c\u0627\u0631\u064a \u0627\u0644\u0628\u062f\u0621...</string>
+    <string name="quizgame_slider_min">\u0665</string>
+    <string name="quizgame_slider_max">\u0663\u0660</string>
+
+    <!-- Timed Challenge Screen -->
+    <string name="quizgame_timed_challenge">\u062a\u062d\u062f\u064a \u0645\u0624\u0642\u0651\u062a</string>
+    <string name="quizgame_streak_multiplier">\u0633\u0644\u0633\u0644\u0629 x%1$.1f</string>
+    <string name="quizgame_multiplier">\u0627\u0644\u0645\u0636\u0627\u0639\u0641</string>
+    <string name="quizgame_speed_bonus_value">+%1$d</string>
+    <string name="quizgame_speed_bonus">\u0645\u0643\u0627\u0641\u0623\u0629 \u0627\u0644\u0633\u0631\u0639\u0629</string>
+    <string name="quizgame_time_limit">\u0627\u0644\u062d\u062f \u0627\u0644\u0632\u0645\u0646\u064a</string>
+    <string name="quizgame_time_seconds"> %1$d\u062b</string>
+    <string name="quizgame_current_score">\u0627\u0644\u0646\u062a\u064a\u062c\u0629 \u0627\u0644\u062d\u0627\u0644\u064a\u0629</string>
+    <string name="quizgame_start_timed_challenge">\u0627\u0628\u062f\u0623 \u0627\u0644\u062a\u062d\u062f\u064a \u0627\u0644\u0645\u0624\u0642\u0651\u062a</string>
+
+    <!-- Leaderboard Screen -->
+    <string name="quizgame_games_win_rate">%1$d \u0644\u0639\u0628\u0629 \u2022 %2$d%% \u0641\u0648\u0632</string>
+
+    <!-- Achievements Screen -->
+    <string name="quizgame_all">\u0627\u0644\u0643\u0644</string>
+    <string name="quizgame_progress_percent">%1$d%%</string>
+
+    <!-- Tournament Screen -->
+    <string name="quizgame_tournaments">\u0627\u0644\u0628\u0637\u0648\u0644\u0627\u062a</string>
+    <string name="quizgame_no_tournaments">\u0644\u0627 \u062a\u0648\u062c\u062f \u0628\u0637\u0648\u0644\u0627\u062a \u0645\u062a\u0627\u062d\u0629</string>
+    <string name="quizgame_no_tournaments_subtitle">\u062a\u062d\u0642\u0642 \u0644\u0627\u062d\u0642\u0627\u064b \u0645\u0646 \u0627\u0644\u0628\u0637\u0648\u0644\u0627\u062a \u0627\u0644\u0642\u0627\u062f\u0645\u0629</string>
+    <string name="quizgame_players_count">%1$d \u0644\u0627\u0639\u0628\u064a\u0646</string>
+    <string name="quizgame_round_progress">\u0627\u0644\u062c\u0648\u0644\u0629 %1$d/%2$d</string>
+    <string name="quizgame_current_round_matches">\u0645\u0628\u0627\u0631\u064a\u0627\u062a \u0627\u0644\u062c\u0648\u0644\u0629 \u0627\u0644\u062d\u0627\u0644\u064a\u0629</string>
+    <string name="quizgame_join_tournament">\u0627\u0646\u0636\u0645 \u0644\u0644\u0628\u0637\u0648\u0644\u0629</string>
+    <string name="quizgame_joining">\u062c\u0627\u0631\u064a \u0627\u0644\u0627\u0646\u0636\u0645\u0627\u0645...</string>
+    <string name="quizgame_tbd">\u063a\u064a\u0631 \u0645\u062d\u062f\u062f</string>
+    <string name="quizgame_match_score">%1$d - %2$d</string>
+
+    <!-- Quiz Session Screen -->
+    <string name="quizgame_question_progress">\u0627\u0644\u0633\u0624\u0627\u0644 %1$d/%2$d</string>
+    <string name="quizgame_results">\u0627\u0644\u0646\u062a\u0627\u0626\u062c</string>
+    <string name="quizgame_submitting_answers">\u062c\u0627\u0631\u064a \u0625\u0631\u0633\u0627\u0644 \u0625\u062c\u0627\u0628\u0627\u062a\u0643...</string>
+    <string name="quizgame_score_label">\u0627\u0644\u0646\u062a\u064a\u062c\u0629: %1$d</string>
+    <string name="quizgame_correct">\u0635\u062d\u064a\u062d</string>
+    <string name="quizgame_incorrect">\u062e\u0637\u0623</string>
+    <string name="quizgame_explanation">\u0627\u0644\u062a\u0641\u0633\u064a\u0631</string>
+    <string name="quizgame_confirm_answer">\u062a\u0623\u0643\u064a\u062f \u0627\u0644\u0625\u062c\u0627\u0628\u0629</string>
+    <string name="quizgame_finish_quiz">\u0625\u0646\u0647\u0627\u0621 \u0627\u0644\u0627\u062e\u062a\u0628\u0627\u0631</string>
+    <string name="quizgame_next_question">\u0627\u0644\u0633\u0624\u0627\u0644 \u0627\u0644\u062a\u0627\u0644\u064a</string>
+
+    <!-- Results Overlay -->
+    <string name="quizgame_quiz_complete">\u0627\u0643\u062a\u0645\u0644 \u0627\u0644\u0627\u062e\u062a\u0628\u0627\u0631!</string>
+    <string name="quizgame_total_score">\u0627\u0644\u0646\u062a\u064a\u062c\u0629 \u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a\u0629</string>
+    <string name="quizgame_stat_correct">\u0635\u062d\u064a\u062d</string>
+    <string name="quizgame_correct_count">%1$d/%2$d</string>
+    <string name="quizgame_stat_accuracy">\u0627\u0644\u062f\u0642\u0629</string>
+    <string name="quizgame_accuracy_percent">%1$d%%</string>
+    <string name="quizgame_stat_time">\u0627\u0644\u0648\u0642\u062a</string>
+    <string name="quizgame_stat_xp_earned">\u0646\u0642\u0627\u0637 \u0627\u0644\u062e\u0628\u0631\u0629 \u0627\u0644\u0645\u0643\u062a\u0633\u0628\u0629</string>
+    <string name="quizgame_xp_earned_value">+%1$d</string>
+    <string name="quizgame_streak_bonus">\u0645\u0643\u0627\u0641\u0623\u0629 \u0627\u0644\u0633\u0644\u0633\u0644\u0629: +%1$d</string>
+    <string name="quizgame_new_achievements">\u0625\u0646\u062c\u0627\u0632\u0627\u062a \u062c\u062f\u064a\u062f\u0629!</string>
+    <string name="quizgame_done">\u062a\u0645</string>
+
+    <!-- Difficulty levels -->
+    <string name="quizgame_difficulty_easy">\u0633\u0647\u0644</string>
+    <string name="quizgame_difficulty_medium">\u0645\u062a\u0648\u0633\u0637</string>
+    <string name="quizgame_difficulty_hard">\u0635\u0639\u0628</string>
+</resources>

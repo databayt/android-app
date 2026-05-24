@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen title -->
+    <string name="grades_title">Grades &amp; Results</string>
+
+    <!-- Navigation -->
+    <string name="grades_back">Back</string>
+
+    <!-- Empty state -->
+    <string name="grades_empty_title">No Grades</string>
+    <string name="grades_empty_subtitle">No grade records found for the selected filter.</string>
+
+    <!-- Section header -->
+    <string name="grades_section_results">Results</string>
+
+    <!-- Error message -->
+    <string name="grades_showing_cached_data">Showing cached data. %1$s</string>
+
+    <!-- Filter chip labels -->
+    <string name="grades_filter_all">All</string>
+    <string name="grades_filter_exam">Exam</string>
+    <string name="grades_filter_quiz">Quiz</string>
+    <string name="grades_filter_assignment">Assignment</string>
+    <string name="grades_filter_midterm">Midterm</string>
+    <string name="grades_filter_final">Final</string>
+
+    <!-- Grade row: assessment type labels -->
+    <string name="grades_type_exam">Exam</string>
+    <string name="grades_type_quiz">Quiz</string>
+    <string name="grades_type_assignment">Assignment</string>
+    <string name="grades_type_project">Project</string>
+    <string name="grades_type_midterm">Midterm</string>
+    <string name="grades_type_final">Final</string>
+
+    <!-- Grade row: score and percentage formats -->
+    <string name="grades_score_format">%1$d/%2$d</string>
+    <string name="grades_percentage_format">%1$d%%</string>
+
+    <!-- Grade row: type and date line -->
+    <string name="grades_type_date_format">%1$s - %2$s</string>
+</resources>

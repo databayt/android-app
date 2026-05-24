@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Announcements Screen -->
+    <string name="announcements_title">Announcements</string>
+    <string name="announcements_back">Back</string>
+    <string name="announcements_filter_all">All</string>
+    <string name="announcements_no_announcements_title">No Announcements</string>
+    <string name="announcements_no_announcements_subtitle">No announcements at this time.</string>
+    <string name="announcements_section_important">Important</string>
+    <string name="announcements_section_recent">Recent</string>
+    <string name="announcements_showing_cached">Showing cached data. %1$s</string>
+    <string name="announcements_by_author">by %1$s</string>
+    <string name="announcements_at_venue">@ %1$s</string>
+
+    <!-- Announcement Detail Screen -->
+    <string name="announcements_detail_title">Announcement</string>
+    <string name="announcements_detail_important">Important</string>
+    <string name="announcements_detail_section_details">Details</string>
+    <string name="announcements_detail_section_event">Event Details</string>
+    <string name="announcements_detail_venue">Venue</string>
+    <string name="announcements_detail_time">Time</string>
+    <string name="announcements_detail_time_range">%1$s - %2$s</string>
+    <string name="announcements_detail_section_attachment">Attachment</string>
+    <string name="announcements_detail_view_attachment">View Attachment</string>
+    <string name="announcements_detail_load_failed">Failed to load announcement</string>
+</resources>

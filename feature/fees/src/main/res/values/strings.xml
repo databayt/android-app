@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="fees_back">Back</string>
+    <string name="fees_showing_cached_data">Showing cached data. %1$s</string>
+    <string name="fees_error_occurred">An error occurred</string>
+    <string name="fees_pending">Pending</string>
+
+    <!-- Fees Screen -->
+    <string name="fees_title">Fees</string>
+    <string name="fees_filter_all">All</string>
+    <string name="fees_empty_title">No Fees</string>
+    <string name="fees_empty_subtitle">No fee records found.</string>
+    <string name="fees_due_date">Due: %1$s</string>
+    <string name="fees_amount_dollar">$%1$s</string>
+    <string name="fees_records_count">%1$d Records</string>
+    <string name="fees_status_paid">Paid</string>
+    <string name="fees_status_pending">Pending</string>
+    <string name="fees_status_overdue">Overdue</string>
+    <string name="fees_status_partial">Partial</string>
+
+    <!-- Invoice List Screen -->
+    <string name="fees_invoices_title">Invoices</string>
+    <string name="fees_invoices_transactions">Transactions</string>
+    <string name="fees_invoices_filter_all">All</string>
+    <string name="fees_invoices_filter_sent">Sent</string>
+    <string name="fees_invoices_filter_paid">Paid</string>
+    <string name="fees_invoices_filter_overdue">Overdue</string>
+    <string name="fees_invoices_filter_partial">Partial</string>
+    <string name="fees_invoices_empty_title">No Invoices</string>
+    <string name="fees_invoices_empty_subtitle">No invoices found for the selected filter.</string>
+    <string name="fees_invoices_count">%1$d Invoices</string>
+    <string name="fees_invoices_balance_due">Due: $%1$s</string>
+
+    <!-- Invoice Status Labels -->
+    <string name="fees_invoice_status_draft">Draft</string>
+    <string name="fees_invoice_status_sent">Sent</string>
+    <string name="fees_invoice_status_paid">Paid</string>
+    <string name="fees_invoice_status_partial">Partial</string>
+    <string name="fees_invoice_status_overdue">Overdue</string>
+    <string name="fees_invoice_status_cancelled">Cancelled</string>
+
+    <!-- Invoice Detail Screen -->
+    <string name="fees_invoice_detail_title">Invoice Details</string>
+    <string name="fees_invoice_detail_issue_date">Issue Date</string>
+    <string name="fees_invoice_detail_due_date">Due Date</string>
+    <string name="fees_invoice_detail_student">Student</string>
+    <string name="fees_invoice_detail_items">Items</string>
+    <string name="fees_invoice_detail_description">Description</string>
+    <string name="fees_invoice_detail_qty">Qty</string>
+    <string name="fees_invoice_detail_price">Price</string>
+    <string name="fees_invoice_detail_amount">Amount</string>
+    <string name="fees_invoice_detail_notes">Notes</string>
+    <string name="fees_invoice_detail_subtotal">Subtotal</string>
+    <string name="fees_invoice_detail_tax">Tax</string>
+    <string name="fees_invoice_detail_discount">Discount</string>
+    <string name="fees_invoice_detail_total">Total</string>
+    <string name="fees_invoice_detail_paid">Paid</string>
+    <string name="fees_invoice_detail_balance_due">Balance Due</string>
+    <string name="fees_invoice_detail_pay_now">Pay Now - $%1$s</string>
+    <string name="fees_invoice_detail_negative_amount">-$%1$s</string>
+
+    <!-- Payment Dialog -->
+    <string name="fees_payment_dialog_title">Confirm Payment</string>
+    <string name="fees_payment_dialog_amount_label">Amount</string>
+    <string name="fees_payment_dialog_amount_value">%1$s %2$s</string>
+    <string name="fees_payment_dialog_disclaimer">Payment will be processed via your default payment method.</string>
+    <string name="fees_payment_dialog_pay_now">Pay Now</string>
+    <string name="fees_payment_dialog_cancel">Cancel</string>
+
+    <!-- Payment Processing Screen -->
+    <string name="fees_payment_title">Payment</string>
+    <string name="fees_payment_processing">Processing payment\u2026</string>
+    <string name="fees_payment_do_not_close">Please do not close the app</string>
+    <string name="fees_payment_success_icon">Success</string>
+    <string name="fees_payment_success_title">Payment Successful</string>
+    <string name="fees_payment_view_receipt">View Receipt</string>
+    <string name="fees_payment_failed_icon">Failed</string>
+    <string name="fees_payment_failed_title">Payment Failed</string>
+    <string name="fees_payment_unexpected_error">An unexpected error occurred</string>
+    <string name="fees_payment_try_again">Try Again</string>
+    <string name="fees_payment_amount_to_pay">Amount to Pay</string>
+    <string name="fees_payment_select_method">Select Payment Method</string>
+    <string name="fees_payment_method_card">Credit / Debit Card</string>
+    <string name="fees_payment_method_bank">Bank Transfer</string>
+    <string name="fees_payment_method_wallet">Digital Wallet</string>
+    <string name="fees_payment_confirm">Confirm Payment</string>
+
+    <!-- Transaction History Screen -->
+    <string name="fees_transactions_title">Transaction History</string>
+    <string name="fees_transactions_filter_date">Filter by date</string>
+    <string name="fees_transactions_date_apply">Apply</string>
+    <string name="fees_transactions_date_clear">Clear</string>
+    <string name="fees_transactions_filter_all">All</string>
+    <string name="fees_transactions_filter_completed">Completed</string>
+    <string name="fees_transactions_filter_pending">Pending</string>
+    <string name="fees_transactions_filter_failed">Failed</string>
+    <string name="fees_transactions_empty_title">No Transactions</string>
+    <string name="fees_transactions_empty_subtitle">No transactions found for the selected filters.</string>
+    <string name="fees_transactions_count">%1$d Transactions</string>
+
+    <!-- Payment Status Labels -->
+    <string name="fees_payment_status_pending">Pending</string>
+    <string name="fees_payment_status_processing">Processing</string>
+    <string name="fees_payment_status_completed">Completed</string>
+    <string name="fees_payment_status_failed">Failed</string>
+    <string name="fees_payment_status_cancelled">Cancelled</string>
+
+    <!-- Payment Receipt Screen -->
+    <string name="fees_receipt_title">Payment Receipt</string>
+    <string name="fees_receipt_share">Share</string>
+    <string name="fees_receipt_share_chooser">Share Receipt</string>
+    <string name="fees_receipt_school_name">Hogwarts School</string>
+    <string name="fees_receipt_payment_receipt">Payment Receipt</string>
+    <string name="fees_receipt_completed_icon">Completed</string>
+    <string name="fees_receipt_transaction_id">Transaction ID</string>
+    <string name="fees_receipt_amount">Amount</string>
+    <string name="fees_receipt_amount_value">$%1$s %2$s</string>
+    <string name="fees_receipt_date">Date</string>
+    <string name="fees_receipt_payment_method">Payment Method</string>
+    <string name="fees_receipt_status">Status</string>
+    <string name="fees_receipt_description">Description</string>
+    <string name="fees_receipt_download_pdf">Download PDF</string>
+
+    <!-- Receipt Share Text -->
+    <string name="fees_receipt_share_header">Hogwarts School - Payment Receipt</string>
+    <string name="fees_receipt_share_separator">---</string>
+    <string name="fees_receipt_share_transaction">Transaction: %1$s</string>
+    <string name="fees_receipt_share_amount">Amount: $%1$s %2$s</string>
+    <string name="fees_receipt_share_date">Date: %1$s</string>
+    <string name="fees_receipt_share_method">Method: %1$s</string>
+    <string name="fees_receipt_share_status">Status: %1$s</string>
+    <string name="fees_receipt_share_description">Description: %1$s</string>
+
+    <!-- Fee Balance Dashboard Screen -->
+    <string name="fees_balance_title">Fee Balance</string>
+    <string name="fees_balance_outstanding">Outstanding Balance</string>
+    <string name="fees_balance_overdue_amount">Overdue Amount</string>
+    <string name="fees_balance_pay_immediately">Please pay immediately</string>
+    <string name="fees_balance_next_due_date">Next Due Date</string>
+    <string name="fees_balance_days_overdue">%1$d days overdue</string>
+    <string name="fees_balance_due_today">Due today</string>
+    <string name="fees_balance_due_tomorrow">Due tomorrow</string>
+    <string name="fees_balance_days_remaining">%1$d days remaining</string>
+    <string name="fees_balance_quick_actions">Quick Actions</string>
+    <string name="fees_balance_action_pay_now">Pay Now</string>
+    <string name="fees_balance_action_pay_description">Make a payment towards your balance</string>
+    <string name="fees_balance_action_invoices">View Invoices</string>
+    <string name="fees_balance_action_invoices_description">See all invoices and their details</string>
+    <string name="fees_balance_action_transactions">Transaction History</string>
+    <string name="fees_balance_action_transactions_description">View past payments and transactions</string>
+    <string name="fees_balance_cached_data">Showing cached data. %1$s</string>
+</resources>

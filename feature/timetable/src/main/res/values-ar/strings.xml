@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top bar -->
+    <string name="timetable_title">الجدول الدراسي</string>
+    <string name="timetable_back">رجوع</string>
+
+    <!-- Empty state -->
+    <string name="timetable_no_classes">لا توجد حصص</string>
+    <string name="timetable_no_classes_subtitle">لا توجد حصص مجدولة لهذا اليوم.</string>
+
+    <!-- Entry details -->
+    <string name="timetable_teacher_room">%1$s \u2022 القاعة %2$s</string>
+
+    <!-- Error banner -->
+    <string name="timetable_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
+</resources>

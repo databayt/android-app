@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="library_back">Back</string>
+
+    <!-- Book Catalog Screen -->
+    <string name="library_title">Library</string>
+    <string name="library_my_borrowings_content_desc">My Borrowings</string>
+    <string name="library_search_placeholder">Search books by title or author</string>
+    <string name="library_filter_all">All</string>
+    <string name="library_no_books_title">No Books Found</string>
+    <string name="library_no_books_search_subtitle">No books match your search. Try different keywords.</string>
+    <string name="library_no_books_category_subtitle">No books available for the selected category.</string>
+    <string name="library_cover_content_desc">%1$s cover</string>
+    <string name="library_available_count">%1$d available</string>
+    <string name="library_unavailable">Unavailable</string>
+
+    <!-- Book Category Display Names -->
+    <string name="library_category_fiction">Fiction</string>
+    <string name="library_category_non_fiction">Non-Fiction</string>
+    <string name="library_category_science">Science</string>
+    <string name="library_category_mathematics">Mathematics</string>
+    <string name="library_category_history">History</string>
+    <string name="library_category_literature">Literature</string>
+    <string name="library_category_reference">Reference</string>
+    <string name="library_category_other">Other</string>
+
+    <!-- Book Detail Screen -->
+    <string name="library_book_details_title">Book Details</string>
+    <string name="library_borrow_success">Book borrowed successfully!</string>
+    <string name="library_by_author">by %1$s</string>
+    <string name="library_isbn_label">ISBN: %1$s</string>
+    <string name="library_copies_available">%1$d of %2$d copies available</string>
+    <string name="library_description_section">Description</string>
+    <string name="library_request_borrow">Request Borrow</string>
+    <string name="library_not_available">Not Available</string>
+
+    <!-- Borrowing Status Display Names -->
+    <string name="library_status_active">Active</string>
+    <string name="library_status_returned">Returned</string>
+    <string name="library_status_overdue">Overdue</string>
+    <string name="library_status_renewed">Renewed</string>
+
+    <!-- My Borrowings Screen -->
+    <string name="library_my_borrowings_title">My Borrowings</string>
+    <string name="library_renew_success">Borrowing renewed successfully!</string>
+    <string name="library_no_borrowings_title">No Borrowings</string>
+    <string name="library_no_borrowings_subtitle">You haven\'t borrowed any books yet. Visit the library catalog to find books.</string>
+    <string name="library_active_section">Active</string>
+    <string name="library_history_section">History</string>
+    <string name="library_borrowed_date">Borrowed: %1$s</string>
+    <string name="library_due_date">Due: %1$s</string>
+    <string name="library_returned_date">Returned: %1$s</string>
+    <string name="library_fine_amount">Fine: $%1$s</string>
+    <string name="library_renew">Renew</string>
+    <string name="library_book_cover_description">%1$s cover</string>
+</resources>

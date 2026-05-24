@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="locale_days_ago">
+        <item quantity="zero">منذ %s يوم</item>
+        <item quantity="one">منذ يوم</item>
+        <item quantity="two">منذ يومين</item>
+        <item quantity="few">منذ %s أيام</item>
+        <item quantity="many">منذ %s يومًا</item>
+        <item quantity="other">منذ %s يوم</item>
+    </plurals>
+</resources>

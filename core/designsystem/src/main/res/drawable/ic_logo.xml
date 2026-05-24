@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="32dp"
+    android:viewportWidth="40"
+    android:viewportHeight="32">
+    <!-- Right wing - back layer -->
+    <path
+        android:fillColor="#DBE5FF"
+        android:fillAlpha="0.5"
+        android:pathData="M20,10 L20,31.889 C29.889,26.444 38.222,30 40,32 L40,10 C33,6 21.815,6.63 20,10Z" />
+    <!-- Right wing - mid layer -->
+    <path
+        android:fillColor="#F0F4FF"
+        android:pathData="M20,10 L20,31.889 C26.333,23.667 34.333,25.667 36.889,26.111 L36.889,4.333 C31,2.444 21.815,6.63 20,10Z" />
+    <!-- Right wing - front layer -->
+    <path
+        android:fillColor="#E8EEFF"
+        android:pathData="M20,9.749 L20,31.556 C23.409,23.697 32.426,22.922 34.222,23.032 L34.222,0.009 C30,−0.257 19.12,5.654 20,9.749Z" />
+    <!-- Left wing - back layer -->
+    <path
+        android:fillColor="#DBE5FF"
+        android:fillAlpha="0.5"
+        android:pathData="M20,10 L20,31.889 C10.111,26.444 1.778,30 0,32 L0,10 C7,6 18.185,6.63 20,10Z" />
+    <!-- Left wing - mid layer -->
+    <path
+        android:fillColor="#F0F4FF"
+        android:pathData="M20,10 L20,31.889 C13.667,23.667 5.667,25.667 3.111,26.111 L3.111,4.333 C9,2.444 18.185,6.63 20,10Z" />
+    <!-- Left wing - front layer -->
+    <path
+        android:fillColor="#E8EEFF"
+        android:pathData="M20,9.749 L20,31.556 C16.591,23.697 7.574,22.922 5.778,23.032 L5.778,0.009 C10,−0.257 20.88,5.654 20,9.749Z" />
+</vector>

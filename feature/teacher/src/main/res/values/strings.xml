@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="teacher_back">Back</string>
+
+    <!-- My Classes screen -->
+    <string name="teacher_my_classes_title">My Classes</string>
+    <string name="teacher_no_classes_title">No Classes Assigned</string>
+    <string name="teacher_no_classes_subtitle">You have no classes assigned yet.</string>
+    <string name="teacher_students_count">%1$d students</string>
+    <string name="teacher_next_session">Next: %1$s %2$s</string>
+
+    <!-- Class Detail screen -->
+    <string name="teacher_class_detail_title">Class Detail</string>
+    <string name="teacher_tab_students">Students</string>
+    <string name="teacher_tab_attendance">Attendance</string>
+    <string name="teacher_tab_grades">Grades</string>
+    <string name="teacher_students_count_label">%1$d students</string>
+    <string name="teacher_mark_attendance">Mark Attendance</string>
+    <string name="teacher_enter_grades">Enter Grades</string>
+    <string name="teacher_no_students_title">No Students</string>
+    <string name="teacher_no_students_subtitle">No students in this class.</string>
+
+    <!-- Batch Attendance screen -->
+    <string name="teacher_attendance_title">Mark Attendance</string>
+    <string name="teacher_all_present">All Present</string>
+    <string name="teacher_submit_attendance">Submit Attendance</string>
+    <string name="teacher_attendance_present">P</string>
+    <string name="teacher_attendance_absent">A</string>
+    <string name="teacher_attendance_late">L</string>
+    <string name="teacher_attendance_excused">E</string>
+    <string name="teacher_confirm_attendance_title">Confirm Attendance</string>
+    <string name="teacher_attendance_present_count">Present: %1$d</string>
+    <string name="teacher_attendance_absent_count">Absent: %1$d</string>
+    <string name="teacher_attendance_late_count">Late: %1$d</string>
+    <string name="teacher_attendance_excused_count">Excused: %1$d</string>
+    <string name="teacher_attendance_total">Total: %1$d</string>
+    <string name="teacher_submit">Submit</string>
+    <string name="teacher_cancel">Cancel</string>
+
+    <!-- Student Roster screen -->
+    <string name="teacher_student_roster_title">Student Roster (%1$d)</string>
+    <string name="teacher_search_placeholder">Search by name or ID</string>
+    <string name="teacher_sort_name_az">A-Z</string>
+    <string name="teacher_sort_name_za">Z-A</string>
+    <string name="teacher_sort_attendance">Attendance</string>
+    <string name="teacher_sort_grade">Grade</string>
+    <string name="teacher_student_id_prefix">ID: %1$s</string>
+
+    <!-- Grade Entry screen -->
+    <string name="teacher_grade_entry_title">Enter Grades</string>
+    <string name="teacher_assessment_label">Assessment</string>
+    <string name="teacher_assessment_placeholder">Select assessment</string>
+    <string name="teacher_assessment_item">%1$s (max: %2$d)</string>
+    <string name="teacher_grade_entered_summary">Entered: %1$d/%2$d</string>
+    <string name="teacher_grade_entered_with_avg">Entered: %1$d/%2$d | Avg: %3$s</string>
+    <string name="teacher_submit_grades">Submit Grades</string>
+    <string name="teacher_grade_placeholder">0</string>
+
+    <!-- Teacher Schedule screen -->
+    <string name="teacher_schedule_title">My Schedule</string>
+    <string name="teacher_day_sun">Sun</string>
+    <string name="teacher_day_mon">Mon</string>
+    <string name="teacher_day_tue">Tue</string>
+    <string name="teacher_day_wed">Wed</string>
+    <string name="teacher_day_thu">Thu</string>
+    <string name="teacher_day_fri">Fri</string>
+    <string name="teacher_day_sat">Sat</string>
+    <string name="teacher_room">Room %1$s</string>
+</resources>

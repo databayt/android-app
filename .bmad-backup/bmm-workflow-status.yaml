@@ -1,0 +1,155 @@
+# BMAD Workflow Status
+# Hogwarts Android - Native Mobile Companion
+
+project:
+  name: Hogwarts Android
+  version: 1.0.0-MVP
+  track: bmad-method
+
+phases:
+  analysis:
+    status: completed
+    date: 2025-01-19
+    artifacts:
+      - docs/prd.md
+
+  planning:
+    status: completed
+    date: 2025-01-19
+    artifacts:
+      - docs/prd.md
+      - docs/mvp.md
+
+  solutioning:
+    status: completed
+    date: 2025-01-19
+    artifacts:
+      - epics/epic-01-authentication.md
+      - epics/epic-02-dashboard.md
+      - epics/epic-03-student.md
+      - epics/epic-04-teacher.md
+      - epics/epic-05-guardian.md
+      - epics/epic-06-messaging.md
+      - epics/epic-07-offline.md
+
+  implementation:
+    status: in-progress
+    current_sprint: 1
+    current_epic: EPIC-01
+
+sprints:
+  sprint-1:
+    name: "Authentication & Core Setup"
+    status: in-progress
+    start_date: 2025-01-15
+    end_date: 2025-01-29
+    stories:
+      - id: 1.1
+        title: "Email/Password Login"
+        status: completed
+        points: 5
+      - id: 1.2
+        title: "Token Storage"
+        status: completed
+        points: 3
+      - id: 1.3
+        title: "Token Refresh"
+        status: completed
+        points: 3
+      - id: 1.4
+        title: "Logout"
+        status: ready-for-dev
+        points: 2
+      - id: 1.5
+        title: "Session Persistence"
+        status: ready-for-dev
+        points: 2
+
+  sprint-2:
+    name: "Dashboard & Grades"
+    status: pending
+    stories:
+      - id: 2.1
+        title: "Role-Based Dashboard"
+        status: pending
+        points: 5
+      - id: 2.2
+        title: "Bottom Navigation"
+        status: pending
+        points: 3
+      - id: 2.3
+        title: "Offline Indicator"
+        status: pending
+        points: 2
+      - id: 3.1
+        title: "Grades List"
+        status: pending
+        points: 5
+
+  sprint-3:
+    name: "Attendance & Schedule"
+    status: pending
+    stories:
+      - id: 3.3
+        title: "Attendance Summary"
+        status: pending
+        points: 5
+      - id: 3.5
+        title: "Timetable"
+        status: pending
+        points: 5
+      - id: 4.1
+        title: "Teacher Classes"
+        status: pending
+        points: 3
+      - id: 5.1
+        title: "Guardian Children"
+        status: pending
+        points: 3
+
+  sprint-4:
+    name: "Notifications & Release"
+    status: pending
+    stories:
+      - id: 6.1
+        title: "FCM Registration"
+        status: pending
+        points: 3
+      - id: 6.2
+        title: "Push Notifications"
+        status: pending
+        points: 3
+      - id: 6.3
+        title: "Notification Center"
+        status: pending
+        points: 5
+      - id: 7.3
+        title: "Background Sync"
+        status: pending
+        points: 5
+
+metrics:
+  total_points: 75
+  completed_points: 11
+  velocity: 11
+  burndown_on_track: true
+
+agents:
+  analyst:
+    name: Mary
+    status: completed
+  pm:
+    name: John
+    status: completed
+  architect:
+    name: Winston
+    status: completed
+  sm:
+    name: Bob
+    status: active
+  dev:
+    name: Amelia
+    status: active
+  qa:
+    name: n/a
+    status: pending

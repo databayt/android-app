@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="lessons_back">رجوع</string>
+
+    <!-- Lesson Plans screen -->
+    <string name="lessons_plans_title">خطط الدروس</string>
+    <string name="lessons_resources_action">الموارد</string>
+    <string name="lessons_curriculum_action">المنهج</string>
+    <string name="lessons_new_plan_action">خطة درس جديدة</string>
+    <string name="lessons_filter_all_subjects">جميع المواد</string>
+    <string name="lessons_filter_all_classes">جميع الفصول</string>
+    <string name="lessons_no_plans_title">لا توجد خطط دروس</string>
+    <string name="lessons_no_plans_subtitle">لم يتم العثور على خطط دروس للفلاتر المحددة.</string>
+    <string name="lessons_objectives_count">%1$d أهداف</string>
+    <string name="lessons_resources_count">%1$d موارد</string>
+    <string name="lessons_status_draft">مسودة</string>
+    <string name="lessons_status_published">منشور</string>
+    <string name="lessons_status_completed">مكتمل</string>
+
+    <!-- Lesson Detail screen -->
+    <string name="lessons_detail_title">تفاصيل الدرس</string>
+    <string name="lessons_detail_edit">تعديل</string>
+    <string name="lessons_detail_min_total">%1$d دقيقة إجمالي</string>
+    <string name="lessons_section_objectives">الأهداف</string>
+    <string name="lessons_section_activities">الأنشطة</string>
+    <string name="lessons_section_resources">الموارد</string>
+    <string name="lessons_section_homework">الواجب المنزلي</string>
+    <string name="lessons_section_teacher_notes">ملاحظات المعلم</string>
+    <string name="lessons_activity_duration">%1$d دقيقة</string>
+
+    <!-- Activity types -->
+    <string name="lessons_activity_lecture">محاضرة</string>
+    <string name="lessons_activity_discussion">نقاش</string>
+    <string name="lessons_activity_groupwork">عمل جماعي</string>
+    <string name="lessons_activity_individual">فردي</string>
+    <string name="lessons_activity_assessment">تقييم</string>
+    <string name="lessons_activity_break">استراحة</string>
+
+    <!-- Resource types -->
+    <string name="lessons_resource_pdf">PDF</string>
+    <string name="lessons_resource_video">فيديو</string>
+    <string name="lessons_resource_link">رابط</string>
+    <string name="lessons_resource_image">صورة</string>
+    <string name="lessons_resource_document">مستند</string>
+
+    <!-- Curriculum Map screen -->
+    <string name="lessons_curriculum_title">خريطة المنهج</string>
+    <string name="lessons_no_curriculum_title">لا توجد بيانات منهج</string>
+    <string name="lessons_no_curriculum_subtitle">لا توجد خرائط منهج متاحة.</string>
+    <string name="lessons_topics_completed">%1$d/%2$d موضوع مكتمل</string>
+    <string name="lessons_week_number">الأسبوع %1$d</string>
+    <string name="lessons_topic_done">تم</string>
+    <string name="lessons_topic_in_progress">قيد التنفيذ</string>
+    <string name="lessons_topic_upcoming">قادم</string>
+
+    <!-- Resource Browser screen -->
+    <string name="lessons_resource_browser_title">موارد التدريس</string>
+    <string name="lessons_resource_filter_all">الكل</string>
+    <string name="lessons_no_resources_title">لا توجد موارد</string>
+    <string name="lessons_no_resources_subtitle">لم يتم العثور على موارد تعليمية للفلتر المحدد.</string>
+    <string name="lessons_open_resource">فتح</string>
+
+    <!-- Lesson Plan Form screen -->
+    <string name="lessons_form_new_title">خطة درس جديدة</string>
+    <string name="lessons_form_edit_title">تعديل خطة الدرس</string>
+    <string name="lessons_form_topic_label">الموضوع *</string>
+    <string name="lessons_form_subject_label">المادة *</string>
+    <string name="lessons_form_class_id_label">رقم الفصل</string>
+    <string name="lessons_form_date_label">التاريخ *</string>
+    <string name="lessons_form_date_placeholder">YYYY-MM-DD</string>
+    <string name="lessons_form_objectives_title">الأهداف</string>
+    <string name="lessons_form_remove">إزالة</string>
+    <string name="lessons_form_add_objective">إضافة هدف</string>
+    <string name="lessons_form_add">إضافة</string>
+    <string name="lessons_form_activities_title">الأنشطة</string>
+    <string name="lessons_form_activity_desc">وصف النشاط</string>
+    <string name="lessons_form_minutes">دقيقة</string>
+    <string name="lessons_form_type">النوع</string>
+    <string name="lessons_form_resources_title">الموارد</string>
+    <string name="lessons_form_resource_name">اسم المورد</string>
+    <string name="lessons_form_url">الرابط</string>
+    <string name="lessons_form_homework_label">الواجب المنزلي</string>
+    <string name="lessons_form_teacher_notes_label">ملاحظات المعلم</string>
+    <string name="lessons_form_save_draft">حفظ كمسودة</string>
+    <string name="lessons_form_publish">نشر</string>
+
+    <!-- curriculum-map-screen, resource-browser-screen -->
+    <string name="lessons_curriculum_map_title">خريطة المنهج</string>
+    <string name="lessons_resources_title">موارد التدريس</string>
+    <string name="lessons_resources_all">الكل</string>
+    <string name="lessons_resources_open_cd">فتح</string>
+</resources>

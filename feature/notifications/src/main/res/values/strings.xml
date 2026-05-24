@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Notifications Screen -->
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_back">Back</string>
+    <string name="notifications_read_all">Read All</string>
+    <string name="notifications_no_notifications_title">No Notifications</string>
+    <string name="notifications_no_notifications_subtitle">You\'re all caught up!</string>
+    <string name="notifications_count_header">%1$d Notifications</string>
+    <string name="notifications_showing_cached">Showing cached data. %1$s</string>
+
+    <!-- Tabs -->
+    <string name="notifications_tab_all">All</string>
+    <string name="notifications_tab_unread">Unread</string>
+
+    <!-- Type filter -->
+    <string name="notifications_filter_all_types">All Types</string>
+    <string name="notifications_type_announcement">Announcement</string>
+    <string name="notifications_type_attendance">Attendance</string>
+    <string name="notifications_type_grade">Grade</string>
+    <string name="notifications_type_fee">Fee</string>
+    <string name="notifications_type_message">Message</string>
+    <string name="notifications_type_timetable">Timetable</string>
+    <string name="notifications_type_general">General</string>
+
+    <!-- Date groups -->
+    <string name="notifications_group_today">Today</string>
+    <string name="notifications_group_yesterday">Yesterday</string>
+    <string name="notifications_group_this_week">This Week</string>
+    <string name="notifications_group_earlier">Earlier</string>
+
+    <!-- Priority -->
+    <string name="notifications_priority_urgent">Urgent</string>
+
+    <!-- Preferences -->
+    <string name="notifications_preferences_title">Notification Settings</string>
+    <string name="notifications_preferences_save">Save</string>
+    <string name="notifications_preferences_error">Couldn\'t save preferences: %1$s</string>
+
+    <string name="notifications_channel_in_app">In-App</string>
+    <string name="notifications_channel_in_app_footer">Show notifications inside the app.</string>
+    <string name="notifications_channel_email">Email</string>
+    <string name="notifications_channel_email_footer">Receive notifications by email.</string>
+    <string name="notifications_channel_push">Push</string>
+    <string name="notifications_channel_push_footer">Receive notifications on this device.</string>
+    <string name="notifications_channel_sms">SMS</string>
+    <string name="notifications_channel_sms_footer">Receive notifications by text message.</string>
+    <string name="notifications_channel_whatsapp">WhatsApp</string>
+    <string name="notifications_channel_whatsapp_footer">Receive notifications on WhatsApp.</string>
+</resources>

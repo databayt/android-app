@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Attendance Screen -->
+    <string name="attendance_title">Attendance</string>
+    <string name="attendance_back">Back</string>
+    <string name="attendance_no_records_title">No Records</string>
+    <string name="attendance_no_records_subtitle">No attendance records found for the selected filter.</string>
+    <string name="attendance_history_header">Attendance History</string>
+    <string name="attendance_showing_cached">Showing cached data. %1$s</string>
+
+    <!-- Attendance Row -->
+    <string name="attendance_checked_in">Checked in: %1$s</string>
+
+    <!-- Excuse Request Dialog -->
+    <string name="attendance_submit_excuse_title">Submit Excuse</string>
+    <string name="attendance_request_excuse_for">Request excuse for %1$s</string>
+    <string name="attendance_reason_label">Reason</string>
+    <string name="attendance_reason_placeholder">Enter reason for absence\u2026</string>
+    <string name="attendance_reason_required">Reason is required</string>
+    <string name="attendance_submit">Submit</string>
+    <string name="attendance_cancel">Cancel</string>
+
+    <!-- Attendance Analytics Card -->
+    <string name="attendance_present">Present</string>
+    <string name="attendance_absent">Absent</string>
+    <string name="attendance_late">Late</string>
+    <string name="attendance_excused">Excused</string>
+    <string name="attendance_monthly_trend">Monthly Trend</string>
+
+    <!-- Gamification Screen -->
+    <string name="attendance_achievements_title">Achievements</string>
+    <string name="attendance_error_title">Error</string>
+    <string name="attendance_something_went_wrong">Something went wrong</string>
+    <string name="attendance_streak_icon_desc">Streak</string>
+    <string name="attendance_day_streak">%1$d Day Streak</string>
+    <string name="attendance_longest_streak">Longest: %1$d days</string>
+    <string name="attendance_badges_title">Badges</string>
+    <string name="attendance_earned_label">Earned</string>
+    <string name="attendance_total_label">Total</string>
+    <string name="attendance_progress_label">Progress</string>
+    <string name="attendance_earned_icon_desc">Earned</string>
+    <string name="attendance_not_earned_icon_desc">Not earned</string>
+
+    <!-- Hall Pass Screen -->
+    <string name="attendance_hall_pass_title">Hall Pass</string>
+    <string name="attendance_request_hall_pass">Request Hall Pass</string>
+    <string name="attendance_no_passes_title">No Passes</string>
+    <string name="attendance_no_passes_subtitle">No hall passes for the selected filter.</string>
+    <string name="attendance_destination_label">Destination:</string>
+    <string name="attendance_destination_field_label">Destination</string>
+    <string name="attendance_time_remaining">Time remaining</string>
+    <string name="attendance_time_remaining_format">%1$dm %2$ds remaining</string>
+    <string name="attendance_deny_icon_desc">Deny</string>
+    <string name="attendance_deny">Deny</string>
+    <string name="attendance_approve_icon_desc">Approve</string>
+    <string name="attendance_approve">Approve</string>
+    <string name="attendance_reason_field_label">Reason</string>
+    <string name="attendance_reason_leave_placeholder">Why do you need to leave?</string>
+
+    <!-- Interventions Screen -->
+    <string name="attendance_interventions_title">Interventions</string>
+    <string name="attendance_critical_count">%1$d critical</string>
+    <string name="attendance_no_interventions_title">No Interventions</string>
+    <string name="attendance_no_interventions_subtitle">No students require attention for the selected filter.</string>
+    <string name="attendance_critical_icon_desc">Critical</string>
+    <string name="attendance_attendance_rate">Attendance Rate</string>
+    <string name="attendance_rate_threshold">%.1f%% / %.1f%% threshold</string>
+    <string name="attendance_alert_parent_icon_desc">Alert Parent</string>
+    <string name="attendance_alert_parent">Alert Parent</string>
+    <string name="attendance_refer_counselor_icon_desc">Refer Counselor</string>
+    <string name="attendance_refer_counselor">Refer Counselor</string>
+    <string name="attendance_intervention_parent_alert">Parent Alert Required</string>
+    <string name="attendance_intervention_counselor_referral">Counselor Referral</string>
+    <string name="attendance_intervention_admin_review">Admin Review Needed</string>
+
+    <!-- Attendance Analytics Screen -->
+    <string name="attendance_analytics_title">Attendance Analytics</string>
+    <string name="attendance_heatmap_title">Attendance Heatmap</string>
+    <string name="attendance_heatmap_subtitle">Color intensity represents attendance rate by date</string>
+    <string name="attendance_day_pattern_title">Day of Week Pattern</string>
+    <string name="attendance_day_pattern_subtitle">Average attendance rate by day of the week</string>
+    <string name="attendance_subject_correlation_title">Subject Correlation</string>
+    <string name="attendance_subject_correlation_subtitle">Attendance rate by subject</string>
+    <string name="attendance_legend_less">Less</string>
+    <string name="attendance_legend_more">More</string>
+    <string name="attendance_tab_heatmap">Heatmap</string>
+    <string name="attendance_tab_day_pattern">Day Pattern</string>
+    <string name="attendance_tab_subjects">Subjects</string>
+
+    <!-- Attendance Method Selector Screen -->
+    <string name="attendance_methods_title">Attendance Methods</string>
+    <string name="attendance_methods_description">Configure how attendance is captured. Enable methods and select the default.</string>
+    <string name="attendance_settings_saved">Settings saved successfully</string>
+    <string name="attendance_save_settings">Save Settings</string>
+    <string name="attendance_default_label">Default</string>
+    <string name="attendance_permission_granted">Permission granted</string>
+    <string name="attendance_permission_denied">Permission denied</string>
+    <string name="attendance_permission_not_requested">Permission not requested</string>
+    <string name="attendance_permission_not_available">Not available on this device</string>
+    <string name="attendance_method_manual">Manual</string>
+    <string name="attendance_method_geofence">Geofence</string>
+    <string name="attendance_method_nfc">NFC Tap</string>
+    <string name="attendance_method_bluetooth">Bluetooth Proximity</string>
+    <string name="attendance_method_barcode">Barcode Scan</string>
+    <string name="attendance_method_qr">QR Code</string>
+    <string name="attendance_method_manual_desc">Teacher marks attendance manually</string>
+    <string name="attendance_method_geofence_desc">Auto-detect when student enters school zone</string>
+    <string name="attendance_method_nfc_desc">Student taps NFC tag at classroom entrance</string>
+    <string name="attendance_method_bluetooth_desc">Detect presence via classroom Bluetooth beacon</string>
+    <string name="attendance_method_barcode_desc">Scan student ID barcode</string>
+    <string name="attendance_method_qr_desc">Scan QR code displayed in classroom</string>
+
+    <!-- Kiosk Mode Screen -->
+    <string name="attendance_kiosk_scan_qr_desc">Scan QR Code</string>
+    <string name="attendance_kiosk_scan_student_id">Scan Student ID</string>
+    <string name="attendance_kiosk_scan_instruction">Hold QR code or NFC tag near device</string>
+    <string name="attendance_kiosk_recent_scans">Recent Scans</string>
+    <string name="attendance_kiosk_exit_desc">Exit Kiosk</string>
+    <string name="attendance_kiosk_exit_title">Exit Kiosk Mode</string>
+    <string name="attendance_kiosk_exit_instruction">Enter admin PIN to exit kiosk mode:</string>
+    <string name="attendance_kiosk_admin_pin_label">Admin PIN</string>
+    <string name="attendance_kiosk_exit_button">Exit</string>
+    <string name="attendance_kiosk_present">Present</string>
+    <string name="attendance_kiosk_late">Late</string>
+    <string name="attendance_kiosk_total_scans">Total Scans</string>
+</resources>

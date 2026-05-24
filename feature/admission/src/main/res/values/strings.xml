@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- applications-screen -->
+    <string name="admission_title">Admissions</string>
+    <string name="admission_back">Back</string>
+    <string name="admission_new_application">New Application</string>
+    <string name="admission_no_applications_title">No Applications</string>
+    <string name="admission_no_applications_subtitle">Start a new admission application.</string>
+    <string name="admission_new_application_fallback">New Application</string>
+    <string name="admission_tracking">Tracking: %1$s</string>
+    <string name="admission_step_progress">Step %1$d/6 - %2$s</string>
+    <string name="admission_applying_for">Applying for: %1$s</string>
+    <string name="admission_status_draft">Draft</string>
+    <string name="admission_status_submitted">Submitted</string>
+    <string name="admission_status_under_review">Under Review</string>
+    <string name="admission_status_interview">Interview</string>
+    <string name="admission_status_accepted">Accepted</string>
+    <string name="admission_status_rejected">Rejected</string>
+    <string name="admission_status_waitlisted">Waitlisted</string>
+
+    <!-- application-form-screen -->
+    <string name="admission_form_step_of">Step %1$d of 6</string>
+    <string name="admission_form_previous">Previous</string>
+    <string name="admission_form_next">Next</string>
+    <string name="admission_form_submit">Submit Application</string>
+
+    <!-- Personal info step -->
+    <string name="admission_form_given_name_en">Given Name (English)</string>
+    <string name="admission_form_given_name_en_placeholder">Enter given name</string>
+    <string name="admission_form_family_name_en">Family Name (English)</string>
+    <string name="admission_form_family_name_en_placeholder">Enter family name</string>
+    <string name="admission_form_given_name_ar">الاسم الأول (Arabic)</string>
+    <string name="admission_form_given_name_ar_placeholder">أدخل الاسم الأول</string>
+    <string name="admission_form_family_name_ar">اسم العائلة (Arabic)</string>
+    <string name="admission_form_family_name_ar_placeholder">أدخل اسم العائلة</string>
+    <string name="admission_form_dob">Date of Birth</string>
+    <string name="admission_form_dob_placeholder">YYYY-MM-DD</string>
+    <string name="admission_form_gender">Gender</string>
+    <string name="admission_form_gender_placeholder">Male / Female</string>
+    <string name="admission_form_nationality">Nationality</string>
+    <string name="admission_form_nationality_placeholder">Enter nationality</string>
+    <string name="admission_form_national_id">National ID</string>
+    <string name="admission_form_national_id_placeholder">Enter national ID number</string>
+
+    <!-- Contact info step -->
+    <string name="admission_form_address">Address</string>
+    <string name="admission_form_address_placeholder">Enter address</string>
+    <string name="admission_form_city">City</string>
+    <string name="admission_form_city_placeholder">Enter city</string>
+    <string name="admission_form_phone">Phone</string>
+    <string name="admission_form_phone_placeholder">Enter phone number</string>
+    <string name="admission_form_email">Email</string>
+    <string name="admission_form_email_placeholder">Enter email address</string>
+
+    <!-- Guardian info step -->
+    <string name="admission_form_guardian_number">Guardian %1$d</string>
+    <string name="admission_form_guardian_name">Name</string>
+    <string name="admission_form_guardian_name_placeholder">Enter guardian name</string>
+    <string name="admission_form_guardian_relationship">Relationship</string>
+    <string name="admission_form_guardian_relationship_placeholder">Father / Mother / Other</string>
+    <string name="admission_form_guardian_occupation">Occupation</string>
+    <string name="admission_form_guardian_occupation_placeholder">Enter occupation</string>
+    <string name="admission_form_guardian_phone">Phone</string>
+    <string name="admission_form_guardian_phone_placeholder">Enter phone number</string>
+    <string name="admission_form_guardian_email">Email</string>
+    <string name="admission_form_guardian_email_placeholder">Enter email</string>
+    <string name="admission_form_add_guardian">+ Add Guardian</string>
+
+    <!-- Academic history step -->
+    <string name="admission_form_previous_school">Previous School</string>
+    <string name="admission_form_previous_school_placeholder">Enter previous school name</string>
+    <string name="admission_form_last_grade">Last Grade Completed</string>
+    <string name="admission_form_last_grade_placeholder">e.g., Grade 5</string>
+    <string name="admission_form_applying_grade">Applying for Grade</string>
+    <string name="admission_form_applying_grade_placeholder">e.g., Grade 6</string>
+    <string name="admission_form_special_needs">Special Needs Details</string>
+    <string name="admission_form_special_needs_placeholder">Describe special needs</string>
+
+    <!-- Documents step -->
+    <string name="admission_form_upload_title">Upload required documents</string>
+    <string name="admission_form_upload_formats">Accepted formats: JPG, PNG, PDF (max 5MB)</string>
+    <string name="admission_form_upload_button">Upload Document</string>
+
+    <!-- Review step -->
+    <string name="admission_form_review_personal">Personal Information</string>
+    <string name="admission_form_review_dob">DOB: %1$s</string>
+    <string name="admission_form_review_contact">Contact</string>
+    <string name="admission_form_review_guardians">Guardians: %1$d</string>
+    <string name="admission_form_review_applying">Applying for: %1$s</string>
+    <string name="admission_form_review_documents">Documents: %1$d uploaded</string>
+    <string name="admission_form_review_confirm">I confirm that all information provided is accurate and complete.</string>
+
+    <!-- application-status-screen -->
+    <string name="admission_status_title">Application Status</string>
+    <string name="admission_status_tracking_label">Tracking Number</string>
+    <string name="admission_status_tracking_pending">Pending</string>
+    <string name="admission_status_timeline_title">Status Timeline</string>
+    <string name="admission_status_step_submitted">Application Submitted</string>
+    <string name="admission_status_step_review">Under Review</string>
+    <string name="admission_status_step_interview">Interview Scheduled</string>
+    <string name="admission_status_step_decision">Decision Made</string>
+    <string name="admission_status_applicant">Applicant</string>
+    <string name="admission_status_applying_for">Applying for: %1$s</string>
+</resources>

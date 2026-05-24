@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top bar -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_back">Back</string>
+    <string name="profile_edit">Edit profile</string>
+
+    <!-- Personal information section -->
+    <string name="profile_section_personal_info">Personal Information</string>
+    <string name="profile_section_overview">Overview</string>
+    <string name="profile_section_contributions">Contributions</string>
+    <string name="profile_section_activity">Recent activity</string>
+    <string name="profile_section_pinned">Pinned</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_phone">Phone</string>
+    <string name="profile_school">School</string>
+    <string name="profile_not_set">Not set</string>
+    <string name="profile_na">N/A</string>
+
+    <!-- Profile form -->
+    <string name="profile_form_display_name">Display name</string>
+    <string name="profile_form_bio">Bio</string>
+    <string name="profile_form_website">Website</string>
+    <string name="profile_form_github">GitHub</string>
+    <string name="profile_form_status">Status</string>
+    <string name="profile_form_save">Save changes</string>
+
+    <!-- Detail screen -->
+    <string name="profile_detail_back">Back</string>
+    <string name="profile_detail_no_permission">You do not have permission to view this profile</string>
+
+    <!-- School switcher dialog -->
+    <string name="profile_switch_school">Switch School</string>
+    <string name="profile_current_school">Current</string>
+    <string name="profile_switch">Switch</string>
+    <string name="profile_cancel">Cancel</string>
+</resources>

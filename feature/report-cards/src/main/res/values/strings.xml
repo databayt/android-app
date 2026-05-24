@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Report Cards List Screen -->
+    <string name="report_cards_title">Report Cards</string>
+    <string name="report_cards_back">Back</string>
+    <string name="report_cards_something_went_wrong">Something went wrong</string>
+    <string name="report_cards_tap_to_retry">Tap to retry</string>
+    <string name="report_cards_select_child">Select Child</string>
+    <string name="report_cards_selected">Selected</string>
+    <string name="report_cards_empty_title">No Report Cards</string>
+    <string name="report_cards_empty_subtitle">Report cards will appear here once published.</string>
+    <string name="report_cards_gpa_label">GPA: %1$s</string>
+    <string name="report_cards_rank_label">Rank: %1$s</string>
+    <string name="report_cards_showing_cached">Showing cached data. %1$s</string>
+
+    <!-- Report Card Detail Screen -->
+    <string name="report_cards_detail_title">Report Card</string>
+    <string name="report_cards_detail_failed">Failed to load report card</string>
+    <string name="report_cards_student_info">Student Information</string>
+    <string name="report_cards_student">Student</string>
+    <string name="report_cards_term">Term</string>
+    <string name="report_cards_academic_year">Academic Year</string>
+    <string name="report_cards_status">Status</string>
+    <string name="report_cards_overall_performance">Overall Performance</string>
+    <string name="report_cards_gpa">GPA</string>
+    <string name="report_cards_overall_percentage">Overall Percentage</string>
+    <string name="report_cards_rank">Rank</string>
+    <string name="report_cards_subject_results">Subject-wise Results</string>
+    <string name="report_cards_col_subject">Subject</string>
+    <string name="report_cards_col_marks">Marks</string>
+    <string name="report_cards_col_grade">Grade</string>
+    <string name="report_cards_col_percent">%</string>
+    <string name="report_cards_subject_remarks">Subject Remarks</string>
+    <string name="report_cards_teacher_prefix">Teacher: %1$s</string>
+    <string name="report_cards_overall_remarks">Overall Remarks</string>
+    <string name="report_cards_download_pdf">Download PDF</string>
+    <string name="report_cards_share">Share</string>
+
+    <!-- Attendance Summary -->
+    <string name="report_cards_attendance_summary">Attendance Summary</string>
+    <string name="report_cards_attendance">Attendance</string>
+    <string name="report_cards_total_days">Total Days</string>
+    <string name="report_cards_present">Present</string>
+    <string name="report_cards_absent">Absent</string>
+    <string name="report_cards_late">Late</string>
+
+    <!-- Progress Charts Screen -->
+    <string name="report_cards_progress_title">Progress</string>
+    <string name="report_cards_no_progress_title">No Progress Data</string>
+    <string name="report_cards_no_progress_subtitle">Progress charts will appear after published report cards are available.</string>
+    <string name="report_cards_current_gpa">Current GPA</string>
+    <string name="report_cards_gpa_trend">GPA Trend</string>
+    <string name="report_cards_subject_performance">Subject Performance</string>
+</resources>

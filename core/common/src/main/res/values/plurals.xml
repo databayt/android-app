@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="locale_days_ago">
+        <item quantity="one">%s day ago</item>
+        <item quantity="other">%s days ago</item>
+    </plurals>
+</resources>

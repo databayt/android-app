@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common Actions -->
+    <string name="action_back">Back</string>
+    <string name="action_retry">Retry</string>
+    <string name="action_clear_search">Clear search</string>
+    <string name="action_search">Search</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_close">Close</string>
+
+    <!-- Wallpaper labels (used by Settings picker) -->
+    <string name="wallpaper_label_aurora">Aurora</string>
+    <string name="wallpaper_label_sunset">Sunset</string>
+    <string name="wallpaper_label_amber">Amber</string>
+    <string name="wallpaper_label_ocean">Ocean</string>
+    <string name="wallpaper_label_farmland">Farmland</string>
+</resources>

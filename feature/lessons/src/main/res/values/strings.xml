@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="lessons_back">Back</string>
+
+    <!-- Lesson Plans screen -->
+    <string name="lessons_plans_title">Lesson Plans</string>
+    <string name="lessons_resources_action">Resources</string>
+    <string name="lessons_curriculum_action">Curriculum</string>
+    <string name="lessons_new_plan_action">New Lesson Plan</string>
+    <string name="lessons_filter_all_subjects">All Subjects</string>
+    <string name="lessons_filter_all_classes">All Classes</string>
+    <string name="lessons_no_plans_title">No Lesson Plans</string>
+    <string name="lessons_no_plans_subtitle">No lesson plans found for the selected filters.</string>
+    <string name="lessons_objectives_count">%1$d objectives</string>
+    <string name="lessons_resources_count">%1$d resources</string>
+    <string name="lessons_status_draft">Draft</string>
+    <string name="lessons_status_published">Published</string>
+    <string name="lessons_status_completed">Completed</string>
+
+    <!-- Lesson Detail screen -->
+    <string name="lessons_detail_title">Lesson Details</string>
+    <string name="lessons_detail_edit">Edit</string>
+    <string name="lessons_detail_min_total">%1$d min total</string>
+    <string name="lessons_section_objectives">Objectives</string>
+    <string name="lessons_section_activities">Activities</string>
+    <string name="lessons_section_resources">Resources</string>
+    <string name="lessons_section_homework">Homework</string>
+    <string name="lessons_section_teacher_notes">Teacher Notes</string>
+    <string name="lessons_activity_duration">%1$d min</string>
+
+    <!-- Activity types -->
+    <string name="lessons_activity_lecture">Lecture</string>
+    <string name="lessons_activity_discussion">Discussion</string>
+    <string name="lessons_activity_groupwork">Group Work</string>
+    <string name="lessons_activity_individual">Individual</string>
+    <string name="lessons_activity_assessment">Assessment</string>
+    <string name="lessons_activity_break">Break</string>
+
+    <!-- Resource types -->
+    <string name="lessons_resource_pdf">PDF</string>
+    <string name="lessons_resource_video">Video</string>
+    <string name="lessons_resource_link">Link</string>
+    <string name="lessons_resource_image">Image</string>
+    <string name="lessons_resource_document">Document</string>
+
+    <!-- Curriculum Map screen -->
+    <string name="lessons_curriculum_title">Curriculum Map</string>
+    <string name="lessons_no_curriculum_title">No Curriculum Data</string>
+    <string name="lessons_no_curriculum_subtitle">No curriculum maps available.</string>
+    <string name="lessons_topics_completed">%1$d/%2$d topics completed</string>
+    <string name="lessons_week_number">Week %1$d</string>
+    <string name="lessons_topic_done">Done</string>
+    <string name="lessons_topic_in_progress">In Progress</string>
+    <string name="lessons_topic_upcoming">Upcoming</string>
+
+    <!-- Resource Browser screen -->
+    <string name="lessons_resource_browser_title">Teaching Resources</string>
+    <string name="lessons_resource_filter_all">All</string>
+    <string name="lessons_no_resources_title">No Resources</string>
+    <string name="lessons_no_resources_subtitle">No teaching resources found for the selected filter.</string>
+    <string name="lessons_open_resource">Open</string>
+
+    <!-- Lesson Plan Form screen -->
+    <string name="lessons_form_new_title">New Lesson Plan</string>
+    <string name="lessons_form_edit_title">Edit Lesson Plan</string>
+    <string name="lessons_form_topic_label">Topic *</string>
+    <string name="lessons_form_subject_label">Subject *</string>
+    <string name="lessons_form_class_id_label">Class ID</string>
+    <string name="lessons_form_date_label">Date *</string>
+    <string name="lessons_form_date_placeholder">YYYY-MM-DD</string>
+    <string name="lessons_form_objectives_title">Objectives</string>
+    <string name="lessons_form_remove">Remove</string>
+    <string name="lessons_form_add_objective">Add objective</string>
+    <string name="lessons_form_add">Add</string>
+    <string name="lessons_form_activities_title">Activities</string>
+    <string name="lessons_form_activity_desc">Activity description</string>
+    <string name="lessons_form_minutes">Min</string>
+    <string name="lessons_form_type">Type</string>
+    <string name="lessons_form_resources_title">Resources</string>
+    <string name="lessons_form_resource_name">Resource name</string>
+    <string name="lessons_form_url">URL</string>
+    <string name="lessons_form_homework_label">Homework</string>
+    <string name="lessons_form_teacher_notes_label">Teacher Notes</string>
+    <string name="lessons_form_save_draft">Save Draft</string>
+    <string name="lessons_form_publish">Publish</string>
+
+    <!-- curriculum-map-screen, resource-browser-screen -->
+    <string name="lessons_curriculum_map_title">Curriculum Map</string>
+    <string name="lessons_resources_title">Teaching Resources</string>
+    <string name="lessons_resources_all">All</string>
+    <string name="lessons_resources_open_cd">Open</string>
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Navigation -->
+    <string name="teacher_back">رجوع</string>
+
+    <!-- My Classes screen -->
+    <string name="teacher_my_classes_title">فصولي</string>
+    <string name="teacher_no_classes_title">لا توجد فصول مسندة</string>
+    <string name="teacher_no_classes_subtitle">لم يتم تعيين فصول لك بعد.</string>
+    <string name="teacher_students_count">%1$d طالب</string>
+    <string name="teacher_next_session">التالي: %1$s %2$s</string>
+
+    <!-- Class Detail screen -->
+    <string name="teacher_class_detail_title">تفاصيل الفصل</string>
+    <string name="teacher_tab_students">الطلاب</string>
+    <string name="teacher_tab_attendance">الحضور</string>
+    <string name="teacher_tab_grades">الدرجات</string>
+    <string name="teacher_students_count_label">%1$d طالب</string>
+    <string name="teacher_mark_attendance">تسجيل الحضور</string>
+    <string name="teacher_enter_grades">إدخال الدرجات</string>
+    <string name="teacher_no_students_title">لا يوجد طلاب</string>
+    <string name="teacher_no_students_subtitle">لا يوجد طلاب في هذا الفصل.</string>
+
+    <!-- Batch Attendance screen -->
+    <string name="teacher_attendance_title">تسجيل الحضور</string>
+    <string name="teacher_all_present">الكل حاضر</string>
+    <string name="teacher_submit_attendance">تقديم الحضور</string>
+    <string name="teacher_attendance_present">ح</string>
+    <string name="teacher_attendance_absent">غ</string>
+    <string name="teacher_attendance_late">م</string>
+    <string name="teacher_attendance_excused">ع</string>
+    <string name="teacher_confirm_attendance_title">تأكيد الحضور</string>
+    <string name="teacher_attendance_present_count">حاضر: %1$d</string>
+    <string name="teacher_attendance_absent_count">غائب: %1$d</string>
+    <string name="teacher_attendance_late_count">متأخر: %1$d</string>
+    <string name="teacher_attendance_excused_count">معذور: %1$d</string>
+    <string name="teacher_attendance_total">المجموع: %1$d</string>
+    <string name="teacher_submit">تقديم</string>
+    <string name="teacher_cancel">إلغاء</string>
+
+    <!-- Student Roster screen -->
+    <string name="teacher_student_roster_title">قائمة الطلاب (%1$d)</string>
+    <string name="teacher_search_placeholder">البحث بالاسم أو الرقم</string>
+    <string name="teacher_sort_name_az">أ-ي</string>
+    <string name="teacher_sort_name_za">ي-أ</string>
+    <string name="teacher_sort_attendance">الحضور</string>
+    <string name="teacher_sort_grade">الدرجة</string>
+    <string name="teacher_student_id_prefix">الرقم: %1$s</string>
+
+    <!-- Grade Entry screen -->
+    <string name="teacher_grade_entry_title">إدخال الدرجات</string>
+    <string name="teacher_assessment_label">التقييم</string>
+    <string name="teacher_assessment_placeholder">اختر التقييم</string>
+    <string name="teacher_assessment_item">%1$s (الحد الأقصى: %2$d)</string>
+    <string name="teacher_grade_entered_summary">تم الإدخال: %1$d/%2$d</string>
+    <string name="teacher_grade_entered_with_avg">تم الإدخال: %1$d/%2$d | المتوسط: %3$s</string>
+    <string name="teacher_submit_grades">تقديم الدرجات</string>
+    <string name="teacher_grade_placeholder">0</string>
+
+    <!-- Teacher Schedule screen -->
+    <string name="teacher_schedule_title">جدولي</string>
+    <string name="teacher_day_sun">أحد</string>
+    <string name="teacher_day_mon">اثنين</string>
+    <string name="teacher_day_tue">ثلاثاء</string>
+    <string name="teacher_day_wed">أربعاء</string>
+    <string name="teacher_day_thu">خميس</string>
+    <string name="teacher_day_fri">جمعة</string>
+    <string name="teacher_day_sat">سبت</string>
+    <string name="teacher_room">الغرفة %1$s</string>
+</resources>

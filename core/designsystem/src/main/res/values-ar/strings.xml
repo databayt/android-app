@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common Actions -->
+    <string name="action_back">رجوع</string>
+    <string name="action_retry">إعادة المحاولة</string>
+    <string name="action_clear_search">مسح البحث</string>
+    <string name="action_search">بحث</string>
+    <string name="action_edit">تعديل</string>
+    <string name="action_close">إغلاق</string>
+
+    <!-- Wallpaper labels (used by Settings picker) -->
+    <string name="wallpaper_label_aurora">الشفق</string>
+    <string name="wallpaper_label_sunset">الغروب</string>
+    <string name="wallpaper_label_amber">العنبر</string>
+    <string name="wallpaper_label_ocean">المحيط</string>
+    <string name="wallpaper_label_farmland">الريف</string>
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tab bar labels -->
+    <string name="dashboard_tab_home">الرئيسية</string>
+    <string name="dashboard_tab_messages">الرسائل</string>
+    <string name="dashboard_tab_alerts">التنبيهات</string>
+    <string name="dashboard_tab_settings">الإعدادات</string>
+
+    <!-- Logout dialog -->
+    <string name="dashboard_logout_title">تسجيل الخروج</string>
+    <string name="dashboard_logout_message">هل أنت متأكد من تسجيل الخروج؟ ستحتاج إلى تسجيل الدخول مرة أخرى.</string>
+    <string name="dashboard_logout_confirm">تسجيل الخروج</string>
+    <string name="dashboard_logout_cancel">إلغاء</string>
+
+    <!-- Welcome header -->
+    <string name="dashboard_greeting">صباح الخير،</string>
+    <string name="dashboard_fallback_student">طالب</string>
+    <string name="dashboard_fallback_teacher">معلم</string>
+    <string name="dashboard_fallback_parent">ولي أمر</string>
+    <string name="dashboard_fallback_admin">مدير</string>
+
+    <!-- Stat card titles -->
+    <string name="dashboard_stat_attendance">الحضور</string>
+    <string name="dashboard_stat_today_classes">حصص اليوم</string>
+    <string name="dashboard_stat_assignments">الواجبات</string>
+    <string name="dashboard_stat_exams">الاختبارات</string>
+    <string name="dashboard_stat_pending_attendance">حضور معلّق</string>
+    <string name="dashboard_stat_total_students">إجمالي الطلاب</string>
+    <string name="dashboard_stat_notifications">الإشعارات</string>
+    <string name="dashboard_stat_children">الأبناء</string>
+
+    <!-- Quick action labels -->
+    <string name="dashboard_action_grades">الدرجات</string>
+    <string name="dashboard_action_schedule">الجدول</string>
+    <string name="dashboard_action_fees">الرسوم</string>
+    <string name="dashboard_action_attendance">الحضور</string>
+    <string name="dashboard_action_students">الطلاب</string>
+    <string name="dashboard_action_messages">الرسائل</string>
+    <string name="dashboard_action_courses">المقررات</string>
+    <string name="dashboard_action_subjects">المواد</string>
+
+    <!-- Home grid tile labels -->
+    <string name="home_action_stream">فيديو</string>
+    <string name="home_action_atom_studio">ذرة</string>
+    <string name="home_action_notifications">الإشعارات</string>
+    <string name="home_action_exams">الاختبارات</string>
+    <string name="home_action_assignments">الواجبات</string>
+    <string name="home_action_announcements">الإعلانات</string>
+    <string name="home_action_library">المكتبة</string>
+    <string name="home_action_events">المناسبات</string>
+    <string name="home_action_profile">الملف الشخصي</string>
+    <string name="home_search_hint">بحث</string>
+
+    <!-- Smart Stack widget -->
+    <string name="home_widget_classes_today">%1$d حصص اليوم</string>
+    <string name="home_widget_no_classes">لا توجد حصص اليوم</string>
+    <string name="home_widget_glance_title">نظرة سريعة</string>
+    <string name="home_widget_classes">حصص</string>
+    <string name="home_widget_exams">اختبارات</string>
+    <string name="home_widget_pending">معلّق</string>
+    <string name="home_widget_tasks">مهام</string>
+    <string name="home_widget_activity_title">النشاط</string>
+    <string name="home_widget_unread_alerts">تنبيهات غير مقروءة</string>
+    <string name="home_widget_no_alerts">كل شيء على ما يرام</string>
+    <string name="home_widget_label_today">اليوم</string>
+    <string name="home_widget_label_glance">نظرة</string>
+    <string name="home_widget_label_activity">النشاط</string>
+    <string name="home_widget_no_events">لا فعاليات اليوم</string>
+    <string name="home_widget_events_today">%1$d فعاليات اليوم</string>
+
+    <!-- Section headers -->
+    <string name="dashboard_section_quick_actions">إجراءات سريعة</string>
+    <string name="dashboard_section_today_schedule">جدول اليوم</string>
+    <string name="dashboard_section_pending_tasks">المهام المعلّقة</string>
+    <string name="dashboard_section_children">الأبناء</string>
+    <string name="dashboard_section_recent_alerts">تنبيهات حديثة</string>
+    <string name="dashboard_section_recent_activity">النشاط الأخير</string>
+
+    <!-- Student schedule placeholders -->
+    <string name="dashboard_subject_mathematics">الرياضيات</string>
+    <string name="dashboard_subject_science">العلوم</string>
+    <string name="dashboard_subject_english">اللغة الإنجليزية</string>
+
+    <!-- Teacher pending tasks -->
+    <string name="dashboard_task_mark_attendance">تسجيل حضور الصف العاشر أ</string>
+    <string name="dashboard_task_submit_grades">تسليم درجات منتصف الفصل</string>
+    <string name="dashboard_task_review_messages">مراجعة رسائل أولياء الأمور (٣)</string>
+
+    <!-- Guardian children placeholders -->
+    <string name="dashboard_child_ahmed">أحمد</string>
+    <string name="dashboard_child_ahmed_grade">الصف العاشر أ</string>
+    <string name="dashboard_child_fatima">فاطمة</string>
+    <string name="dashboard_child_fatima_grade">الصف السابع ب</string>
+
+    <!-- Guardian alerts -->
+    <string name="dashboard_alert_exam_schedule">تم نشر جدول اختبارات منتصف الفصل</string>
+    <string name="dashboard_alert_fee_reminder">تذكير بدفع الرسوم - الاستحقاق ٢٨ فبراير</string>
+
+    <!-- Admin recent activity -->
+    <string name="dashboard_activity_enrollments">١٢ تسجيل طالب جديد</string>
+    <string name="dashboard_activity_reports">تم إنشاء تقارير الحضور</string>
+    <string name="dashboard_activity_fee_collection">تحصيل الرسوم: اكتمل ٨٥٪</string>
+</resources>

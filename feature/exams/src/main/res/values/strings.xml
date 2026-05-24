@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- exams-screen -->
+    <string name="exams_title">Exams</string>
+    <string name="exams_back">Back</string>
+    <string name="exams_filter_all">All</string>
+    <string name="exams_no_exams_title">No Exams</string>
+    <string name="exams_no_exams_subtitle">No exam records found.</string>
+    <string name="exams_section_upcoming">Upcoming &amp; Recent</string>
+    <string name="exams_showing_cached">Showing cached data. %1$s</string>
+
+    <!-- exam-detail-screen -->
+    <string name="exams_detail_title">Exam Details</string>
+    <string name="exams_detail_failed_load">Failed to load exam details</string>
+    <string name="exams_detail_section_info">Exam Information</string>
+    <string name="exams_detail_label_subject">Subject</string>
+    <string name="exams_detail_label_type">Type</string>
+    <string name="exams_detail_label_date">Date</string>
+    <string name="exams_detail_label_time">Time</string>
+    <string name="exams_detail_label_duration">Duration</string>
+    <string name="exams_detail_duration_minutes">%1$d minutes</string>
+    <string name="exams_detail_label_venue">Venue</string>
+    <string name="exams_detail_label_status">Status</string>
+    <string name="exams_detail_section_marks">Marks</string>
+    <string name="exams_detail_label_max_marks">Maximum Marks</string>
+    <string name="exams_detail_label_passing_marks">Passing Marks</string>
+    <string name="exams_detail_section_instructions">Instructions</string>
+    <string name="exams_detail_section_result">Result</string>
+    <string name="exams_detail_label_marks_obtained">Marks Obtained</string>
+    <string name="exams_detail_label_percentage">Percentage</string>
+    <string name="exams_detail_label_grade">Grade</string>
+    <string name="exams_detail_label_result">Result</string>
+    <string name="exams_detail_passed">Passed</string>
+    <string name="exams_detail_failed">Failed</string>
+    <string name="exams_detail_label_remarks">Remarks</string>
+    <string name="exams_detail_section_countdown">Countdown</string>
+    <string name="exams_detail_countdown_today">Today</string>
+    <string name="exams_detail_countdown_tomorrow">Tomorrow</string>
+    <string name="exams_detail_countdown_days">%1$d days remaining</string>
+
+    <!-- quiz-screen -->
+    <string name="exams_quiz_default_title">Quiz</string>
+    <string name="exams_quiz_question_of">Question %1$d of %2$d</string>
+    <string name="exams_quiz_previous">Previous</string>
+    <string name="exams_quiz_submit">Submit</string>
+    <string name="exams_quiz_next">Next</string>
+    <string name="exams_quiz_well_done">Well Done!</string>
+    <string name="exams_quiz_keep_trying">Keep Trying!</string>
+    <string name="exams_quiz_done">Done</string>
+
+    <!-- online-exam-screen -->
+    <string name="exams_online_default_title">Online Exam</string>
+    <string name="exams_online_question_status">Q %1$d/%2$d | Answered: %3$d</string>
+    <string name="exams_online_preparing">Preparing exam...</string>
+    <string name="exams_online_failed_load">Failed to load exam</string>
+    <string name="exams_online_go_back">Go Back</string>
+    <string name="exams_online_question_number">Question %1$d</string>
+    <string name="exams_online_marks_singular">%1$.0f mark</string>
+    <string name="exams_online_marks_plural">%1$.0f marks</string>
+    <string name="exams_online_your_answer">Your answer</string>
+    <string name="exams_online_answer_placeholder">Type your answer here...</string>
+    <string name="exams_online_question_navigator">Question Navigator</string>
+    <string name="exams_online_previous">Previous</string>
+    <string name="exams_online_submit_exam">Submit Exam</string>
+    <string name="exams_online_next">Next</string>
+    <string name="exams_online_true">True</string>
+    <string name="exams_online_false">False</string>
+    <string name="exams_online_violations">Violations: %1$d/%2$d</string>
+    <string name="exams_online_final_warning">Final warning!</string>
+    <string name="exams_online_exam_terminated">Exam Terminated</string>
+    <string name="exams_online_exam_submitted">Exam Submitted</string>
+    <string name="exams_online_terminated_reason">Your exam was terminated due to too many violations.</string>
+    <string name="exams_online_answered_count">You answered %1$d out of %2$d questions.</string>
+    <string name="exams_online_view_results">View Results</string>
+    <string name="exams_online_done">Done</string>
+    <string name="exams_online_submit_title">Submit Exam?</string>
+    <string name="exams_online_submit_answered">You have answered %1$d out of %2$d questions.</string>
+    <string name="exams_online_submit_remaining_singular">%1$d question remaining unanswered.</string>
+    <string name="exams_online_submit_remaining_plural">%1$d questions remaining unanswered.</string>
+    <string name="exams_online_submit_warning">Once submitted, you cannot change your answers.</string>
+    <string name="exams_online_confirm_submit">Submit</string>
+    <string name="exams_online_continue_exam">Continue Exam</string>
+    <string name="exams_online_violation_app_switch">App Switch Detected</string>
+    <string name="exams_online_violation_screenshot">Screenshot Attempt Detected</string>
+    <string name="exams_online_violation_multiple_face">Multiple Faces Detected</string>
+    <string name="exams_online_violation_no_face">No Face Detected</string>
+    <string name="exams_online_violation_tab_change">Tab Change Detected</string>
+    <string name="exams_online_violation_generic">Violation Detected</string>
+    <string name="exams_online_warning_title">Warning: %1$s</string>
+    <string name="exams_online_violation_count">Violation %1$d of %2$d</string>
+    <string name="exams_online_violation_max_reached">Maximum violations reached. Your exam will be auto-submitted.</string>
+    <string name="exams_online_violation_remaining">Remaining warnings: %1$d. Your exam will be auto-submitted after %2$d violations.</string>
+    <string name="exams_online_i_understand">I Understand</string>
+
+    <!-- question-bank-screen -->
+    <string name="exams_qbank_practice_mode">Practice Mode</string>
+    <string name="exams_qbank_title">Question Bank</string>
+    <string name="exams_qbank_practice_cd">Practice Mode</string>
+    <string name="exams_qbank_filter_all">All</string>
+    <string name="exams_qbank_filter_all_levels">All Levels</string>
+    <string name="exams_qbank_bookmarked_only">Bookmarked Only</string>
+    <string name="exams_qbank_questions_count">%1$d questions</string>
+    <string name="exams_qbank_practice">Practice</string>
+    <string name="exams_qbank_generate_more">Generate More</string>
+    <string name="exams_qbank_no_questions_title">No Questions Found</string>
+    <string name="exams_qbank_no_questions_subtitle">Try adjusting your filters or generate more questions.</string>
+    <string name="exams_qbank_section_questions">Questions</string>
+    <string name="exams_qbank_remove_bookmark">Remove bookmark</string>
+    <string name="exams_qbank_add_bookmark">Bookmark</string>
+    <string name="exams_qbank_no_practice_title">No Questions</string>
+    <string name="exams_qbank_no_practice_subtitle">No questions match your filters for practice.</string>
+    <string name="exams_qbank_question_of">Question %1$d of %2$d</string>
+    <string name="exams_qbank_bookmark_cd">Bookmark</string>
+    <string name="exams_qbank_correct_cd">Correct</string>
+    <string name="exams_qbank_check_answer">Check Answer</string>
+    <string name="exams_qbank_correct">Correct!</string>
+    <string name="exams_qbank_incorrect">Incorrect</string>
+    <string name="exams_qbank_correct_answer">Correct answer: %1$s</string>
+    <string name="exams_qbank_previous">Previous</string>
+    <string name="exams_qbank_next">Next</string>
+
+    <!-- exam-results-screen -->
+    <string name="exams_results_title">Exam Results</string>
+    <string name="exams_results_failed_load">Failed to load results</string>
+    <string name="exams_results_passed">Passed</string>
+    <string name="exams_results_not_passed">Not Passed</string>
+    <string name="exams_results_section_details">Details</string>
+    <string name="exams_results_label_grade">Grade</string>
+    <string name="exams_results_label_rank">Rank</string>
+    <string name="exams_results_label_percentile">Percentile</string>
+    <string name="exams_results_label_total_marks">Total Marks</string>
+    <string name="exams_results_label_obtained_marks">Obtained Marks</string>
+    <string name="exams_results_label_correct_answers">Correct Answers</string>
+    <string name="exams_results_section_certificate">Certificate</string>
+    <string name="exams_results_view_certificate">View Certificate</string>
+    <string name="exams_results_no_answers">No answer details available.</string>
+    <string name="exams_results_section_answer_review">Answer Review</string>
+    <string name="exams_results_your_answer">Your answer: %1$s</string>
+    <string name="exams_results_not_answered">Not answered</string>
+    <string name="exams_results_correct_prefix">Correct: %1$s</string>
+    <string name="exams_results_section_distribution">Score Distribution</string>
+    <string name="exams_results_legend_correct">Correct (%1$d)</string>
+    <string name="exams_results_legend_incorrect">Incorrect (%1$d)</string>
+    <string name="exams_results_legend_unanswered">Unanswered (%1$d)</string>
+    <string name="exams_results_section_performance">Performance</string>
+    <string name="exams_results_label_accuracy">Accuracy</string>
+    <string name="exams_results_label_attempted">Attempted</string>
+    <string name="exams_results_label_avg_score">Average Score</string>
+    <string name="exams_results_na">N/A</string>
+
+    <!-- exam-certificate-screen -->
+    <string name="exams_cert_title">Certificate</string>
+    <string name="exams_cert_failed_load">Failed to load certificate</string>
+    <string name="exams_cert_share">Share</string>
+    <string name="exams_cert_share_chooser">Share Certificate</string>
+    <string name="exams_cert_download">Download PDF</string>
+    <string name="exams_cert_qr_content_description">Verification QR Code</string>
+    <string name="exams_cert_verification_code">Verification Code: %1$s</string>
+    <string name="exams_cert_header">CERTIFICATE OF ACHIEVEMENT</string>
+    <string name="exams_cert_certify_that">This is to certify that</string>
+    <string name="exams_cert_completed_exam">has successfully completed the examination</string>
+    <string name="exams_cert_label_score">Score</string>
+    <string name="exams_cert_label_grade">Grade</string>
+    <string name="exams_cert_completed_on">Completed on %1$s</string>
+    <string name="exams_cert_qr_cd">Verification QR Code</string>
+    <string name="exams_cert_scan_to_verify">Scan to verify</string>
+
+    <!-- hall-ticket -->
+    <string name="exams_hall_ticket_title">HALL TICKET</string>
+    <string name="exams_hall_ticket_label_student">Student</string>
+    <string name="exams_hall_ticket_label_id">ID</string>
+    <string name="exams_hall_ticket_label_exam">Exam</string>
+    <string name="exams_hall_ticket_label_subject">Subject</string>
+    <string name="exams_hall_ticket_label_date">Date</string>
+    <string name="exams_hall_ticket_label_time">Time</string>
+    <string name="exams_hall_ticket_label_venue">Venue</string>
+    <string name="exams_hall_ticket_qr_cd">Hall Ticket QR Code</string>
+    <string name="exams_hall_ticket_scan">Scan for verification</string>
+
+    <!-- question-bank-screen -->
+    <string name="exams_filter_all_levels">All Levels</string>
+    <string name="exams_filter_bookmarked_only">Bookmarked Only</string>
+    <string name="exams_action_practice">Practice</string>
+    <string name="exams_action_generate_more">Generate More</string>
+</resources>

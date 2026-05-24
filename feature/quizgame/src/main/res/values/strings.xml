@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Game Hub Screen -->
+    <string name="quizgame_title">Quiz Game</string>
+    <string name="quizgame_back">Back</string>
+    <string name="quizgame_game_modes">Game Modes</string>
+    <string name="quizgame_practice">Practice</string>
+    <string name="quizgame_practice_description">Learn at your own pace</string>
+    <string name="quizgame_timed">Timed</string>
+    <string name="quizgame_timed_description">Race against the clock</string>
+    <string name="quizgame_tournament">Tournament</string>
+    <string name="quizgame_tournament_description">Compete with others</string>
+    <string name="quizgame_achievements">Achievements</string>
+    <string name="quizgame_leaderboard">Leaderboard</string>
+    <string name="quizgame_view_all">View All</string>
+    <string name="quizgame_daily_challenge">Daily Challenge</string>
+    <string name="quizgame_daily_challenge_completed">Daily Challenge Completed!</string>
+    <string name="quizgame_daily_challenge_info">%1$s - %2$d questions</string>
+    <string name="quizgame_xp_reward">+%1$d XP</string>
+    <string name="quizgame_rank_number">#%1$d</string>
+    <string name="quizgame_score_pts">%1$d pts</string>
+
+    <!-- Practice Mode Screen -->
+    <string name="quizgame_practice_mode">Practice Mode</string>
+    <string name="quizgame_choose_subject">Choose Subject</string>
+    <string name="quizgame_difficulty">Difficulty</string>
+    <string name="quizgame_number_of_questions">Number of Questions</string>
+    <string name="quizgame_questions_count">%1$d questions</string>
+    <string name="quizgame_start_practice">Start Practice</string>
+    <string name="quizgame_starting">Starting...</string>
+    <string name="quizgame_slider_min">5</string>
+    <string name="quizgame_slider_max">30</string>
+
+    <!-- Timed Challenge Screen -->
+    <string name="quizgame_timed_challenge">Timed Challenge</string>
+    <string name="quizgame_streak_multiplier">Streak x%1$.1f</string>
+    <string name="quizgame_multiplier">Multiplier</string>
+    <string name="quizgame_speed_bonus_value">+%1$d</string>
+    <string name="quizgame_speed_bonus">Speed Bonus</string>
+    <string name="quizgame_time_limit">Time Limit</string>
+    <string name="quizgame_time_seconds"> %1$ds</string>
+    <string name="quizgame_current_score">Current Score</string>
+    <string name="quizgame_start_timed_challenge">Start Timed Challenge</string>
+
+    <!-- Leaderboard Screen -->
+    <string name="quizgame_games_win_rate">%1$d games \u2022 %2$d%% win</string>
+
+    <!-- Achievements Screen -->
+    <string name="quizgame_all">All</string>
+    <string name="quizgame_progress_percent">%1$d%%</string>
+
+    <!-- Tournament Screen -->
+    <string name="quizgame_tournaments">Tournaments</string>
+    <string name="quizgame_no_tournaments">No tournaments available</string>
+    <string name="quizgame_no_tournaments_subtitle">Check back later for upcoming tournaments</string>
+    <string name="quizgame_players_count">%1$d players</string>
+    <string name="quizgame_round_progress">Round %1$d/%2$d</string>
+    <string name="quizgame_current_round_matches">Current Round Matches</string>
+    <string name="quizgame_join_tournament">Join Tournament</string>
+    <string name="quizgame_joining">Joining...</string>
+    <string name="quizgame_tbd">TBD</string>
+    <string name="quizgame_match_score">%1$d - %2$d</string>
+
+    <!-- Quiz Session Screen -->
+    <string name="quizgame_question_progress">Question %1$d/%2$d</string>
+    <string name="quizgame_results">Results</string>
+    <string name="quizgame_submitting_answers">Submitting your answers...</string>
+    <string name="quizgame_score_label">Score: %1$d</string>
+    <string name="quizgame_correct">Correct</string>
+    <string name="quizgame_incorrect">Incorrect</string>
+    <string name="quizgame_explanation">Explanation</string>
+    <string name="quizgame_confirm_answer">Confirm Answer</string>
+    <string name="quizgame_finish_quiz">Finish Quiz</string>
+    <string name="quizgame_next_question">Next Question</string>
+
+    <!-- Results Overlay -->
+    <string name="quizgame_quiz_complete">Quiz Complete!</string>
+    <string name="quizgame_total_score">Total Score</string>
+    <string name="quizgame_stat_correct">Correct</string>
+    <string name="quizgame_correct_count">%1$d/%2$d</string>
+    <string name="quizgame_stat_accuracy">Accuracy</string>
+    <string name="quizgame_accuracy_percent">%1$d%%</string>
+    <string name="quizgame_stat_time">Time</string>
+    <string name="quizgame_stat_xp_earned">XP Earned</string>
+    <string name="quizgame_xp_earned_value">+%1$d</string>
+    <string name="quizgame_streak_bonus">Streak Bonus: +%1$d</string>
+    <string name="quizgame_new_achievements">New Achievements!</string>
+    <string name="quizgame_done">Done</string>
+
+    <!-- Difficulty levels -->
+    <string name="quizgame_difficulty_easy">Easy</string>
+    <string name="quizgame_difficulty_medium">Medium</string>
+    <string name="quizgame_difficulty_hard">Hard</string>
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- children-screen -->
+    <string name="guardian_children_title">أبنائي</string>
+    <string name="guardian_back">رجوع</string>
+    <string name="guardian_no_children_title">لا يوجد أبناء مربوطين</string>
+    <string name="guardian_no_children_subtitle">تواصل مع إدارة المدرسة لربط أبنائك بحسابك.</string>
+
+    <!-- child-attendance-screen -->
+    <string name="guardian_attendance_title">الحضور</string>
+    <string name="guardian_attendance_filter_all">الكل</string>
+    <string name="guardian_attendance_filter_present">حاضر</string>
+    <string name="guardian_attendance_filter_absent">غائب</string>
+    <string name="guardian_attendance_filter_late">متأخر</string>
+    <string name="guardian_attendance_filter_excused">معذور</string>
+    <string name="guardian_attendance_rate">%1$d%% حضور</string>
+    <string name="guardian_attendance_present">حاضر</string>
+    <string name="guardian_attendance_absent">غائب</string>
+    <string name="guardian_attendance_late">متأخر</string>
+    <string name="guardian_attendance_excused">معذور</string>
+
+    <!-- child-grades-screen -->
+    <string name="guardian_grades_title">الدرجات</string>
+    <string name="guardian_grades_average">المعدل</string>
+    <string name="guardian_grades_subjects">المواد</string>
+
+    <!-- child-fees-screen -->
+    <string name="guardian_fees_title">الرسوم</string>
+    <string name="guardian_fees_filter_all">الكل</string>
+    <string name="guardian_fees_filter_pending">قيد الانتظار</string>
+    <string name="guardian_fees_filter_paid">مدفوعة</string>
+    <string name="guardian_fees_filter_overdue">متأخرة</string>
+    <string name="guardian_fees_outstanding">المستحقة</string>
+    <string name="guardian_fees_overdue">متأخرة</string>
+    <string name="guardian_fees_due">الاستحقاق: %1$s</string>
+
+    <!-- child-timetable-screen -->
+    <string name="guardian_timetable_title">الجدول الدراسي</string>
+    <string name="guardian_timetable_sun">أحد</string>
+    <string name="guardian_timetable_mon">إثنين</string>
+    <string name="guardian_timetable_tue">ثلاثاء</string>
+    <string name="guardian_timetable_wed">أربعاء</string>
+    <string name="guardian_timetable_thu">خميس</string>
+    <string name="guardian_timetable_fri">جمعة</string>
+    <string name="guardian_timetable_sat">سبت</string>
+    <string name="guardian_timetable_room">قاعة %1$s</string>
+
+    <!-- meeting-booking-screen -->
+    <string name="guardian_meeting_title">حجز اجتماع</string>
+    <string name="guardian_meeting_select_teacher">اختر المعلم</string>
+    <string name="guardian_meeting_select_date">اختر التاريخ</string>
+    <string name="guardian_meeting_time_slots">الأوقات المتاحة</string>
+    <string name="guardian_meeting_booked">محجوز</string>
+    <string name="guardian_meeting_agenda_label">جدول أعمال الاجتماع</string>
+    <string name="guardian_meeting_agenda_placeholder">صف الغرض من الاجتماع...</string>
+    <string name="guardian_meeting_book_button">حجز الاجتماع</string>
+
+    <!-- consent-forms-screen -->
+    <string name="guardian_consent_title">نماذج الموافقة</string>
+    <string name="guardian_consent_pending">قيد الانتظار</string>
+    <string name="guardian_consent_signed">موقع</string>
+    <string name="guardian_consent_sign_form">توقيع النموذج</string>
+    <string name="guardian_consent_draw_signature">ارسم التوقيع</string>
+    <string name="guardian_consent_sign_below">وقع أدناه باستخدام إصبعك:</string>
+    <string name="guardian_consent_clear">مسح</string>
+    <string name="guardian_consent_submit_signature">إرسال التوقيع</string>
+    <string name="guardian_consent_cancel">إلغاء</string>
+
+    <!-- trip-permission-screen -->
+    <string name="guardian_trip_title">أذونات الرحلات</string>
+    <string name="guardian_trip_status_granted">ممنوح</string>
+    <string name="guardian_trip_status_denied">مرفوض</string>
+    <string name="guardian_trip_status_pending">قيد الانتظار</string>
+    <string name="guardian_trip_deny">رفض</string>
+    <string name="guardian_trip_grant">منح</string>
+
+    <!-- communication-preferences-screen -->
+    <string name="guardian_prefs_title">إعدادات الإشعارات</string>
+    <string name="guardian_prefs_notification_types">أنواع الإشعارات</string>
+    <string name="guardian_prefs_attendance_alerts">تنبيهات الحضور</string>
+    <string name="guardian_prefs_grade_updates">تحديثات الدرجات</string>
+    <string name="guardian_prefs_fee_reminders">تذكيرات الرسوم</string>
+    <string name="guardian_prefs_school_announcements">إعلانات المدرسة</string>
+    <string name="guardian_prefs_event_notifications">إشعارات الفعاليات</string>
+    <string name="guardian_prefs_quiet_hours">ساعات الهدوء</string>
+    <string name="guardian_prefs_enable_quiet_hours">تفعيل ساعات الهدوء</string>
+    <string name="guardian_prefs_change">تغيير</string>
+    <string name="guardian_prefs_emergency_override">السماح بتجاوز الطوارئ</string>
+    <string name="guardian_prefs_save">حفظ الإعدادات</string>
+
+    <!-- guardian-notifications-screen -->
+    <string name="guardian_notifications_title">الإشعارات</string>
+    <string name="guardian_notifications_filter_all">الكل</string>
+    <string name="guardian_notifications_filter_attendance">الحضور</string>
+    <string name="guardian_notifications_filter_grades">الدرجات</string>
+    <string name="guardian_notifications_filter_fees">الرسوم</string>
+    <string name="guardian_notifications_filter_general">عام</string>
+    <string name="guardian_notifications_empty_title">لا توجد إشعارات</string>
+    <string name="guardian_notifications_empty_subtitle">لا توجد إشعارات جديدة!</string>
+
+    <!-- guardian-messages-screen -->
+    <string name="guardian_messages_title">الرسائل</string>
+</resources>

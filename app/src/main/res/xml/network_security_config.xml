@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Production: Only allow HTTPS -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!-- Allow localhost for development -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">10.0.2.2</domain>
+    </domain-config>
+
+    <!-- Pin certificate for production API -->
+    <domain-config>
+        <domain includeSubdomains="true">ed.databayt.org</domain>
+        <domain includeSubdomains="true">databayt.org</domain>
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+        <!--
+        Certificate pinning - uncomment and add actual pins for production
+        <pin-set expiration="2025-12-31">
+            <pin digest="SHA-256">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</pin>
+        </pin-set>
+        -->
+    </domain-config>
+</network-security-config>

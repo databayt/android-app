@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top bar -->
+    <string name="profile_title">الملف الشخصي</string>
+    <string name="profile_back">رجوع</string>
+    <string name="profile_edit">تعديل الملف الشخصي</string>
+
+    <!-- Personal information section -->
+    <string name="profile_section_personal_info">المعلومات الشخصية</string>
+    <string name="profile_section_overview">نظرة عامة</string>
+    <string name="profile_section_contributions">المساهمات</string>
+    <string name="profile_section_activity">النشاط الأخير</string>
+    <string name="profile_section_pinned">المثبت</string>
+    <string name="profile_email">البريد الإلكتروني</string>
+    <string name="profile_phone">الهاتف</string>
+    <string name="profile_school">المدرسة</string>
+    <string name="profile_not_set">غير محدد</string>
+    <string name="profile_na">غير متوفر</string>
+
+    <!-- Profile form -->
+    <string name="profile_form_display_name">الاسم المعروض</string>
+    <string name="profile_form_bio">نبذة</string>
+    <string name="profile_form_website">الموقع الإلكتروني</string>
+    <string name="profile_form_github">GitHub</string>
+    <string name="profile_form_status">الحالة</string>
+    <string name="profile_form_save">حفظ التغييرات</string>
+
+    <!-- Detail screen -->
+    <string name="profile_detail_back">رجوع</string>
+    <string name="profile_detail_no_permission">ليس لديك صلاحية لعرض هذا الملف</string>
+
+    <!-- School switcher dialog -->
+    <string name="profile_switch_school">تبديل المدرسة</string>
+    <string name="profile_current_school">الحالية</string>
+    <string name="profile_switch">تبديل</string>
+    <string name="profile_cancel">إلغاء</string>
+</resources>

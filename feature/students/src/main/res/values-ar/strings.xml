@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Students list screen -->
+    <string name="students_title">الطلاب</string>
+    <string name="students_back">رجوع</string>
+    <string name="students_search_placeholder">البحث عن طلاب...</string>
+    <string name="students_empty_title">لم يتم العثور على طلاب</string>
+    <string name="students_empty_search">لا يوجد طلاب مطابقون لبحثك.</string>
+    <string name="students_empty_none">لا يوجد طلاب مسجلون بعد.</string>
+    <string name="students_count">%1$d طالب</string>
+    <string name="students_cached_data">عرض بيانات مخزنة مؤقتًا. %1$s</string>
+
+    <!-- Student detail screen -->
+    <string name="students_detail_title">تفاصيل الطالب</string>
+    <string name="students_detail_edit">تعديل</string>
+    <string name="students_detail_not_found">لم يتم العثور على الطالب</string>
+    <string name="students_detail_personal_info">المعلومات الشخصية</string>
+    <string name="students_detail_label_email">البريد الإلكتروني</string>
+    <string name="students_detail_label_phone">الهاتف</string>
+    <string name="students_detail_label_dob">تاريخ الميلاد</string>
+    <string name="students_detail_label_gender">الجنس</string>
+    <string name="students_detail_academic_info">المعلومات الأكاديمية</string>
+    <string name="students_detail_label_enrollment">رقم القيد</string>
+    <string name="students_detail_label_class">الصف</string>
+    <string name="students_detail_label_section">الشعبة</string>
+    <string name="students_detail_guardian_info">معلومات ولي الأمر</string>
+    <string name="students_detail_label_name">الاسم</string>
+
+    <!-- Student form screen -->
+    <string name="students_form_title_edit">تعديل الطالب</string>
+    <string name="students_form_title_new">طالب جديد</string>
+    <string name="students_form_label_first_name">الاسم الأول</string>
+    <string name="students_form_label_last_name">اسم العائلة</string>
+    <string name="students_form_label_email">البريد الإلكتروني</string>
+    <string name="students_form_label_phone">الهاتف</string>
+    <string name="students_form_label_gender">الجنس</string>
+    <string name="students_form_label_class_id">معرّف الصف</string>
+    <string name="students_form_label_section">الشعبة</string>
+    <string name="students_form_label_status">الحالة</string>
+    <string name="students_form_label_guardian_name">اسم ولي الأمر</string>
+    <string name="students_form_label_guardian_phone">هاتف ولي الأمر</string>
+    <string name="students_form_button_update">تحديث الطالب</string>
+    <string name="students_form_button_create">إنشاء طالب</string>
+
+    <!-- Student card -->
+    <string name="students_card_section_prefix">شعبة %1$s</string>
+</resources>

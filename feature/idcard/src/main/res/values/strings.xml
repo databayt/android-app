@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Digital ID Screen -->
+    <string name="idcard_title">Digital ID Card</string>
+    <string name="idcard_back">Back</string>
+    <string name="idcard_error_title">Error</string>
+    <string name="idcard_error_default">Failed to load ID card.</string>
+    <string name="idcard_id_number">ID Number</string>
+    <string name="idcard_valid_until">Valid Until</string>
+    <string name="idcard_wallet_mode">Wallet Mode</string>
+    <string name="idcard_pdf">PDF</string>
+
+    <!-- ID Card PDF Screen -->
+    <string name="idcard_pdf_title">ID Card PDF</string>
+    <string name="idcard_front">Front</string>
+    <string name="idcard_back_side">Back</string>
+    <string name="idcard_id_prefix">ID: %1$s</string>
+    <string name="idcard_property_notice">This card is the property of %1$s.\nIf found, return to school office.</string>
+    <string name="idcard_valid_until_prefix">Valid Until: %1$s</string>
+    <string name="idcard_generate_pdf">Generate PDF</string>
+    <string name="idcard_share">Share</string>
+
+    <!-- Wallet Mode Screen -->
+    <string name="idcard_close_wallet">Close wallet mode</string>
+    <string name="idcard_error_loading">Error loading ID card</string>
+    <string name="idcard_valid_until_wallet">Valid until %1$s</string>
+
+    <!-- Barcode / QR content descriptions -->
+    <string name="idcard_barcode_desc">Barcode</string>
+    <string name="idcard_qr_code_desc">QR Code</string>
+
+    <!-- PDF generation (used in Paint-based rendering) -->
+    <string name="idcard_pdf_property_line1">This card is the property of %1$s.</string>
+    <string name="idcard_pdf_property_line2">If found, please return to the school office.</string>
+    <string name="idcard_pdf_unauthorized">Unauthorized use is prohibited.</string>
+    <string name="idcard_pdf_powered_by">Powered by Hogwarts Platform</string>
+    <string name="idcard_share_pdf_chooser">Share ID Card PDF</string>
+</resources>

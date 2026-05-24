@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Digital ID Screen -->
+    <string name="idcard_title">بطاقة الهوية الرقمية</string>
+    <string name="idcard_back">رجوع</string>
+    <string name="idcard_error_title">خطأ</string>
+    <string name="idcard_error_default">فشل تحميل بطاقة الهوية.</string>
+    <string name="idcard_id_number">رقم الهوية</string>
+    <string name="idcard_valid_until">صالحة حتى</string>
+    <string name="idcard_wallet_mode">وضع المحفظة</string>
+    <string name="idcard_pdf">PDF</string>
+
+    <!-- ID Card PDF Screen -->
+    <string name="idcard_pdf_title">بطاقة الهوية PDF</string>
+    <string name="idcard_front">الأمام</string>
+    <string name="idcard_back_side">الخلف</string>
+    <string name="idcard_id_prefix">الهوية: %1$s</string>
+    <string name="idcard_property_notice">هذه البطاقة ملك %1$s.\nإذا وجدت، يرجى إعادتها لمكتب المدرسة.</string>
+    <string name="idcard_valid_until_prefix">صالحة حتى: %1$s</string>
+    <string name="idcard_generate_pdf">إنشاء PDF</string>
+    <string name="idcard_share">مشاركة</string>
+
+    <!-- Wallet Mode Screen -->
+    <string name="idcard_close_wallet">إغلاق وضع المحفظة</string>
+    <string name="idcard_error_loading">خطأ في تحميل بطاقة الهوية</string>
+    <string name="idcard_valid_until_wallet">صالحة حتى %1$s</string>
+
+    <!-- Barcode / QR content descriptions -->
+    <string name="idcard_barcode_desc">باركود</string>
+    <string name="idcard_qr_code_desc">رمز QR</string>
+
+    <!-- PDF generation (used in Paint-based rendering) -->
+    <string name="idcard_pdf_property_line1">هذه البطاقة ملك %1$s.</string>
+    <string name="idcard_pdf_property_line2">إذا وجدت، يرجى إعادتها لمكتب المدرسة.</string>
+    <string name="idcard_pdf_unauthorized">الاستخدام غير المصرح به محظور.</string>
+    <string name="idcard_pdf_powered_by">مدعوم من منصة هوجورتس</string>
+    <string name="idcard_share_pdf_chooser">مشاركة بطاقة الهوية PDF</string>
+</resources>

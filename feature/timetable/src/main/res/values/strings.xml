@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Top bar -->
+    <string name="timetable_title">Timetable</string>
+    <string name="timetable_back">Back</string>
+
+    <!-- Empty state -->
+    <string name="timetable_no_classes">No Classes</string>
+    <string name="timetable_no_classes_subtitle">No classes scheduled for this day.</string>
+
+    <!-- Entry details -->
+    <string name="timetable_teacher_room">%1$s \u2022 Room %2$s</string>
+
+    <!-- Error banner -->
+    <string name="timetable_showing_cached">Showing cached data. %1$s</string>
+</resources>

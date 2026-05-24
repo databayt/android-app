@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Welcome screen -->
+    <string name="auth_welcome_logo_description">داتابايت</string>
+    <string name="auth_welcome_get_started_button">ابدأ الآن</string>
+
+    <!-- Login screen -->
+    <string name="auth_login_title">تسجيل الدخول</string>
+    <string name="auth_login_email_label">البريد الإلكتروني</string>
+    <string name="auth_login_email_placeholder">name@example.com</string>
+    <string name="auth_login_password_label">كلمة المرور</string>
+    <string name="auth_login_forgot_password">نسيت كلمة المرور؟</string>
+    <string name="auth_login_button">تسجيل الدخول</string>
+    <string name="auth_login_biometric_description">تسجيل الدخول بالبصمة</string>
+    <string name="auth_login_or_continue_with">أو المتابعة عبر</string>
+    <string name="auth_login_no_account">ليس لديك حساب؟ </string>
+    <string name="auth_login_join_link">انضم</string>
+    <string name="auth_login_facebook_not_configured">تسجيل الدخول بفيسبوك يتطلب إعداد SDK</string>
+    <string name="auth_back_description">رجوع</string>
+
+    <!-- Sign up screen -->
+    <string name="auth_signup_title">انضم</string>
+    <string name="auth_signup_first_name_label">الاسم الأول</string>
+    <string name="auth_signup_first_name_placeholder">أحمد</string>
+    <string name="auth_signup_last_name_label">اسم العائلة</string>
+    <string name="auth_signup_last_name_placeholder">محمد</string>
+    <string name="auth_signup_email_label">البريد الإلكتروني</string>
+    <string name="auth_signup_email_placeholder">name@example.com</string>
+    <string name="auth_signup_password_label">كلمة المرور</string>
+    <string name="auth_signup_school_id_label">معرّف المدرسة</string>
+    <string name="auth_signup_school_id_placeholder">اختر مدرستك</string>
+    <string name="auth_signup_button">انضم</string>
+    <string name="auth_signup_or_continue_with">أو المتابعة عبر</string>
+    <string name="auth_signup_already_have_account">لديك حساب بالفعل؟ </string>
+    <string name="auth_signup_login_link">تسجيل الدخول</string>
+    <string name="auth_signup_facebook_not_configured">تسجيل الدخول بفيسبوك يتطلب إعداد SDK</string>
+
+    <!-- Verify screen -->
+    <string name="auth_verify_title">تحقق من بريدك الإلكتروني</string>
+    <string name="auth_verify_subtitle">أرسلنا رمزًا إلى\n%1$s</string>
+    <string name="auth_verify_button">تحقق</string>
+    <string name="auth_verify_resend_cooldown">لم تستلم الرمز؟ إعادة الإرسال (%1$dث)</string>
+    <string name="auth_verify_resend">لم تستلم الرمز؟ إعادة الإرسال</string>
+
+    <!-- Forgot password screen -->
+    <string name="auth_reset_password_title">إعادة تعيين كلمة المرور</string>
+    <string name="auth_verify_code_title">التحقق من الرمز</string>
+    <string name="auth_new_password_title">كلمة مرور جديدة</string>
+    <string name="auth_password_reset_title">تمت إعادة تعيين كلمة المرور</string>
+    <string name="auth_reset_email_description">أدخل عنوان بريدك الإلكتروني وسنرسل لك رمز تحقق لإعادة تعيين كلمة المرور.</string>
+    <string name="auth_reset_email_label">البريد الإلكتروني</string>
+    <string name="auth_reset_email_placeholder">name@example.com</string>
+    <string name="auth_reset_send_code_button">إرسال الرمز</string>
+    <string name="auth_reset_otp_description">أرسلنا رمزًا مكونًا من 6 أرقام إلى %1$s</string>
+    <string name="auth_reset_verification_code_label">رمز التحقق</string>
+    <string name="auth_reset_verification_code_placeholder">000000</string>
+    <string name="auth_reset_verify_button">تحقق</string>
+    <string name="auth_reset_resend_cooldown">إعادة إرسال الرمز خلال %1$dث</string>
+    <string name="auth_reset_resend">إعادة إرسال الرمز</string>
+    <string name="auth_reset_new_password_description">أنشئ كلمة مرور جديدة لحسابك.</string>
+    <string name="auth_reset_new_password_label">كلمة المرور الجديدة</string>
+    <string name="auth_reset_confirm_password_label">تأكيد كلمة المرور</string>
+    <string name="auth_reset_set_password_button">تعيين كلمة المرور الجديدة</string>
+    <string name="auth_reset_success_message">تمت إعادة تعيين كلمة المرور بنجاح!</string>
+    <string name="auth_reset_back_to_login_button">العودة لتسجيل الدخول</string>
+</resources>

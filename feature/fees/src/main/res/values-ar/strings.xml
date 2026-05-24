@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="fees_back">رجوع</string>
+    <string name="fees_showing_cached_data">عرض بيانات مخزنة مؤقتًا. %1$s</string>
+    <string name="fees_error_occurred">حدث خطأ</string>
+    <string name="fees_pending">قيد الانتظار</string>
+
+    <!-- Fees Screen -->
+    <string name="fees_title">الرسوم</string>
+    <string name="fees_filter_all">الكل</string>
+    <string name="fees_empty_title">لا توجد رسوم</string>
+    <string name="fees_empty_subtitle">لم يتم العثور على سجلات رسوم.</string>
+    <string name="fees_due_date">الاستحقاق: %1$s</string>
+    <string name="fees_amount_dollar">$%1$s</string>
+    <string name="fees_records_count">%1$d سجل</string>
+    <string name="fees_status_paid">مدفوع</string>
+    <string name="fees_status_pending">قيد الانتظار</string>
+    <string name="fees_status_overdue">متأخر</string>
+    <string name="fees_status_partial">جزئي</string>
+
+    <!-- Invoice List Screen -->
+    <string name="fees_invoices_title">الفواتير</string>
+    <string name="fees_invoices_transactions">المعاملات</string>
+    <string name="fees_invoices_filter_all">الكل</string>
+    <string name="fees_invoices_filter_sent">مرسل</string>
+    <string name="fees_invoices_filter_paid">مدفوع</string>
+    <string name="fees_invoices_filter_overdue">متأخر</string>
+    <string name="fees_invoices_filter_partial">جزئي</string>
+    <string name="fees_invoices_empty_title">لا توجد فواتير</string>
+    <string name="fees_invoices_empty_subtitle">لم يتم العثور على فواتير للفلتر المحدد.</string>
+    <string name="fees_invoices_count">%1$d فاتورة</string>
+    <string name="fees_invoices_balance_due">المستحق: $%1$s</string>
+
+    <!-- Invoice Status Labels -->
+    <string name="fees_invoice_status_draft">مسودة</string>
+    <string name="fees_invoice_status_sent">مرسل</string>
+    <string name="fees_invoice_status_paid">مدفوع</string>
+    <string name="fees_invoice_status_partial">جزئي</string>
+    <string name="fees_invoice_status_overdue">متأخر</string>
+    <string name="fees_invoice_status_cancelled">ملغي</string>
+
+    <!-- Invoice Detail Screen -->
+    <string name="fees_invoice_detail_title">تفاصيل الفاتورة</string>
+    <string name="fees_invoice_detail_issue_date">تاريخ الإصدار</string>
+    <string name="fees_invoice_detail_due_date">تاريخ الاستحقاق</string>
+    <string name="fees_invoice_detail_student">الطالب</string>
+    <string name="fees_invoice_detail_items">العناصر</string>
+    <string name="fees_invoice_detail_description">الوصف</string>
+    <string name="fees_invoice_detail_qty">الكمية</string>
+    <string name="fees_invoice_detail_price">السعر</string>
+    <string name="fees_invoice_detail_amount">المبلغ</string>
+    <string name="fees_invoice_detail_notes">ملاحظات</string>
+    <string name="fees_invoice_detail_subtotal">المجموع الفرعي</string>
+    <string name="fees_invoice_detail_tax">الضريبة</string>
+    <string name="fees_invoice_detail_discount">الخصم</string>
+    <string name="fees_invoice_detail_total">الإجمالي</string>
+    <string name="fees_invoice_detail_paid">المدفوع</string>
+    <string name="fees_invoice_detail_balance_due">المبلغ المستحق</string>
+    <string name="fees_invoice_detail_pay_now">ادفع الآن - $%1$s</string>
+    <string name="fees_invoice_detail_negative_amount">-$%1$s</string>
+
+    <!-- Payment Dialog -->
+    <string name="fees_payment_dialog_title">تأكيد الدفع</string>
+    <string name="fees_payment_dialog_amount_label">المبلغ</string>
+    <string name="fees_payment_dialog_amount_value">%1$s %2$s</string>
+    <string name="fees_payment_dialog_disclaimer">سيتم معالجة الدفع عبر طريقة الدفع الافتراضية.</string>
+    <string name="fees_payment_dialog_pay_now">ادفع الآن</string>
+    <string name="fees_payment_dialog_cancel">إلغاء</string>
+
+    <!-- Payment Processing Screen -->
+    <string name="fees_payment_title">الدفع</string>
+    <string name="fees_payment_processing">جارٍ معالجة الدفع\u2026</string>
+    <string name="fees_payment_do_not_close">يرجى عدم إغلاق التطبيق</string>
+    <string name="fees_payment_success_icon">نجاح</string>
+    <string name="fees_payment_success_title">تم الدفع بنجاح</string>
+    <string name="fees_payment_view_receipt">عرض الإيصال</string>
+    <string name="fees_payment_failed_icon">فشل</string>
+    <string name="fees_payment_failed_title">فشل الدفع</string>
+    <string name="fees_payment_unexpected_error">حدث خطأ غير متوقع</string>
+    <string name="fees_payment_try_again">حاول مرة أخرى</string>
+    <string name="fees_payment_amount_to_pay">المبلغ المطلوب دفعه</string>
+    <string name="fees_payment_select_method">اختر طريقة الدفع</string>
+    <string name="fees_payment_method_card">بطاقة ائتمان / خصم</string>
+    <string name="fees_payment_method_bank">تحويل بنكي</string>
+    <string name="fees_payment_method_wallet">محفظة رقمية</string>
+    <string name="fees_payment_confirm">تأكيد الدفع</string>
+
+    <!-- Transaction History Screen -->
+    <string name="fees_transactions_title">سجل المعاملات</string>
+    <string name="fees_transactions_filter_date">تصفية حسب التاريخ</string>
+    <string name="fees_transactions_date_apply">تطبيق</string>
+    <string name="fees_transactions_date_clear">مسح</string>
+    <string name="fees_transactions_filter_all">الكل</string>
+    <string name="fees_transactions_filter_completed">مكتمل</string>
+    <string name="fees_transactions_filter_pending">قيد الانتظار</string>
+    <string name="fees_transactions_filter_failed">فشل</string>
+    <string name="fees_transactions_empty_title">لا توجد معاملات</string>
+    <string name="fees_transactions_empty_subtitle">لم يتم العثور على معاملات للفلاتر المحددة.</string>
+    <string name="fees_transactions_count">%1$d معاملة</string>
+
+    <!-- Payment Status Labels -->
+    <string name="fees_payment_status_pending">قيد الانتظار</string>
+    <string name="fees_payment_status_processing">قيد المعالجة</string>
+    <string name="fees_payment_status_completed">مكتمل</string>
+    <string name="fees_payment_status_failed">فشل</string>
+    <string name="fees_payment_status_cancelled">ملغي</string>
+
+    <!-- Payment Receipt Screen -->
+    <string name="fees_receipt_title">إيصال الدفع</string>
+    <string name="fees_receipt_share">مشاركة</string>
+    <string name="fees_receipt_share_chooser">مشاركة الإيصال</string>
+    <string name="fees_receipt_school_name">مدرسة هوغوارتس</string>
+    <string name="fees_receipt_payment_receipt">إيصال الدفع</string>
+    <string name="fees_receipt_completed_icon">مكتمل</string>
+    <string name="fees_receipt_transaction_id">رقم المعاملة</string>
+    <string name="fees_receipt_amount">المبلغ</string>
+    <string name="fees_receipt_amount_value">$%1$s %2$s</string>
+    <string name="fees_receipt_date">التاريخ</string>
+    <string name="fees_receipt_payment_method">طريقة الدفع</string>
+    <string name="fees_receipt_status">الحالة</string>
+    <string name="fees_receipt_description">الوصف</string>
+    <string name="fees_receipt_download_pdf">تحميل PDF</string>
+
+    <!-- Receipt Share Text -->
+    <string name="fees_receipt_share_header">مدرسة هوغوارتس - إيصال دفع</string>
+    <string name="fees_receipt_share_separator">---</string>
+    <string name="fees_receipt_share_transaction">المعاملة: %1$s</string>
+    <string name="fees_receipt_share_amount">المبلغ: $%1$s %2$s</string>
+    <string name="fees_receipt_share_date">التاريخ: %1$s</string>
+    <string name="fees_receipt_share_method">الطريقة: %1$s</string>
+    <string name="fees_receipt_share_status">الحالة: %1$s</string>
+    <string name="fees_receipt_share_description">الوصف: %1$s</string>
+
+    <!-- Fee Balance Dashboard Screen -->
+    <string name="fees_balance_title">رصيد الرسوم</string>
+    <string name="fees_balance_outstanding">الرصيد المستحق</string>
+    <string name="fees_balance_overdue_amount">المبلغ المتأخر</string>
+    <string name="fees_balance_pay_immediately">يرجى الدفع فورًا</string>
+    <string name="fees_balance_next_due_date">تاريخ الاستحقاق التالي</string>
+    <string name="fees_balance_days_overdue">متأخر %1$d يوم</string>
+    <string name="fees_balance_due_today">مستحق اليوم</string>
+    <string name="fees_balance_due_tomorrow">مستحق غدًا</string>
+    <string name="fees_balance_days_remaining">متبقي %1$d يوم</string>
+    <string name="fees_balance_quick_actions">إجراءات سريعة</string>
+    <string name="fees_balance_action_pay_now">ادفع الآن</string>
+    <string name="fees_balance_action_pay_description">قم بالدفع تجاه رصيدك المستحق</string>
+    <string name="fees_balance_action_invoices">عرض الفواتير</string>
+    <string name="fees_balance_action_invoices_description">عرض جميع الفواتير وتفاصيلها</string>
+    <string name="fees_balance_action_transactions">سجل المعاملات</string>
+    <string name="fees_balance_action_transactions_description">عرض المدفوعات والمعاملات السابقة</string>
+    <string name="fees_balance_cached_data">عرض بيانات مخزنة مؤقتًا. %1$s</string>
+</resources>

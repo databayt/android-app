@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Announcements Screen -->
+    <string name="announcements_title">الإعلانات</string>
+    <string name="announcements_back">رجوع</string>
+    <string name="announcements_filter_all">الكل</string>
+    <string name="announcements_no_announcements_title">لا توجد إعلانات</string>
+    <string name="announcements_no_announcements_subtitle">لا توجد إعلانات في الوقت الحالي.</string>
+    <string name="announcements_section_important">مهم</string>
+    <string name="announcements_section_recent">الأخيرة</string>
+    <string name="announcements_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
+    <string name="announcements_by_author">بواسطة %1$s</string>
+    <string name="announcements_at_venue">@ %1$s</string>
+
+    <!-- Announcement Detail Screen -->
+    <string name="announcements_detail_title">إعلان</string>
+    <string name="announcements_detail_important">مهم</string>
+    <string name="announcements_detail_section_details">التفاصيل</string>
+    <string name="announcements_detail_section_event">تفاصيل الحدث</string>
+    <string name="announcements_detail_venue">المكان</string>
+    <string name="announcements_detail_time">الوقت</string>
+    <string name="announcements_detail_time_range">%1$s - %2$s</string>
+    <string name="announcements_detail_section_attachment">المرفق</string>
+    <string name="announcements_detail_view_attachment">عرض المرفق</string>
+    <string name="announcements_detail_load_failed">فشل في تحميل الإعلان</string>
+</resources>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Subjects List Screen -->
+    <string name="subjects_title">المواد الدراسية</string>
+    <string name="subjects_back">رجوع</string>
+    <string name="subjects_search_placeholder">البحث في المواد…</string>
+    <string name="subjects_empty_title">لم يتم العثور على مواد</string>
+    <string name="subjects_empty_subtitle_search">لا توجد مواد تطابق بحثك.</string>
+    <string name="subjects_empty_subtitle_default">لا توجد مواد متاحة بعد.</string>
+    <string name="subjects_no_subjects_found">لا توجد مواد</string>
+
+    <!-- Levels -->
+    <string name="subjects_level_elementary">ابتدائي</string>
+    <string name="subjects_level_middle">متوسط</string>
+    <string name="subjects_level_high">ثانوي</string>
+
+    <!-- Grades (ordinals handled programmatically for Arabic) -->
+    <string name="subjects_grade_single">الصف %1$s</string>
+    <string name="subjects_grade_range">الصف %1$s - %2$s</string>
+
+    <!-- Rating -->
+    <string name="subjects_rating_count">(%1$d)</string>
+
+    <!-- Subject Detail Screen -->
+    <string name="subjects_detail_title">تفاصيل المادة</string>
+    <string name="subjects_detail_not_found">المادة غير موجودة</string>
+    <string name="subjects_detail_overview">نظرة عامة</string>
+    <string name="subjects_detail_department">القسم</string>
+    <string name="subjects_detail_description">الوصف</string>
+    <string name="subjects_detail_levels">المراحل</string>
+    <string name="subjects_detail_grades">الصفوف</string>
+    <string name="subjects_detail_curriculum">المنهج</string>
+    <string name="subjects_detail_rating">التقييم</string>
+    <string name="subjects_detail_tags">الوسوم</string>
+    <string name="subjects_detail_no_topics">لا توجد مواضيع متاحة</string>
+
+    <!-- Hero stats (plural forms mirror school-ar.json: subjects.topics, catalog.chapters, catalog.lessons) -->
+    <string name="subjects_topics_count">%1$d موضوعات</string>
+    <string name="subjects_chapters_count">%1$d فصول</string>
+    <string name="subjects_lessons_count">%1$d دروس</string>
+
+    <!-- My Subjects Screen -->
+    <string name="subjects_my_title">موادي</string>
+    <string name="subjects_my_empty_title">لا توجد مواد</string>
+    <string name="subjects_my_empty_subtitle">لم يتم تسجيلك في أي مواد بعد.</string>
+    <string name="subjects_my_taught_by">يدرّسها %1$s</string>
+
+    <!-- Content Section Titles (mirror school-ar.json school.subjects.catalog.*) -->
+    <string name="subjects_section_videos">فيديوهات</string>
+    <string name="subjects_section_materials">مواد تعليمية</string>
+    <string name="subjects_section_exams">اختبارات</string>
+    <string name="subjects_section_qbank">بنك الأسئلة</string>
+    <string name="subjects_section_assignments">واجبات</string>
+
+    <!-- Section action labels -->
+    <string name="subjects_see_all">عرض الكل</string>
+    <string name="subjects_continue_watching">تابع المشاهدة</string>
+    <string name="subjects_explore_qbank">استكشف بنك الأسئلة</string>
+
+    <!-- Video card -->
+    <string name="subjects_views">مشاهدة</string>
+
+    <!-- Material type labels -->
+    <string name="subjects_material_textbook">كتاب</string>
+    <string name="subjects_material_syllabus">منهج</string>
+    <string name="subjects_material_reference">مرجع</string>
+    <string name="subjects_material_study_guide">دليل دراسي</string>
+    <string name="subjects_material_project">مشروع</string>
+    <string name="subjects_material_worksheet">ورقة عمل</string>
+    <string name="subjects_material_presentation">عرض تقديمي</string>
+    <string name="subjects_material_lesson_notes">ملاحظات الدرس</string>
+    <string name="subjects_material_video_guide">دليل فيديو</string>
+    <string name="subjects_material_lab_manual">دليل مختبر</string>
+    <string name="subjects_material_other">أخرى</string>
+    <string name="subjects_materials_count">%1$d عنصر</string>
+    <string name="subjects_materials_avg_pages">%1$d صفحة</string>
+
+    <!-- Exam type labels -->
+    <string name="subjects_exam_type_final">نهائي</string>
+    <string name="subjects_exam_type_midterm">نصفي</string>
+    <string name="subjects_exam_type_chapter_test">اختبار فصل</string>
+    <string name="subjects_exam_type_quiz">اختبار قصير</string>
+    <string name="subjects_exam_type_practice">تدريبي</string>
+    <string name="subjects_exam_type_diagnostic">تشخيصي</string>
+    <string name="subjects_exam_exams_count">%1$d اختبار</string>
+    <string name="subjects_exam_tests_count">%1$d اختبار</string>
+    <string name="subjects_exam_min">%1$d دقيقة</string>
+    <string name="subjects_exam_questions_short">%1$d سؤال</string>
+    <string name="subjects_exam_marks">%1$d درجة</string>
+
+    <!-- Question type labels -->
+    <string name="subjects_q_type_multiple_choice">اختيار متعدد</string>
+    <string name="subjects_q_type_true_false">صح / خطأ</string>
+    <string name="subjects_q_type_short_answer">إجابة قصيرة</string>
+    <string name="subjects_q_type_essay">مقالي</string>
+    <string name="subjects_q_type_fill_blank">إكمال الفراغ</string>
+    <string name="subjects_q_type_matching">مطابقة</string>
+    <string name="subjects_q_type_ordering">ترتيب</string>
+    <string name="subjects_q_type_multi_select">اختيار متعدد</string>
+    <!-- Question type descriptions (mirror school-ar.json catalog.questionDescriptions) -->
+    <string name="subjects_q_desc_multiple_choice">اختر أفضل إجابة من بين عدة خيارات متاحة</string>
+    <string name="subjects_q_desc_true_false">حدد ما إذا كانت كل عبارة صحيحة أم خاطئة</string>
+    <string name="subjects_q_desc_short_answer">اكتب إجابة موجزة في جملة أو جملتين</string>
+    <string name="subjects_q_desc_essay">اكتب إجابة مقالية مفصلة مع شرح كامل</string>
+    <string name="subjects_q_desc_fill_blank">أكمل الجملة بملء الكلمات الناقصة</string>
+    <string name="subjects_q_desc_matching">اربط العناصر المتعلقة من عمودين</string>
+    <string name="subjects_q_desc_ordering">رتب العناصر المعطاة بالتسلسل المنطقي الصحيح</string>
+    <string name="subjects_q_desc_multi_select">اختر جميع الإجابات الصحيحة من الخيارات المعطاة</string>
+
+    <!-- Assignment type labels + units -->
+    <string name="subjects_assignment_type_homework">واجب منزلي</string>
+    <string name="subjects_assignment_type_project">مشروع</string>
+    <string name="subjects_assignment_type_lab">مختبر</string>
+    <string name="subjects_assignment_type_essay">مقال</string>
+    <string name="subjects_assignment_type_presentation">عرض تقديمي</string>
+    <string name="subjects_assignment_minutes">%1$d دقيقة</string>
+    <string name="subjects_assignment_points">%1$d نقطة</string>
+    <string name="subjects_assignments_empty">لا توجد واجبات</string>
+</resources>

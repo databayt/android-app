@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">هوجورتس</string>
+
+    <!-- Auth -->
+    <string name="login_title">تسجيل الدخول</string>
+    <string name="login_email_label">البريد الإلكتروني</string>
+    <string name="login_password_label">كلمة المرور</string>
+    <string name="login_button">تسجيل الدخول</string>
+    <string name="login_biometric_button">استخدام البصمة</string>
+    <string name="login_help_text">تواصل مع مسؤول المدرسة إذا كنت بحاجة للمساعدة في تسجيل الدخول.</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">لوحة التحكم</string>
+    <string name="dashboard_welcome">مرحباً، %1$s</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">الرئيسية</string>
+    <string name="nav_students">الطلاب</string>
+    <string name="nav_attendance">الحضور</string>
+    <string name="nav_grades">الدرجات</string>
+    <string name="nav_fees">الرسوم</string>
+    <string name="nav_timetable">الجدول</string>
+    <string name="nav_messages">الرسائل</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Notification Channels -->
+    <string name="notification_channel_attendance">الحضور</string>
+    <string name="notification_channel_attendance_desc">إشعارات حضور الطلاب</string>
+    <string name="notification_channel_grades">الدرجات</string>
+    <string name="notification_channel_grades_desc">إشعارات تحديث الدرجات</string>
+    <string name="notification_channel_fees">الرسوم</string>
+    <string name="notification_channel_fees_desc">إشعارات المدفوعات</string>
+    <string name="notification_channel_messages">الرسائل</string>
+    <string name="notification_channel_messages_desc">الرسائل المباشرة والمحادثات</string>
+    <string name="notification_channel_announcements">الإعلانات</string>
+    <string name="notification_channel_announcements_desc">إعلانات وأخبار المدرسة</string>
+
+    <!-- Common -->
+    <string name="loading">جاري التحميل...</string>
+    <string name="error_generic">حدث خطأ ما</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="ok">موافق</string>
+    <string name="save">حفظ</string>
+    <string name="delete">حذف</string>
+    <string name="edit">تعديل</string>
+    <string name="search">بحث</string>
+    <string name="filter">تصفية</string>
+    <string name="offline_message">أنت غير متصل. يتم عرض البيانات المخزنة.</string>
+
+    <!-- Attendance Status -->
+    <string name="attendance_present">حاضر</string>
+    <string name="attendance_absent">غائب</string>
+    <string name="attendance_late">متأخر</string>
+    <string name="attendance_excused">معذور</string>
+
+    <!-- Roles -->
+    <string name="role_student">طالب</string>
+    <string name="role_teacher">معلم</string>
+    <string name="role_guardian">ولي أمر</string>
+    <string name="role_admin">مدير</string>
+</resources>

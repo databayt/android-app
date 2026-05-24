@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- شاشة الإشعارات -->
+    <string name="notifications_title">الإشعارات</string>
+    <string name="notifications_back">رجوع</string>
+    <string name="notifications_read_all">قراءة الكل</string>
+    <string name="notifications_no_notifications_title">لا توجد إشعارات</string>
+    <string name="notifications_no_notifications_subtitle">أنت على اطلاع بكل شيء!</string>
+    <string name="notifications_count_header">%1$d إشعارات</string>
+    <string name="notifications_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
+
+    <!-- علامات التبويب -->
+    <string name="notifications_tab_all">الكل</string>
+    <string name="notifications_tab_unread">غير المقروءة</string>
+
+    <!-- تصفية حسب النوع -->
+    <string name="notifications_filter_all_types">كل الأنواع</string>
+    <string name="notifications_type_announcement">إعلان</string>
+    <string name="notifications_type_attendance">الحضور</string>
+    <string name="notifications_type_grade">الدرجات</string>
+    <string name="notifications_type_fee">الرسوم</string>
+    <string name="notifications_type_message">رسالة</string>
+    <string name="notifications_type_timetable">الجدول</string>
+    <string name="notifications_type_general">عام</string>
+
+    <!-- مجموعات التاريخ -->
+    <string name="notifications_group_today">اليوم</string>
+    <string name="notifications_group_yesterday">أمس</string>
+    <string name="notifications_group_this_week">هذا الأسبوع</string>
+    <string name="notifications_group_earlier">سابقًا</string>
+
+    <!-- الأولوية -->
+    <string name="notifications_priority_urgent">عاجل</string>
+
+    <!-- التفضيلات -->
+    <string name="notifications_preferences_title">إعدادات الإشعارات</string>
+    <string name="notifications_preferences_save">حفظ</string>
+    <string name="notifications_preferences_error">تعذر حفظ التفضيلات: %1$s</string>
+
+    <string name="notifications_channel_in_app">داخل التطبيق</string>
+    <string name="notifications_channel_in_app_footer">إظهار الإشعارات داخل التطبيق.</string>
+    <string name="notifications_channel_email">البريد الإلكتروني</string>
+    <string name="notifications_channel_email_footer">استلام الإشعارات عبر البريد.</string>
+    <string name="notifications_channel_push">إشعارات الجهاز</string>
+    <string name="notifications_channel_push_footer">استلام الإشعارات على هذا الجهاز.</string>
+    <string name="notifications_channel_sms">الرسائل النصية</string>
+    <string name="notifications_channel_sms_footer">استلام الإشعارات عبر رسالة نصية.</string>
+    <string name="notifications_channel_whatsapp">واتساب</string>
+    <string name="notifications_channel_whatsapp_footer">استلام الإشعارات عبر واتساب.</string>
+</resources>

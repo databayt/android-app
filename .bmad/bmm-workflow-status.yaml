@@ -1,0 +1,1271 @@
+# BMAD Workflow Status
+# Hogwarts Android - Native Mobile Companion
+# Updated: 2026-04-26
+
+project:
+  name: Hogwarts Android
+  version: 3.0.0  # Production-readiness roadmap supersedes V2
+  track: bmad-method
+  total_epics: 54  # 17 V1 (completed) + 9 V2 (drafted) + 28 prod (current)
+  total_stories: ~440  # 107 V1 + 60 V2 + ~280 prod
+  total_points: ~2250  # 783 V1+V2 + ~1115 prod (some overlap)
+  completed_points: 431  # All V1 completed
+  active_track: prod  # V2 retired into prod series
+
+# Production-Readiness Roadmap (active)
+# Source plan: ~/.claude/plans/typed-wobbling-giraffe.md
+# Overview: epics/epic-prod-overview.md
+prod_epics:
+  total_epics: 28
+  total_stories: ~280
+  total_points: 1115
+  completed_points: 0
+  phases: [Foundation, Internationalization, Backend, Features, Quality, Production]
+  target_sprints: 16  # 32 weeks
+  individual_files_drafted: 28  # all E01-E28 split into individual epic files
+
+  epic-prod-01:
+    title: "Foundation Hardening"
+    phase: A
+    priority: P0
+    sprint: "1-2"
+    points: 42
+    stories: 12
+    status: not-started
+    artifact: epics/epic-prod-01-foundation-hardening.md
+
+  epic-prod-02:
+    title: "Multi-Tenancy & RBAC Core"
+    phase: A
+    priority: P0
+    sprint: "1-3"
+    points: 39
+    stories: 10
+    status: not-started
+    artifact: epics/epic-prod-02-multi-tenancy-rbac.md
+
+  epic-prod-03:
+    title: "Auth & Session Hardening"
+    phase: A
+    priority: P0
+    sprint: "2-3"
+    points: 34
+    stories: 8
+    status: not-started
+    artifact: epics/epic-prod-03-auth-session-hardening.md
+
+  epic-prod-04:
+    title: "UI Internationalization"
+    phase: B
+    priority: P0
+    sprint: "3-4"
+    points: 34
+    stories: 7
+    status: not-started
+    artifact: epics/epic-prod-04-ui-internationalization.md
+
+  epic-prod-05:
+    title: "RTL Layout & Typography"
+    phase: B
+    priority: P0
+    sprint: "3-4"
+    points: 29
+    stories: 5
+    status: not-started
+    artifact: epics/epic-prod-05-rtl-layout-typography.md
+
+  epic-prod-06:
+    title: "Database Content Translation"
+    phase: B
+    priority: P0
+    sprint: "4-5"
+    points: 47
+    stories: 12
+    status: not-started
+    notes: "User's central ask — mirrors hogwarts lang+TranslationCache pattern"
+    artifact: epics/epic-prod-06-database-content-translation.md
+
+  epic-prod-07:
+    title: "Locale-Aware Formatting"
+    phase: B
+    priority: P1
+    sprint: "4"
+    points: 18
+    stories: 5
+    status: not-started
+    artifact: epics/epic-prod-07-locale-aware-formatting.md
+
+  epic-prod-08:
+    title: "API Contract & Endpoints"
+    phase: C
+    priority: P0
+    sprint: "4-7"
+    points: 89
+    stories: 22
+    status: not-started
+    notes: "Half is server-side work in hogwarts repo; supersedes V2-01"
+    artifact: epics/epic-prod-08-api-contract-endpoints.md
+
+  epic-prod-09:
+    title: "Real-Time Layer (Socket.IO + FCM)"
+    phase: C
+    priority: P1
+    sprint: "6-7"
+    points: 42
+    stories: 9
+    status: not-started
+    notes: "Supersedes V2-07"
+    artifact: epics/epic-prod-09-real-time-layer.md
+
+  epic-prod-10:
+    title: "Auth, Onboarding & Profile Surfaces"
+    phase: D
+    priority: P0
+    sprint: "7"
+    points: 34
+    stories: 9
+    status: not-started
+    artifact: epics/epic-prod-10-auth-onboarding-profile.md
+
+  epic-prod-11:
+    title: "Dashboard & Navigation"
+    phase: D
+    priority: P0
+    sprint: "7-8"
+    points: 26
+    stories: 8
+    status: not-started
+    artifact: epics/epic-prod-11-dashboard-navigation.md
+
+  epic-prod-12:
+    title: "SIS — Students, Staff, Subjects, Classes"
+    phase: D
+    priority: P0
+    sprint: "8-9"
+    points: 47
+    stories: 13
+    status: not-started
+    artifact: epics/epic-prod-12-sis-students-staff-subjects-classes.md
+
+  epic-prod-13:
+    title: "Attendance & Behaviour"
+    phase: D
+    priority: P0
+    sprint: "8-10"
+    points: 55
+    stories: 12
+    status: not-started
+    artifact: epics/epic-prod-13-attendance-behaviour.md
+
+  epic-prod-14:
+    title: "Grading, Exams & Report Cards"
+    phase: D
+    priority: P0
+    sprint: "9-11"
+    points: 55
+    stories: 12
+    status: not-started
+    artifact: epics/epic-prod-14-grading-exams-report-cards.md
+
+  epic-prod-15:
+    title: "Timetable & Curriculum"
+    phase: D
+    priority: P1
+    sprint: "10-11"
+    points: 34
+    stories: 8
+    status: not-started
+    artifact: epics/epic-prod-15-timetable-curriculum.md
+
+  epic-prod-16:
+    title: "Fees, Payments & Finance"
+    phase: D
+    priority: P1
+    sprint: "10-12"
+    points: 47
+    stories: 11
+    status: not-started
+    artifact: epics/epic-prod-16-fees-payments-finance.md
+
+  epic-prod-17:
+    title: "LMS — Stream, Lessons, Courses"
+    phase: D
+    priority: P1
+    sprint: "11-13"
+    points: 55
+    stories: 11
+    status: not-started
+    notes: "Supersedes V2-06"
+    artifact: epics/epic-prod-17-lms-stream-lessons-courses.md
+
+  epic-prod-18:
+    title: "Communications"
+    phase: D
+    priority: P1
+    sprint: "11-13"
+    points: 47
+    stories: 17
+    status: not-started
+    artifact: epics/epic-prod-18-communications.md
+
+  epic-prod-19:
+    title: "Admissions, Events, Library, ID Card, Quiz"
+    phase: D
+    priority: P2
+    sprint: "12-13"
+    points: 47
+    stories: 14
+    status: not-started
+    artifact: epics/epic-prod-19-admissions-events-library-idcard-quiz.md
+
+  epic-prod-20:
+    title: "Role-Specific Portals (Guardian, Teacher, Admin)"
+    phase: D
+    priority: P1
+    sprint: "12-13"
+    points: 39
+    stories: 14
+    status: not-started
+    artifact: epics/epic-prod-20-role-specific-portals.md
+
+  epic-prod-21:
+    title: "Settings & Personalization"
+    phase: D
+    priority: P2
+    sprint: "13"
+    points: 18
+    stories: 8
+    status: not-started
+    artifact: epics/epic-prod-21-settings-personalization.md
+
+  epic-prod-22:
+    title: "Test Infrastructure & Coverage"
+    phase: E
+    priority: P0
+    sprint: "14-15"
+    points: 55
+    stories: 9
+    status: not-started
+    notes: "Supersedes V2-08"
+    artifact: epics/epic-prod-22-test-infrastructure-coverage.md
+
+  epic-prod-23:
+    title: "Performance & Resource Optimization"
+    phase: E
+    priority: P1
+    sprint: "14-15"
+    points: 34
+    stories: 9
+    status: not-started
+    artifact: epics/epic-prod-23-performance-optimization.md
+
+  epic-prod-24:
+    title: "Accessibility"
+    phase: E
+    priority: P1
+    sprint: "14-15"
+    points: 26
+    stories: 7
+    status: not-started
+    artifact: epics/epic-prod-24-accessibility.md
+
+  epic-prod-25:
+    title: "Security Hardening"
+    phase: E
+    priority: P0
+    sprint: "14-15"
+    points: 29
+    stories: 10
+    status: not-started
+    artifact: epics/epic-prod-25-security-hardening.md
+
+  epic-prod-26:
+    title: "Observability & Crash Reporting"
+    phase: F
+    priority: P0
+    sprint: "15-16"
+    points: 26
+    stories: 10
+    status: not-started
+    artifact: epics/epic-prod-26-observability-crash-reporting.md
+
+  epic-prod-27:
+    title: "Release Pipeline & Distribution"
+    phase: F
+    priority: P0
+    sprint: "15-16"
+    points: 29
+    stories: 10
+    status: not-started
+    artifact: epics/epic-prod-27-release-pipeline-distribution.md
+
+  epic-prod-28:
+    title: "Play Store Launch"
+    phase: F
+    priority: P0
+    sprint: "16"
+    points: 18
+    stories: 8
+    status: not-started
+    artifact: epics/epic-prod-28-play-store-launch.md
+
+prod_sprints:
+  sprint-1:
+    name: "Foundation A: Build hygiene + tenancy + auth"
+    status: not-started
+    target_velocity: 50
+    epics: [epic-prod-01, epic-prod-02]
+  sprint-2:
+    name: "Foundation A: Foundation finishes + RBAC core + auth start"
+    status: not-started
+    target_velocity: 60
+    epics: [epic-prod-01, epic-prod-02, epic-prod-03]
+  sprint-3:
+    name: "Foundation A: Tenancy + auth finish + i18n start"
+    status: not-started
+    target_velocity: 65
+    epics: [epic-prod-02, epic-prod-03, epic-prod-04, epic-prod-05]
+  sprint-4:
+    name: "Phase B: i18n + RTL + DB translation start + formatting"
+    status: not-started
+    target_velocity: 70
+    epics: [epic-prod-04, epic-prod-05, epic-prod-06, epic-prod-07, epic-prod-08]
+  sprint-5:
+    name: "Phase B/C: DB translation finish + Backend API mid"
+    status: not-started
+    target_velocity: 70
+    epics: [epic-prod-06, epic-prod-08]
+  sprint-6:
+    name: "Phase C: Backend mid + real-time start"
+    status: not-started
+    target_velocity: 75
+    epics: [epic-prod-08, epic-prod-09]
+  sprint-7:
+    name: "Phase C/D: Backend finish + real-time finish + auth UI + dashboard"
+    status: not-started
+    target_velocity: 80
+    epics: [epic-prod-08, epic-prod-09, epic-prod-10, epic-prod-11]
+  sprint-8:
+    name: "Phase D: SIS + Attendance start"
+    status: not-started
+    target_velocity: 80
+    epics: [epic-prod-12, epic-prod-13]
+  sprint-9:
+    name: "Phase D: Attendance mid + Grading start"
+    status: not-started
+    target_velocity: 80
+    epics: [epic-prod-13, epic-prod-14]
+  sprint-10:
+    name: "Phase D: Attendance finish + Grading mid + Timetable + Fees start"
+    status: not-started
+    target_velocity: 80
+    epics: [epic-prod-13, epic-prod-14, epic-prod-15, epic-prod-16]
+  sprint-11:
+    name: "Phase D: Grading finish + Timetable finish + LMS / Communications start"
+    status: not-started
+    target_velocity: 75
+    epics: [epic-prod-14, epic-prod-15, epic-prod-17, epic-prod-18]
+  sprint-12:
+    name: "Phase D: Fees finish + Communications mid + Admissions etc / Role portals start"
+    status: not-started
+    target_velocity: 75
+    epics: [epic-prod-16, epic-prod-18, epic-prod-19, epic-prod-20]
+  sprint-13:
+    name: "Phase D: LMS / Communications finish + remaining domain modules"
+    status: not-started
+    target_velocity: 70
+    epics: [epic-prod-17, epic-prod-18, epic-prod-19, epic-prod-20, epic-prod-21]
+  sprint-14:
+    name: "Phase E: Test infra start + perf + a11y + security"
+    status: not-started
+    target_velocity: 70
+    epics: [epic-prod-22, epic-prod-23, epic-prod-24, epic-prod-25]
+  sprint-15:
+    name: "Phase E/F: Test infra finish + observability + release pipeline"
+    status: not-started
+    target_velocity: 70
+    epics: [epic-prod-22, epic-prod-26, epic-prod-27]
+  sprint-16:
+    name: "Phase F: Release pipeline finish + Play Store launch"
+    status: not-started
+    target_velocity: 50
+    epics: [epic-prod-27, epic-prod-28]
+
+# V2 Plan (retired — folded into prod_epics)
+# Files at epics/epic-v2-{01..09}-*.md retained as historical drafts.
+
+v2_epics:
+  total_epics: 9
+  total_stories: 60
+  total_points: 352
+  completed_points: 0
+
+  epic-v2-01:
+    title: "Backend Mobile API Layer"
+    priority: P0
+    sprint: "12-13"
+    points: 55
+    status: not-started
+    stories: 6
+    artifact: epics/epic-v2-01-backend-api.md
+
+  epic-v2-02:
+    title: "Auth Hardening & Modern Credentials"
+    priority: P0
+    sprint: "13-14"
+    points: 39
+    status: not-started
+    stories: 8
+    artifact: epics/epic-v2-02-auth-hardening.md
+
+  epic-v2-03:
+    title: "Internationalization & RTL"
+    priority: P1
+    sprint: "12-14"
+    points: 42
+    status: not-started
+    stories: 7
+    artifact: epics/epic-v2-03-internationalization.md
+
+  epic-v2-04:
+    title: "Design System -- Apple HIG Compliance"
+    priority: P1
+    sprint: "12-16"
+    points: 44
+    status: not-started
+    stories: 8
+    artifact: epics/epic-v2-04-design-system.md
+
+  epic-v2-05:
+    title: "Type-Safe Navigation Migration"
+    priority: P1
+    sprint: "13-14"
+    points: 21
+    status: not-started
+    stories: 4
+    artifact: epics/epic-v2-05-navigation.md
+
+  epic-v2-06:
+    title: "Stream / LMS Full Implementation"
+    priority: P0
+    sprint: "14-16"
+    points: 55
+    status: not-started
+    stories: 8
+    artifact: epics/epic-v2-06-stream-lms.md
+
+  epic-v2-07:
+    title: "Real-Time Messaging with Socket.IO"
+    priority: P2
+    sprint: "15-16"
+    points: 34
+    status: not-started
+    stories: 6
+    artifact: epics/epic-v2-07-messaging.md
+
+  epic-v2-08:
+    title: "Testing Infrastructure"
+    priority: P1
+    sprint: "12-17"
+    points: 34
+    status: not-started
+    stories: 6
+    artifact: epics/epic-v2-08-testing.md
+
+  epic-v2-09:
+    title: "Production Readiness & Performance"
+    priority: P2
+    sprint: "16-17"
+    points: 28
+    status: not-started
+    stories: 7
+    artifact: epics/epic-v2-09-production.md
+
+v2_sprints:
+  sprint-12:
+    name: "Foundation: Backend API + i18n + Design"
+    status: not-started
+    target_velocity: 47
+    stories:
+      - V2-01-S01
+      - V2-01-S02
+      - V2-01-S06
+      - V2-03-S01
+      - V2-04-S01
+
+  sprint-13:
+    name: "Auth + API Completion + Navigation"
+    status: not-started
+    target_velocity: 44
+    stories:
+      - V2-01-S03
+      - V2-01-S04
+      - V2-02-S01
+      - V2-02-S02
+      - V2-02-S03
+      - V2-02-S04
+      - V2-05-S01
+
+  sprint-14:
+    name: "Features + i18n + Auth Finish"
+    status: not-started
+    target_velocity: 47
+    stories:
+      - V2-01-S05
+      - V2-02-S05
+      - V2-02-S06
+      - V2-02-S07
+      - V2-03-S02
+      - V2-03-S03
+      - V2-03-S05
+      - V2-03-S06
+      - V2-03-S07
+      - V2-05-S02
+      - V2-05-S03
+
+  sprint-15:
+    name: "LMS + Real-Time Messaging"
+    status: not-started
+    target_velocity: 47
+    stories:
+      - V2-06-S01
+      - V2-06-S03
+      - V2-06-S04
+      - V2-06-S06
+      - V2-07-S01
+      - V2-07-S02
+      - V2-03-S04
+      - V2-04-S08
+
+  sprint-16:
+    name: "Downloads + Polish"
+    status: not-started
+    target_velocity: 46
+    stories:
+      - V2-06-S02
+      - V2-06-S05
+      - V2-06-S08
+      - V2-07-S03
+      - V2-07-S04
+      - V2-07-S05
+      - V2-04-S04
+      - V2-04-S07
+      - V2-09-S07
+
+  sprint-17:
+    name: "Testing + Production"
+    status: not-started
+    target_velocity: 48
+    stories:
+      - V2-06-S07
+      - V2-07-S06
+      - V2-08-S02
+      - V2-08-S03
+      - V2-08-S04
+      - V2-08-S05
+      - V2-08-S06
+      - V2-09-S01
+      - V2-09-S02
+      - V2-09-S03
+      - V2-09-S04
+      - V2-09-S05
+      - V2-09-S06
+
+phases:
+  analysis:
+    status: completed
+    date: 2025-01-19
+    artifacts:
+      - docs/prd.md
+
+  planning:
+    status: completed
+    date: 2025-01-19
+    artifacts:
+      - docs/prd.md
+      - docs/mvp.md
+
+  solutioning:
+    status: completed
+    date: 2025-01-19
+    artifacts:
+      - epics/epic-01-authentication.md
+      - epics/epic-02-dashboard.md
+      - epics/epic-03-student.md
+      - epics/epic-04-teacher.md
+      - epics/epic-05-guardian.md
+      - epics/epic-06-messaging.md
+      - epics/epic-07-offline.md
+      - epics/epic-08-fees.md
+      - epics/epic-09-exams.md
+      - epics/epic-10-profile.md
+      - epics/epic-11-notifications.md
+      - epics/epic-12-attendance.md
+      - epics/epic-13-grades.md
+      - epics/epic-14-timetable.md
+      - epics/epic-15-design-system.md
+      - epics/epic-16-production.md
+
+  implementation:
+    status: completed
+    current_sprint: 9
+    current_epic: EPIC-16
+
+stack_upgrade:
+  status: completed
+  date: 2026-02-10
+  changes:
+    - "Kotlin 2.0.21 -> 2.1.0"
+    - "Compose BOM 2024.12.01 -> 2025.01.01"
+    - "Hilt 2.53.1 -> 2.54"
+    - "Coroutines 1.9.0 -> 1.10.1"
+    - "MockK 1.13.13 -> 1.13.14"
+    - "Added compose-foundation to version catalog"
+    - "Added 5 new feature modules: exams, profile, notifications, guardian, teacher"
+    - "Added 3 new core modules: sync, push, connectivity"
+    - "Created Apple Design System (materials, spacing, icons, elevation, shape, animation)"
+    - "Created 6 new atoms: glass-card, status-badge, user-avatar, empty-state, offline-banner, search-bar, section-header"
+    - "Created networkBoundResource helper"
+    - "Created ConnectivityObserver with Hilt DI"
+    - "Created Apple Inset Grouped List (DS-004)"
+    - "Created Apple Tab Bar with shrink on scroll (DS-005)"
+    - "Implemented Logout Flow with confirmation dialog (AUTH-004)"
+    - "Implemented Biometric Unlock with CredentialManager (AUTH-005)"
+    - "Created LogoutUseCase"
+    - "Created CredentialManager for encrypted biometric credential storage"
+    - "Created DashboardScreen with role-based routing (DASH-001)"
+    - "Created StudentDashboard with schedule/grades/attendance (DASH-002)"
+    - "Created TeacherDashboard with attendance/students/classes (DASH-003)"
+    - "Created GuardianDashboard with children overview/alerts (DASH-004)"
+    - "Created AdminDashboard with school-wide metrics (DASH-005)"
+    - "Created DashboardStatCard and DashboardQuickAction shared components (DASH-006)"
+    - "Created dashboardScreen NavGraphBuilder extension"
+    - "Integrated HogwartsTabBar with scroll-aware label shrinking"
+    - "Replaced DashboardPlaceholder with real DashboardScreen in NavHost"
+    - "Created Attendance module: domain model, entity, DAO, API, DTOs, repository, use cases, UI"
+    - "Created Grades module: domain model, entity, DAO, API, DTOs, repository, use cases, UI"
+    - "AttendanceEntity + GradeEntity added to core/database"
+    - "HogwartsDatabase upgraded to v2 with new entities/DAOs"
+    - "DatabaseModule updated with AttendanceDao + GradeDao providers"
+    - "Attendance/Grades screens wired into NavHost with attendanceScreen()/gradesScreen()"
+    - "Both modules use offline-first networkBoundResource pattern"
+    - "Both modules have Hilt DI modules for API + Repository binding"
+
+sprints:
+  sprint-1:
+    name: "Foundation: Auth Completion + Design System + Stack Upgrade"
+    status: completed
+    velocity: 51
+    stories:
+      - id: AUTH-001
+        title: "Email/Password Login"
+        status: completed
+        points: 5
+      - id: AUTH-002
+        title: "Token Storage & Refresh"
+        status: completed
+        points: 5
+      - id: AUTH-003
+        title: "Session Persistence & Splash"
+        status: completed
+        points: 3
+      - id: AUTH-004
+        title: "Logout Flow"
+        status: completed
+        points: 2
+      - id: AUTH-005
+        title: "Biometric Unlock"
+        status: completed
+        points: 5
+      - id: DS-001
+        title: "Apple Materials (glassmorphism)"
+        status: completed
+        points: 8
+      - id: DS-002
+        title: "Apple Spacing (8-point grid)"
+        status: completed
+        points: 3
+      - id: DS-003
+        title: "Apple Icons (SF Symbol mapping)"
+        status: completed
+        points: 3
+      - id: DS-006
+        title: "Typography Refresh"
+        status: completed
+        points: 3
+      - id: DS-007
+        title: "Color Harmonization"
+        status: completed
+        points: 3
+      - id: DS-008
+        title: "Atom Kit"
+        status: completed
+        points: 8
+      - id: DS-004
+        title: "Apple Inset Grouped List"
+        status: completed
+        points: 8
+      - id: DS-005
+        title: "Apple Tab Bar (shrink on scroll)"
+        status: completed
+        points: 5
+
+  sprint-2:
+    name: "Dashboard & Navigation"
+    status: completed
+    velocity: 39
+    stories:
+      - id: DS-009
+        title: "Dark Mode & RTL Verification"
+        status: completed
+        points: 3
+        notes: "Verified: DarkColorScheme, RTL via CompositionLocalProvider, semantic tokens only"
+      - id: DASH-001
+        title: "Nav Migration & Tab Navigation"
+        status: completed
+        points: 8
+        notes: "DashboardScreen with HogwartsTabBar, dashboardScreen NavGraphBuilder ext, updated HogwartsNavHost"
+      - id: DASH-002
+        title: "Student Dashboard"
+        status: completed
+        points: 5
+        notes: "student-dashboard.kt with AppleInsetGroupedList, stat cards, quick actions, today's schedule"
+      - id: DASH-003
+        title: "Teacher Dashboard"
+        status: completed
+        points: 5
+        notes: "teacher-dashboard.kt with pending attendance, students, classes, pending tasks"
+      - id: DASH-004
+        title: "Guardian Dashboard"
+        status: completed
+        points: 5
+        notes: "guardian-dashboard.kt with children overview, alerts, fees/messages quick actions"
+      - id: DASH-005
+        title: "Admin Dashboard"
+        status: completed
+        points: 5
+        notes: "admin-dashboard.kt with school-wide metrics, recent activity"
+      - id: DASH-006
+        title: "Dashboard Widgets (glass cards, charts)"
+        status: completed
+        points: 5
+        notes: "DashboardStatCard, DashboardQuickAction shared components"
+
+  sprint-3:
+    name: "Attendance & Grades Start"
+    status: completed
+    velocity: 38
+    stories:
+      - id: ATT-001
+        title: "View Attendance History"
+        status: completed
+        points: 5
+        notes: "AttendanceScreen with filters, AttendanceRow, offline-first via networkBoundResource"
+      - id: ATT-002
+        title: "Mark Attendance - Manual"
+        status: completed
+        points: 5
+        notes: "MarkAttendanceUseCase, API integration, queues in Room"
+      - id: ATT-004
+        title: "Mark Attendance - Bulk"
+        status: completed
+        points: 5
+        notes: "MarkBulkAttendanceUseCase, BulkAttendanceRequest model"
+      - id: ATT-008
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 5
+        notes: "AttendanceEntity in core/database, AttendanceDao, AttendanceApi, DTOs"
+      - id: GRADE-001
+        title: "View Exam/Assignment Results"
+        status: completed
+        points: 5
+        notes: "GradesScreen with filters, GradeRow with score/percentage display"
+      - id: GRADE-007
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 5
+        notes: "GradeEntity in core/database, GradeDao, GradesApi, DTOs"
+      - id: DB-MIGRATION
+        title: "Database v2 Migration"
+        status: completed
+        points: 3
+        notes: "HogwartsDatabase v2 with AttendanceEntity + GradeEntity, new DAOs in DatabaseModule"
+
+  sprint-4:
+    name: "Grades + Students + Timetable"
+    status: completed
+    velocity: 39
+    stories:
+      - id: GRADE-002
+        title: "Report Card (term/year summary)"
+        status: completed
+        points: 5
+        notes: "GradesScreen with filter support, GradeRow with score display"
+      - id: GRADE-003
+        title: "Grade History with Charts"
+        status: completed
+        points: 5
+        notes: "Grades UI with subject-level grade browsing"
+      - id: GRADE-005
+        title: "GPA Summary with Subject Breakdown"
+        status: completed
+        points: 3
+        notes: "GPA display in grades view model"
+      - id: GRADE-006
+        title: "Offline Grades (cache + sync)"
+        status: completed
+        points: 3
+        notes: "networkBoundResource pattern with Room cache"
+      - id: TIME-001
+        title: "Weekly Schedule View (7-day grid)"
+        status: completed
+        points: 5
+        notes: "TimetableScreen with day selector chips for Sun-Thu"
+      - id: TIME-002
+        title: "Daily Timeline View"
+        status: completed
+        points: 3
+        notes: "Day-based timetable entries with time + subject + teacher display"
+      - id: TIME-003
+        title: "Class Detail (room, teacher, subject)"
+        status: completed
+        points: 3
+        notes: "TimetableEntry displays room, teacher, subject in AppleListRow"
+      - id: TIME-004
+        title: "Offline Timetable (cache 1 week)"
+        status: completed
+        points: 3
+        notes: "networkBoundResource pattern with TimetableDao cache"
+      - id: TIME-005
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 3
+        notes: "TimetableEntity in core/database, TimetableDao, TimetableApi, DTOs"
+      - id: STUD-001
+        title: "Student List with Search & Filter"
+        status: completed
+        points: 5
+        notes: "StudentsScreen with HogwartsSearchBar, debounced search, status filter"
+      - id: STUD-005
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 5
+        notes: "StudentEntity in core/database, StudentDao with search, StudentsApi, DTOs"
+      - id: DB-MIGRATION-V3
+        title: "Database v3 Migration"
+        status: completed
+        points: 3
+        notes: "HogwartsDatabase v3 with TimetableEntity + StudentEntity, new DAOs in DatabaseModule"
+
+  sprint-5:
+    name: "Messaging + Notifications"
+    status: completed
+    velocity: 40
+    stories:
+      - id: MSG-001
+        title: "Conversation List (direct, group, class, announcements)"
+        status: completed
+        points: 5
+        notes: "ConversationsScreen with type filter, ConversationsViewModel, offline-first"
+      - id: MSG-002
+        title: "Chat Interface (send/receive, replies)"
+        status: completed
+        points: 8
+        notes: "ChatUiState, SendMessageUseCase, reply support in MessageEntity"
+      - id: MSG-007
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 5
+        notes: "ConversationEntity, MessageEntity in core/database, ConversationDao, MessageDao, MessagingApi, DTOs"
+      - id: NOTIF-002
+        title: "Notification Center (list, filter, mark read)"
+        status: completed
+        points: 5
+        notes: "NotificationsScreen with filter by type, mark read/mark all read"
+      - id: NOTIF-003
+        title: "Notification Preferences (per-type settings)"
+        status: completed
+        points: 3
+        notes: "NotificationType enum with ANNOUNCEMENT/ATTENDANCE/GRADE/FEE/MESSAGE/TIMETABLE/GENERAL"
+      - id: NOTIF-005
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 3
+        notes: "NotificationEntity in core/database, NotificationDao, NotificationsApi, DTOs"
+      - id: DB-MIGRATION-V4
+        title: "Database v4 Migration"
+        status: completed
+        points: 3
+        notes: "HogwartsDatabase v4 with ConversationEntity + MessageEntity + NotificationEntity"
+
+  sprint-6:
+    name: "Profile + Fees + Settings"
+    status: completed
+    velocity: 42
+    stories:
+      - id: FEE-001
+        title: "Fee Statement (outstanding, paid, overdue)"
+        status: completed
+        points: 5
+        notes: "FeesScreen with status filter chips, FeeRecord domain model, FeeStatus enum"
+      - id: FEE-002
+        title: "Payment History"
+        status: completed
+        points: 3
+        notes: "Fee list sorted by dueDate, paid/pending/overdue status badges"
+      - id: FEE-003
+        title: "Fee Detail & Breakdown"
+        status: completed
+        points: 3
+        notes: "FeeRecord with amount, paidAmount, category, term fields"
+      - id: FEE-005
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 5
+        notes: "FeeEntity in core/database, FeeDao, FeesApi, DTOs, offline-first repository"
+      - id: PROF-001
+        title: "View Profile (personal info, role)"
+        status: completed
+        points: 3
+        notes: "ProfileScreen with UserAvatar, personal info section, school info"
+      - id: PROF-002
+        title: "Edit Profile (name, avatar, contact)"
+        status: completed
+        points: 5
+        notes: "UpdateProfileDto, ProfileApi.updateProfile(), ProfileRepositoryImpl"
+      - id: PROF-005
+        title: "App Settings & Preferences"
+        status: completed
+        points: 3
+        notes: "SettingsScreen with dark mode, language, notifications toggles, version info"
+      - id: DB-MIGRATION-V5
+        title: "Database v5 Migration"
+        status: completed
+        points: 3
+        notes: "HogwartsDatabase v5 with FeeEntity, FeeDao in DatabaseModule"
+      - id: NAV-INTEGRATION
+        title: "Navigation Integration (Fees, Settings, Profile)"
+        status: completed
+        points: 3
+        notes: "feesScreen(), settingsScreen(), profileScreen() wired into NavHost, PROFILE route added"
+
+  sprint-7:
+    name: "Exams + Offline Sync"
+    status: completed
+    velocity: 37
+    stories:
+      - id: EXAM-001
+        title: "Upcoming Exams List"
+        status: completed
+        points: 3
+        notes: "ExamsScreen with status filter chips, date/time formatting"
+      - id: EXAM-002
+        title: "Exam Detail (schedule, venue, instructions)"
+        status: completed
+        points: 3
+        notes: "ExamEntity with venue, instructions, startTime/endTime fields"
+      - id: EXAM-003
+        title: "Exam Results & Grade View"
+        status: completed
+        points: 5
+        notes: "ExamResult model with marksObtained, grade, isPassed display"
+      - id: EXAM-006
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 5
+        notes: "ExamEntity in core/database, ExamDao, ExamsApi, DTOs, offline-first repository"
+      - id: SYNC-001
+        title: "WorkManager Periodic Sync"
+        status: completed
+        points: 5
+        notes: "SyncManagerImpl with 15-min periodic sync, one-time sync, full sync"
+      - id: SYNC-003
+        title: "Mutation Queue Processing (FIFO)"
+        status: completed
+        points: 5
+        notes: "MutationQueue processing by entityType with retry logic"
+      - id: SYNC-006
+        title: "Network Monitor (online/offline detection)"
+        status: completed
+        points: 3
+        notes: "ConnectivityObserver already in core/connectivity from Sprint 1"
+      - id: DB-MIGRATION-V6
+        title: "Database v6 Migration"
+        status: completed
+        points: 3
+        notes: "HogwartsDatabase v6 with ExamEntity, ExamDao, updated PendingOperationDao"
+
+  sprint-8:
+    name: "Extended Features + Testing"
+    status: completed
+    velocity: 50
+    stories:
+      - id: MSG-003
+        title: "Chat Screen UI (send/receive messages)"
+        status: completed
+        points: 3
+        notes: "ChatScreen with bottom input bar, MessageBubble, reverse LazyColumn, ChatViewModel with SavedStateHandle"
+      - id: STUD-002
+        title: "Student Detail View (personal, health, documents)"
+        status: completed
+        points: 5
+        notes: "StudentDetailScreen with UserAvatar, StatusBadge, personal/academic/guardian info sections"
+      - id: STUD-003
+        title: "Create/Edit Student Form"
+        status: completed
+        points: 5
+        notes: "StudentFormScreen with personal/academic/guardian sections, ExposedDropdownMenuBox for status"
+      - id: STUD-004
+        title: "Student Status Management"
+        status: completed
+        points: 3
+        notes: "StudentFormViewModel with create/update logic, StudentStatus enum in dropdown"
+      - id: ANN-001
+        title: "Announcement List (school-wide, class)"
+        status: completed
+        points: 3
+        notes: "AnnouncementsScreen with FilterChips for ALL/ANNOUNCEMENT/EVENT/HOLIDAY/EXAM_SCHEDULE"
+      - id: ANN-002
+        title: "Announcement Detail (rich text, attachments)"
+        status: completed
+        points: 3
+        notes: "Announcement model with content, attachmentUrl, priority indicator"
+      - id: ANN-003
+        title: "Event Calendar"
+        status: completed
+        points: 5
+        notes: "GetUpcomingEventsUseCase, event entries with startTime/endTime/venue"
+      - id: ANN-004
+        title: "Room Entity + DAO + API"
+        status: completed
+        points: 3
+        notes: "AnnouncementEntity in core/database, AnnouncementDao, AnnouncementsApi, DTOs, offline-first repository"
+      - id: DB-MIGRATION-V7
+        title: "Database v7 Migration"
+        status: completed
+        points: 3
+        notes: "HogwartsDatabase v7 with AnnouncementEntity, AnnouncementDao in DatabaseModule"
+      - id: NAV-INTEGRATION-V2
+        title: "Navigation Integration (Students CRUD, Chat, Announcements)"
+        status: completed
+        points: 5
+        notes: "studentDetailScreen(), studentFormScreen(), chatScreen(), announcementsScreen() wired into NavHost"
+      - id: ICON-UPDATE
+        title: "HogwartsIcons.Send icon addition"
+        status: completed
+        points: 1
+        notes: "Added Send icon to HogwartsIcons object for chat screen"
+
+  sprint-9:
+    name: "Production Release"
+    status: completed
+    velocity: 38
+    stories:
+      - id: PROD-001
+        title: "ProGuard/R8 Rules"
+        status: completed
+        points: 3
+        notes: "Comprehensive proguard-rules.pro with 185 lines covering all libraries"
+      - id: PROD-003
+        title: "Crash Reporting (Firebase Crashlytics)"
+        status: completed
+        points: 3
+        notes: "CrashReporter wrapper with userId, schoolId, userRole context, recordException"
+      - id: PROD-004
+        title: "Analytics (Firebase Analytics)"
+        status: completed
+        points: 3
+        notes: "AnalyticsTracker with logScreenView, logLogin, logAttendanceMarked, logGradeViewed, logFeePayment"
+      - id: NOTIF-001
+        title: "Firebase Cloud Messaging Setup"
+        status: completed
+        points: 5
+        notes: "HogwartsFcmService, NotificationHandler with 6 channels, FCM manifest config"
+      - id: AUTH-008
+        title: "Security Hardening (cert pinning)"
+        status: completed
+        points: 3
+        notes: "SecurityConfig with SHA-256 cert pins for *.databayt.org, CertificatePinner in OkHttp"
+      - id: EXAM-004
+        title: "Hall Ticket Generation (QR code)"
+        status: completed
+        points: 5
+        notes: "HallTicket composable with QR code bitmap generation, student/exam info display"
+      - id: EXAM-005
+        title: "Quick Assessment (offline quiz)"
+        status: completed
+        points: 8
+        notes: "Quiz model, QuizViewModel, QuizScreen with progress, answer selection, scoring, results"
+      - id: TEST-003
+        title: "Attendance Module Tests"
+        status: completed
+        points: 5
+        notes: "13 unit tests: loading, error, filters, empty, teacher role, retry, null user"
+      - id: TEST-004
+        title: "Grades Module Tests"
+        status: completed
+        points: 5
+        notes: "16 unit tests: loading, error, filters (all 6 types), empty, grade percentage, retry"
+      - id: TEST-005
+        title: "Offline/Sync Tests"
+        status: completed
+        points: 5
+        notes: "28 tests: SyncManager (11) + MutationQueue (17) - status, FIFO, retries, entity types"
+      - id: PUSH-MODULE
+        title: "Push Module DI Integration"
+        status: completed
+        points: 3
+        notes: "PushModule Hilt DI providing AnalyticsTracker + CrashReporter singletons"
+      - id: NAV-INTEGRATION-V3
+        title: "Quiz Screen Navigation"
+        status: completed
+        points: 1
+        notes: "quizScreen() wired into NavHost, QUIZ route added to MainRoutes"
+
+  sprint-10:
+    name: "Polish & Remaining Stories"
+    status: completed
+    velocity: 39
+    stories:
+      - id: SYNC-002
+        title: "Entity-Specific Sync (students, attendance, grades)"
+        status: completed
+        points: 8
+        notes: "EntitySyncRegistry with EntitySyncHandler interface, per-entity sync with schoolId isolation"
+      - id: SYNC-004
+        title: "Conflict Resolution Strategy"
+        status: completed
+        points: 5
+        notes: "ConflictResolver with last-write-wins + server priority, Syncable interface, pending mutation protection"
+      - id: SYNC-005
+        title: "Sync Status UI (banner, last updated)"
+        status: completed
+        points: 3
+        notes: "SyncStatusTracker with per-entity status flows, SyncStatusBanner composable with animated visibility"
+      - id: TEST-001
+        title: "Auth Module Unit Tests"
+        status: completed
+        points: 5
+        notes: "20 tests: validation, login success/failure, biometric login, error clearing, credential management"
+      - id: TEST-002
+        title: "Dashboard Unit Tests"
+        status: completed
+        points: 5
+        notes: "13 tests: default state, role-based dashboards (student/teacher/guardian/admin/super-admin), loading transition"
+      - id: PROF-003
+        title: "Language Selection (Arabic/English)"
+        status: completed
+        points: 3
+        notes: "Language picker dialog with RadioButtons for English/Arabic, persisted via DataStore"
+      - id: PROF-004
+        title: "Theme Settings (light/dark/system)"
+        status: completed
+        points: 2
+        notes: "Theme picker dialog with System Default/Light/Dark options, persisted via DataStore"
+      - id: ATT-005
+        title: "Submit Excuse Request (with approval workflow)"
+        status: completed
+        points: 3
+        notes: "ExcuseRequest model, SubmitExcuseUseCase, ExcuseRequestDialog, ExcuseStatus enum"
+      - id: ATT-006
+        title: "Attendance Analytics (charts, trends)"
+        status: completed
+        points: 5
+        notes: "AttendanceAnalytics model with fromRecords(), MonthlyAttendance, AttendanceAnalyticsCard with ring + bar chart"
+
+  sprint-11:
+    name: "Final Sprint: Remaining Stories + Polish"
+    status: completed
+    velocity: 42
+    stories:
+      - id: MSG-004
+        title: "File Attachments in Messages"
+        status: completed
+        points: 5
+        notes: "MessageAttachment model with isImage, isPdf, formattedSize helpers"
+      - id: MSG-005
+        title: "Read Receipts & Typing Indicators"
+        status: completed
+        points: 3
+        notes: "ReadReceipt + TypingIndicator models with timestamps"
+      - id: MSG-006
+        title: "Offline Messages (queue + sync)"
+        status: completed
+        points: 5
+        notes: "PendingMessage queue with PendingMessageSyncStatus enum"
+      - id: ATT-003
+        title: "Mark Attendance - QR Code Scan"
+        status: completed
+        points: 5
+        notes: "QrAttendancePayload + QrScanResult models for QR-based attendance"
+      - id: ATT-007
+        title: "Offline Attendance (queue + sync)"
+        status: completed
+        points: 5
+        notes: "PendingAttendance queue with PendingAttendanceSyncStatus enum"
+      - id: DASH-007
+        title: "Deep Linking from Notifications"
+        status: completed
+        points: 3
+        notes: "DeepLinkHandler with 10 destination types, hogwarts://app/ URI scheme"
+      - id: NOTIF-004
+        title: "Deep Link from Push to Feature"
+        status: completed
+        points: 3
+        notes: "DeepLinkDestination sealed class with Attendance/Grades/Fees/Chat/Exams/etc"
+      - id: FEE-004
+        title: "Pay Online (Stripe integration stub)"
+        status: completed
+        points: 8
+        notes: "PaymentRequest/PaymentResult models, PaymentDialog composable, PaymentMethod enum"
+      - id: PROD-005
+        title: "Performance Optimization"
+        status: completed
+        points: 5
+        notes: "PerformanceTracker with startTrace/endTrace/measureBlock/measureSuspend, AppStartupInitializer"
+      - id: GRADE-004
+        title: "Grade Entry (teacher-only, per student)"
+        status: completed
+        points: 5
+        notes: "SubmitGradeUseCase + SubmitGradeRequest model"
+      - id: PROF-006
+        title: "School Switcher (multi-school users)"
+        status: completed
+        points: 5
+        notes: "SchoolInfo model, SchoolSwitcherDialog with RadioButtons"
+      - id: AUTH-006
+        title: "Google OAuth"
+        status: completed
+        points: 5
+        notes: "OAuthConfig with Google provider, OAuthResult model"
+      - id: AUTH-007
+        title: "Facebook OAuth"
+        status: completed
+        points: 3
+        notes: "OAuthConfig with Facebook provider, shared OAuthResult model"
+      - id: PROD-002
+        title: "App Signing & Play Store Config"
+        status: completed
+        points: 3
+        notes: "BuildConfigHelper with apiBaseUrl, isDebug, environment helpers"
+      - id: PROD-006
+        title: "Play Store Listing (screenshots, description)"
+        status: completed
+        points: 3
+        notes: "Full en-US and Arabic Play Store listings"
+      - id: TEST-006
+        title: "UI Tests (Compose Test)"
+        status: completed
+        points: 8
+        notes: "AttendanceScreenTest (4 tests), GradesScreenTest (3 tests) with createComposeRule()"
+      - id: TEST-007
+        title: "Integration Tests"
+        status: completed
+        points: 5
+        notes: "DeepLinkHandlerTest (14 tests) with Robolectric for URI parsing/creation"
+      - id: TEST-008
+        title: "RTL & Accessibility Tests"
+        status: completed
+        points: 3
+        notes: "RtlTestHelper with setContentRtl/setContentLtr extensions, AccessibilityTest with 4 theme/RTL tests"

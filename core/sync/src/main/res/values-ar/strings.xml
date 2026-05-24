@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- sync-settings-screen -->
+    <string name="sync_settings_title">إعدادات المزامنة</string>
+    <string name="sync_back">رجوع</string>
+    <string name="sync_frequency_heading">تكرار المزامنة</string>
+    <string name="sync_frequency_15min">كل 15 دقيقة</string>
+    <string name="sync_frequency_30min">كل 30 دقيقة</string>
+    <string name="sync_frequency_hour">كل ساعة</string>
+    <string name="sync_frequency_manual">يدوي فقط</string>
+    <string name="sync_network_heading">الشبكة</string>
+    <string name="sync_wifi_only">الواي فاي فقط</string>
+    <string name="sync_data_heading">البيانات المراد مزامنتها</string>
+    <string name="sync_entity_attendance">الحضور</string>
+    <string name="sync_entity_grades">الدرجات</string>
+    <string name="sync_entity_timetable">الجدول الدراسي</string>
+    <string name="sync_entity_messages">الرسائل</string>
+    <string name="sync_entity_notifications">الإشعارات</string>
+    <string name="sync_entity_fees">الرسوم والفواتير</string>
+    <string name="sync_entity_library">المكتبة</string>
+    <string name="sync_data_usage_heading">استخدام البيانات</string>
+    <string name="sync_total_cached">البيانات المخزنة</string>
+    <string name="sync_last_sync">آخر مزامنة</string>
+    <string name="sync_now_button">مزامنة الآن</string>
+    <string name="sync_clear_cache">مسح ذاكرة التخزين</string>
+
+    <!-- sync-progress-screen -->
+    <string name="sync_progress_title">تقدم المزامنة</string>
+    <string name="sync_overall_heading">المزامنة الكلية</string>
+    <string name="sync_last_sync_label">آخر مزامنة: %1$s</string>
+    <string name="sync_entity_status_heading">حالة البيانات</string>
+    <string name="sync_record_count">%1$d سجلات</string>
+    <string name="sync_history_heading">سجل المزامنة</string>
+
+    <!-- conflict-resolution-screen -->
+    <string name="sync_conflicts_title">تعارضات المزامنة (%1$d)</string>
+    <string name="sync_conflict_accept_all_server">قبول جميع بيانات الخادم</string>
+    <string name="sync_conflict_none_title">لا توجد تعارضات</string>
+    <string name="sync_conflict_none_subtitle">كل البيانات متزامنة</string>
+    <string name="sync_conflict_local_label">محلي</string>
+    <string name="sync_conflict_server_label">الخادم</string>
+    <string name="sync_conflict_keep_local">الاحتفاظ بالمحلي</string>
+    <string name="sync_conflict_keep_server">الاحتفاظ بالخادم</string>
+</resources>

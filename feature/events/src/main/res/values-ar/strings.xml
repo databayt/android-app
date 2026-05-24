@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="events_back">رجوع</string>
+    <string name="events_share_content_desc">مشاركة</string>
+
+    <!-- Events List Screen -->
+    <string name="events_title">الفعاليات</string>
+    <string name="events_calendar_content_desc">التقويم</string>
+    <string name="events_filter_all">الكل</string>
+    <string name="events_no_events_title">لا توجد فعاليات</string>
+    <string name="events_no_events_subtitle">لم يتم العثور على فعاليات للفلتر المحدد.</string>
+    <string name="events_upcoming_section">القادمة</string>
+    <string name="events_past_section">الماضية</string>
+    <string name="events_at_time">في %1$s</string>
+    <string name="events_registered">مسجّل</string>
+    <string name="events_attending_count">%1$d/%2$s حاضرون</string>
+
+    <!-- Event Type Display Names -->
+    <string name="events_type_academic">أكاديمي</string>
+    <string name="events_type_sports">رياضي</string>
+    <string name="events_type_cultural">ثقافي</string>
+    <string name="events_type_parent_meeting">اجتماع أولياء الأمور</string>
+    <string name="events_type_holiday">إجازة</string>
+    <string name="events_type_exam">اختبار</string>
+    <string name="events_type_other">أخرى</string>
+
+    <!-- Event Detail Screen -->
+    <string name="events_detail_title">تفاصيل الفعالية</string>
+    <string name="events_share_event">مشاركة الفعالية</string>
+    <string name="events_about_section">حول</string>
+    <string name="events_attending_info">%1$d/%2$s حاضرون</string>
+    <string name="events_add_to_calendar">إضافة إلى التقويم</string>
+    <string name="events_unregister">إلغاء التسجيل</string>
+    <string name="events_register">تسجيل</string>
+
+    <!-- Event Calendar Screen -->
+    <string name="events_calendar_title">تقويم الفعاليات</string>
+    <string name="events_previous_month">الشهر السابق</string>
+    <string name="events_next_month">الشهر التالي</string>
+    <string name="events_day_sun">أحد</string>
+    <string name="events_day_mon">اثنين</string>
+    <string name="events_day_tue">ثلاثاء</string>
+    <string name="events_day_wed">أربعاء</string>
+    <string name="events_day_thu">خميس</string>
+    <string name="events_day_fri">جمعة</string>
+    <string name="events_day_sat">سبت</string>
+    <string name="events_on_date">فعاليات يوم %1$s</string>
+</resources>

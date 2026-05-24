@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Subjects List Screen -->
+    <string name="subjects_title">Subjects</string>
+    <string name="subjects_back">Back</string>
+    <string name="subjects_search_placeholder">Search subjects…</string>
+    <string name="subjects_empty_title">No Subjects Found</string>
+    <string name="subjects_empty_subtitle_search">No subjects match your search.</string>
+    <string name="subjects_empty_subtitle_default">No subjects available yet.</string>
+    <string name="subjects_no_subjects_found">No subjects found</string>
+
+    <!-- Levels -->
+    <string name="subjects_level_elementary">Elementary</string>
+    <string name="subjects_level_middle">Middle</string>
+    <string name="subjects_level_high">High</string>
+
+    <!-- Grades (values are pre-formatted strings so this key is stable across locales) -->
+    <string name="subjects_grade_single">Grade %1$s</string>
+    <string name="subjects_grade_range">Grade %1$s-%2$s</string>
+
+    <!-- Rating -->
+    <string name="subjects_rating_count">(%1$d)</string>
+
+    <!-- Subject Detail Screen -->
+    <string name="subjects_detail_title">Subject Detail</string>
+    <string name="subjects_detail_not_found">Subject not found</string>
+    <string name="subjects_detail_overview">Overview</string>
+    <string name="subjects_detail_department">Department</string>
+    <string name="subjects_detail_description">Description</string>
+    <string name="subjects_detail_levels">Levels</string>
+    <string name="subjects_detail_grades">Grades</string>
+    <string name="subjects_detail_curriculum">Curriculum</string>
+    <string name="subjects_detail_rating">Rating</string>
+    <string name="subjects_detail_tags">Tags</string>
+    <string name="subjects_detail_no_topics">No topics available</string>
+
+    <!-- Hero stats -->
+    <string name="subjects_topics_count">%1$d topics</string>
+    <string name="subjects_chapters_count">%1$d chapters</string>
+    <string name="subjects_lessons_count">%1$d lessons</string>
+
+    <!-- My Subjects Screen -->
+    <string name="subjects_my_title">My Subjects</string>
+    <string name="subjects_my_empty_title">No Subjects</string>
+    <string name="subjects_my_empty_subtitle">You are not enrolled in any subjects yet.</string>
+    <string name="subjects_my_taught_by">Taught by %1$s</string>
+
+    <!-- Content Section Titles (mirrors school-en.json school.subjects.catalog.*) -->
+    <string name="subjects_section_videos">Videos</string>
+    <string name="subjects_section_materials">Materials</string>
+    <string name="subjects_section_exams">Exams</string>
+    <string name="subjects_section_qbank">QBank</string>
+    <string name="subjects_section_assignments">Assignments</string>
+
+    <!-- Section action labels -->
+    <string name="subjects_see_all">See all</string>
+    <string name="subjects_continue_watching">Continue to watch</string>
+    <string name="subjects_explore_qbank">Explore QBank</string>
+
+    <!-- Video card -->
+    <string name="subjects_views">views</string>
+
+    <!-- Material type labels -->
+    <string name="subjects_material_textbook">Textbook</string>
+    <string name="subjects_material_syllabus">Syllabus</string>
+    <string name="subjects_material_reference">Reference</string>
+    <string name="subjects_material_study_guide">Study Guide</string>
+    <string name="subjects_material_project">Project</string>
+    <string name="subjects_material_worksheet">Worksheet</string>
+    <string name="subjects_material_presentation">Presentation</string>
+    <string name="subjects_material_lesson_notes">Lesson Notes</string>
+    <string name="subjects_material_video_guide">Video Guide</string>
+    <string name="subjects_material_lab_manual">Lab Manual</string>
+    <string name="subjects_material_other">Other</string>
+    <string name="subjects_materials_count">%1$d items</string>
+    <string name="subjects_materials_avg_pages">%1$d pg avg</string>
+
+    <!-- Exam type labels (matches web examTypes keys) -->
+    <string name="subjects_exam_type_final">Final</string>
+    <string name="subjects_exam_type_midterm">Midterm</string>
+    <string name="subjects_exam_type_chapter_test">Chapter Test</string>
+    <string name="subjects_exam_type_quiz">Quiz</string>
+    <string name="subjects_exam_type_practice">Practice</string>
+    <string name="subjects_exam_type_diagnostic">Diagnostic</string>
+    <string name="subjects_exam_exams_count">%1$d exams</string>
+    <string name="subjects_exam_tests_count">%1$d tests</string>
+    <string name="subjects_exam_min">%1$d min</string>
+    <string name="subjects_exam_questions_short">%1$d Q</string>
+    <string name="subjects_exam_marks">%1$d marks</string>
+
+    <!-- Question type labels -->
+    <string name="subjects_q_type_multiple_choice">Multiple Choice</string>
+    <string name="subjects_q_type_true_false">True/False</string>
+    <string name="subjects_q_type_short_answer">Short Answer</string>
+    <string name="subjects_q_type_essay">Essay</string>
+    <string name="subjects_q_type_fill_blank">Fill in Blank</string>
+    <string name="subjects_q_type_matching">Matching</string>
+    <string name="subjects_q_type_ordering">Ordering</string>
+    <string name="subjects_q_type_multi_select">Multi Select</string>
+    <!-- Question type descriptions (mirrors school-en.json catalog.questionDescriptions) -->
+    <string name="subjects_q_desc_multiple_choice">Pick the best answer from multiple options provided</string>
+    <string name="subjects_q_desc_true_false">Decide whether each given statement is true or false</string>
+    <string name="subjects_q_desc_short_answer">Write a brief response in one or two sentences</string>
+    <string name="subjects_q_desc_essay">Compose a detailed long-form answer with full explanation</string>
+    <string name="subjects_q_desc_fill_blank">Complete the sentence by filling in the missing words</string>
+    <string name="subjects_q_desc_matching">Connect related items by pairing them from two columns</string>
+    <string name="subjects_q_desc_ordering">Arrange the given items into their correct logical sequence</string>
+    <string name="subjects_q_desc_multi_select">Choose all the correct answers from the options given</string>
+
+    <!-- Assignment type labels + units -->
+    <string name="subjects_assignment_type_homework">Homework</string>
+    <string name="subjects_assignment_type_project">Project</string>
+    <string name="subjects_assignment_type_lab">Lab</string>
+    <string name="subjects_assignment_type_essay">Essay</string>
+    <string name="subjects_assignment_type_presentation">Presentation</string>
+    <string name="subjects_assignment_minutes">%1$d min</string>
+    <string name="subjects_assignment_points">%1$d pts</string>
+    <string name="subjects_assignments_empty">0 assignments</string>
+</resources>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tab bar labels -->
+    <string name="dashboard_tab_home">Home</string>
+    <string name="dashboard_tab_messages">Messages</string>
+    <string name="dashboard_tab_alerts">Alerts</string>
+    <string name="dashboard_tab_settings">Settings</string>
+
+    <!-- Logout dialog -->
+    <string name="dashboard_logout_title">Logout</string>
+    <string name="dashboard_logout_message">Are you sure you want to logout? You\'ll need to sign in again.</string>
+    <string name="dashboard_logout_confirm">Logout</string>
+    <string name="dashboard_logout_cancel">Cancel</string>
+
+    <!-- Welcome header -->
+    <string name="dashboard_greeting">Good morning,</string>
+    <string name="dashboard_fallback_student">Student</string>
+    <string name="dashboard_fallback_teacher">Teacher</string>
+    <string name="dashboard_fallback_parent">Parent</string>
+    <string name="dashboard_fallback_admin">Admin</string>
+
+    <!-- Stat card titles -->
+    <string name="dashboard_stat_attendance">Attendance</string>
+    <string name="dashboard_stat_today_classes">Today\'s Classes</string>
+    <string name="dashboard_stat_assignments">Assignments</string>
+    <string name="dashboard_stat_exams">Exams</string>
+    <string name="dashboard_stat_pending_attendance">Pending Attendance</string>
+    <string name="dashboard_stat_total_students">Total Students</string>
+    <string name="dashboard_stat_notifications">Notifications</string>
+    <string name="dashboard_stat_children">Children</string>
+
+    <!-- Quick action labels -->
+    <string name="dashboard_action_grades">Grades</string>
+    <string name="dashboard_action_schedule">Schedule</string>
+    <string name="dashboard_action_fees">Fees</string>
+    <string name="dashboard_action_attendance">Attendance</string>
+    <string name="dashboard_action_students">Students</string>
+    <string name="dashboard_action_messages">Messages</string>
+    <string name="dashboard_action_courses">Courses</string>
+    <string name="dashboard_action_subjects">Subjects</string>
+
+    <!-- Home grid tile labels -->
+    <string name="home_action_stream">Video</string>
+    <string name="home_action_atom_studio">Atom</string>
+    <string name="home_action_notifications">Notifications</string>
+    <string name="home_action_exams">Exams</string>
+    <string name="home_action_assignments">Assignments</string>
+    <string name="home_action_announcements">Announcements</string>
+    <string name="home_action_library">Library</string>
+    <string name="home_action_events">Events</string>
+    <string name="home_action_profile">Profile</string>
+    <string name="home_search_hint">Search</string>
+
+    <!-- Smart Stack widget -->
+    <string name="home_widget_classes_today">%1$d classes today</string>
+    <string name="home_widget_no_classes">No classes today</string>
+    <string name="home_widget_glance_title">AT A GLANCE</string>
+    <string name="home_widget_classes">Classes</string>
+    <string name="home_widget_exams">Exams</string>
+    <string name="home_widget_pending">Pending</string>
+    <string name="home_widget_tasks">Tasks</string>
+    <string name="home_widget_activity_title">ACTIVITY</string>
+    <string name="home_widget_unread_alerts">unread alerts</string>
+    <string name="home_widget_no_alerts">All caught up</string>
+    <string name="home_widget_label_today">Today</string>
+    <string name="home_widget_label_glance">Glance</string>
+    <string name="home_widget_label_activity">Activity</string>
+    <string name="home_widget_no_events">No events today</string>
+    <string name="home_widget_events_today">%1$d events today</string>
+
+    <!-- Section headers -->
+    <string name="dashboard_section_quick_actions">Quick Actions</string>
+    <string name="dashboard_section_today_schedule">Today\'s Schedule</string>
+    <string name="dashboard_section_pending_tasks">Pending Tasks</string>
+    <string name="dashboard_section_children">Children</string>
+    <string name="dashboard_section_recent_alerts">Recent Alerts</string>
+    <string name="dashboard_section_recent_activity">Recent Activity</string>
+
+    <!-- Student schedule placeholders -->
+    <string name="dashboard_subject_mathematics">Mathematics</string>
+    <string name="dashboard_subject_science">Science</string>
+    <string name="dashboard_subject_english">English</string>
+
+    <!-- Teacher pending tasks -->
+    <string name="dashboard_task_mark_attendance">Mark attendance for Grade 10A</string>
+    <string name="dashboard_task_submit_grades">Submit midterm grades</string>
+    <string name="dashboard_task_review_messages">Review parent messages (3)</string>
+
+    <!-- Guardian children placeholders -->
+    <string name="dashboard_child_ahmed">Ahmed</string>
+    <string name="dashboard_child_ahmed_grade">Grade 10A</string>
+    <string name="dashboard_child_fatima">Fatima</string>
+    <string name="dashboard_child_fatima_grade">Grade 7B</string>
+
+    <!-- Guardian alerts -->
+    <string name="dashboard_alert_exam_schedule">Midterm exam schedule published</string>
+    <string name="dashboard_alert_fee_reminder">Fee payment reminder - Due Feb 28</string>
+
+    <!-- Admin recent activity -->
+    <string name="dashboard_activity_enrollments">12 new student enrollments</string>
+    <string name="dashboard_activity_reports">Attendance reports generated</string>
+    <string name="dashboard_activity_fee_collection">Fee collection: 85% completed</string>
+</resources>

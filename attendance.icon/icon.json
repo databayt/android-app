@@ -1,0 +1,53 @@
+{
+  "color-space-for-untagged-svg-colors" : "display-p3",
+  "fill" : {
+    "linear-gradient" : [
+      "display-p3:0.26870,0.47952,0.84945,1.00000",
+      "display-p3:0.33736,0.40844,0.84945,1.00000"
+    ],
+    "orientation" : {
+      "start" : {
+        "x" : 0.5,
+        "y" : 0
+      },
+      "stop" : {
+        "x" : 0.5,
+        "y" : 0.7
+      }
+    }
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "image-name" : "calendar-4.png",
+          "name" : "calendar-4",
+          "position" : {
+            "scale" : 1.2,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "name" : "Group",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : [
+      "iOS"
+    ]
+  }
+}

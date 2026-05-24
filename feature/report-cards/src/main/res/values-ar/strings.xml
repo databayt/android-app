@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Report Cards List Screen -->
+    <string name="report_cards_title">بطاقات التقارير</string>
+    <string name="report_cards_back">رجوع</string>
+    <string name="report_cards_something_went_wrong">حدث خطأ ما</string>
+    <string name="report_cards_tap_to_retry">اضغط لإعادة المحاولة</string>
+    <string name="report_cards_select_child">اختر الطفل</string>
+    <string name="report_cards_selected">محدد</string>
+    <string name="report_cards_empty_title">لا توجد بطاقات تقارير</string>
+    <string name="report_cards_empty_subtitle">ستظهر بطاقات التقارير هنا بعد نشرها.</string>
+    <string name="report_cards_gpa_label">المعدل: %1$s</string>
+    <string name="report_cards_rank_label">الترتيب: %1$s</string>
+    <string name="report_cards_showing_cached">عرض البيانات المحفوظة. %1$s</string>
+
+    <!-- Report Card Detail Screen -->
+    <string name="report_cards_detail_title">بطاقة التقرير</string>
+    <string name="report_cards_detail_failed">فشل تحميل بطاقة التقرير</string>
+    <string name="report_cards_student_info">معلومات الطالب</string>
+    <string name="report_cards_student">الطالب</string>
+    <string name="report_cards_term">الفصل</string>
+    <string name="report_cards_academic_year">العام الدراسي</string>
+    <string name="report_cards_status">الحالة</string>
+    <string name="report_cards_overall_performance">الأداء العام</string>
+    <string name="report_cards_gpa">المعدل التراكمي</string>
+    <string name="report_cards_overall_percentage">النسبة المئوية الإجمالية</string>
+    <string name="report_cards_rank">الترتيب</string>
+    <string name="report_cards_subject_results">النتائج حسب المادة</string>
+    <string name="report_cards_col_subject">المادة</string>
+    <string name="report_cards_col_marks">الدرجات</string>
+    <string name="report_cards_col_grade">التقدير</string>
+    <string name="report_cards_col_percent">%</string>
+    <string name="report_cards_subject_remarks">ملاحظات المواد</string>
+    <string name="report_cards_teacher_prefix">المعلم: %1$s</string>
+    <string name="report_cards_overall_remarks">الملاحظات العامة</string>
+    <string name="report_cards_download_pdf">تحميل PDF</string>
+    <string name="report_cards_share">مشاركة</string>
+
+    <!-- Attendance Summary -->
+    <string name="report_cards_attendance_summary">ملخص الحضور</string>
+    <string name="report_cards_attendance">الحضور</string>
+    <string name="report_cards_total_days">إجمالي الأيام</string>
+    <string name="report_cards_present">حاضر</string>
+    <string name="report_cards_absent">غائب</string>
+    <string name="report_cards_late">متأخر</string>
+
+    <!-- Progress Charts Screen -->
+    <string name="report_cards_progress_title">التقدم</string>
+    <string name="report_cards_no_progress_title">لا توجد بيانات تقدم</string>
+    <string name="report_cards_no_progress_subtitle">ستظهر مخططات التقدم بعد توفر بطاقات التقارير المنشورة.</string>
+    <string name="report_cards_current_gpa">المعدل الحالي</string>
+    <string name="report_cards_gpa_trend">اتجاه المعدل</string>
+    <string name="report_cards_subject_performance">أداء المواد</string>
+</resources>
