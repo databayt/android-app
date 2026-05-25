@@ -26,6 +26,7 @@
     <string name="nav_settings">Settings</string>
 
     <!-- Notification Channels -->
+    <!-- default_notification_channel_id is a programmatic channel ID, kept identical across locales. -->
     <string name="default_notification_channel_id">default</string>
     <string name="notification_channel_attendance">Attendance</string>
     <string name="notification_channel_attendance_desc">Notifications about student attendance</string>
