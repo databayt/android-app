@@ -59,7 +59,10 @@ fun buildHomeTiles(
     onNavigateToAtomStudio: () -> Unit,
     onNavigateToAnnouncements: () -> Unit,
     onNavigateToLibrary: () -> Unit,
-    onNavigateToProfile: () -> Unit
+    onNavigateToProfile: () -> Unit,
+    onNavigateToNotifications: () -> Unit,
+    onNavigateToExams: () -> Unit,
+    onNavigateToEvents: () -> Unit
 ): List<HomeTileSpec> = listOf(
     // --- Top-right 2x2 cluster (next to widget) ---
     HomeTileSpec(
@@ -111,7 +114,7 @@ fun buildHomeTiles(
         labelRes = R.string.home_action_notifications,
         icon = HogwartsIcons.Notifications,
         background = AppleRed,
-        onClick = { /* TODO: notifications screen */ },
+        onClick = onNavigateToNotifications,
         badgeCount = state.unreadNotifications,
         iconRes = R.drawable.ic_tile_notifications
     ),
@@ -119,7 +122,7 @@ fun buildHomeTiles(
         labelRes = R.string.home_action_exams,
         icon = HogwartsIcons.Exams,
         background = AppleIndigo,
-        onClick = { /* TODO: exams screen */ },
+        onClick = onNavigateToExams,
         badgeCount = state.upcomingExams,
         iconRes = R.drawable.ic_tile_exams
     ),
@@ -129,7 +132,11 @@ fun buildHomeTiles(
         labelRes = R.string.home_action_assignments,
         icon = HogwartsIcons.Document,
         background = AppleOrange,
-        onClick = { /* TODO: assignments screen */ },
+        // No `feature/assignments` module exists yet — surface deferred to its
+        // own epic (folds into E14 grading/exams alongside teacher grade entry).
+        // Until then the tile is visually present but a no-op so the grid stays
+        // intact for Figma parity.
+        onClick = {},
         badgeCount = state.pendingAssignments,
         iconRes = R.drawable.ic_tile_assignments
     ),
@@ -144,7 +151,7 @@ fun buildHomeTiles(
         labelRes = R.string.home_action_events,
         icon = HogwartsIcons.Star,
         background = ApplePink,
-        onClick = { /* TODO: events screen */ },
+        onClick = onNavigateToEvents,
         iconRes = R.drawable.ic_tile_events
     ),
     HomeTileSpec(

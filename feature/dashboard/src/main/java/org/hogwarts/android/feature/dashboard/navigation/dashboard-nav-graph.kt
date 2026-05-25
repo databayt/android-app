@@ -28,7 +28,10 @@ fun NavGraphBuilder.dashboardScreen(
     onNavigateToAtomStudio: () -> Unit,
     onNavigateToAnnouncements: () -> Unit,
     onNavigateToLibrary: () -> Unit,
-    onNavigateToProfile: () -> Unit
+    onNavigateToProfile: () -> Unit,
+    onNavigateToNotifications: () -> Unit,
+    onNavigateToExams: () -> Unit,
+    onNavigateToEvents: () -> Unit
 ) {
     composable<Dashboard> {
         DashboardScreen(
@@ -44,7 +47,10 @@ fun NavGraphBuilder.dashboardScreen(
             onNavigateToAtomStudio = onNavigateToAtomStudio,
             onNavigateToAnnouncements = onNavigateToAnnouncements,
             onNavigateToLibrary = onNavigateToLibrary,
-            onNavigateToProfile = onNavigateToProfile
+            onNavigateToProfile = onNavigateToProfile,
+            onNavigateToNotifications = onNavigateToNotifications,
+            onNavigateToExams = onNavigateToExams,
+            onNavigateToEvents = onNavigateToEvents
         )
     }
 }
