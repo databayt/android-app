@@ -4,7 +4,6 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
-import android.os.StrictMode
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.hogwarts.android.core.data.preferences.AppPreferences
-import timber.log.Timber
+import org.hogwarts.android.startup.AppStartupInitializer
 import javax.inject.Inject
 
 /**
@@ -34,6 +33,9 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
     @Inject
     lateinit var appPreferences: AppPreferences
 
+    @Inject
+    lateinit var appStartupInitializer: AppStartupInitializer
+
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -49,6 +51,11 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
     override fun onCreate() {
         super.onCreate()
 
+        // All startup hooks (Timber, StrictMode, WorkManager + Firebase
+        // init confirmation) funnel through AppStartupInitializer so the
+        // boot sequence stays in one place.
+        appStartupInitializer.initialize()
+
         // AppLocalesMetadataHolderService (manifest, autoStoreLocales=true) handles
         // locale persistence on Android <13; the platform LocaleManager handles 13+.
         // We just warm the DataStore cache off-main so settings reads stay snappy.
@@ -57,31 +64,7 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
             appPreferences.themeMode.first()
         }
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-            enableStrictMode()
-        }
-
         createNotificationChannels()
-    }
-
-    private fun enableStrictMode() {
-        StrictMode.setThreadPolicy(
-            StrictMode.ThreadPolicy.Builder()
-                .detectDiskReads()
-                .detectDiskWrites()
-                .detectNetwork()
-                .penaltyLog()
-                .build()
-        )
-        StrictMode.setVmPolicy(
-            StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
-                .detectActivityLeaks()
-                .penaltyLog()
-                .build()
-        )
     }
 
     private fun createNotificationChannels() {
