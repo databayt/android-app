@@ -9,6 +9,43 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
 }
 
+// E01.S01: Materialise app/google-services.json before AGP's googleServices
+// plugin needs it. Real Firebase config stays gitignored — `.template` ships a
+// stub that lets `:app:processDebugGoogleServices` succeed on a fresh checkout
+// (runtime Firebase calls fail gracefully via AppStartupInitializer.confirmFirebase).
+//
+// Override on a developer machine with:
+//     ./gradlew assembleDebug -Pfirebase.config.path=/abs/path/to/google-services.json
+// Or drop the real file at app/google-services.json (stays out of git).
+run {
+    val target = file("google-services.json")
+    if (target.exists()) return@run
+
+    val overridePath = providers.gradleProperty("firebase.config.path").orNull
+    val template = file("google-services.json.template")
+    val source = when {
+        overridePath != null -> file(overridePath).also {
+            require(it.exists()) {
+                "firebase.config.path points to $overridePath but the file does not exist."
+            }
+        }
+        template.exists() -> {
+            logger.warn(
+                "[E01.S01] Using google-services.json.template (stub Firebase config). " +
+                    "FCM + Crashlytics will not deliver until a real config is provided. " +
+                    "See README.md → Firebase setup."
+            )
+            template
+        }
+        else -> error(
+            "No google-services.json available. Either drop one at app/google-services.json, " +
+                "pass -Pfirebase.config.path=/abs/path, or restore app/google-services.json.template. " +
+                "See README.md → Firebase setup."
+        )
+    }
+    source.copyTo(target, overwrite = false)
+}
+
 android {
     namespace = "org.hogwarts.android"
     compileSdk = 35
