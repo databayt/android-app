@@ -30,7 +30,7 @@ Every UI string in every Composable, dialog, notification, and snackbar is keyed
 
 ## 2. Stories
 
-### Story E04.S01: Audit existing 1,820 EN / 1,819 AR strings for translation quality [8 pts]
+### Story E04.S01: Audit existing 1,820 EN / 1,819 AR strings for translation quality [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** native Arabic-speaking user, **I want** strings that read naturally, **So that** I trust the app for my school's daily work.
@@ -47,7 +47,7 @@ Every UI string in every Composable, dialog, notification, and snackbar is keyed
 
 ---
 
-### Story E04.S02: Fix all `Text("literal")` violations after Detekt rule lands [8 pts]
+### Story E04.S02: Fix all `Text("literal")` violations after Detekt rule lands [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** non-English user, **I want** every UI string available in my language, **So that** I'm not surprised by random English text.
@@ -101,7 +101,7 @@ Every UI string in every Composable, dialog, notification, and snackbar is keyed
 
 ---
 
-### Story E04.S05: Locale switch without app restart [5 pts]
+### Story E04.S05: Locale switch without app restart [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** user, **I want** to switch language and see immediate effect, **So that** I don't have to kill the app.
@@ -117,7 +117,7 @@ Every UI string in every Composable, dialog, notification, and snackbar is keyed
 
 ---
 
-### Story E04.S06: Plurals audit and fix for Arabic six-form rule [3 pts]
+### Story E04.S06: Plurals audit and fix for Arabic six-form rule [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** native Arabic speaker, **I want** counts rendered with grammatical plurals, **So that** "1 student" / "2 students" / "11 students" all read correctly in Arabic.

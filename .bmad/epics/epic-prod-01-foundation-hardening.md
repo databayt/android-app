@@ -33,7 +33,7 @@ The MVP shell ships with several silent stubs that would corrupt user data, drop
 
 ## 2. Stories
 
-### Story E01.S01: Commit `google-services.json` for debug + staging + release [2 pts]
+### Story E01.S01: Commit `google-services.json` for debug + staging + release [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** new contributor, **I want** the Firebase plugin to find its config, **So that** a fresh checkout builds without manual setup.
@@ -48,7 +48,7 @@ The MVP shell ships with several silent stubs that would corrupt user data, drop
 
 ---
 
-### Story E01.S02: Replace `fallbackToDestructiveMigration()` with explicit migrations [8 pts]
+### Story E01.S02: Replace `fallbackToDestructiveMigration()` with explicit migrations [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** user upgrading the app, **I want** my offline data to survive schema bumps, **So that** I don't lose attendance, messages, or grades on every release.
@@ -68,7 +68,7 @@ The MVP shell ships with several silent stubs that would corrupt user data, drop
 
 ---
 
-### Story E01.S03: Wire mutation queue to actually transmit [8 pts]
+### Story E01.S03: Wire mutation queue to actually transmit [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** teacher marking attendance offline, **I want** the marks to reach the server when I'm back online, **So that** my work isn't lost.
@@ -89,7 +89,7 @@ The MVP shell ships with several silent stubs that would corrupt user data, drop
 
 ---
 
-### Story E01.S04: Upload FCM token to backend [3 pts]
+### Story E01.S04: Upload FCM token to backend [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** server operator, **I want** every device's FCM token registered, **So that** push notifications can reach the right device.
@@ -106,7 +106,7 @@ The MVP shell ships with several silent stubs that would corrupt user data, drop
 
 ---
 
-### Story E01.S05: Reconcile `BuildConfigHelper` drift with compiled `BuildConfig` [2 pts]
+### Story E01.S05: Reconcile `BuildConfigHelper` drift with compiled `BuildConfig` [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** future reader of `BuildConfigHelper`, **I want** one source of truth for the API base URL, **So that** I don't have to chase down two divergent constants.
@@ -121,7 +121,7 @@ The MVP shell ships with several silent stubs that would corrupt user data, drop
 
 ---
 
-### Story E01.S06: Reconcile `app/strings.xml` parity drift [1 pt]
+### Story E01.S06: Reconcile `app/strings.xml` parity drift [1 pt] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** CI runner, **I want** `:app:checkStringParity` to be green, **So that** the build doesn't fail on a single missing translation.
@@ -134,7 +134,7 @@ The MVP shell ships with several silent stubs that would corrupt user data, drop
 
 ---
 
-### Story E01.S07: Wire `AppStartupInitializer` into `HogwartsApplication.onCreate` [2 pts]
+### Story E01.S07: Wire `AppStartupInitializer` into `HogwartsApplication.onCreate` [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** developer triaging startup issues, **I want** the existing initializer skeleton actually invoked, **So that** I have one place to add startup hooks.

@@ -25,12 +25,12 @@ Round out the remaining 5 domain modules. Each is a smaller surface area than th
 
 | ID | Title | Pts | Sprint | Notes |
 |---|---|---:|---|---|
-| E19.S01 | Admission application list (admin) | 3 | 12 | |
-| E19.S02 | Admission application form (multi-step) | 8 | 12 | |
-| E19.S03 | Admission status check (public, OTP-gated) | 3 | 12 | |
-| E19.S04 | Tour booking (public) | 3 | 12 | |
-| E19.S05 | Events list + calendar | 3 | 12 | |
-| E19.S06 | Event detail + RSVP | 3 | 12 | |
+| E19.S01 | Admission application list (admin) **(Phase: Pilot v1)** | 3 | 12 | |
+| E19.S02 | Admission application form (multi-step) **(Phase: Pilot v1)** | 8 | 12 | |
+| E19.S03 | Admission status check (public, OTP-gated) **(Phase: Pilot v1)** | 3 | 12 | |
+| E19.S04 | Tour booking (public) **(Phase: Pilot v1)** | 3 | 12 | |
+| E19.S05 | Events list + calendar **(Phase: Pilot v1)** | 3 | 12 | |
+| E19.S06 | Event detail + RSVP **(Phase: Pilot v1)** | 3 | 12 | |
 | E19.S07 | Library catalog with search | 3 | 13 | |
 | E19.S08 | Book detail + borrow flow | 3 | 13 | |
 | E19.S09 | My borrowings + due-date alerts | 3 | 13 | |

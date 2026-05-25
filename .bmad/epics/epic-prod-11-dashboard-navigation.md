@@ -25,7 +25,7 @@ Role-aware dashboard with all 19 tiles routed and polished. Search, dock, deep-l
 
 ## 2. Stories
 
-### Story E11.S01: Wire 6 dashboard TODO tiles [5 pts]
+### Story E11.S01: Wire 6 dashboard TODO tiles [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**
@@ -48,7 +48,7 @@ Role-aware dashboard with all 19 tiles routed and polished. Search, dock, deep-l
 
 ---
 
-### Story E11.S03: Role-specific tile filtering [5 pts]
+### Story E11.S03: Role-specific tile filtering [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**
@@ -96,7 +96,7 @@ Role-aware dashboard with all 19 tiles routed and polished. Search, dock, deep-l
 
 ---
 
-### Story E11.S07: Deep-link audit for cold-start [3 pts]
+### Story E11.S07: Deep-link audit for cold-start [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 8
 
 **Acceptance Criteria:**

@@ -31,7 +31,7 @@ Numbers, dates, currency, file sizes, and durations render correctly in both loc
 
 ## 2. Stories
 
-### Story E07.S01: `LocaleAwareFormatter` API [5 pts]
+### Story E07.S01: `LocaleAwareFormatter` API [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** UI layer, **I want** one set of formatters for all locale-aware rendering, **So that** every screen consistently follows locale rules.
@@ -54,7 +54,7 @@ Numbers, dates, currency, file sizes, and durations render correctly in both loc
 
 ---
 
-### Story E07.S02: Tenant-currency injection [3 pts]
+### Story E07.S02: Tenant-currency injection [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** parent paying fees in SAR, **I want** prices displayed in SAR, **So that** I'm not confused by USD or EUR.
@@ -71,7 +71,7 @@ Numbers, dates, currency, file sizes, and durations render correctly in both loc
 
 ---
 
-### Story E07.S03: Refactor existing formatter usages [5 pts]
+### Story E07.S03: Refactor existing formatter usages [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** developer, **I want** one formatter API across the app, **So that** I don't have 3 different number-formatting patterns.

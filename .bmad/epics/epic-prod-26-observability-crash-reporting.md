@@ -28,10 +28,10 @@ Every release is observable. Crash-free rate, ANR rate, Core Vitals, business me
 
 | ID | Title | Pts | Sprint |
 |---|---|---:|---|
-| E26.S01 | Verify Crashlytics integration end-to-end (test crash) | 3 | 15 |
-| E26.S02 | Firebase Performance — screen render + network traces | 3 | 15 |
-| E26.S03 | Firebase Analytics — business events | 3 | 15 |
-| E26.S04 | User attribution (userId, schoolId, role) on Crashlytics | 2 | 15 |
+| E26.S01 | Verify Crashlytics integration end-to-end (test crash) **(Phase: Pilot v1)** | 3 | 15 |
+| E26.S02 | Firebase Performance — screen render + network traces **(Phase: Pilot v1)** | 3 | 15 |
+| E26.S03 | Firebase Analytics — business events **(Phase: Pilot v1)** | 3 | 15 |
+| E26.S04 | User attribution (userId, schoolId, role) on Crashlytics **(Phase: Pilot v1)** | 2 | 15 |
 | E26.S05 | ANR rate tracking + alerting | 2 | 15 |
 | E26.S06 | Crash-free user rate dashboard | 2 | 15 |
 | E26.S07 | Sentry for non-fatal exceptions (parallel to Crashlytics, optional) | 3 | 16 |

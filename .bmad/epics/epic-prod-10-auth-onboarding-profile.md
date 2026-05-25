@@ -24,7 +24,7 @@ Complete the auth + first-run + profile UI surfaces, building on the auth backen
 
 ## 2. Stories
 
-### Story E10.S01: Welcome / login / signup flow polish [5 pts]
+### Story E10.S01: Welcome / login / signup flow polish [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**
@@ -72,7 +72,7 @@ Complete the auth + first-run + profile UI surfaces, building on the auth backen
 
 ---
 
-### Story E10.S05: Profile view + edit [5 pts]
+### Story E10.S05: Profile view + edit [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**
@@ -109,7 +109,7 @@ Complete the auth + first-run + profile UI surfaces, building on the auth backen
 
 ---
 
-### Story E10.S08: Account deletion (Play Store policy) [5 pts]
+### Story E10.S08: Account deletion (Play Store policy) [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **As a** user, **I want** to delete my account from within the app, **So that** the app meets Google Play 2026 self-service deletion policy.
@@ -123,7 +123,7 @@ Complete the auth + first-run + profile UI surfaces, building on the auth backen
 
 ---
 
-### Story E10.S09: Privacy + ToS in-app viewer [2 pts]
+### Story E10.S09: Privacy + ToS in-app viewer [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**
