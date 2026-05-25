@@ -68,11 +68,27 @@ kotlin-app/
 - JDK 17
 - Android SDK 35
 
+### Firebase setup
+
+`app/google-services.json` is gitignored — real Firebase config never enters version control. A committed `app/google-services.json.template` carries stub values that pass AGP's `processGoogleServices` task so fresh checkouts build cleanly. Runtime Firebase calls (FCM, Crashlytics) no-op until you supply a real config.
+
+To supply a real Firebase config on your machine:
+
+```bash
+# Option A — drop the file directly (preferred for daily dev)
+cp /path/to/your-google-services.json app/google-services.json
+
+# Option B — point Gradle at a config that lives elsewhere
+./gradlew assembleDebug -Pfirebase.config.path=/abs/path/to/google-services.json
+```
+
+The materialised `app/google-services.json` stays gitignored. CI passes the build path via the `FIREBASE_CONFIG_PATH` secret (mapped to `firebase.config.path` Gradle property in the release workflow).
+
 ### Setup
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-org/kotlin-app.git
+git clone https://github.com/databayt/android-app.git
 cd kotlin-app
 ```
 
