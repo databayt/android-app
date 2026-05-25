@@ -13,6 +13,15 @@ android {
     defaultConfig {
         minSdk = 26
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Single source of truth for the API host. Retrofit endpoints carry the
+        // `api/...` path prefix themselves, so this value intentionally has no
+        // `/api/` suffix. App-level BuildConfigHelper reads through to here.
+        buildConfigField("String", "API_BASE_URL", "\"https://ed.databayt.org/\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     compileOptions {

@@ -23,7 +23,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "https://ed.databayt.org/"
     private const val TIMEOUT_SECONDS = 30L
 
     @Provides
@@ -84,7 +83,7 @@ object NetworkModule {
         okHttpClient: OkHttpClient,
         json: Json
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(BuildConfig.API_BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()

@@ -66,8 +66,8 @@ android {
         // Restrict shipped locales to those we actually translate.
         resourceConfigurations += listOf("en", "ar")
 
-        // API Base URL - using BuildConfig for environment-specific values
-        buildConfigField("String", "API_BASE_URL", "\"https://ed.databayt.org/api/\"")
+        // API base URL lives in core/network/BuildConfig.API_BASE_URL (single
+        // source of truth). Socket URL stays here for now until E09 lifts it.
         buildConfigField("String", "SOCKET_URL", "\"https://ed.databayt.org\"")
     }
 
@@ -87,8 +87,7 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
 
-            // Development API (can point to local or staging)
-            buildConfigField("String", "API_BASE_URL", "\"https://ed.databayt.org/api/\"")
+            // API_BASE_URL is owned by core/network; override there if needed per buildType.
         }
 
         release {
@@ -99,8 +98,7 @@ android {
                 "proguard-rules.pro"
             )
 
-            // Production API
-            buildConfigField("String", "API_BASE_URL", "\"https://ed.databayt.org/api/\"")
+            // API_BASE_URL is owned by core/network; override there if needed per buildType.
         }
     }
 
