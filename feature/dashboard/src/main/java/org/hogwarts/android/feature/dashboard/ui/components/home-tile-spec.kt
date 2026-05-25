@@ -29,6 +29,9 @@ import org.hogwarts.android.feature.dashboard.ui.DashboardUiState
  * reactively with the view model.
  */
 data class HomeTileSpec(
+    // Stable identifier; drives role-visibility filtering and server-driven
+    // ordering. See [HomeTileVisibility].
+    val id: HomeTileId,
     @StringRes val labelRes: Int,
     val icon: ImageVector,
     val background: Color,
@@ -63,6 +66,7 @@ fun buildHomeTiles(
 ): List<HomeTileSpec> = listOf(
     // --- Top-right 2x2 cluster (next to widget) ---
     HomeTileSpec(
+        id = HomeTileId.Grades,
         labelRes = R.string.dashboard_action_grades,
         icon = HogwartsIcons.Grades,
         background = AppleOrange,
@@ -71,6 +75,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_grades
     ),
     HomeTileSpec(
+        id = HomeTileId.Fees,
         labelRes = R.string.dashboard_action_fees,
         icon = HogwartsIcons.Fees,
         background = AppleGreen,
@@ -78,6 +83,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_wallet
     ),
     HomeTileSpec(
+        id = HomeTileId.Stream,
         labelRes = R.string.home_action_stream,
         icon = HogwartsIcons.Video,
         background = ApplePurple,
@@ -85,6 +91,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_stream
     ),
     HomeTileSpec(
+        id = HomeTileId.Subjects,
         labelRes = R.string.dashboard_action_subjects,
         icon = HogwartsIcons.Subjects,
         background = AppleBlue,
@@ -94,6 +101,7 @@ fun buildHomeTiles(
 
     // --- Row 3 ---
     HomeTileSpec(
+        id = HomeTileId.Settings,
         labelRes = R.string.dashboard_tab_settings,
         icon = HogwartsIcons.Settings,
         background = Color(0xFF8E8E93),
@@ -101,6 +109,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_setting
     ),
     HomeTileSpec(
+        id = HomeTileId.AtomStudio,
         labelRes = R.string.home_action_atom_studio,
         icon = Icons.Filled.Science,
         background = ApplePurple,
@@ -108,6 +117,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_atom
     ),
     HomeTileSpec(
+        id = HomeTileId.Notifications,
         labelRes = R.string.home_action_notifications,
         icon = HogwartsIcons.Notifications,
         background = AppleRed,
@@ -116,6 +126,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_notifications
     ),
     HomeTileSpec(
+        id = HomeTileId.Exams,
         labelRes = R.string.home_action_exams,
         icon = HogwartsIcons.Exams,
         background = AppleIndigo,
@@ -126,6 +137,7 @@ fun buildHomeTiles(
 
     // --- Row 4 ---
     HomeTileSpec(
+        id = HomeTileId.Assignments,
         labelRes = R.string.home_action_assignments,
         icon = HogwartsIcons.Document,
         background = AppleOrange,
@@ -134,6 +146,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_assignments
     ),
     HomeTileSpec(
+        id = HomeTileId.Library,
         labelRes = R.string.home_action_library,
         icon = HogwartsIcons.Classes,
         background = AppleYellow,
@@ -141,6 +154,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_library
     ),
     HomeTileSpec(
+        id = HomeTileId.Events,
         labelRes = R.string.home_action_events,
         icon = HogwartsIcons.Star,
         background = ApplePink,
@@ -148,6 +162,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_events
     ),
     HomeTileSpec(
+        id = HomeTileId.Profile,
         labelRes = R.string.home_action_profile,
         icon = HogwartsIcons.Profile,
         background = Color(0xFF8E8E93),
@@ -157,6 +172,7 @@ fun buildHomeTiles(
 
     // --- Row 5 (displaced by the widget) ---
     HomeTileSpec(
+        id = HomeTileId.Students,
         labelRes = R.string.dashboard_action_students,
         icon = HogwartsIcons.Students,
         background = AppleBlue,
@@ -164,6 +180,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_students
     ),
     HomeTileSpec(
+        id = HomeTileId.Attendance,
         labelRes = R.string.dashboard_action_attendance,
         icon = HogwartsIcons.Attendance,
         background = AppleGreen,
@@ -172,6 +189,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_attendance
     ),
     HomeTileSpec(
+        id = HomeTileId.Schedule,
         labelRes = R.string.dashboard_action_schedule,
         icon = HogwartsIcons.Timetable,
         background = AppleRed,
@@ -180,6 +198,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_schedule
     ),
     HomeTileSpec(
+        id = HomeTileId.Messages,
         labelRes = R.string.dashboard_action_messages,
         icon = HogwartsIcons.Messages,
         background = AppleGreen,
@@ -190,10 +209,11 @@ fun buildHomeTiles(
 
     // --- Row 6 (overflow row, padded with spacers) ---
     HomeTileSpec(
+        id = HomeTileId.Announcements,
         labelRes = R.string.home_action_announcements,
         icon = HogwartsIcons.Notifications,
         background = AppleRed,
         onClick = onNavigateToAnnouncements,
         iconRes = R.drawable.ic_tile_announcements
     )
-)
+).filterAndOrderForRole(state.userRole, state.enabledModules)
