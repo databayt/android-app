@@ -48,6 +48,9 @@ fun DashboardScreen(
     onNavigateToAnnouncements: () -> Unit,
     onNavigateToLibrary: () -> Unit,
     onNavigateToProfile: () -> Unit,
+    onNavigateToNotifications: () -> Unit,
+    onNavigateToExams: () -> Unit,
+    onNavigateToEvents: () -> Unit,
     viewModel: DashboardViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -70,7 +73,9 @@ fun DashboardScreen(
                 ) {
                     HomeSearchPill(
                         label = stringResource(R.string.home_search_hint),
-                        onClick = { /* TODO: universal search screen */ }
+                        // Universal search is E11.S02 (Phase 3 polish). Tap is a
+                        // no-op for now so the pill keeps its layout slot.
+                        onClick = {}
                     )
                 }
                 HomeDock(
@@ -93,7 +98,7 @@ fun DashboardScreen(
                             icon = HogwartsIcons.Notifications,
                             background = AppleRed,
                             contentDescription = stringResource(R.string.dashboard_tab_alerts),
-                            onClick = { /* TODO: notifications screen */ },
+                            onClick = onNavigateToNotifications,
                             iconRes = R.drawable.ic_tile_alerts
                         ),
                         HomeDockItem(
@@ -133,6 +138,9 @@ fun DashboardScreen(
                 onNavigateToAnnouncements = onNavigateToAnnouncements,
                 onNavigateToLibrary = onNavigateToLibrary,
                 onNavigateToProfile = onNavigateToProfile,
+                onNavigateToNotifications = onNavigateToNotifications,
+                onNavigateToExams = onNavigateToExams,
+                onNavigateToEvents = onNavigateToEvents,
                 modifier = Modifier.padding(innerPadding)
             )
         }

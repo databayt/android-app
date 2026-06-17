@@ -28,6 +28,7 @@ import org.hogwarts.android.feature.announcements.navigation.announcementsScreen
 import org.hogwarts.android.feature.exams.navigation.ExamCertificate
 import org.hogwarts.android.feature.exams.navigation.ExamDetail
 import org.hogwarts.android.feature.exams.navigation.ExamResults
+import org.hogwarts.android.feature.exams.navigation.Exams
 import org.hogwarts.android.feature.exams.navigation.examDetailScreen
 import org.hogwarts.android.feature.exams.navigation.examsScreen
 import org.hogwarts.android.feature.exams.navigation.quizScreen
@@ -84,6 +85,7 @@ import org.hogwarts.android.feature.admission.navigation.admissionFormEditScreen
 import org.hogwarts.android.feature.admission.navigation.admissionStatusScreen
 import org.hogwarts.android.feature.events.navigation.EventCalendar
 import org.hogwarts.android.feature.events.navigation.EventDetail
+import org.hogwarts.android.feature.events.navigation.EventsList
 import org.hogwarts.android.feature.events.navigation.eventsListScreen
 import org.hogwarts.android.feature.events.navigation.eventDetailScreen as eventsDetailScreen
 import org.hogwarts.android.feature.events.navigation.eventCalendarScreen
@@ -255,7 +257,10 @@ fun HogwartsNavHost(
             onNavigateToAtomStudio = { navController.navigate(AtomStudioRoute) },
             onNavigateToAnnouncements = { navController.navigate(Announcements) },
             onNavigateToLibrary = { navController.navigate(LibraryCatalog) },
-            onNavigateToProfile = { navController.navigate(Profile) }
+            onNavigateToProfile = { navController.navigate(Profile) },
+            onNavigateToNotifications = { navController.navigate(Notifications) },
+            onNavigateToExams = { navController.navigate(Exams) },
+            onNavigateToEvents = { navController.navigate(EventsList) }
         )
 
         atomStudioScreen(

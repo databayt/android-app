@@ -28,6 +28,9 @@ fun HomeScreen(
     onNavigateToAnnouncements: () -> Unit,
     onNavigateToLibrary: () -> Unit,
     onNavigateToProfile: () -> Unit,
+    onNavigateToNotifications: () -> Unit,
+    onNavigateToExams: () -> Unit,
+    onNavigateToEvents: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val tiles = buildHomeTiles(
@@ -44,7 +47,10 @@ fun HomeScreen(
         onNavigateToAtomStudio = onNavigateToAtomStudio,
         onNavigateToAnnouncements = onNavigateToAnnouncements,
         onNavigateToLibrary = onNavigateToLibrary,
-        onNavigateToProfile = onNavigateToProfile
+        onNavigateToProfile = onNavigateToProfile,
+        onNavigateToNotifications = onNavigateToNotifications,
+        onNavigateToExams = onNavigateToExams,
+        onNavigateToEvents = onNavigateToEvents
     )
 
     HomeGrid(
