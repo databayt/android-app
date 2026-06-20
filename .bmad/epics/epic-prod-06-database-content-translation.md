@@ -45,7 +45,7 @@ Without this, an Arabic announcement created by a teacher is invisible (or appea
 
 ## 2. Stories
 
-### Story E06.S01: Add `lang: String` column to all translatable entities [8 pts]
+### Story E06.S01: Add `lang: String` column to all translatable entities [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** server, **I want** the client to track each row's source language, **So that** display-side translation can be triggered correctly.
@@ -63,7 +63,7 @@ Without this, an Arabic announcement created by a teacher is invisible (or appea
 
 ---
 
-### Story E06.S02: `TranslationCacheEntity` + DAO [3 pts]
+### Story E06.S02: `TranslationCacheEntity` + DAO [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** client, **I want** a local mirror of the server's translation cache, **So that** previously-seen translations don't require a network round-trip.
@@ -97,7 +97,7 @@ Without this, an Arabic announcement created by a teacher is invisible (or appea
 
 ---
 
-### Story E06.S03: `TranslationRepository` with `getDisplayText` + `getDisplayFields` [8 pts]
+### Story E06.S03: `TranslationRepository` with `getDisplayText` + `getDisplayFields` [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** UI layer, **I want** one helper to call at every display site, **So that** I never render untranslated content.
@@ -138,7 +138,7 @@ Without this, an Arabic announcement created by a teacher is invisible (or appea
 
 ---
 
-### Story E06.S05: `Tenant.nameEn` exception (pre-translated school name) [2 pts]
+### Story E06.S05: `Tenant.nameEn` exception (pre-translated school name) [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** every-screen renderer, **I want** the school name pre-translated, **So that** I don't pay translation cache cost on every render.
@@ -172,7 +172,7 @@ Without this, an Arabic announcement created by a teacher is invisible (or appea
 
 ---
 
-### Story E06.S07: Pre-seed canonical reference translations on tenant onboarding [5 pts]
+### Story E06.S07: Pre-seed canonical reference translations on tenant onboarding [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 5
 
 **As a** new tenant, **I want** common labels (grade levels, terms, subjects) pre-translated, **So that** display works without round-tripping the API for high-frequency labels.
@@ -221,7 +221,7 @@ Without this, an Arabic announcement created by a teacher is invisible (or appea
 
 ---
 
-### Story E06.S10: Compose `LocalizedText` Composable [3 pts]
+### Story E06.S10: Compose `LocalizedText` Composable [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 5
 
 **As a** UI developer, **I want** one Composable to drop in for translatable content, **So that** I don't write 5 lines per call site.

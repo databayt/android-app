@@ -12,8 +12,107 @@ project:
   completed_points: 431  # All V1 completed
   active_track: prod  # V2 retired into prod series
 
+# Release Phases (active) — overlay on top of the 28-epic prod roadmap
+# Pilot v1 → MENA-10 → Public Launch
+# Manifests: epics/phase-1-pilot-v1.md, phase-2-mena10.md, phase-3-launch.md
+release_phases:
+  phase_1_pilot_v1:
+    sprints: [P1, P2, P3]
+    weeks: 7
+    points: 296
+    target_date: 2026-07-12
+    status: not-started
+    pilot_tenant: "King Fahad Schools (Sudan)"
+    manifest: epics/phase-1-pilot-v1.md
+    success_criteria:
+      - "King Fahad converts to paid in Jun/Jul 2026 conversation"
+      - "Play Internal Testing track live with admin + parent test cohort"
+      - "Crash-free user rate >= 99% on internal track"
+      - "Arabic translation audit rated >= 95% natural by native-speaker review"
+
+  phase_2_mena10:
+    sprints: [P4, P5, P6, P7, P8]
+    weeks: 10
+    points: 411
+    target_date: 2026-09-15
+    status: not-started
+    manifest: epics/phase-2-mena10.md
+    success_criteria:
+      - "10 pilot schools onboarded"
+      - ">= 1 paid conversion"
+      - "Admission flow used by >= 3 schools for Sep 2026 intake"
+      - "Crash-free user rate >= 99%"
+      - "Unit test coverage >= 35%"
+
+  phase_3_launch:
+    sprints: [P9, P10, P11, P12, P13, P14, P15, P16]
+    weeks: 16
+    points: 408
+    target_date: 2026-12-20
+    status: not-started
+    manifest: epics/phase-3-launch.md
+    success_criteria:
+      - "v1.0.0 in Play Store production (staged rollout to 100%)"
+      - "Unit test coverage >= 80%; crash-free users >= 99.5%"
+      - "TalkBack + WCAG AA audit clean"
+
+# Per-story release-phase mapping (Phase 1 enumerated; Phase 2/3 see manifests).
+# Pick next work from phase_1_story_ids in dependency order — full AC in epics/epic-prod-NN-*.md.
+phase_1_story_ids:
+  E01: [S01, S02, S03, S04, S05, S06, S07]
+  E02: [S01, S02, S06, S08, S09]
+  E03: [S01, S04, S05, S06, S08]
+  E04: [S01, S02, S05, S06]
+  E05: [S01, S02, S04, S05]
+  E06: [S01, S02, S03, S05, S07, S10]
+  E07: [S01, S02, S03]
+  E08: [S01, S02, S03, S04, S05, S06, S07, S11, S12, S14, S16, S17, S20]  # S20 admission portion only
+  E09: [S06, S07]
+  E10: [S01, S05, S08, S09]
+  E11: [S01, S03, S07]
+  E19: [S01, S02, S03, S04, S05, S06]
+  E25: [S01, S08]
+  E26: [S01, S02, S03, S04]
+  E27: [S01, S03, S04]
+# Total: 71 stories ~296 points
+
+# Epics whose pilot/MENA-10/launch work concentration drives staffing focus.
+# (A single epic can contribute to multiple phases; this lists where the *bulk* lives.)
+release_phase_concentration:
+  primarily_phase_1_pilot:
+    - epic-prod-01  # foundation: 26/42 pts in P1
+    - epic-prod-07  # locale formatting: 13/18 pts in P1
+  primarily_phase_2_mena10:
+    - epic-prod-02  # tenancy RBAC
+    - epic-prod-03  # auth hardening
+    - epic-prod-04  # UI i18n
+    - epic-prod-06  # DB translation
+    - epic-prod-08  # API contract
+    - epic-prod-09  # real-time layer
+    - epic-prod-10  # auth/profile UI
+    - epic-prod-13  # attendance behaviour
+    - epic-prod-14  # grading exams
+    - epic-prod-16  # fees finance
+    - epic-prod-18  # communications
+    - epic-prod-19  # admission (P1) + library/idcard/wallet (P3) — mixed
+    - epic-prod-22  # test infra
+    - epic-prod-25  # security hardening
+    - epic-prod-26  # observability
+    - epic-prod-27  # release pipeline
+  primarily_phase_3_launch:
+    - epic-prod-05  # RTL — most polish in P3
+    - epic-prod-11  # dashboard
+    - epic-prod-12  # SIS
+    - epic-prod-15  # timetable curriculum
+    - epic-prod-17  # LMS
+    - epic-prod-20  # role portals
+    - epic-prod-21  # settings
+    - epic-prod-23  # performance
+    - epic-prod-24  # accessibility
+    - epic-prod-28  # Play Store launch
+
 # Production-Readiness Roadmap (active)
-# Source plan: ~/.claude/plans/typed-wobbling-giraffe.md
+# Source plan: ~/.claude/plans/take-web-app-as-precious-turtle.md (refresh of typed-wobbling-giraffe.md)
 # Overview: epics/epic-prod-overview.md
 prod_epics:
   total_epics: 28

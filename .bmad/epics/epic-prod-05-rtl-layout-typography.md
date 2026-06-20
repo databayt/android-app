@@ -30,7 +30,7 @@ Pixel-perfect mirror layouts in Arabic. Every padding, alignment, icon, and anim
 
 ## 2. Stories
 
-### Story E05.S01: Audit and fix 100% of `Modifier.padding(start|end)` correctness [8 pts]
+### Story E05.S01: Audit and fix 100% of `Modifier.padding(start|end)` correctness [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** developer, **I want** zero `left`/`right` padding violations, **So that** RTL just works.
@@ -46,7 +46,7 @@ Pixel-perfect mirror layouts in Arabic. Every padding, alignment, icon, and anim
 
 ---
 
-### Story E05.S02: Auto-mirroring icons via `autoMirrored = true` [3 pts]
+### Story E05.S02: Auto-mirroring icons via `autoMirrored = true` [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** Arabic user, **I want** the back arrow to point right (toward where I came from), **So that** navigation icons feel native.
@@ -81,7 +81,7 @@ Pixel-perfect mirror layouts in Arabic. Every padding, alignment, icon, and anim
 
 ---
 
-### Story E05.S04: Font-swap correctness audit [3 pts]
+### Story E05.S04: Font-swap correctness audit [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** Arabic user, **I want** Arabic text rendered with the proper Arabic font, **So that** ligatures and diacritics look right.
@@ -96,7 +96,7 @@ Pixel-perfect mirror layouts in Arabic. Every padding, alignment, icon, and anim
 
 ---
 
-### Story E05.S05: Bidi-safe number rendering [2 pts]
+### Story E05.S05: Bidi-safe number rendering [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** Arabic user reading a phone number or invoice number, **I want** the digits in their original order (not mirrored), **So that** I can read and dial correctly.

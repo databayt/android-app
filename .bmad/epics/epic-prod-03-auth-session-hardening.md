@@ -32,7 +32,7 @@ Production-grade auth that mirrors hogwarts' Auth.js v5 patterns: cross-subdomai
 
 ## 2. Stories
 
-### Story E03.S01: Migrate to Credential Manager API for password autofill [5 pts]
+### Story E03.S01: Migrate to Credential Manager API for password autofill [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 2
 
 **As a** returning user, **I want** my saved password to autofill on the login screen, **So that** I sign in with one tap.
@@ -83,7 +83,7 @@ Production-grade auth that mirrors hogwarts' Auth.js v5 patterns: cross-subdomai
 
 ---
 
-### Story E03.S04: Implement `whoami` post-login + post-onboarding refresh [5 pts]
+### Story E03.S04: Implement `whoami` post-login + post-onboarding refresh [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 2
 
 **As a** newly-onboarded school admin, **I want** my session to immediately reflect my new schoolId, **So that** I don't need to log out and back in.
@@ -101,7 +101,7 @@ Production-grade auth that mirrors hogwarts' Auth.js v5 patterns: cross-subdomai
 
 ---
 
-### Story E03.S05: Biometric re-login [5 pts]
+### Story E03.S05: Biometric re-login [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** returning user on a trusted device, **I want** to log back in with my fingerprint / face, **So that** I skip typing my password.
@@ -120,7 +120,7 @@ Production-grade auth that mirrors hogwarts' Auth.js v5 patterns: cross-subdomai
 
 ---
 
-### Story E03.S06: Forgot-password OTP flow end-to-end [5 pts]
+### Story E03.S06: Forgot-password OTP flow end-to-end [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** user who forgot their password, **I want** to reset it via email OTP, **So that** I can regain access without contacting support.
@@ -156,7 +156,7 @@ Production-grade auth that mirrors hogwarts' Auth.js v5 patterns: cross-subdomai
 
 ---
 
-### Story E03.S08: Tenant selector before login (multi-school users) [3 pts]
+### Story E03.S08: Tenant selector before login (multi-school users) [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** parent with kids in two schools, **I want** to choose which school to sign into, **So that** the right tenant context loads.

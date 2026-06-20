@@ -27,14 +27,14 @@ Production-grade security. Pin certs to real values. Detect rooted/jailbroken de
 
 | ID | Title | Pts | Sprint | Notes |
 |---|---|---:|---|---|
-| E25.S01 | Real cert pin values in `SecurityConfig` | 3 | 14 | |
+| E25.S01 | Real cert pin values in `SecurityConfig` **(Phase: Pilot v1)** | 3 | 14 | |
 | E25.S02 | `network_security_config.xml` `<pin-set>` block uncommented | 2 | 14 | |
 | E25.S03 | Play Integrity API integration | 5 | 14 | Server validation |
 | E25.S04 | Root/Jailbreak detection (RootBeer) — warn but not block | 3 | 14 | |
 | E25.S05 | Rate limiting on auth endpoints | 3 | 14 | Server-side |
 | E25.S06 | OWASP Mobile Top 10 audit + gap tracking | 5 | 15 | |
 | E25.S07 | Audit log emit (client-side actions) | 3 | 15 | |
-| E25.S08 | Sensitive data redaction in logs (custom Timber tree) | 2 | 15 | |
+| E25.S08 | Sensitive data redaction in logs (custom Timber tree) **(Phase: Pilot v1)** | 2 | 15 | |
 | E25.S09 | Disable debugger in release build (verify) | 1 | 15 | |
 | E25.S10 | DataStore encryption for sensitive prefs | 3 | 15 | |
 

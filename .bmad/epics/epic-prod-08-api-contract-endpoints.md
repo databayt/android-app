@@ -32,7 +32,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ## 2. Stories
 
-### Story E08.S01: Define OpenAPI 3.1 spec [8 pts]
+### Story E08.S01: Define OpenAPI 3.1 spec [8 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** mobile + web team, **I want** one source of truth for the mobile API, **So that** drift between client and server is impossible.
@@ -48,7 +48,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S02: Codegen Retrofit interfaces from OpenAPI [5 pts]
+### Story E08.S02: Codegen Retrofit interfaces from OpenAPI [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 4
 
 **As a** Android developer, **I want** Retrofit interfaces auto-generated, **So that** I don't hand-maintain 25+ API files.
@@ -64,7 +64,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S03: Implement `/api/mobile/auth/*` (8 endpoints) [8 pts] *(server-side)*
+### Story E08.S03: Implement `/api/mobile/auth/*` (8 endpoints) [8 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 4
 
 **As a** mobile user, **I want** registration, password reset, OAuth exchange, biometric, and school listing, **So that** I can authenticate any way the platform supports.
@@ -86,7 +86,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S04: Implement `/api/mobile/auth/whoami` [3 pts] *(server-side)*
+### Story E08.S04: Implement `/api/mobile/auth/whoami` [3 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 4
 
 **As a** mobile client, **I want** to refresh my session context after login or onboarding, **So that** I always have current `schoolId`, `role`, `enabledModules`, and `userScope`.
@@ -98,7 +98,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S05: Implement `/api/mobile/devices/*` (FCM tokens) [3 pts] *(server-side)*
+### Story E08.S05: Implement `/api/mobile/devices/*` (FCM tokens) [3 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 4
 
 **As a** mobile push system, **I want** tokens registered + unregistered + tracked per device, **So that** notifications reach the right device.
@@ -111,7 +111,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S06: Implement `/api/mobile/dashboard` [3 pts] *(server-side)*
+### Story E08.S06: Implement `/api/mobile/dashboard` [3 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 4
 
 **As a** mobile dashboard, **I want** role-specific summary tiles, **So that** I render correct numbers without 10 separate calls.
@@ -126,7 +126,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S07: Implement `/api/mobile/profile` (GET + PUT) [3 pts] *(server-side)*
+### Story E08.S07: Implement `/api/mobile/profile` (GET + PUT) [3 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 4
 
 **As a** mobile user, **I want** to view + edit my profile, **So that** I can update contact info from the field.
@@ -181,7 +181,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S11: Implement `/api/mobile/attendance/*` (~12 endpoints) [8 pts] *(server-side)*
+### Story E08.S11: Implement `/api/mobile/attendance/*` (~12 endpoints) [8 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 5
 
 **As a** mobile attendance feature, **I want** complete read+write+QR+excuse+intervention endpoints, **So that** the largest module (E13) works end-to-end.
@@ -198,7 +198,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S12: Implement `/api/mobile/grades/*` (~6 endpoints) [5 pts] *(server-side)*
+### Story E08.S12: Implement `/api/mobile/grades/*` (~6 endpoints) [5 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 5
 
 **Acceptance Criteria:**
@@ -223,7 +223,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S14: Implement `/api/mobile/timetable/*` (~3 endpoints) [3 pts] *(server-side)*
+### Story E08.S14: Implement `/api/mobile/timetable/*` (~3 endpoints) [3 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 5
 
 **Acceptance Criteria:**
@@ -246,7 +246,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S16: Implement `/api/mobile/{fees,invoices,payments,scholarships,fines}` (~10 endpoints) [5 pts] *(server-side)*
+### Story E08.S16: Implement `/api/mobile/{fees,invoices,payments,scholarships,fines}` (~10 endpoints) [5 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 6
 
 **Acceptance Criteria:**
@@ -259,7 +259,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S17: Implement `/api/mobile/{announcements,notifications}` (~5 endpoints) [5 pts] *(server-side)*
+### Story E08.S17: Implement `/api/mobile/{announcements,notifications}` (~5 endpoints) [5 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 6
 
 **Acceptance Criteria:**
@@ -293,7 +293,7 @@ Land the ~90 missing backend mobile endpoints. Specify each via OpenAPI 3.1; cod
 
 ---
 
-### Story E08.S20: Implement `/api/mobile/{admission,events,library,id-card,quiz}` (~8 endpoints) [5 pts] *(server-side)*
+### Story E08.S20: Implement `/api/mobile/{admission,events,library,id-card,quiz}` (~8 endpoints) [5 pts] · **Phase: Pilot v1** *(server-side)*
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**

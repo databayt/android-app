@@ -30,7 +30,7 @@ Production-grade tenant isolation and 8-role permission enforcement. Every Room 
 
 ## 2. Stories
 
-### Story E02.S01: Expand `UserRole` enum to 8 roles [2 pts]
+### Story E02.S01: Expand `UserRole` enum to 8 roles [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** mobile user with the ACCOUNTANT role on the web, **I want** my role to be honored on mobile, **So that** I can do my job from the field.
@@ -48,7 +48,7 @@ Production-grade tenant isolation and 8-role permission enforcement. Every Room 
 
 ---
 
-### Story E02.S02: Move `SessionManagerImpl` from `app/.../di/repository-module.kt` into `core/security` [3 pts]
+### Story E02.S02: Move `SessionManagerImpl` from `app/.../di/repository-module.kt` into `core/security` [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 1
 
 **As a** developer auditing security primitives, **I want** session storage in `core/security`, **So that** the auditable surface is one module.
@@ -115,7 +115,7 @@ Production-grade tenant isolation and 8-role permission enforcement. Every Room 
 
 ---
 
-### Story E02.S06: Rewrite `TenantContext` to surface tenant + role + scoping helpers [5 pts]
+### Story E02.S06: Rewrite `TenantContext` to surface tenant + role + scoping helpers [5 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 2
 
 **As a** repository, **I want** a single source of truth for the active tenant + user scope, **So that** I never have to manually thread `schoolId`, `userId`, `classIds`, etc. through method parameters.
@@ -149,7 +149,7 @@ Production-grade tenant isolation and 8-role permission enforcement. Every Room 
 
 ---
 
-### Story E02.S08: `TenantInterceptor` reads from flow-backed `TenantContext` [2 pts]
+### Story E02.S08: `TenantInterceptor` reads from flow-backed `TenantContext` [2 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** UI, **I want** network requests to reflect the current tenant within 1 frame of switch, **So that** stale-tenant requests don't fly after logout.
@@ -163,7 +163,7 @@ Production-grade tenant isolation and 8-role permission enforcement. Every Room 
 
 ---
 
-### Story E02.S09: Logout fully clears tenant + ability + DataStore + secure prefs + Room [3 pts]
+### Story E02.S09: Logout fully clears tenant + ability + DataStore + secure prefs + Room [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 3
 
 **As a** shared-device user, **I want** logout to leave no trace of my data, **So that** the next user starts clean.

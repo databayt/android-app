@@ -4,13 +4,15 @@
 **Generated:** 2026-04-26
 **Owner:** Captain (handover via `/sprint-plan`)
 
-This series supersedes the V2 plan (`epic-v2-01..09`). It reorganizes ~352 V2 points into ~1115 points across 28 epics in 6 dependency-ordered phases. The V2 epic files remain as historical drafts; their stories have been folded into the new epics with explicit cross-reference (see "Mapping" section below).
+This series supersedes the V2 plan (`epic-v2-01..09`) and the legacy V1 series (`epic-01..17`). It reorganizes ~352 V2 points into ~1115 points across 28 epics in 6 dependency-ordered phases. The V1 and V2 epic files have been moved to [`archive/`](./archive/) for historical reference; their stories have been folded into the new epics with explicit cross-reference (see "Mapping" section below).
+
+A **release-phase overlay** (Phase 1 Pilot v1 · Phase 2 MENA-10 · Phase 3 Public Launch) is layered on top of the existing build-phase structure — see "Release Phases" below and [`README.md`](./README.md) for the two-axis model.
 
 ---
 
 ## Why a New Roadmap
 
-The MVP shell is in place (35 modules, 533 feature Kotlin files, 1820+ EN strings, encrypted token storage, periodic sync, 24 nav graphs, Material 3 theme with RTL font swap). But the visible polish hides ten silent stubs that block any production claim:
+The MVP shell is in place (35 modules, 533 feature Kotlin files, 1820+ EN strings, encrypted token storage, periodic sync, 24 nav graphs, Material 3 theme with RTL font swap) — and as of May 2026, **King Fahad Schools (Sudan)** is live on the free pilot tier with a conversion conversation scheduled for Jun 2026, anchoring the new release-phase plan below. The visible polish hides ten silent stubs that block any production claim:
 
 1. Backend is largely fictional — only 2 of ~92 endpoints actually exist
 2. `fallbackToDestructiveMigration()` will wipe user data on every schema bump
@@ -60,6 +62,28 @@ The new roadmap fixes all of these and adds the user-requested DB-content transl
 | | E27 | Release Pipeline & Distribution | 29 | 15-16 | P0 |
 | | E28 | Play Store Launch | 18 | 16 | P0 |
 | | | **Total** | **~1115** | **16 sprints (~32 weeks)** | |
+
+---
+
+## Release Phases (Pilot v1 / MENA-10 / Launch)
+
+The 28 epics above are ordered by **dependency** (A Foundation must land before B i18n, which must land before C Backend, etc.). That order is a build sequence, not a release sequence. Layered on top, three **release phases** describe what ships to which customer cohort and when:
+
+| Phase | Sprints | Weeks | Pts | Target | Pilot cohort |
+|---|---|---:|---:|---|---|
+| **1 — Pilot v1** | P1, P2, P3 | 7 | ~296 | 2026-07-12 | King Fahad Schools (Sudan) — 1 school, conversion conversation |
+| **2 — MENA-10** | P4–P8 | 10 | ~411 | 2026-09-15 | 10 MENA schools onboarded; ≥1 paid conversion |
+| **3 — Public Launch** | P9–P16 | 16 | ~408 | 2026-12-20 | Public Play Store, v1.0.0, staged rollout to 100% |
+
+Each story in `epic-prod-NN-*.md` carries both axes in its header: a build phase (A–F via the table above) and a release phase (1, 2, or 3). The two are orthogonal: a story can sit in build phase D (Features) but ship in release phase 1 (because it's pilot-critical) or release phase 3 (because it's launch-only polish).
+
+**Active phase manifests:**
+
+- [`phase-1-pilot-v1.md`](./phase-1-pilot-v1.md) — Pilot v1 story selection, sprint cadence, DoD.
+- [`phase-2-mena10.md`](./phase-2-mena10.md) — MENA-10 polish.
+- [`phase-3-launch.md`](./phase-3-launch.md) — Public launch / v1.0.0 gate.
+
+Pick up work by reading the active phase manifest; the per-epic file (`epic-prod-NN-*.md`) has the full AC and file refs for the selected story.
 
 ---
 

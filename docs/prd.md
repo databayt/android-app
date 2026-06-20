@@ -26,67 +26,42 @@ A native Android app that provides students, teachers, guardians, and administra
 
 ---
 
-## MVP Features (P0)
+## Milestones
 
-### Epic 1: Authentication
-- [ ] Email/password login
-- [ ] JWT token management
-- [ ] Biometric authentication (fingerprint/face)
-- [ ] Session persistence
-- [ ] Offline auth (cached credentials)
+Three release phases stage delivery against the active pilot timeline. Story-level detail lives in `.bmad/epics/phase-{1,2,3}-*.md`; this section is the customer-facing summary.
 
-### Epic 2: Dashboard
-- [ ] Role-specific dashboard layout
-- [ ] Quick action cards
-- [ ] Notification summary
-- [ ] Offline indicator
+### Phase 1 — Pilot v1 (King Fahad Schools, target 2026-07-12)
 
-### Epic 3: Student Features
-- [ ] View grades by subject/term
-- [ ] View attendance history
-- [ ] View timetable/schedule
-- [ ] View fee statements
+3 sprints, ~7 weeks, ~296 story points. Slimmest companion that supports the Jun 2026 conversion conversation with Pilot Seat 1.
 
-### Epic 4: Teacher Features
-- [ ] Class list view
-- [ ] Mark attendance (manual)
-- [ ] Mark attendance (QR scan)
-- [ ] Submit grades
+- Authentication: email/password, JWT, biometric, session persistence, school selector
+- Read-only views: grades, attendance, timetable, fee statement, announcements
+- Notifications: FCM data + notification dual-channel, in-app center, deep links
+- Admission flow: applicant multi-step form, status check (OTP-gated), tour booking, events list
+- Arabic-complete UI: native-speaker translation audit, RTL correctness sweep, locale-aware formatting (SDG default)
+- Foundation: explicit Room migrations, mutation queue actually transmits, FCM token upload, 8-role enum aligned, OpenAPI 3.1 contract + codegen
+- Release: signed APK, Play Internal Testing track, Crashlytics + Performance + Analytics live
 
-### Epic 5: Guardian Features
-- [ ] Children list
-- [ ] Child progress overview
-- [ ] Attendance alerts
+### Phase 2 — MENA-10 (target 2026-09-15)
 
-### Epic 6: Notifications
-- [ ] Push notifications (FCM)
-- [ ] In-app notification center
-- [ ] Notification preferences
+5 sprints, ~10 weeks, ~411 story points. Scale from 1 pilot to 10 schools.
 
-### Epic 7: Offline Support
-- [ ] Cached data display
-- [ ] Offline mutation queue
-- [ ] Background sync
+- Teacher write surfaces: mark attendance (single, bulk, QR), grade entry (replacing the fake `SubmitGradeUseCase`), report cards
+- Real-time messaging: Socket.IO server + client, presence, typing, attachments, delivery receipts
+- Payment: Stripe fee flow, receipt PDF, multi-currency
+- OAuth: Google + Facebook sign-in
+- Foundation cleanup: Detekt rules enforced, full RBAC ability layer, live translate API endpoint
+- Quality climb: test coverage rising from < 5% to ≥ 35%
 
----
+### Phase 3 — Public Launch v1.0.0 (target 2026-12-20)
 
-## Post-MVP Features (P1)
+8 sprints, ~16 weeks, ~408 story points. Public Play Store release with staged rollout.
 
-### Messaging
-- [ ] Direct messaging
-- [ ] Group announcements
-- [ ] Real-time chat (Socket.IO)
-
-### Payments
-- [ ] Fee payment integration
-- [ ] Payment history
-- [ ] Receipt download
-
-### Advanced Features
-- [ ] Dark mode
-- [ ] Widget support
-- [ ] Calendar integration
-- [ ] Document viewing
+- LMS, library, ID card with Apple/Google Wallet passes, quiz
+- Full accessibility audit (TalkBack, WCAG AA)
+- Performance: Macrobenchmark, baseline profiles
+- Test coverage ≥ 80%
+- v1.0.0 staged rollout to 100% in Play Store production track
 
 ---
 
@@ -139,7 +114,7 @@ A native Android app that provides students, teachers, guardians, and administra
 1. **API**: Use existing Hogwarts backend APIs (no new endpoints)
 2. **Auth**: JWT tokens from existing NextAuth system
 3. **Data**: Prisma models define data schema
-4. **Timeline**: MVP in 4 sprints
+4. **Timeline**: Phase 1 (Pilot v1) in 3 sprints / ~7 weeks. Subsequent phases per `.bmad/epics/phase-{2,3}-*.md`.
 
 ---
 
@@ -173,5 +148,8 @@ A native Android app that provides students, teachers, guardians, and administra
 
 ### Related Documents
 - [Architecture](./architecture.md)
-- [Epics](./epics/)
-- [Stories](./stories/)
+- [Production Roadmap Overview](../.bmad/epics/epic-prod-overview.md)
+- [Phase 1 — Pilot v1](../.bmad/epics/phase-1-pilot-v1.md)
+- [Phase 2 — MENA-10](../.bmad/epics/phase-2-mena10.md)
+- [Phase 3 — Public Launch](../.bmad/epics/phase-3-launch.md)
+- Legacy `docs/epics/` and V1 epic files archived to `../.bmad/epics/archive/`

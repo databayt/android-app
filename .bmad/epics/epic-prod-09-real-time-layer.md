@@ -101,7 +101,7 @@ End-to-end real-time messaging, presence, typing, attendance live updates, and n
 
 ---
 
-### Story E09.S06: FCM data + notification dual-channel [3 pts]
+### Story E09.S06: FCM data + notification dual-channel [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**
@@ -111,7 +111,7 @@ End-to-end real-time messaging, presence, typing, attendance live updates, and n
 
 ---
 
-### Story E09.S07: Background message sync via FCM data payload [3 pts]
+### Story E09.S07: Background message sync via FCM data payload [3 pts] · **Phase: Pilot v1**
 **Status:** Not Started · **Sprint:** 7
 
 **Acceptance Criteria:**

@@ -27,10 +27,10 @@ One-button release. Signed bundles. Multi-track distribution (internal, alpha, b
 
 | ID | Title | Pts | Sprint |
 |---|---|---:|---|
-| E27.S01 | GitHub Actions: PR build + tests + lint + Detekt | 5 | 15 |
+| E27.S01 | GitHub Actions: PR build + tests + lint + Detekt **(Phase: Pilot v1)** | 5 | 15 |
 | E27.S02 | GitHub Actions: nightly staging build → Firebase App Distribution | 3 | 15 |
-| E27.S03 | GitHub Actions: tagged release → Play Internal Testing | 5 | 15 |
-| E27.S04 | Signing key in GitHub Secrets + rotation procedure | 2 | 15 |
+| E27.S03 | GitHub Actions: tagged release → Play Internal Testing **(Phase: Pilot v1)** | 5 | 15 |
+| E27.S04 | Signing key in GitHub Secrets + rotation procedure **(Phase: Pilot v1)** | 2 | 15 |
 | E27.S05 | Play Console API integration via `gradle-play-publisher` | 3 | 16 |
 | E27.S06 | Dependency vulnerability scanning (Dependabot + OWASP dependency-check) | 2 | 16 |
 | E27.S07 | Renovate for dependency updates | 2 | 16 |
