@@ -20,5 +20,9 @@ data class DashboardUiState(
     val childrenCount: Int = 0,
     val pendingAttendance: Int = 0,
     val totalStudents: Int = 0,
-    val wallpaperId: String = WallpaperCatalog.DEFAULT_ID
+    val wallpaperId: String = WallpaperCatalog.DEFAULT_ID,
+    // Server-driven module manifest; controls tile order on the home grid.
+    // Empty list = use the role's default tile set in default order
+    // (per HomeTileVisibility). Comes from /api/mobile/dashboard (E08.S06).
+    val enabledModules: List<String> = emptyList()
 )
