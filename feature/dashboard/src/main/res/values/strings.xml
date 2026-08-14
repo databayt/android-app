@@ -40,7 +40,7 @@
     <string name="dashboard_action_subjects">Subjects</string>
 
     <!-- Home grid tile labels -->
-    <string name="home_action_stream">Video</string>
+    <string name="home_action_lumos">Lumos</string>
     <string name="home_action_atom_studio">Atom</string>
     <string name="home_action_notifications">Notifications</string>
     <string name="home_action_exams">Exams</string>

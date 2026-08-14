@@ -193,7 +193,7 @@ dependencies {
     implementation(project(":feature:library"))
     implementation(project(":feature:subjects"))
     implementation(project(":feature:report-cards"))
-    implementation(project(":feature:stream"))
+    implementation(project(":feature:lumos"))
     implementation(project(":feature:lessons"))
     implementation(project(":feature:admin"))
     implementation(project(":feature:idcard"))

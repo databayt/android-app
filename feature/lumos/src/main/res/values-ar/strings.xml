@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="lumos_back">رجوع</string>
+    <string name="lumos_loading">جاري التحميل\u2026</string>
+    <string name="lumos_error">حدث خطأ</string>
+    <string name="lumos_retry">إعادة المحاولة</string>
+    <string name="lumos_done">تم</string>
+
+    <!-- Lumos Home Screen -->
+    <string name="lumos_home_top_bar_title">لوموس</string>
+    <string name="lumos_home_hero_title">لوموس</string>
+    <string name="lumos_home_hero_tagline">أضئ نوراً.</string>
+    <string name="lumos_home_explore_courses">استكشف الدورات</string>
+    <string name="lumos_home_dashboard">لوحة التحكم</string>
+    <string name="lumos_home_my_learning">تعلّمي</string>
+
+    <string name="lumos_home_feature_curated_title">دورات منتقاة</string>
+    <string name="lumos_home_feature_curated_desc">اطّلع على مجموعة واسعة من الدورات المختارة بعناية من قِبَل خبراء التعليم.</string>
+    <string name="lumos_home_feature_interactive_title">تعلّم تفاعلي</string>
+    <string name="lumos_home_feature_interactive_desc">انخرط في محتوى تفاعلي واختبارات وتمارين عملية لتثبيت المفاهيم.</string>
+    <string name="lumos_home_feature_progress_title">تتبّع التقدم</string>
+    <string name="lumos_home_feature_progress_desc">تابع تقدمك وإنجازاتك عبر تحليلات وتقارير تفصيلية.</string>
+    <string name="lumos_home_feature_community_title">دعم المجتمع</string>
+    <string name="lumos_home_feature_community_desc">انضم إلى مجتمع نابض بالحياة من المتعلمين والمعلمين للتعاون والمشاركة.</string>
+
+    <string name="lumos_home_continue_watching">متابعة المشاهدة</string>
+    <string name="lumos_home_featured_releases">الدورات المميزة</string>
+    <string name="lumos_home_hot_releases">إصدارات جديدة وبارزة</string>
+    <string name="lumos_home_progress_short">%1$d%%</string>
+
+    <string name="lumos_home_curriculum_title">منهج دراسي متكامل</string>
+    <string name="lumos_home_curriculum_description">فنون التعلّم عبر دورات آسرة صاغها نخبة المعلمين والخبراء.</string>
+    <string name="lumos_home_curriculum_world_class_title">محتوى عالي الجودة</string>
+    <string name="lumos_home_curriculum_world_class_desc">دورات منتقاة وفق أفضل المعايير التعليمية المعتمدة.</string>
+    <string name="lumos_home_curriculum_guided_title">دروس موجّهة</string>
+    <string name="lumos_home_curriculum_guided_desc">دروس عملية واختبارات تطبيقية لترسيخ الفهم خطوة بخطوة.</string>
+    <string name="lumos_home_curriculum_certificates_title">شهادات إتمام</string>
+    <string name="lumos_home_curriculum_certificates_desc">احصل على شهادة موثقة فور إكمال جميع دروس الدورة.</string>
+    <string name="lumos_home_curriculum_lms_title">نظام إدارة التعلّم</string>
+    <string name="lumos_home_curriculum_lms_desc">تجربة تعلّم سلسة ومتكاملة مباشرة داخل تطبيق المدرسة.</string>
+
+    <string name="lumos_home_teaching_title">علّم وشارك المعرفة</string>
+    <string name="lumos_home_teaching_description">كن معلماً وشارك شروحاتك وفيديوهاتك مع الطلاب في مدرستك.</string>
+    <string name="lumos_home_teaching_get_started">ابدأ الآن</string>
+    <string name="lumos_home_teaching_learn_more">اعرف المزيد</string>
+
+    <string name="lumos_home_begin_heading">كيف تبدأ</string>
+    <string name="lumos_home_begin_plan_tab">خطّط لمنهجك</string>
+    <string name="lumos_home_begin_plan_desc">اختر المادة والدرس المتوافقين مع المنهج المدرسي المعتمد.</string>
+    <string name="lumos_home_begin_plan_tip">صمّم شروحاتك بما يتناسب مع احتياجات ومستوى طلابك.</string>
+    <string name="lumos_home_begin_record_tab">سجّل الفيديو</string>
+    <string name="lumos_home_begin_record_desc">استخدم هاتفك أو كاميرتك مع صوت نقي لتسجيل درس واضح ومميز.</string>
+    <string name="lumos_home_begin_record_tip">تسجيل الشاشة خيار رائع لشرح المواد العلمية والبرمجية.</string>
+    <string name="lumos_home_begin_launch_tab">ارفع وانشر</string>
+    <string name="lumos_home_begin_launch_desc">ارفع الفيديو مباشرة للدرس المطلوب وأرسله للمراجعة.</string>
+    <string name="lumos_home_begin_launch_tip">ستصبح دروسك متاحة لجميع الطلاب المسجلين فور الموافقة عليها.</string>
+
+    <!-- Course Catalog Screen -->
+    <string name="lumos_courses_title">استكشف الدورات</string>
+    <string name="lumos_courses_grade_label">الصف %1$02d</string>
+    <string name="lumos_search_courses">البحث عن دورات\u2026</string>
+    <string name="lumos_filter_all">الكل</string>
+    <string name="lumos_no_courses_title">لا توجد دورات</string>
+    <string name="lumos_no_courses_subtitle">لم يتم العثور على دورات مطابقة. جرّب بحثاً أو صفاً مختلفاً.</string>
+    <string name="lumos_percent_complete">%1$d%% مكتمل</string>
+    <string name="lumos_grade_locked_badge">الصف %1$d</string>
+
+    <!-- Course Detail Screen -->
+    <string name="lumos_course_details_title">تفاصيل الدورة</string>
+    <string name="lumos_detail_enroll_free">سجّل مجاناً</string>
+    <string name="lumos_detail_continue_learning">متابعة التعلم</string>
+    <string name="lumos_detail_processing">جاري المعالجة\u2026</string>
+    <string name="lumos_detail_free_badge">مجاناً</string>
+    <string name="lumos_detail_breadcrumb_lumos">لوموس</string>
+    <string name="lumos_detail_breadcrumb_courses">الدورات</string>
+    <string name="lumos_detail_stat_lectures">محاضرات</string>
+    <string name="lumos_detail_stat_min_video">دقيقة فيديو</string>
+    <string name="lumos_detail_stat_quiz">اختبار</string>
+    <string name="lumos_detail_stat_certificate">شهادة إتمام</string>
+    <string name="lumos_detail_about_title">عن هذه الدورة</string>
+    <string name="lumos_detail_learning_objectives">أهداف التعلم</string>
+    <string name="lumos_detail_by_the_end">بنهاية هذه الدورة ستكون قادراً على:</string>
+    <string name="lumos_detail_prerequisites">المتطلبات المسبقة</string>
+    <string name="lumos_detail_no_prerequisites">لا توجد متطلبات خاصة. هذه الدورة مصممة لكافة المستويات.</string>
+    <string name="lumos_detail_who_is_for">لمن هذه الدورة</string>
+    <string name="lumos_detail_default_audience">الطلاب والمهتمون باكتساب مهارات وتعميق المعرفة في هذه المادة.</string>
+    <string name="lumos_detail_chapters_title">الفصول الدراسية</string>
+    <string name="lumos_detail_lesson_duration">%1$s</string>
+    <string name="lumos_progress_content_desc">التقدم</string>
+    <string name="lumos_lessons_label">الدروس</string>
+    <string name="lumos_duration_label">المدة</string>
+    <string name="lumos_enrolled_label">المسجلون</string>
+    <string name="lumos_your_progress">تقدمك الحالي</string>
+    <string name="lumos_about_this_course">عن هذه الدورة</string>
+    <string name="lumos_syllabus">المنهج</string>
+    <string name="lumos_view_all_chapters">عرض جميع الفصول</string>
+    <string name="lumos_view_all_chapters_count">عرض جميع الفصول (%1$d)</string>
+    <string name="lumos_view_certificate">عرض الشهادة</string>
+    <string name="lumos_continue_learning">متابعة التعلم</string>
+    <string name="lumos_enroll_now">سجّل الآن</string>
+    <string name="lumos_completed_content_desc">مكتمل</string>
+    <string name="lumos_lessons_count">%1$d/%2$d دروس</string>
+    <string name="lumos_locked_lesson">مغلق</string>
+
+    <!-- Chapter List Screen -->
+    <string name="lumos_chapters_title">فصول المنهج</string>
+    <string name="lumos_no_chapters_title">لا توجد فصول</string>
+    <string name="lumos_no_chapters_subtitle">لم تتم إضافة فصول لهذه الدورة حتى الآن.</string>
+    <string name="lumos_chapter_number">الفصل %1$d</string>
+    <string name="lumos_collapse">طي</string>
+    <string name="lumos_expand">توسيع</string>
+    <string name="lumos_no_lessons_available">لا توجد دروس متاحة بعد</string>
+
+    <!-- Course Progress Screen -->
+    <string name="lumos_progress_title">التقدم الدراسي</string>
+    <string name="lumos_complete_label">مكتمل</string>
+    <string name="lumos_completed_stat">المكتمل</string>
+    <string name="lumos_total_lessons_stat">إجمالي الدروس</string>
+    <string name="lumos_duration_stat">إجمالي الوقت</string>
+    <string name="lumos_chapter_progress">تقدم الفصول</string>
+
+    <!-- Course Certificate Screen -->
+    <string name="lumos_certificate_title">الشهادة المعتمدة</string>
+    <string name="lumos_share_content_desc">مشاركة</string>
+    <string name="lumos_share_certificate">مشاركة الشهادة</string>
+    <string name="lumos_share_certificate_text">لقد أتممت بنجاح %1$s! كود التحقق: %2$s</string>
+    <string name="lumos_certificate_of_completion">شهادة إتمام معتمدة</string>
+    <string name="lumos_this_certifies_that">يشهد هذا المستند بأن</string>
+    <string name="lumos_has_successfully_completed">قد أتم بنجاح متطلبات دورة</string>
+    <string name="lumos_completed_on">تاريخ الإتمام: %1$s</string>
+    <string name="lumos_qr_code_content_desc">رمز الاستجابة السريعة QR</string>
+    <string name="lumos_qr_fallback">QR</string>
+    <string name="lumos_download_pdf">تحميل PDF</string>
+    <string name="lumos_certificate_not_available">الشهادة غير متوفرة بعد</string>
+    <string name="lumos_complete_course_to_earn">أكمل جميع الدروس المقررة في الدورة للحصول على شهادتك الرسمية.</string>
+
+    <!-- Text Lesson Screen -->
+    <string name="lumos_text_lesson_title">درس مقروء</string>
+    <string name="lumos_reading_time">مدة القراءة: %1$s</string>
+    <string name="lumos_lesson_completed">تم إكمال الدرس</string>
+    <string name="lumos_mark_as_complete">تحديد كمكتمل</string>
+    <string name="lumos_next_lesson">الدرس التالي</string>
+    <string name="lumos_previous_lesson">الدرس السابق</string>
+
+    <!-- Video Lesson Screen & Player -->
+    <string name="lumos_video_lesson_title">درس مرئي</string>
+    <string name="lumos_playback_speed_content_desc">سرعة التشغيل</string>
+    <string name="lumos_speed_label">%1$sx</string>
+    <string name="lumos_rewind_10">إرجاع 10 ثوانٍ</string>
+    <string name="lumos_forward_10">تقديم 10 ثوانٍ</string>
+    <string name="lumos_pip_content_desc">صورة داخل صورة</string>
+    <string name="lumos_up_next">التالي تلقائياً</string>
+    <string name="lumos_play_now">تشغيل الآن</string>
+    <string name="lumos_playing_fallback_notice">يتم تشغيل المعاينة التمهيدية</string>
+    <string name="lumos_resources_title">المرفقات والمصادر</string>
+    <string name="lumos_no_resources">لا توجد مرفقات لهذا الدرس</string>
+    <string name="lumos_download_material">تحميل</string>
+    <string name="lumos_view_material">عرض</string>
+    <string name="lumos_paywalled_video_title">محتوى حصري</string>
+    <string name="lumos_paywalled_video_desc">هذا الفيديو جزء من وحدة تعليمية مميزة.</string>
+    <string name="lumos_unlock_video">فتح الفيديو</string>
+
+    <!-- Lesson Quiz Screen -->
+    <string name="lumos_quiz_title">اختبار تدريبي</string>
+    <string name="lumos_question_of">السؤال %1$d من %2$d</string>
+    <string name="lumos_explanation">التوضيح والشرح</string>
+    <string name="lumos_previous">السابق</string>
+    <string name="lumos_check_answer">تحقق من الإجابة</string>
+    <string name="lumos_finish_quiz">إنهاء الاختبار</string>
+    <string name="lumos_next">التالي</string>
+    <string name="lumos_correct_content_desc">إجابة صحيحة</string>
+    <string name="lumos_incorrect_content_desc">إجابة خاطئة</string>
+    <string name="lumos_congratulations">أحسنت صنعاً! تهانينا</string>
+    <string name="lumos_keep_trying">حاول مجدداً!</string>
+    <string name="lumos_score_out_of">%1$d من %2$d إجابات صحيحة (%3$d%%)</string>
+    <string name="lumos_you_passed">لقد اجتزت الاختبار بنجاح! تم حفظ نتيجتك في سجل الدرجات.</string>
+    <string name="lumos_you_need_to_pass">تحتاج إلى 70%% لاجتياز الاختبار. راجع الدرس وحاول مرة أخرى.</string>
+    <string name="lumos_gradebook_synced">تم الحفظ في سجل الدرجات</string>
+
+    <!-- Teacher Video Management -->
+    <string name="lumos_teacher_videos_title">فيديوهاتي التعليمية</string>
+    <string name="lumos_propose_video">رفع فيديو</string>
+    <string name="lumos_video_status_live">منشور</string>
+    <string name="lumos_video_status_publishing">قيد النشر</string>
+    <string name="lumos_video_status_needs_changes">يحتاج تعديلات</string>
+    <string name="lumos_video_visibility_school">المدرسة</string>
+    <string name="lumos_video_visibility_public">عام</string>
+    <string name="lumos_video_visibility_private">خاص</string>
+    <string name="lumos_video_visibility_paid">مدفوع</string>
+    <string name="lumos_no_teacher_videos">لم ترفع أي فيديوهات تعليمية بعد.</string>
+    <string name="lumos_propose_dialog_title">رفع فيديو لدرس</string>
+    <string name="lumos_select_grade">اختر الصف الدراسي</string>
+    <string name="lumos_select_subject">اختر المادة</string>
+    <string name="lumos_select_chapter">اختر الفصل</string>
+    <string name="lumos_select_lesson">اختر الدرس</string>
+    <string name="lumos_video_url_label">رابط الفيديو (أو رابط MP4 مباشر)</string>
+    <string name="lumos_video_title_label">عنوان الفيديو</string>
+    <string name="lumos_upload_success_title">تم إرسال الفيديو بنجاح!</string>
+    <string name="lumos_upload_success_desc">الفيديو الخاص بك في طريقه للمراجعة وسيظهر على الدرس قريباً.</string>
+
+    <!-- Admin Video Review -->
+    <string name="lumos_admin_review_title">قائمة مراجعة الفيديوهات</string>
+    <string name="lumos_no_pending_reviews">لا توجد فيديوهات معلقة بانتظار المراجعة.</string>
+    <string name="lumos_approve_video">قبول ونشر</string>
+    <string name="lumos_reject_video">طلب تعديل</string>
+    <string name="lumos_rejection_reason_title">ملاحظات التعديل المطلوبة</string>
+    <string name="lumos_rejection_reason_hint">اكتب الملاحظات والتوجيهات للمعلم لتعديل الفيديو\u2026</string>
+    <string name="lumos_confirm_reject">إرسال الملاحظات</string>
+    <string name="lumos_video_approved_success">تم قبول الفيديو ونشره بنجاح</string>
+    <string name="lumos_video_rejected_success">تم إرسال الملاحظات للمعلم</string>
+</resources>

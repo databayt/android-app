@@ -123,24 +123,28 @@ import org.hogwarts.android.feature.guardian.navigation.guardianMessagesScreen
 import org.hogwarts.android.feature.guardian.navigation.guardianNotificationsScreen
 import org.hogwarts.android.feature.timetable.navigation.Timetable
 import org.hogwarts.android.feature.timetable.navigation.timetableScreen
-import org.hogwarts.android.feature.stream.navigation.StreamCatalog
-import org.hogwarts.android.feature.stream.navigation.StreamCourseDetail
-import org.hogwarts.android.feature.stream.navigation.StreamChapters
-import org.hogwarts.android.feature.stream.navigation.StreamHome
-import org.hogwarts.android.feature.stream.navigation.StreamVideoLesson
-import org.hogwarts.android.feature.stream.navigation.StreamTextLesson
-import org.hogwarts.android.feature.stream.navigation.StreamQuiz
-import org.hogwarts.android.feature.stream.navigation.StreamProgress
-import org.hogwarts.android.feature.stream.navigation.StreamCertificate
-import org.hogwarts.android.feature.stream.navigation.courseCatalogScreen
-import org.hogwarts.android.feature.stream.navigation.courseDetailScreen
-import org.hogwarts.android.feature.stream.navigation.chapterListScreen
-import org.hogwarts.android.feature.stream.navigation.streamHomeScreen
-import org.hogwarts.android.feature.stream.navigation.videoLessonScreen
-import org.hogwarts.android.feature.stream.navigation.textLessonScreen
-import org.hogwarts.android.feature.stream.navigation.lessonQuizScreen as streamLessonQuizScreen
-import org.hogwarts.android.feature.stream.navigation.courseProgressScreen
-import org.hogwarts.android.feature.stream.navigation.courseCertificateScreen
+import org.hogwarts.android.feature.lumos.navigation.LumosCatalog
+import org.hogwarts.android.feature.lumos.navigation.LumosCourseDetail
+import org.hogwarts.android.feature.lumos.navigation.LumosChapters
+import org.hogwarts.android.feature.lumos.navigation.LumosHome
+import org.hogwarts.android.feature.lumos.navigation.LumosVideoLesson
+import org.hogwarts.android.feature.lumos.navigation.LumosTextLesson
+import org.hogwarts.android.feature.lumos.navigation.LumosQuiz
+import org.hogwarts.android.feature.lumos.navigation.LumosProgress
+import org.hogwarts.android.feature.lumos.navigation.LumosCertificate
+import org.hogwarts.android.feature.lumos.navigation.LumosTeacherVideos
+import org.hogwarts.android.feature.lumos.navigation.LumosAdminReview
+import org.hogwarts.android.feature.lumos.navigation.courseCatalogScreen
+import org.hogwarts.android.feature.lumos.navigation.courseDetailScreen
+import org.hogwarts.android.feature.lumos.navigation.chapterListScreen
+import org.hogwarts.android.feature.lumos.navigation.lumosHomeScreen
+import org.hogwarts.android.feature.lumos.navigation.videoLessonScreen
+import org.hogwarts.android.feature.lumos.navigation.textLessonScreen
+import org.hogwarts.android.feature.lumos.navigation.lessonQuizScreen as lumosLessonQuizScreen
+import org.hogwarts.android.feature.lumos.navigation.courseProgressScreen
+import org.hogwarts.android.feature.lumos.navigation.courseCertificateScreen
+import org.hogwarts.android.feature.lumos.navigation.lumosTeacherVideosScreen
+import org.hogwarts.android.feature.lumos.navigation.lumosAdminReviewScreen
 import org.hogwarts.android.feature.lessons.navigation.LessonDetail
 import org.hogwarts.android.feature.lessons.navigation.LessonCurriculum
 import org.hogwarts.android.feature.lessons.navigation.LessonResources
@@ -239,16 +243,16 @@ fun HogwartsNavHost(
             onNavigateToSettings = { navController.navigate(Settings) },
             onNavigateToStream = {
                 // Students skip the marketing landing and drop straight into a
-                // catalog locked to their grade. Other roles still see StreamHome.
+                // catalog locked to their grade. Other roles still see LumosHome.
                 if (tenantContext.userRole == UserRole.STUDENT) {
                     navController.navigate(
-                        StreamCatalog(
+                        LumosCatalog(
                             initialGrade = tenantContext.studentGrade,
                             lockGrade = true
                         )
                     )
                 } else {
-                    navController.navigate(StreamHome)
+                    navController.navigate(LumosHome)
                 }
             },
             onNavigateToSubjects = { navController.navigate(Subjects) },
@@ -715,91 +719,102 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Stream / LMS - Home (landing page, mirrors web /stream)
-        streamHomeScreen(
-            onNavigateToCourses = { navController.navigate(StreamCatalog()) },
-            onNavigateToMyLearning = { navController.navigate(StreamCatalog()) },
+        // Lumos / LMS - Home (landing page, mirrors web /lumos)
+        lumosHomeScreen(
+            onNavigateToCourses = { navController.navigate(LumosCatalog()) },
+            onNavigateToMyLearning = { navController.navigate(LumosCatalog()) },
             onNavigateToCourse = { courseId ->
-                navController.navigate(StreamCourseDetail(courseId))
+                navController.navigate(LumosCourseDetail(courseId))
+            },
+            onNavigateToTeacherVideos = {
+                navController.navigate(LumosTeacherVideos)
             }
         )
 
-        // Stream / LMS - Course Catalog
+        // Lumos / LMS - Course Catalog
         courseCatalogScreen(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToCourse = { courseId ->
-                navController.navigate(StreamCourseDetail(courseId))
+                navController.navigate(LumosCourseDetail(courseId))
             }
         )
 
-        // Stream / LMS - Course Detail
+        // Lumos / LMS - Course Detail
         courseDetailScreen(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToChapters = { courseId ->
-                navController.navigate(StreamChapters(courseId))
+                navController.navigate(LumosChapters(courseId))
             },
             onNavigateToVideoLesson = { courseId, lessonId ->
-                navController.navigate(StreamVideoLesson(courseId, lessonId))
+                navController.navigate(LumosVideoLesson(courseId, lessonId))
             },
             onNavigateToTextLesson = { courseId, lessonId ->
-                navController.navigate(StreamTextLesson(courseId, lessonId))
+                navController.navigate(LumosTextLesson(courseId, lessonId))
             },
             onNavigateToQuiz = { courseId, lessonId ->
-                navController.navigate(StreamQuiz(courseId, lessonId))
+                navController.navigate(LumosQuiz(courseId, lessonId))
             },
             onNavigateToProgress = { courseId ->
-                navController.navigate(StreamProgress(courseId))
+                navController.navigate(LumosProgress(courseId))
             },
             onNavigateToCertificate = { courseId ->
-                navController.navigate(StreamCertificate(courseId))
+                navController.navigate(LumosCertificate(courseId))
             }
         )
 
-        // Stream / LMS - Chapter List
+        // Lumos / LMS - Chapter List
         chapterListScreen(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToVideoLesson = { courseId, lessonId ->
-                navController.navigate(StreamVideoLesson(courseId, lessonId))
+                navController.navigate(LumosVideoLesson(courseId, lessonId))
             },
             onNavigateToTextLesson = { courseId, lessonId ->
-                navController.navigate(StreamTextLesson(courseId, lessonId))
+                navController.navigate(LumosTextLesson(courseId, lessonId))
             },
             onNavigateToQuiz = { courseId, lessonId ->
-                navController.navigate(StreamQuiz(courseId, lessonId))
+                navController.navigate(LumosQuiz(courseId, lessonId))
             }
         )
 
-        // Stream / LMS - Video Lesson
+        // Lumos / LMS - Video Lesson
         videoLessonScreen(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToNext = { courseId, lessonId ->
-                navController.navigate(StreamVideoLesson(courseId, lessonId))
+                navController.navigate(LumosVideoLesson(courseId, lessonId))
             }
         )
 
-        // Stream / LMS - Text Lesson
+        // Lumos / LMS - Text Lesson
         textLessonScreen(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToNext = { courseId, lessonId ->
-                navController.navigate(StreamTextLesson(courseId, lessonId))
+                navController.navigate(LumosTextLesson(courseId, lessonId))
             }
         )
 
-        // Stream / LMS - Lesson Quiz
-        streamLessonQuizScreen(
+        // Lumos / LMS - Lesson Quiz
+        lumosLessonQuizScreen(
             onNavigateBack = { navController.popBackStack() },
-            onNavigateToNext = { courseId, lessonId ->
-                navController.navigate(StreamTextLesson(courseId, lessonId))
-            }
+            onQuizCompleted = { navController.popBackStack() }
         )
 
-        // Stream / LMS - Course Progress
+        // Lumos / LMS - Course Progress
         courseProgressScreen(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Stream / LMS - Course Certificate
+        // Lumos / LMS - Course Certificate
         courseCertificateScreen(
+            onNavigateBack = { navController.popBackStack() }
+        )
+
+        // Lumos / LMS - Teacher Videos
+        lumosTeacherVideosScreen(
+            onNavigateBack = { navController.popBackStack() }
+        )
+
+        // Lumos / LMS - Admin Review
+        lumosAdminReviewScreen(
             onNavigateBack = { navController.popBackStack() }
         )
 

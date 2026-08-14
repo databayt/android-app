@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common -->
+    <string name="lumos_back">Back</string>
+    <string name="lumos_loading">Loading\u2026</string>
+    <string name="lumos_error">An error occurred</string>
+    <string name="lumos_retry">Retry</string>
+    <string name="lumos_done">Done</string>
+
+    <!-- Lumos Home Screen -->
+    <string name="lumos_home_top_bar_title">Lumos</string>
+    <string name="lumos_home_hero_title">Lumos</string>
+    <string name="lumos_home_hero_tagline">Shine a light.</string>
+    <string name="lumos_home_explore_courses">Explore Courses</string>
+    <string name="lumos_home_dashboard">Dashboard</string>
+    <string name="lumos_home_my_learning">My Learning</string>
+
+    <string name="lumos_home_feature_curated_title">Curated Courses</string>
+    <string name="lumos_home_feature_curated_desc">Access a wide range of carefully curated courses by industry experts.</string>
+    <string name="lumos_home_feature_interactive_title">Interactive Learning</string>
+    <string name="lumos_home_feature_interactive_desc">Engage with interactive content, quizzes, and hands-on assignments.</string>
+    <string name="lumos_home_feature_progress_title">Progress Tracking</string>
+    <string name="lumos_home_feature_progress_desc">Monitor your progress and achievements with detailed analytics.</string>
+    <string name="lumos_home_feature_community_title">Community Support</string>
+    <string name="lumos_home_feature_community_desc">Join a vibrant community of learners and instructors to collaborate.</string>
+
+    <string name="lumos_home_continue_watching">Continue Watching</string>
+    <string name="lumos_home_featured_releases">Featured Courses</string>
+    <string name="lumos_home_hot_releases">Hot New Releases</string>
+    <string name="lumos_home_progress_short">%1$d%%</string>
+
+    <string name="lumos_home_curriculum_title">Expand Curriculum</string>
+    <string name="lumos_home_curriculum_description">Arts of learning with enchanting courses crafted by the finest wizards in education.</string>
+    <string name="lumos_home_curriculum_world_class_title">World-Class Content</string>
+    <string name="lumos_home_curriculum_world_class_desc">Curated courses from industry leaders and top educators.</string>
+    <string name="lumos_home_curriculum_guided_title">Guided Lessons</string>
+    <string name="lumos_home_curriculum_guided_desc">Hands-on lessons and practice to master each concept.</string>
+    <string name="lumos_home_curriculum_certificates_title">Course Certificates</string>
+    <string name="lumos_home_curriculum_certificates_desc">Earn verified certificates on course completion.</string>
+    <string name="lumos_home_curriculum_lms_title">Integrated LMS</string>
+    <string name="lumos_home_curriculum_lms_desc">Seamless learning experience directly in the school app.</string>
+
+    <string name="lumos_home_teaching_title">Come teach with us</string>
+    <string name="lumos_home_teaching_description">Become an instructor and share knowledge with students across the school.</string>
+    <string name="lumos_home_teaching_get_started">Get started</string>
+    <string name="lumos_home_teaching_learn_more">Learn more</string>
+
+    <string name="lumos_home_begin_heading">How to begin</string>
+    <string name="lumos_home_begin_plan_tab">Plan your curriculum</string>
+    <string name="lumos_home_begin_plan_desc">Choose subjects and lessons aligned with your school curriculum.</string>
+    <string name="lumos_home_begin_plan_tip">Tailor your teaching style to your students.</string>
+    <string name="lumos_home_begin_record_tab">Record your video</string>
+    <string name="lumos_home_begin_record_desc">Use a smartphone or camera with good audio to record crisp lessons.</string>
+    <string name="lumos_home_begin_record_tip">Screen recording is also a great option for digital subjects.</string>
+    <string name="lumos_home_begin_launch_tab">Upload and publish</string>
+    <string name="lumos_home_begin_launch_desc">Upload videos directly to lessons and submit for review.</string>
+    <string name="lumos_home_begin_launch_tip">Your lessons become immediately available to enrolled students once approved.</string>
+
+    <!-- Course Catalog Screen -->
+    <string name="lumos_courses_title">Explore Courses</string>
+    <string name="lumos_courses_grade_label">Grade %1$02d</string>
+    <string name="lumos_search_courses">Search courses\u2026</string>
+    <string name="lumos_filter_all">All</string>
+    <string name="lumos_no_courses_title">No Courses</string>
+    <string name="lumos_no_courses_subtitle">No courses found. Try a different search or filter.</string>
+    <string name="lumos_percent_complete">%1$d%% complete</string>
+    <string name="lumos_grade_locked_badge">Grade %1$d</string>
+
+    <!-- Course Detail Screen -->
+    <string name="lumos_course_details_title">Course Details</string>
+    <string name="lumos_detail_enroll_free">Enroll for Free</string>
+    <string name="lumos_detail_continue_learning">Continue Learning</string>
+    <string name="lumos_detail_processing">Processing\u2026</string>
+    <string name="lumos_detail_free_badge">FREE</string>
+    <string name="lumos_detail_breadcrumb_lumos">Lumos</string>
+    <string name="lumos_detail_breadcrumb_courses">Courses</string>
+    <string name="lumos_detail_stat_lectures">lectures</string>
+    <string name="lumos_detail_stat_min_video">min of video</string>
+    <string name="lumos_detail_stat_quiz">quiz</string>
+    <string name="lumos_detail_stat_certificate">Certificate of completion</string>
+    <string name="lumos_detail_about_title">About this course</string>
+    <string name="lumos_detail_learning_objectives">Learning objectives</string>
+    <string name="lumos_detail_by_the_end">By the end of this course, you\'ll be able to:</string>
+    <string name="lumos_detail_prerequisites">Prerequisites</string>
+    <string name="lumos_detail_no_prerequisites">No specific prerequisites. This course is designed for all skill levels.</string>
+    <string name="lumos_detail_who_is_for">Who this course is for</string>
+    <string name="lumos_detail_default_audience">Students and learners interested in this subject.</string>
+    <string name="lumos_detail_chapters_title">Chapters</string>
+    <string name="lumos_detail_lesson_duration">%1$s</string>
+    <string name="lumos_progress_content_desc">Progress</string>
+    <string name="lumos_lessons_label">Lessons</string>
+    <string name="lumos_duration_label">Duration</string>
+    <string name="lumos_enrolled_label">Enrolled</string>
+    <string name="lumos_your_progress">Your Progress</string>
+    <string name="lumos_about_this_course">About this course</string>
+    <string name="lumos_syllabus">Syllabus</string>
+    <string name="lumos_view_all_chapters">View all chapters</string>
+    <string name="lumos_view_all_chapters_count">View all %1$d chapters</string>
+    <string name="lumos_view_certificate">View Certificate</string>
+    <string name="lumos_continue_learning">Continue Learning</string>
+    <string name="lumos_enroll_now">Enroll Now</string>
+    <string name="lumos_completed_content_desc">Completed</string>
+    <string name="lumos_lessons_count">%1$d/%2$d lessons</string>
+    <string name="lumos_locked_lesson">Locked</string>
+
+    <!-- Chapter List Screen -->
+    <string name="lumos_chapters_title">Chapters</string>
+    <string name="lumos_no_chapters_title">No Chapters</string>
+    <string name="lumos_no_chapters_subtitle">This course has no chapters yet.</string>
+    <string name="lumos_chapter_number">Chapter %1$d</string>
+    <string name="lumos_collapse">Collapse</string>
+    <string name="lumos_expand">Expand</string>
+    <string name="lumos_no_lessons_available">No lessons available yet</string>
+
+    <!-- Course Progress Screen -->
+    <string name="lumos_progress_title">Progress</string>
+    <string name="lumos_complete_label">Complete</string>
+    <string name="lumos_completed_stat">Completed</string>
+    <string name="lumos_total_lessons_stat">Total Lessons</string>
+    <string name="lumos_duration_stat">Duration</string>
+    <string name="lumos_chapter_progress">Chapter Progress</string>
+
+    <!-- Course Certificate Screen -->
+    <string name="lumos_certificate_title">Certificate</string>
+    <string name="lumos_share_content_desc">Share</string>
+    <string name="lumos_share_certificate">Share Certificate</string>
+    <string name="lumos_share_certificate_text">I completed %1$s! Verify: %2$s</string>
+    <string name="lumos_certificate_of_completion">Certificate of Completion</string>
+    <string name="lumos_this_certifies_that">This certifies that</string>
+    <string name="lumos_has_successfully_completed">has successfully completed</string>
+    <string name="lumos_completed_on">Completed on %1$s</string>
+    <string name="lumos_qr_code_content_desc">QR Code</string>
+    <string name="lumos_qr_fallback">QR</string>
+    <string name="lumos_download_pdf">Download PDF</string>
+    <string name="lumos_certificate_not_available">Certificate not available yet</string>
+    <string name="lumos_complete_course_to_earn">Complete all visible lessons in the course to earn your certificate.</string>
+
+    <!-- Text Lesson Screen -->
+    <string name="lumos_text_lesson_title">Text Lesson</string>
+    <string name="lumos_reading_time">Reading time: %1$s</string>
+    <string name="lumos_lesson_completed">Lesson completed</string>
+    <string name="lumos_mark_as_complete">Mark as Complete</string>
+    <string name="lumos_next_lesson">Next Lesson</string>
+    <string name="lumos_previous_lesson">Previous Lesson</string>
+
+    <!-- Video Lesson Screen & Player -->
+    <string name="lumos_video_lesson_title">Video Lesson</string>
+    <string name="lumos_playback_speed_content_desc">Playback Speed</string>
+    <string name="lumos_speed_label">%1$sx</string>
+    <string name="lumos_rewind_10">Rewind 10 seconds</string>
+    <string name="lumos_forward_10">Forward 10 seconds</string>
+    <string name="lumos_pip_content_desc">Picture in Picture</string>
+    <string name="lumos_up_next">Up Next</string>
+    <string name="lumos_play_now">Play Now</string>
+    <string name="lumos_playing_fallback_notice">Playing introductory preview clip</string>
+    <string name="lumos_resources_title">Resources &amp; Materials</string>
+    <string name="lumos_no_resources">No attachments for this lesson</string>
+    <string name="lumos_download_material">Download</string>
+    <string name="lumos_view_material">View</string>
+    <string name="lumos_paywalled_video_title">Premium Content</string>
+    <string name="lumos_paywalled_video_desc">This video is part of a paid course module.</string>
+    <string name="lumos_unlock_video">Unlock Video</string>
+
+    <!-- Lesson Quiz Screen -->
+    <string name="lumos_quiz_title">Practice Quiz</string>
+    <string name="lumos_question_of">Question %1$d of %2$d</string>
+    <string name="lumos_explanation">Explanation</string>
+    <string name="lumos_previous">Previous</string>
+    <string name="lumos_check_answer">Check Answer</string>
+    <string name="lumos_finish_quiz">Finish Quiz</string>
+    <string name="lumos_next">Next</string>
+    <string name="lumos_correct_content_desc">Correct</string>
+    <string name="lumos_incorrect_content_desc">Incorrect</string>
+    <string name="lumos_congratulations">Congratulations!</string>
+    <string name="lumos_keep_trying">Keep Trying!</string>
+    <string name="lumos_score_out_of">%1$d out of %2$d correct (%3$d%%)</string>
+    <string name="lumos_you_passed">You passed the quiz! Your score has been recorded.</string>
+    <string name="lumos_you_need_to_pass">You need 70%% to pass. Review the lesson and try again.</string>
+    <string name="lumos_gradebook_synced">Saved to Gradebook</string>
+
+    <!-- Teacher Video Management -->
+    <string name="lumos_teacher_videos_title">My Videos</string>
+    <string name="lumos_propose_video">Upload Video</string>
+    <string name="lumos_video_status_live">Live</string>
+    <string name="lumos_video_status_publishing">Publishing</string>
+    <string name="lumos_video_status_needs_changes">Needs Changes</string>
+    <string name="lumos_video_visibility_school">School</string>
+    <string name="lumos_video_visibility_public">Public</string>
+    <string name="lumos_video_visibility_private">Private</string>
+    <string name="lumos_video_visibility_paid">Paid</string>
+    <string name="lumos_no_teacher_videos">No videos uploaded yet.</string>
+    <string name="lumos_propose_dialog_title">Upload Video Lesson</string>
+    <string name="lumos_select_grade">Select Grade</string>
+    <string name="lumos_select_subject">Select Subject</string>
+    <string name="lumos_select_chapter">Select Chapter</string>
+    <string name="lumos_select_lesson">Select Lesson</string>
+    <string name="lumos_video_url_label">Video URL (or direct MP4 link)</string>
+    <string name="lumos_video_title_label">Video Title</string>
+    <string name="lumos_upload_success_title">Video Submitted!</string>
+    <string name="lumos_upload_success_desc">Your video is on its way to review and will appear on the lesson shortly.</string>
+
+    <!-- Admin Video Review -->
+    <string name="lumos_admin_review_title">Video Review Queue</string>
+    <string name="lumos_no_pending_reviews">No videos pending review.</string>
+    <string name="lumos_approve_video">Approve</string>
+    <string name="lumos_reject_video">Reject</string>
+    <string name="lumos_rejection_reason_title">Reason for Changes</string>
+    <string name="lumos_rejection_reason_hint">Explain what needs adjustment before publishing\u2026</string>
+    <string name="lumos_confirm_reject">Send Feedback</string>
+    <string name="lumos_video_approved_success">Video approved and published</string>
+    <string name="lumos_video_rejected_success">Feedback sent to instructor</string>
+</resources>

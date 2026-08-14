@@ -40,7 +40,7 @@
     <string name="dashboard_action_subjects">المواد</string>
 
     <!-- Home grid tile labels -->
-    <string name="home_action_stream">فيديو</string>
+    <string name="home_action_lumos">لوموس</string>
     <string name="home_action_atom_studio">ذرة</string>
     <string name="home_action_notifications">الإشعارات</string>
     <string name="home_action_exams">الاختبارات</string>

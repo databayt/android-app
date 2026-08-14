@@ -78,7 +78,7 @@ fun buildHomeTiles(
         iconRes = R.drawable.ic_tile_wallet
     ),
     HomeTileSpec(
-        labelRes = R.string.home_action_stream,
+        labelRes = R.string.home_action_lumos,
         icon = HogwartsIcons.Video,
         background = ApplePurple,
         onClick = onNavigateToStream,
