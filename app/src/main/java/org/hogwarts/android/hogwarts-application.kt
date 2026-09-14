@@ -2,8 +2,10 @@ package org.hogwarts.android
 
 import android.app.Application
 import android.app.NotificationChannel
+import android.app.LocaleManager
 import android.app.NotificationManager
 import android.os.Build
+import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.hilt.work.HiltWorkerFactory
@@ -77,23 +79,37 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
      * Arabic by default, once, before the first Activity inflates — so the first
      * frame is already RTL. The DataStore read only blocks while no per-app
      * language is set, which after the first launch is rare.
+     *
+     * On API 33+ this talks to the platform LocaleManager directly: AppCompat
+     * only reaches it through an Activity delegate, and none exists yet.
+     * Below 33 AppCompat holds the request and persists it (autoStoreLocales)
+     * when MainActivity attaches.
      */
     private fun applyDefaultLocale() {
-        if (!AppCompatDelegate.getApplicationLocales().isEmpty) return
-        // runBlocking on the main thread: DataStore does its IO on its own dispatcher,
-        // and AppCompat is called from main.
+        if (!appLocalesEmpty()) return
+        // runBlocking on the main thread: DataStore does its IO on its own dispatcher.
         runBlocking {
             DefaultAppLocale(
-                appLocalesEmpty = { AppCompatDelegate.getApplicationLocales().isEmpty },
+                appLocalesEmpty = ::appLocalesEmpty,
                 setAppLocale = { tag ->
-                    // AppCompat applies and persists this on the main thread's next Activity.
-                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        getSystemService(LocaleManager::class.java).applicationLocales = LocaleList.forLanguageTags(tag)
+                    } else {
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
+                    }
                 },
                 alreadyDefaulted = { appPreferences.localeDefaulted.first() },
                 markDefaulted = { appPreferences.markLocaleDefaulted(it) },
             ).apply()
         }
     }
+
+    private fun appLocalesEmpty(): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getSystemService(LocaleManager::class.java).applicationLocales.isEmpty
+        } else {
+            AppCompatDelegate.getApplicationLocales().isEmpty
+        }
 
     private fun createNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
