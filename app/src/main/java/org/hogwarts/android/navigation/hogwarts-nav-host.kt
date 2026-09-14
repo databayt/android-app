@@ -50,18 +50,8 @@ import org.hogwarts.android.feature.fees.navigation.transactionHistoryScreen
 import org.hogwarts.android.feature.fees.navigation.feeBalanceDashboardScreen
 import org.hogwarts.android.feature.grades.navigation.gradesScreen
 import org.hogwarts.android.feature.messaging.navigation.Chat
-import org.hogwarts.android.feature.messaging.navigation.ConversationInfo
-import org.hogwarts.android.feature.messaging.navigation.ConversationMessageSearch
-import org.hogwarts.android.feature.messaging.navigation.MessageSearch
 import org.hogwarts.android.feature.messaging.navigation.Messaging
-import org.hogwarts.android.feature.messaging.navigation.WhatsAppQR
-import org.hogwarts.android.feature.messaging.navigation.WhatsAppSettings
-import org.hogwarts.android.feature.messaging.navigation.chatScreen
-import org.hogwarts.android.feature.messaging.navigation.conversationInfoScreen
-import org.hogwarts.android.feature.messaging.navigation.messageSearchScreen
-import org.hogwarts.android.feature.messaging.navigation.messagingScreen
-import org.hogwarts.android.feature.messaging.navigation.whatsAppQRScreen
-import org.hogwarts.android.feature.messaging.navigation.whatsAppSettingsScreen
+import org.hogwarts.android.feature.messaging.navigation.messagesGraph
 import org.hogwarts.android.feature.notifications.navigation.NotificationPreferences
 import org.hogwarts.android.feature.notifications.navigation.Notifications
 import org.hogwarts.android.feature.notifications.navigation.notificationPreferencesScreen
@@ -334,50 +324,12 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Messaging
-        messagingScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToChat = { conversationId ->
-                navController.navigate(Chat(conversationId))
-            },
-            onNavigateToWhatsAppSettings = {
-                navController.navigate(WhatsAppSettings)
-            },
-        )
-
-        // Chat
-        chatScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToInfo = { conversationId ->
-                navController.navigate(ConversationInfo(conversationId))
-            },
-        )
-
-        // Conversation info
-        conversationInfoScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onAfterExit = {
-                navController.popBackStack(Messaging, inclusive = false)
-            },
-        )
-
-        // Message search (global + per-conversation)
-        messageSearchScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onResultClick = { conversationId, _ ->
-                navController.navigate(Chat(conversationId))
-            },
-        )
-
-        // WhatsApp Settings
-        whatsAppSettingsScreen(
-            onDismiss = { navController.popBackStack() },
-            onNavigateToQR = { navController.navigate(WhatsAppQR) },
-        )
-
-        // WhatsApp QR
-        whatsAppQRScreen(
-            onNavigateBack = { navController.popBackStack() }
+        // Messages: the five-tab shell and its threads (web /messages)
+        messagesGraph(
+            onOpenChat = { conversationId -> navController.navigate(Chat(conversationId)) },
+            onCloseChat = { navController.popBackStack() },
+            onOpenDashboard = { hrefOpener.open("/dashboard") },
+            onOpenHref = { href -> hrefOpener.open(href) },
         )
 
         // Notifications

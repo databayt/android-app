@@ -12,18 +12,23 @@ import javax.inject.Singleton
 
 private val Context.draftsDataStore by preferencesDataStore(name = "messaging_drafts")
 
-/** Per-conversation draft persistence. Local only for now; server sync can
- *  follow via /api/mobile/conversations/:id/draft in a future iteration. */
+/** The composer's unsent text per conversation (`messaging:drafts` on the web). */
+interface ConversationDrafts {
+    fun observe(conversationId: String): Flow<String>
+    suspend fun save(conversationId: String, text: String)
+}
+
+/** Per-conversation draft persistence, local to the device as the web's is. */
 @Singleton
 class DraftStore @Inject constructor(
     @ApplicationContext private val context: Context,
-) {
+) : ConversationDrafts {
     private fun key(conversationId: String) = stringPreferencesKey("draft:$conversationId")
 
-    fun observe(conversationId: String): Flow<String> =
+    override fun observe(conversationId: String): Flow<String> =
         context.draftsDataStore.data.map { prefs -> prefs[key(conversationId)] ?: "" }
 
-    suspend fun save(conversationId: String, text: String) {
+    override suspend fun save(conversationId: String, text: String) {
         context.draftsDataStore.edit { prefs ->
             if (text.isBlank()) prefs.remove(key(conversationId))
             else prefs[key(conversationId)] = text

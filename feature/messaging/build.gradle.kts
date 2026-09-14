@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -20,9 +21,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-
     buildFeatures {
         compose = true
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
     }
 }
 
@@ -43,34 +47,27 @@ dependencies {
     implementation(libs.bundles.coroutines)
     implementation(libs.navigation.compose)
 
-    // Room
+    // Room (the message cache and the send queue)
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
 
-    // Serialization
     implementation(libs.kotlinx.serialization.json)
-
-    // Network
     implementation(libs.bundles.network)
-
-    // Socket.IO
-    implementation(libs.socketio.client)
-
-    // Logging
     implementation(libs.timber)
-
-    // Image loading
     implementation(libs.coil.compose)
 
     // DataStore (drafts)
     implementation(libs.datastore.preferences)
 
-    // WorkManager
+    // WorkManager (queued sends)
     implementation(libs.work.runtime)
     implementation(libs.hilt.work)
     ksp(libs.hilt.work.compiler)
 
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
-    androidTestImplementation(libs.compose.ui.test.junit4)
+    testImplementation(libs.bundles.testing)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
 }

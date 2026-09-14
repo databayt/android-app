@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Converted from hogwarts public/icons/whatsapp/ic-wa-plus-input-32.svg (monochrome; tinted at the call site like the web's CSS mask). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="32"
+    android:viewportHeight="32">
+    <path
+        android:pathData="M16.9 7.0001C16.9 6.50304 16.4971 6.1001 16 6.1001C15.5029 6.1001 15.1 6.50304 15.1 7.0001V15.1001H7C6.50294 15.1001 6.1 15.503 6.1 16.0001C6.1 16.4972 6.50294 16.9001 7 16.9001H15.1V25.0001C15.1 25.4972 15.5029 25.9001 16 25.9001C16.4971 25.9001 16.9 25.4972 16.9 25.0001V16.9001H25C25.4971 16.9001 25.9 16.4972 25.9 16.0001C25.9 15.503 25.4971 15.1001 25 15.1001H16.9V7.0001Z"
+        android:fillColor="#FF000000"
+        android:fillType="evenOdd"
+        />
+</vector>

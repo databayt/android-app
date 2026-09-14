@@ -1,67 +1,53 @@
 package org.hogwarts.android.feature.messaging.data.repository
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
-import org.hogwarts.android.core.data.util.Resource
-import org.hogwarts.android.core.network.socket.SocketConnectionState
-import org.hogwarts.android.feature.messaging.domain.model.ContactGroup
-import org.hogwarts.android.feature.messaging.domain.model.Conversation
-import org.hogwarts.android.feature.messaging.domain.model.Message
-import org.hogwarts.android.feature.messaging.domain.model.TypingIndicator
+import org.hogwarts.android.feature.messaging.domain.model.ChatSummary
+import org.hogwarts.android.feature.messaging.domain.model.MessagingViewer
+import org.hogwarts.android.feature.messaging.domain.model.ThreadMessage
 
+/**
+ * Messages data: Room is the source the screens observe, the mobile API fills
+ * it. Realtime is polling — prod runs no socket server, and the web polls the
+ * same way while its socket is down (`messaging-client.tsx`).
+ */
 interface MessagingRepository {
 
-    fun getContacts(locale: String = "en", search: String? = null): Flow<Resource<List<ContactGroup>>>
+    /** The signed-in user's id, or null when signed out. */
+    val currentUserId: String?
 
-    suspend fun getOrCreateDirectConversation(otherUserId: String): String
+    fun observeConversations(): Flow<List<ChatSummary>>
 
-    fun getConversations(type: String? = null): Flow<Resource<List<Conversation>>>
+    fun observeConversation(conversationId: String): Flow<ChatSummary?>
 
-    fun getMessages(conversationId: String): Flow<Resource<List<Message>>>
+    /** Refetches the list. False when the request did not come back 2xx. */
+    suspend fun refreshConversations(): Boolean
 
-    suspend fun sendMessage(conversationId: String, content: String, replyToId: String? = null): Message
+    fun observeMessages(conversationId: String): Flow<List<ThreadMessage>>
 
+    /** Refetches the newest page. Returns the older-page cursor, or a failure. */
+    suspend fun refreshMessages(conversationId: String): PageResult
+
+    /** Fetches the page before [cursor]. */
+    suspend fun loadOlderMessages(conversationId: String, cursor: String): PageResult
+
+    /**
+     * Puts an optimistic row into the thread and tries the server. The row
+     * only becomes a sent message on a 2xx; otherwise it turns `failed` and
+     * stays queued for the background sender.
+     */
+    suspend fun sendMessage(conversationId: String, content: String, replyToId: String? = null)
+
+    /** Re-sends a failed optimistic row. */
+    suspend fun retryMessage(messageId: String)
+
+    /** Clears the badge locally at once; the server call is best effort. */
     suspend fun markAsRead(conversationId: String)
 
-    fun observeTypingIndicators(conversationId: String): Flow<List<TypingIndicator>>
+    /** `GET /api/mobile/profile`, cached for the session; null when it fails. */
+    suspend fun viewer(): MessagingViewer?
+}
 
-    /** Set of conversation IDs where someone (other than the current user) is typing right now. */
-    fun observeTypingConversations(): Flow<Set<String>>
-
-    fun observePresence(): Flow<Set<String>>
-
-    fun observeConnectionState(): StateFlow<SocketConnectionState>
-
-    fun sendTypingStart(conversationId: String)
-
-    fun sendTypingStop(conversationId: String)
-
-    fun observeTotalUnreadCount(): Flow<Int>
-
-    // Message-level actions
-    suspend fun editMessage(conversationId: String, messageId: String, content: String)
-    suspend fun deleteMessage(conversationId: String, messageId: String)
-    suspend fun addReaction(conversationId: String, messageId: String, emoji: String)
-    suspend fun removeReaction(conversationId: String, messageId: String, emoji: String)
-    suspend fun toggleStar(conversationId: String, messageId: String, starred: Boolean)
-    suspend fun forwardMessage(
-        sourceConversationId: String,
-        messageId: String,
-        targetConversationIds: List<String>,
-    ): List<String>
-
-    // Conversation-level actions
-    suspend fun togglePin(conversationId: String, pinned: Boolean)
-    suspend fun toggleMute(conversationId: String, muted: Boolean)
-    suspend fun archiveConversation(conversationId: String, archived: Boolean)
-    suspend fun leaveConversation(conversationId: String)
-
-    // Search + starred
-    suspend fun searchMessages(query: String, limit: Int = 30): List<org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult>
-    suspend fun searchConversationMessages(
-        conversationId: String,
-        query: String,
-        limit: Int = 50,
-    ): List<org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult>
-    suspend fun getStarredMessages(limit: Int = 50): List<org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult>
+sealed interface PageResult {
+    data class Loaded(val olderCursor: String?) : PageResult
+    data object Failed : PageResult
 }

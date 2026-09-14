@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Converted from hogwarts public/icons/whatsapp/ic-wa-search-24.svg (monochrome; tinted at the call site like the web's CSS mask). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="16.2dp"
+    android:height="16.3575dp"
+    android:viewportWidth="16.2"
+    android:viewportHeight="16.3575">
+    <path
+        android:pathData="M0 6.61597C0 10.2639 2.96807 13.2319 6.61597 13.2319C8.05855 13.2319 9.37677 12.7677 10.4628 11.9883L14.5419 16.0756C14.7326 16.2663 14.9813 16.3575 15.2466 16.3575C15.8103 16.3575 16.2 15.9347 16.2 15.3792C16.2 15.1139 16.1005 14.8735 15.9264 14.6994L11.8723 10.6204C12.7262 9.50942 13.2319 8.12487 13.2319 6.61597C13.2319 2.96807 10.2639 0 6.61597 0C2.96807 0 0 2.96807 0 6.61597ZM1.41771 6.61597C1.41771 3.74739 3.74739 1.41771 6.61597 1.41771C9.48455 1.41771 11.8142 3.74739 11.8142 6.61597C11.8142 9.48454 9.48455 11.8142 6.61597 11.8142C3.74739 11.8142 1.41771 9.48454 1.41771 6.61597Z"
+        android:fillColor="#FF000000"
+        />
+</vector>

@@ -2,52 +2,32 @@ package org.hogwarts.android.feature.messaging.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import org.hogwarts.android.core.data.tenant.TenantContext
-import org.hogwarts.android.core.data.util.Resource
-import org.hogwarts.android.core.data.util.networkBoundResource
 import org.hogwarts.android.core.database.dao.ConversationDao
 import org.hogwarts.android.core.database.dao.MessageDao
 import org.hogwarts.android.core.database.dao.PendingMessageDao
 import org.hogwarts.android.core.database.entity.ConversationEntity
 import org.hogwarts.android.core.database.entity.MessageEntity
 import org.hogwarts.android.core.database.entity.PendingMessageEntity
-import org.hogwarts.android.core.network.socket.SocketConnectionState
-import org.hogwarts.android.core.network.socket.SocketManager
 import org.hogwarts.android.feature.messaging.data.remote.MessagingApi
-import org.hogwarts.android.feature.messaging.data.remote.dto.ArchiveBody
-import org.hogwarts.android.feature.messaging.data.remote.dto.AttachmentDto
-import org.hogwarts.android.feature.messaging.data.remote.dto.ContactDto
-import org.hogwarts.android.feature.messaging.data.remote.dto.ContactGroupDto
 import org.hogwarts.android.feature.messaging.data.remote.dto.ConversationDto
-import org.hogwarts.android.feature.messaging.data.remote.dto.CreateConversationDto
-import org.hogwarts.android.feature.messaging.data.remote.dto.EditMessageBody
-import org.hogwarts.android.feature.messaging.data.remote.dto.ForwardBody
 import org.hogwarts.android.feature.messaging.data.remote.dto.MessageDto
-import org.hogwarts.android.feature.messaging.data.remote.dto.MuteBody
-import org.hogwarts.android.feature.messaging.data.remote.dto.PinBody
-import org.hogwarts.android.feature.messaging.data.remote.dto.ReactionBody
-import org.hogwarts.android.feature.messaging.data.remote.dto.ReactionDto
-import org.hogwarts.android.feature.messaging.data.remote.dto.SendMessageDto
-import org.hogwarts.android.feature.messaging.data.remote.dto.StarBody
-import org.hogwarts.android.feature.messaging.domain.model.Contact
-import org.hogwarts.android.feature.messaging.domain.model.ContactCategory
-import org.hogwarts.android.feature.messaging.domain.model.ContactGroup
-import org.hogwarts.android.feature.messaging.domain.model.Conversation
-import org.hogwarts.android.feature.messaging.domain.model.ConversationType
-import org.hogwarts.android.feature.messaging.domain.model.Message
-import org.hogwarts.android.feature.messaging.domain.model.MessageAttachment
-import org.hogwarts.android.feature.messaging.domain.model.MessageReaction
-import org.hogwarts.android.feature.messaging.domain.model.MessageStatus
-import org.hogwarts.android.feature.messaging.domain.model.ReplyContext
-import org.hogwarts.android.feature.messaging.domain.model.TypingIndicator
+import org.hogwarts.android.feature.messaging.data.worker.PendingSendScheduler
+import org.hogwarts.android.feature.messaging.domain.model.ChatSummary
+import org.hogwarts.android.feature.messaging.domain.model.LastMessage
+import org.hogwarts.android.feature.messaging.domain.model.MessagingViewer
+import org.hogwarts.android.feature.messaging.domain.model.ThreadMessage
+import timber.log.Timber
 import java.time.Instant
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.coroutines.cancellation.CancellationException
 
 @Singleton
 class MessagingRepositoryImpl @Inject constructor(
@@ -56,367 +36,191 @@ class MessagingRepositoryImpl @Inject constructor(
     private val messageDao: MessageDao,
     private val pendingMessageDao: PendingMessageDao,
     private val tenantContext: TenantContext,
-    private val socketManager: SocketManager,
+    private val sender: MessageSender,
+    private val scheduler: PendingSendScheduler,
 ) : MessagingRepository {
 
-    private val _typingIndicators = MutableStateFlow<Map<String, List<TypingIndicator>>>(emptyMap())
-    private val _onlineUsers = MutableStateFlow<Set<String>>(emptySet())
+    /**
+     * Ids in the last list the server returned. The list route answers with the
+     * whole inbox, so a conversation missing from it (left, archived) is dropped
+     * from what the screen shows without deleting and re-inserting the table.
+     */
+    private val serverIds = MutableStateFlow<Set<String>?>(null)
+    private val viewerLock = Mutex()
+    private var cachedViewer: MessagingViewer? = null
 
-    // In-memory cache for contacts (mirrors cachedGroupsRef in web contacts-panel.tsx:67)
-    private data class ContactsCacheKey(val locale: String, val search: String?)
-    private var contactsCache: Pair<ContactsCacheKey, List<ContactGroup>>? = null
-    private var contactsCacheAt: Long = 0L
-    private val contactsTtlMs = 60_000L
+    override val currentUserId: String? get() = tenantContext.userId
 
-    override fun getContacts(locale: String, search: String?): Flow<Resource<List<ContactGroup>>> = flow {
-        val key = ContactsCacheKey(locale, search?.takeIf { it.isNotBlank() })
-        val cached = contactsCache
-        val fresh = cached != null && cached.first == key &&
-            (System.currentTimeMillis() - contactsCacheAt) < contactsTtlMs
-        if (fresh) {
-            emit(Resource.Success(cached!!.second))
-            return@flow
-        }
-        emit(Resource.Loading(cached?.second ?: emptyList()))
-        try {
-            val response = api.getContacts(locale = locale, search = key.search)
-            val groups = response.body()?.groups?.map { it.toDomain() } ?: emptyList()
-            contactsCache = key to groups
-            contactsCacheAt = System.currentTimeMillis()
-            emit(Resource.Success(groups))
-        } catch (t: Throwable) {
-            emit(Resource.Error(t, cached?.second ?: emptyList()))
+    override fun observeConversations(): Flow<List<ChatSummary>> {
+        val schoolId = tenantContext.schoolId ?: return flowOf(emptyList())
+        return combine(conversationDao.observeAll(schoolId), serverIds) { rows, ids ->
+            rows.asSequence()
+                .filter { ids == null || it.id in ids }
+                .map { it.toSummary() }
+                .sortedByDescending { it.lastMessageAt }
+                .toList()
         }
     }
 
-    override suspend fun getOrCreateDirectConversation(otherUserId: String): String {
-        val response = api.createConversation(
-            CreateConversationDto(
-                type = "direct",
-                participantIds = listOf(otherUserId),
-            )
-        )
-        return response.body()?.id ?: throw IllegalStateException("Empty conversation response")
+    override fun observeConversation(conversationId: String): Flow<ChatSummary?> {
+        val schoolId = tenantContext.schoolId ?: return flowOf(null)
+        return conversationDao.observeById(schoolId, conversationId).map { it?.toSummary() }
     }
 
-    override fun getConversations(type: String?): Flow<Resource<List<Conversation>>> {
-        val schoolId = tenantContext.requireSchoolId()
-        return networkBoundResource(
-            query = {
-                if (type != null) {
-                    conversationDao.observeByType(schoolId, type)
-                } else {
-                    conversationDao.observeAll(schoolId)
-                }.map { entities -> entities.map { it.toDomain() } }
-            },
-            fetch = {
-                val response = api.getConversations(type)
-                response.body()?.data ?: emptyList()
-            },
-            saveFetchResult = { dtos ->
-                conversationDao.insertAll(dtos.map { it.toEntity(schoolId) })
-            }
-        )
+    override suspend fun refreshConversations(): Boolean {
+        val schoolId = tenantContext.schoolId ?: return false
+        val body = request { api.getConversations() } ?: return false
+        conversationDao.insertAll(body.data.map { it.toEntity(schoolId) })
+        serverIds.value = body.data.mapTo(HashSet()) { it.id }
+        return true
     }
 
-    override fun getMessages(conversationId: String): Flow<Resource<List<Message>>> {
-        val schoolId = tenantContext.requireSchoolId()
-        return networkBoundResource(
-            query = {
-                messageDao.observeByConversation(schoolId, conversationId)
-                    .map { entities -> entities.map { it.toDomain() } }
-            },
-            fetch = {
-                val response = api.getMessages(conversationId)
-                response.body()?.data ?: emptyList()
-            },
-            saveFetchResult = { dtos ->
-                messageDao.insertAll(dtos.map { it.toEntity(schoolId) })
-            }
-        )
+    override fun observeMessages(conversationId: String): Flow<List<ThreadMessage>> {
+        val schoolId = tenantContext.schoolId ?: return flowOf(emptyList())
+        return messageDao.observeByConversation(schoolId, conversationId)
+            .map { rows -> rows.map { it.toThreadMessage() } }
     }
 
-    override suspend fun sendMessage(
-        conversationId: String,
-        content: String,
-        replyToId: String?,
-    ): Message {
+    override suspend fun refreshMessages(conversationId: String): PageResult =
+        fetchPage(conversationId, cursor = null)
+
+    override suspend fun loadOlderMessages(conversationId: String, cursor: String): PageResult =
+        fetchPage(conversationId, cursor)
+
+    private suspend fun fetchPage(conversationId: String, cursor: String?): PageResult {
+        val schoolId = tenantContext.schoolId ?: return PageResult.Failed
+        val body = request { api.getMessages(conversationId, cursor = cursor) } ?: return PageResult.Failed
+        messageDao.insertAll(body.data.map { it.toEntity(schoolId) })
+        return PageResult.Loaded(body.nextCursor)
+    }
+
+    override suspend fun sendMessage(conversationId: String, content: String, replyToId: String?) {
         val schoolId = tenantContext.requireSchoolId()
         val nonce = UUID.randomUUID().toString()
-
-        // Insert pending message for retry safety
-        pendingMessageDao.insert(
-            PendingMessageEntity(
-                id = nonce,
-                schoolId = schoolId,
-                conversationId = conversationId,
-                content = content,
-                replyToId = replyToId,
-                status = "SENDING",
-                createdAt = Instant.now(),
-            )
-        )
-
-        // Insert optimistic message into Room for immediate UI
-        val optimisticEntity = MessageEntity(
-            id = "pending_$nonce",
+        val now = Instant.now()
+        val pending = PendingMessageEntity(
+            id = nonce,
             schoolId = schoolId,
             conversationId = conversationId,
-            senderId = tenantContext.userId ?: "",
-            senderName = tenantContext.userName ?: "",
             content = content,
-            status = "sending",
-            sentAt = Instant.now(),
             replyToId = replyToId,
-            nonce = nonce,
-            lastSyncAt = Instant.now(),
+            status = "QUEUED",
+            createdAt = now,
         )
-        messageDao.insert(optimisticEntity)
-
-        return try {
-            val response = api.sendMessage(
-                conversationId,
-                SendMessageDto(content = content, replyToId = replyToId, nonce = nonce),
+        pendingMessageDao.insert(pending)
+        messageDao.insert(
+            MessageEntity(
+                id = ThreadMessage.optimisticId(nonce),
+                schoolId = schoolId,
+                conversationId = conversationId,
+                senderId = tenantContext.userId.orEmpty(),
+                senderName = cachedViewer?.username ?: tenantContext.userName.orEmpty(),
+                senderAvatarUrl = cachedViewer?.avatarUrl,
+                content = content,
+                status = "sending",
+                sentAt = now,
+                replyToId = replyToId,
+                nonce = nonce,
+                lastSyncAt = now,
             )
-            val dto = response.body() ?: throw Exception("Failed to send message")
-            val entity = dto.toEntity(schoolId)
+        )
+        bumpConversation(schoolId, conversationId, content, now, "sending")
+        if (!sender.deliver(pending)) scheduler.schedule()
+    }
 
-            // Replace optimistic message with server response
-            messageDao.insert(entity)
-            // Clean up pending
-            pendingMessageDao.delete(nonce)
-
-            entity.toDomain()
-        } catch (e: Exception) {
-            // Mark as failed
-            messageDao.updateStatus("pending_$nonce", "failed")
-            pendingMessageDao.incrementRetry(nonce, "FAILED", Instant.now().toEpochMilli())
-            throw e
-        }
+    override suspend fun retryMessage(messageId: String) {
+        val row = messageDao.findById(messageId) ?: return
+        val nonce = row.nonce ?: return
+        val pending = pendingMessageDao.findById(nonce) ?: return
+        if (!sender.deliver(pending)) scheduler.schedule()
     }
 
     override suspend fun markAsRead(conversationId: String) {
-        val schoolId = tenantContext.requireSchoolId()
-        try {
-            api.markAsRead(conversationId)
-            socketManager.emit("message:read", mapOf("conversationId" to conversationId))
-        } catch (_: Exception) { /* Best effort */ }
-        messageDao.markAllRead(schoolId, conversationId)
+        val schoolId = tenantContext.schoolId ?: return
         conversationDao.updateUnreadCount(schoolId, conversationId, 0)
+        messageDao.markAllRead(schoolId, conversationId)
+        request { api.markAsRead(conversationId) }
     }
 
-    override fun observeTypingIndicators(conversationId: String): Flow<List<TypingIndicator>> =
-        _typingIndicators.map { it[conversationId] ?: emptyList() }
-
-    override fun observeTypingConversations(): Flow<Set<String>> =
-        _typingIndicators.map { map ->
-            map.filterValues { it.isNotEmpty() }.keys
-        }
-
-    override fun observePresence(): Flow<Set<String>> = _onlineUsers.asStateFlow()
-
-    override fun observeConnectionState(): StateFlow<SocketConnectionState> =
-        socketManager.connectionState
-
-    override fun sendTypingStart(conversationId: String) {
-        socketManager.emit("typing:start", mapOf("conversationId" to conversationId))
+    override suspend fun viewer(): MessagingViewer? = viewerLock.withLock {
+        cachedViewer?.let { return@withLock it }
+        val body = request { api.getProfile() } ?: return@withLock null
+        MessagingViewer(
+            userId = body.id,
+            username = body.username,
+            avatarUrl = body.avatarUrl,
+            bio = body.bio,
+            schoolName = body.school?.name,
+            schoolNameEn = body.school?.nameEn,
+        ).also { cachedViewer = it }
     }
 
-    override fun sendTypingStop(conversationId: String) {
-        socketManager.emit("typing:stop", mapOf("conversationId" to conversationId))
-    }
-
-    override fun observeTotalUnreadCount(): Flow<Int> {
-        val schoolId = tenantContext.requireSchoolId()
-        return conversationDao.observeTotalUnreadCount(schoolId)
-    }
-
-    // --- Phase 2 action implementations ---
-
-    override suspend fun editMessage(conversationId: String, messageId: String, content: String) {
-        val resp = api.editMessage(conversationId, messageId, EditMessageBody(content))
-        if (!resp.isSuccessful) throw IllegalStateException("Edit failed: ${resp.code()}")
-    }
-
-    override suspend fun deleteMessage(conversationId: String, messageId: String) {
-        val resp = api.deleteMessage(conversationId, messageId)
-        if (!resp.isSuccessful) throw IllegalStateException("Delete failed: ${resp.code()}")
-    }
-
-    override suspend fun addReaction(conversationId: String, messageId: String, emoji: String) {
-        val resp = api.addReaction(conversationId, messageId, ReactionBody(emoji))
-        if (!resp.isSuccessful) throw IllegalStateException("React failed: ${resp.code()}")
-    }
-
-    override suspend fun removeReaction(conversationId: String, messageId: String, emoji: String) {
-        val resp = api.removeReaction(conversationId, messageId, emoji)
-        if (!resp.isSuccessful) throw IllegalStateException("Un-react failed: ${resp.code()}")
-    }
-
-    override suspend fun toggleStar(conversationId: String, messageId: String, starred: Boolean) {
-        val resp = api.toggleStar(conversationId, messageId, StarBody(starred))
-        if (!resp.isSuccessful) throw IllegalStateException("Star toggle failed: ${resp.code()}")
-    }
-
-    override suspend fun forwardMessage(
-        sourceConversationId: String,
-        messageId: String,
-        targetConversationIds: List<String>,
-    ): List<String> {
-        val resp = api.forwardMessage(
-            sourceConversationId,
-            messageId,
-            ForwardBody(targetConversationIds),
+    private suspend fun bumpConversation(schoolId: String, conversationId: String, content: String, at: Instant, status: String) {
+        conversationDao.updateLastMessage(
+            schoolId = schoolId,
+            conversationId = conversationId,
+            content = content,
+            senderName = cachedViewer?.username ?: tenantContext.userName.orEmpty(),
+            sentAt = at.toEpochMilli(),
+            status = status,
         )
-        if (!resp.isSuccessful) throw IllegalStateException("Forward failed: ${resp.code()}")
-        return resp.body()?.forwarded ?: emptyList()
     }
 
-    override suspend fun togglePin(conversationId: String, pinned: Boolean) {
-        val resp = api.togglePin(conversationId, PinBody(pinned))
-        if (!resp.isSuccessful) throw IllegalStateException("Pin toggle failed: ${resp.code()}")
-        val schoolId = tenantContext.requireSchoolId()
-        conversationDao.updatePinned(schoolId, conversationId, pinned)
-    }
-
-    override suspend fun toggleMute(conversationId: String, muted: Boolean) {
-        val resp = api.toggleMute(conversationId, MuteBody(muted))
-        if (!resp.isSuccessful) throw IllegalStateException("Mute toggle failed: ${resp.code()}")
-        val schoolId = tenantContext.requireSchoolId()
-        conversationDao.updateMuted(schoolId, conversationId, muted)
-    }
-
-    override suspend fun archiveConversation(conversationId: String, archived: Boolean) {
-        val resp = api.archiveConversation(conversationId, ArchiveBody(archived))
-        if (!resp.isSuccessful) throw IllegalStateException("Archive failed: ${resp.code()}")
-    }
-
-    override suspend fun leaveConversation(conversationId: String) {
-        val resp = api.leaveConversation(conversationId)
-        if (!resp.isSuccessful) throw IllegalStateException("Leave failed: ${resp.code()}")
-    }
-
-    override suspend fun searchMessages(
-        query: String,
-        limit: Int,
-    ): List<org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult> {
-        val resp = api.searchMessages(query, limit)
-        val body = resp.body() ?: return emptyList()
-        return body.data.map {
-            org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult(
-                id = it.id,
-                conversationId = it.conversationId,
-                conversationTitle = it.conversationTitle,
-                conversationType = it.conversationType,
-                senderId = it.senderId,
-                senderName = it.senderName,
-                content = it.content,
-                sentAt = Instant.parse(it.sentAt),
-            )
-        }
-    }
-
-    override suspend fun searchConversationMessages(
-        conversationId: String,
-        query: String,
-        limit: Int,
-    ): List<org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult> {
-        val resp = api.searchConversationMessages(conversationId, query, limit)
-        val body = resp.body() ?: return emptyList()
-        return body.data.map {
-            org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult(
-                id = it.id,
-                conversationId = conversationId,
-                senderId = it.senderId,
-                senderName = it.senderName,
-                content = it.content,
-                sentAt = Instant.parse(it.sentAt),
-            )
-        }
-    }
-
-    override suspend fun getStarredMessages(
-        limit: Int,
-    ): List<org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult> {
-        val resp = api.getStarredMessages(limit)
-        val body = resp.body() ?: return emptyList()
-        return body.data.map {
-            org.hogwarts.android.feature.messaging.domain.model.MessageSearchResult(
-                id = it.message.id,
-                conversationId = it.message.conversationId,
-                conversationTitle = it.message.conversationTitle,
-                conversationType = it.message.conversationType,
-                senderId = it.message.senderId,
-                senderName = it.message.senderName,
-                content = it.message.content,
-                contentType = it.message.contentType,
-                sentAt = Instant.parse(it.message.sentAt),
-                starredAt = Instant.parse(it.starredAt),
-            )
-        }
-    }
-
-    // Called by MessagingSocketHandler to update typing state
-    fun updateTypingIndicators(conversationId: String, indicators: List<TypingIndicator>) {
-        _typingIndicators.value = _typingIndicators.value.toMutableMap().apply {
-            if (indicators.isEmpty()) remove(conversationId) else put(conversationId, indicators)
-        }
-    }
-
-    // Called by MessagingSocketHandler to update presence
-    fun updateOnlineUsers(users: Set<String>) {
-        _onlineUsers.value = users
+    /** The body of a 2xx, or null for anything else — including no network. */
+    private suspend fun <T> request(call: suspend () -> retrofit2.Response<T>): T? = try {
+        val response = call()
+        if (response.isSuccessful) response.body() ?: @Suppress("UNCHECKED_CAST") (Unit as T) else null
+    } catch (e: CancellationException) {
+        throw e
+    } catch (e: Exception) {
+        Timber.w(e, "messaging request failed")
+        null
     }
 }
 
 // --- Mappers ---
 
-private fun ConversationDto.toEntity(schoolId: String) = ConversationEntity(
-    id = id,
-    schoolId = schoolId,
-    title = title,
-    type = type,
-    avatarUrl = avatarUrl,
-    lastMessageContent = lastMessage?.content,
-    lastMessageSenderName = lastMessage?.senderName,
-    lastMessageSentAt = lastMessage?.sentAt?.let { Instant.parse(it) },
-    lastMessageStatus = lastMessage?.status,
-    unreadCount = unreadCount,
-    isWhatsAppEnabled = whatsappEnabled,
-    isPinned = isPinned,
-    isMuted = isMuted,
-    updatedAt = Instant.parse(updatedAt),
-    lastSyncAt = Instant.now(),
-)
-
-private fun ConversationEntity.toDomain(): Conversation {
-    val msgContent = lastMessageContent
-    return Conversation(
+internal fun ConversationDto.toEntity(schoolId: String): ConversationEntity {
+    val sentAt = lastMessage?.sentAt?.toInstantOrNull()
+    return ConversationEntity(
         id = id,
-        title = title,
-        type = ConversationType.fromString(type),
-        participants = emptyList(),
-        lastMessage = if (msgContent != null) {
-            Message(
-                id = "",
-                conversationId = id,
-                senderId = "",
-                senderName = lastMessageSenderName ?: "",
-                content = msgContent,
-                status = lastMessageStatus?.let { MessageStatus.fromString(it) } ?: MessageStatus.SENT,
-                sentAt = lastMessageSentAt ?: updatedAt,
-            )
-        } else null,
-        unreadCount = unreadCount,
-        updatedAt = updatedAt,
+        schoolId = schoolId,
+        title = title.orEmpty(),
+        type = type,
         avatarUrl = avatarUrl,
-        isWhatsAppEnabled = isWhatsAppEnabled,
+        lastMessageContent = lastMessage?.content,
+        lastMessageSenderName = lastMessage?.senderName,
+        lastMessageSentAt = sentAt,
+        lastMessageStatus = lastMessage?.status,
+        unreadCount = unreadCount,
+        isWhatsAppEnabled = whatsappEnabled,
         isPinned = isPinned,
         isMuted = isMuted,
+        updatedAt = updatedAt.toInstantOrNull() ?: sentAt ?: Instant.EPOCH,
+        lastSyncAt = Instant.now(),
     )
 }
 
-private fun MessageDto.toEntity(schoolId: String) = MessageEntity(
+internal fun ConversationEntity.toSummary() = ChatSummary(
+    id = id,
+    type = type,
+    title = title.ifEmpty { null },
+    avatarUrl = avatarUrl,
+    unreadCount = unreadCount,
+    isPinned = isPinned,
+    isMuted = isMuted,
+    lastMessage = lastMessageContent?.let { content ->
+        LastMessage(
+            content = content,
+            senderName = lastMessageSenderName.orEmpty(),
+            status = lastMessageStatus ?: "sent",
+            sentAt = lastMessageSentAt ?: updatedAt,
+        )
+    },
+    lastMessageAt = updatedAt,
+)
+
+internal fun MessageDto.toEntity(schoolId: String) = MessageEntity(
     id = id,
     schoolId = schoolId,
     conversationId = conversationId,
@@ -426,7 +230,7 @@ private fun MessageDto.toEntity(schoolId: String) = MessageEntity(
     content = content,
     contentType = contentType,
     status = status,
-    sentAt = Instant.parse(sentAt),
+    sentAt = sentAt.toInstantOrNull() ?: Instant.EPOCH,
     isRead = isRead,
     isEdited = isEdited,
     isDeleted = isDeleted,
@@ -436,7 +240,7 @@ private fun MessageDto.toEntity(schoolId: String) = MessageEntity(
     lastSyncAt = Instant.now(),
 )
 
-private fun MessageEntity.toDomain() = Message(
+internal fun MessageEntity.toThreadMessage() = ThreadMessage(
     id = id,
     conversationId = conversationId,
     senderId = senderId,
@@ -444,52 +248,8 @@ private fun MessageEntity.toDomain() = Message(
     senderAvatarUrl = senderAvatarUrl,
     content = content,
     contentType = contentType,
-    status = MessageStatus.fromString(status),
+    status = status,
     sentAt = sentAt,
-    isRead = isRead,
-    isEdited = isEdited,
-    isDeleted = isDeleted,
     replyToId = replyToId,
     nonce = nonce,
-    whatsappStatus = whatsappStatus,
-)
-
-private fun AttachmentDto.toDomain(messageId: String) = MessageAttachment(
-    id = id,
-    messageId = messageId,
-    fileName = fileName,
-    fileUrl = fileUrl,
-    mimeType = fileType,
-    fileSizeBytes = fileSize,
-    thumbnail = thumbnail,
-    width = width,
-    height = height,
-)
-
-private fun ReactionDto.toDomain(messageId: String) = MessageReaction(
-    messageId = messageId,
-    userId = userId,
-    userName = userName,
-    emoji = emoji,
-)
-
-private fun ContactGroupDto.toDomain(): ContactGroup {
-    val cat = ContactCategory.fromKey(category) ?: ContactCategory.STAFF
-    return ContactGroup(
-        category = cat,
-        contacts = contacts.map { it.toDomain(cat) },
-    )
-}
-
-private fun ContactDto.toDomain(category: ContactCategory) = Contact(
-    id = id,
-    firstName = firstName,
-    lastName = lastName,
-    displayName = displayName,
-    email = email,
-    avatarUrl = image,
-    role = role,
-    category = ContactCategory.fromKey(this.category) ?: category,
-    contextLabel = contextLabel,
-    hasWhatsApp = hasWhatsApp,
 )
