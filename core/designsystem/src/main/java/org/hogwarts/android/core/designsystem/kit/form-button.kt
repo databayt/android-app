@@ -57,6 +57,8 @@ fun FormButton(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
+            // Before the ground, so a disabled button fades as a whole (`disabled:opacity-50`).
+            .alpha(if (active) 1f else 0.5f)
             .clip(HogwartsShapes.Md)
             .background(bg)
             .then(
@@ -67,7 +69,6 @@ fun FormButton(
                 },
             )
             .clickable(enabled = active, role = Role.Button, onClick = onClick)
-            .alpha(if (active) 1f else 0.5f)
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
