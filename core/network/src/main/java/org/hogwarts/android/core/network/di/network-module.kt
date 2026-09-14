@@ -5,15 +5,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
-import okhttp3.CertificatePinner
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.hogwarts.android.core.network.BuildConfig
 import org.hogwarts.android.core.network.interceptor.AcceptLanguageInterceptor
 import org.hogwarts.android.core.network.interceptor.AuthInterceptor
-import org.hogwarts.android.core.network.interceptor.TenantInterceptor
-import org.hogwarts.android.core.network.security.SecurityConfig
+import org.hogwarts.android.core.network.interceptor.TokenAuthenticator
 import retrofit2.Retrofit
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
@@ -36,42 +34,31 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCertificatePinner(): CertificatePinner {
-        // Debug builds skip pinning for development flexibility
-        if (BuildConfig.DEBUG) {
-            return CertificatePinner.Builder().build()
-        }
-        // Release builds enforce certificate pinning with TLS 1.2+
-        return CertificatePinner.Builder()
-            .add(SecurityConfig.API_HOST_PATTERN, SecurityConfig.PRIMARY_PIN)
-            .add(SecurityConfig.API_HOST_PATTERN, SecurityConfig.BACKUP_PIN)
-            .build()
-    }
-
-    @Provides
-    @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor = HttpLoggingInterceptor().apply {
         level = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor.Level.BODY
         } else {
             HttpLoggingInterceptor.Level.NONE
         }
+        redactHeader("Authorization")
+        redactHeader(TokenAuthenticator.HEADER_REFRESH_TOKEN)
     }
 
+    // Tenant is carried by the JWT's schoolId claim; the server ignores any
+    // tenant header. Certificate pinning is off until release hardening pins
+    // Cloudflare's intermediate/root keys for balqalam.com.
     @Provides
     @Singleton
     fun provideOkHttpClient(
         authInterceptor: AuthInterceptor,
-        tenantInterceptor: TenantInterceptor,
+        tokenAuthenticator: TokenAuthenticator,
         acceptLanguageInterceptor: AcceptLanguageInterceptor,
-        loggingInterceptor: HttpLoggingInterceptor,
-        certificatePinner: CertificatePinner
+        loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(authInterceptor)
-        .addInterceptor(tenantInterceptor)
         .addInterceptor(acceptLanguageInterceptor)
         .addInterceptor(loggingInterceptor)
-        .certificatePinner(certificatePinner)
+        .authenticator(tokenAuthenticator)
         .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
         .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)

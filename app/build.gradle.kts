@@ -66,9 +66,7 @@ android {
         // Restrict shipped locales to those we actually translate.
         resourceConfigurations += listOf("en", "ar")
 
-        // API base URL lives in core/network/BuildConfig.API_BASE_URL (single
-        // source of truth). Socket URL stays here for now until E09 lifts it.
-        buildConfigField("String", "SOCKET_URL", "\"https://ed.databayt.org\"")
+        // API and socket URLs live in core/network's BuildConfig (single source of truth).
     }
 
     androidResources {

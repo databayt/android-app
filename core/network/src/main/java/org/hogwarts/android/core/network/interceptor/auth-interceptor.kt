@@ -7,9 +7,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * OkHttp interceptor that adds JWT Bearer token to all API requests.
- *
- * The token is retrieved from TokenProvider (implemented in security module).
+ * Attaches the JWT Bearer token. Expired tokens are handled by [TokenAuthenticator],
+ * which OkHttp invokes on 401.
  */
 @Singleton
 class AuthInterceptor @Inject constructor(
@@ -17,30 +16,19 @@ class AuthInterceptor @Inject constructor(
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val originalRequest = chain.request()
-
-        // Skip auth header for auth endpoints
-        if (originalRequest.url.encodedPath.contains("/auth/")) {
-            return chain.proceed(originalRequest)
-        }
-
+        val original = chain.request()
         val token = tokenProvider.accessToken
-
-        val request = if (token != null) {
-            originalRequest.newBuilder()
-                .addHeader("Authorization", "Bearer $token")
+        if (token == null || original.header(HEADER_AUTHORIZATION) != null) {
+            return chain.proceed(original)
+        }
+        return chain.proceed(
+            original.newBuilder()
+                .header(HEADER_AUTHORIZATION, "Bearer $token")
                 .build()
-        } else {
-            originalRequest
-        }
+        )
+    }
 
-        val response = chain.proceed(request)
-
-        // Handle 401 Unauthorized - trigger token refresh or logout
-        if (response.code == 401) {
-            tokenProvider.onUnauthorized()
-        }
-
-        return response
+    companion object {
+        const val HEADER_AUTHORIZATION = "Authorization"
     }
 }

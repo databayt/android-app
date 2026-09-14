@@ -50,6 +50,8 @@ class SocketManager @Inject constructor(
 
     fun connect(accessToken: String, schoolId: String, userId: String) {
         if (socket?.connected() == true) return
+        // No realtime server is configured for this build; callers fall back to REST.
+        if (socketUrl.isBlank()) return
 
         _connectionState.value = SocketConnectionState.CONNECTING
         reconnectAttempts = 0

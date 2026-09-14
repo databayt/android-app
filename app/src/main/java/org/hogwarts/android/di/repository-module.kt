@@ -13,7 +13,6 @@ import org.hogwarts.android.core.data.tenant.CurrentUser
 import org.hogwarts.android.core.data.tenant.SessionManager
 import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.common.api.TokenProvider
-import org.hogwarts.android.core.network.interceptor.TenantProvider
 import org.hogwarts.android.core.security.TokenManager
 import org.hogwarts.android.feature.auth.data.repository.AuthRepository
 import org.hogwarts.android.feature.auth.data.repository.AuthRepositoryImpl
@@ -36,21 +35,7 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindTenantProvider(tenantContext: TenantProviderImpl): TenantProvider
-
-    @Binds
-    @Singleton
     abstract fun bindSessionManager(impl: SessionManagerImpl): SessionManager
-}
-
-/**
- * Implementation of TenantProvider using TenantContext.
- */
-class TenantProviderImpl @javax.inject.Inject constructor(
-    private val sessionManager: SessionManager
-) : TenantProvider {
-    override val schoolId: String?
-        get() = sessionManager.currentUser?.schoolId
 }
 
 /**

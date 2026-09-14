@@ -47,15 +47,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- Deep links -->
-            <intent-filter android:autoVerify="true">
+            <!-- Deep links: school pages on balqalam.com. autoVerify waits for
+                 /.well-known/assetlinks.json to be published on the apex host. -->
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="ed.databayt.org"
-                    android:pathPrefix="/app"
-                    android:scheme="https" />
+                <data android:scheme="https" />
+                <data android:host="balqalam.com" />
+                <data android:host="*.balqalam.com" />
             </intent-filter>
         </activity>
 

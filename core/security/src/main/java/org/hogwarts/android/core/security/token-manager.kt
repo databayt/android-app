@@ -97,12 +97,16 @@ class TokenManager @Inject constructor(
         _isAuthenticated.value = false
     }
 
-    /**
-     * Called when API returns 401 Unauthorized
-     */
-    override fun onUnauthorized() {
-        // Could trigger token refresh here, or clear tokens
-        // For now, just clear and force re-login
+    override fun saveRefreshedTokens(accessToken: String, refreshToken: String?, expiresAtMillis: Long) {
+        saveTokens(
+            accessToken = accessToken,
+            refreshToken = refreshToken ?: this.refreshToken,
+            expiryMillis = expiresAtMillis
+        )
+    }
+
+    /** The server rejected the refresh token; the app observes [isAuthenticated] and returns to login. */
+    override fun onSessionExpired() {
         clearTokens()
     }
 }

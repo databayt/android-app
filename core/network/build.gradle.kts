@@ -17,7 +17,15 @@ android {
         // Single source of truth for the API host. Retrofit endpoints carry the
         // `api/...` path prefix themselves, so this value intentionally has no
         // `/api/` suffix. App-level BuildConfigHelper reads through to here.
-        buildConfigField("String", "API_BASE_URL", "\"https://ed.databayt.org/\"")
+        // Tenant comes from the JWT, so every school shares the apex host.
+        // Override locally with -Phogwarts.apiBaseUrl=http://10.0.2.2:3000/
+        val apiBaseUrl = providers.gradleProperty("hogwarts.apiBaseUrl")
+            .getOrElse("https://balqalam.com/")
+        buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
+        // Production has no Socket.IO server yet; blank disables realtime and
+        // messaging stays on REST. Override with -Phogwarts.socketUrl=...
+        val socketUrl = providers.gradleProperty("hogwarts.socketUrl").getOrElse("")
+        buildConfigField("String", "SOCKET_URL", "\"$socketUrl\"")
     }
 
     buildFeatures {

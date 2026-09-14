@@ -13,18 +13,4 @@
         <domain includeSubdomains="true">10.0.2.2</domain>
     </domain-config>
 
-    <!-- Pin certificate for production API -->
-    <domain-config>
-        <domain includeSubdomains="true">ed.databayt.org</domain>
-        <domain includeSubdomains="true">databayt.org</domain>
-        <trust-anchors>
-            <certificates src="system" />
-        </trust-anchors>
-        <!--
-        Certificate pinning - uncomment and add actual pins for production
-        <pin-set expiration="2025-12-31">
-            <pin digest="SHA-256">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</pin>
-        </pin-set>
-        -->
-    </domain-config>
 </network-security-config>
