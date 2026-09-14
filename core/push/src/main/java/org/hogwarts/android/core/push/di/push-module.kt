@@ -6,7 +6,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.hogwarts.android.core.push.AnalyticsTracker
 import org.hogwarts.android.core.push.CrashReporter
-import org.hogwarts.android.core.push.NotificationHandler
+import org.hogwarts.android.core.push.DeviceTokenApi
+import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -20,4 +21,9 @@ object PushModule {
     @Provides
     @Singleton
     fun provideCrashReporter(): CrashReporter = CrashReporter()
+
+    @Provides
+    @Singleton
+    fun provideDeviceTokenApi(retrofit: Retrofit): DeviceTokenApi =
+        retrofit.create(DeviceTokenApi::class.java)
 }

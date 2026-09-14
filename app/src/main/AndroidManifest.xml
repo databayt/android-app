@@ -59,15 +59,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Firebase Messaging Service -->
-        <service
-            android:name=".messaging.HogwartsFirebaseService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <!--
             Lets AppCompat persist the per-app locale on Android < 13. Android 13+
             uses the platform LocaleManager directly and ignores this service.
@@ -103,12 +94,6 @@
         <meta-data
             android:name="android.security.config"
             android:resource="@xml/network_security_config" />
-
-        <!-- Atom Studio — design system component catalog -->
-        <activity
-            android:name=".AtomStudioActivity"
-            android:exported="true"
-            android:label="Atom Studio" />
 
     </application>
 

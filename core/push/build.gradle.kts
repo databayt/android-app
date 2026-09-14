@@ -27,6 +27,12 @@ android {
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
+    implementation(project(":core:network"))
+
+    implementation(libs.work.runtime)
+    implementation(libs.hilt.work)
+    ksp(libs.hilt.work.compiler)
+    implementation(libs.bundles.network)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

@@ -68,11 +68,6 @@ class NotificationHandler @Inject constructor(
         channels.forEach { notificationManager.createNotificationChannel(it) }
     }
 
-    fun onTokenRefreshed(token: String) {
-        Timber.d("FCM token should be sent to backend")
-        // TODO: Send token to backend via API
-    }
-
     fun handleRemoteMessage(message: RemoteMessage) {
         val data = message.data
         val type = data["type"] ?: "general"

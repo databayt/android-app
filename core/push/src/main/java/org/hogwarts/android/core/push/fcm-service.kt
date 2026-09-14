@@ -12,10 +12,13 @@ class HogwartsFcmService : FirebaseMessagingService() {
     @Inject
     lateinit var notificationHandler: NotificationHandler
 
+    @Inject
+    lateinit var deviceTokenRegistrar: DeviceTokenRegistrar
+
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         Timber.d("FCM token refreshed")
-        notificationHandler.onTokenRefreshed(token)
+        deviceTokenRegistrar.enqueue(token)
     }
 
     override fun onMessageReceived(message: RemoteMessage) {

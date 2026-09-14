@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <!-- Atom Studio — design system catalog. Debug builds only:
+             adb shell am start -n org.hogwarts.android.debug/org.hogwarts.android.AtomStudioActivity -->
+        <activity
+            android:name="org.hogwarts.android.AtomStudioActivity"
+            android:exported="true"
+            android:label="Atom Studio" />
+    </application>
+
+</manifest>

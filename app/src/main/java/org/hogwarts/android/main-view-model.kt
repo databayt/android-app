@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.hogwarts.android.core.database.HogwartsDatabase
+import org.hogwarts.android.core.push.DeviceTokenRegistrar
 import org.hogwarts.android.core.security.CredentialManager
 import org.hogwarts.android.core.security.TokenManager
 import org.hogwarts.android.feature.auth.data.repository.AuthRepository
@@ -27,7 +28,8 @@ class MainViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val authRepository: AuthRepository,
     private val credentialManager: CredentialManager,
-    private val database: HogwartsDatabase
+    private val database: HogwartsDatabase,
+    private val deviceTokenRegistrar: DeviceTokenRegistrar
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
@@ -66,8 +68,10 @@ class MainViewModel @Inject constructor(
 
     private fun observeAuthState() {
         viewModelScope.launch {
+            // StateFlow already skips repeats; registering on each launch is idempotent server-side.
             tokenManager.isAuthenticated.collect { isAuthenticated ->
                 _uiState.update { it.copy(isAuthenticated = isAuthenticated) }
+                if (isAuthenticated) deviceTokenRegistrar.registerCurrentToken()
             }
         }
     }
@@ -75,6 +79,7 @@ class MainViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             credentialManager.clearCredentials()
+            deviceTokenRegistrar.unregister()
             authRepository.logout()
             database.clearAllTables()
         }
