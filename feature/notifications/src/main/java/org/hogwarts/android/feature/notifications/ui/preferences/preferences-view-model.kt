@@ -8,69 +8,80 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.hogwarts.android.feature.notifications.domain.NotificationConfig
+import org.hogwarts.android.feature.notifications.data.repository.NotificationsRepository
 import org.hogwarts.android.feature.notifications.domain.model.NotificationChannel
-import org.hogwarts.android.feature.notifications.domain.model.NotificationPreference
-import org.hogwarts.android.feature.notifications.domain.model.NotificationType
-import org.hogwarts.android.feature.notifications.domain.usecase.GetNotificationPreferencesUseCase
-import org.hogwarts.android.feature.notifications.domain.usecase.UpdateNotificationPreferencesUseCase
+import org.hogwarts.android.feature.notifications.domain.model.NotificationKind
+import org.hogwarts.android.feature.notifications.domain.model.PreferenceMatrix
 import javax.inject.Inject
+
+enum class SaveOutcome { Saved, Failed }
+
+data class PreferencesUiState(
+    val isLoading: Boolean = true,
+    val loadFailed: Boolean = false,
+    /** What the server holds — Reset returns here. */
+    val saved: PreferenceMatrix? = null,
+    val matrix: PreferenceMatrix? = null,
+    val isSaving: Boolean = false,
+    val outcome: SaveOutcome? = null,
+    val unreadCount: Int = 0,
+    val markingAll: Boolean = false,
+)
 
 @HiltViewModel
 class PreferencesViewModel @Inject constructor(
-    private val getPreferences: GetNotificationPreferencesUseCase,
-    private val updatePreferences: UpdateNotificationPreferencesUseCase
+    private val repository: NotificationsRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(PreferencesUiState())
     val uiState: StateFlow<PreferencesUiState> = _uiState.asStateFlow()
 
-    init { load() }
+    init {
+        viewModelScope.launch {
+            repository.unreadCount.collect { count -> if (count != null) _uiState.update { it.copy(unreadCount = count) } }
+        }
+        viewModelScope.launch {
+            // The layout's badge needs the unread total even when the list was never opened.
+            if (repository.unreadCount.value == null) repository.page(unreadOnly = false, page = 1)
+        }
+        load()
+    }
 
     fun load() {
+        _uiState.update { it.copy(isLoading = true, loadFailed = false) }
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            getPreferences()
-                .onSuccess { prefs ->
-                    val map = prefs.associateBy { it.type to it.channel }
-                    _uiState.update { it.copy(isLoading = false, preferences = map) }
-                }
-                .onFailure { e ->
-                    _uiState.update { it.copy(isLoading = false, error = e.message) }
-                }
+            repository.preferences()
+                .onSuccess { matrix -> _uiState.update { it.copy(isLoading = false, saved = matrix, matrix = matrix) } }
+                .onFailure { _uiState.update { it.copy(isLoading = false, loadFailed = true) } }
         }
     }
 
-    fun toggle(type: NotificationType, channel: NotificationChannel, enabled: Boolean) {
-        val key = type to channel
-        _uiState.update {
-            val current = it.preferences[key]
-                ?: NotificationPreference(type = type, channel = channel, enabled = enabled)
-            it.copy(preferences = it.preferences + (key to current.copy(enabled = enabled)))
-        }
+    fun toggle(kind: NotificationKind, channel: NotificationChannel, on: Boolean) {
+        _uiState.update { state -> state.copy(matrix = state.matrix?.with(kind, channel, on), outcome = null) }
     }
+
+    fun reset() = _uiState.update { it.copy(matrix = it.saved, outcome = null) }
 
     fun save() {
+        val matrix = _uiState.value.matrix ?: return
+        _uiState.update { it.copy(isSaving = true, outcome = null) }
         viewModelScope.launch {
-            _uiState.update { it.copy(isSaving = true, error = null) }
-            // Only push entries the user can configure (matrix of supported channels × types).
-            val payload = NotificationConfig.configurableTypes.flatMap { type ->
-                NotificationConfig.supportedChannels.map { channel ->
-                    val existing = _uiState.value.preferences[type to channel]
-                    NotificationPreference(
-                        type = type,
-                        channel = channel,
-                        enabled = existing?.enabled ?: _uiState.value.isEnabled(type, channel)
-                    )
+            val result = repository.savePreferences(matrix)
+            _uiState.update {
+                if (result.isSuccess) {
+                    it.copy(isSaving = false, saved = matrix, outcome = SaveOutcome.Saved)
+                } else {
+                    it.copy(isSaving = false, outcome = SaveOutcome.Failed)
                 }
             }
-            updatePreferences(payload)
-                .onSuccess {
-                    _uiState.update { it.copy(isSaving = false, savedAt = System.currentTimeMillis()) }
-                }
-                .onFailure { e ->
-                    _uiState.update { it.copy(isSaving = false, error = e.message) }
-                }
+        }
+    }
+
+    fun markAllRead() {
+        _uiState.update { it.copy(markingAll = true) }
+        viewModelScope.launch {
+            repository.markAllRead()
+            _uiState.update { it.copy(markingAll = false) }
         }
     }
 }

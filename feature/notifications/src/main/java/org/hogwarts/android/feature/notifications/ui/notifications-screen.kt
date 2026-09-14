@@ -1,325 +1,393 @@
 package org.hogwarts.android.feature.notifications.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Badge
-import androidx.compose.material3.BadgedBox
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import org.hogwarts.android.core.designsystem.apple.AppleInsetGroupedList
-import org.hogwarts.android.core.designsystem.apple.AppleListRow
-import org.hogwarts.android.core.designsystem.apple.AppleListSection
-import org.hogwarts.android.core.designsystem.apple.AppleSpacing
-import org.hogwarts.android.core.designsystem.apple.HogwartsIcons
-import org.hogwarts.android.core.designsystem.atom.EmptyState
-import org.hogwarts.android.core.designsystem.atom.FilterChipsRow
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.hogwarts.android.core.designsystem.kit.BadgeVariant
+import org.hogwarts.android.core.designsystem.kit.PillButton
+import org.hogwarts.android.core.designsystem.kit.PillVariant
+import org.hogwarts.android.core.designsystem.locale.currentLocale
+import org.hogwarts.android.core.designsystem.theme.HogwartsShapes
+import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.notifications.R
-import org.hogwarts.android.feature.notifications.domain.NotificationConfig
 import org.hogwarts.android.feature.notifications.domain.model.AppNotification
+import org.hogwarts.android.feature.notifications.domain.model.NotificationKind
 import org.hogwarts.android.feature.notifications.domain.model.NotificationPriority
-import org.hogwarts.android.feature.notifications.domain.model.NotificationType
 import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * `/notifications` and `/notifications/unread` on a phone — the notification
+ * center under the section's tabs. The app shell draws the header above it.
+ */
 @Composable
 fun NotificationsScreen(
-    onNavigateBack: () -> Unit,
-    onNavigateToPreferences: () -> Unit = {},
+    initialTab: NotificationsTab,
+    onOpenHref: (String) -> Unit,
+    onOpenPreferences: () -> Unit,
     viewModel: NotificationsViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val listState = rememberLazyListState()
-    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm").withZone(ZoneId.systemDefault())
+    LaunchedEffect(Unit) { viewModel.start(initialTab) }
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val uriHandler = LocalUriHandler.current
+    NotificationsContent(
+        state = state,
+        now = Instant.now(),
+        onSelectTab = { tab -> if (tab == NotificationsTab.Settings) onOpenPreferences() else viewModel.selectTab(tab) },
+        onMarkAllRead = viewModel::markAllRead,
+        onOpen = { notification ->
+            when (val target = viewModel.open(notification)) {
+                is NotificationTarget.Path -> onOpenHref(target.href)
+                is NotificationTarget.External -> runCatching { uriHandler.openUri(target.url) }
+                null -> Unit
+            }
+        },
+        onDelete = viewModel::delete,
+        onPage = viewModel::goToPage,
+        onRetry = viewModel::retry,
+    )
+}
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.notifications_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            HogwartsIcons.Back,
-                            contentDescription = stringResource(R.string.notifications_back)
+@Composable
+internal fun NotificationsContent(
+    state: NotificationsUiState,
+    now: Instant,
+    onSelectTab: (NotificationsTab) -> Unit,
+    onMarkAllRead: () -> Unit,
+    onOpen: (AppNotification) -> Unit,
+    onDelete: (AppNotification) -> Unit,
+    onPage: (Int) -> Unit,
+    onRetry: () -> Unit,
+) {
+    NotificationsFrame(
+        tab = state.tab,
+        unreadCount = state.unreadCount,
+        markingAll = state.markingAll,
+        onSelectTab = onSelectTab,
+        onMarkAllRead = onMarkAllRead,
+    ) {
+        when {
+            state.isLoading && state.page == null -> NotificationSkeleton()
+            state.failed -> LoadFailed(onRetry)
+            state.items.isEmpty() -> EmptyNotifications()
+            else -> {
+                if (state.isOffline) {
+                    Text(
+                        stringResource(R.string.notifications_offline),
+                        style = HogwartsTheme.type.caption,
+                        color = HogwartsTheme.colors.mutedForeground,
+                        modifier = Modifier.padding(bottom = 12.dp),
+                    )
+                }
+                Column(Modifier.fillMaxWidth()) {
+                    state.items.forEach { notification ->
+                        NotificationCard(
+                            notification = notification,
+                            now = now,
+                            deleting = notification.id in state.deleting,
+                            onOpen = { onOpen(notification) },
+                            onDelete = { onDelete(notification) },
                         )
-                    }
-                },
-                actions = {
-                    IconButton(onClick = onNavigateToPreferences) {
-                        Icon(
-                            HogwartsIcons.Settings,
-                            contentDescription = stringResource(R.string.notifications_preferences_title)
-                        )
-                    }
-                    TextButton(onClick = { viewModel.markAllRead() }) {
-                        Text(stringResource(R.string.notifications_read_all))
                     }
                 }
-            )
+                state.page?.let { page -> if (page.totalPages > 1) Pagination(page.page, page.totalPages, onPage) }
+            }
         }
-    ) { innerPadding ->
-        Column(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
+    }
+}
 
-            // All / Unread tabs (mirror web center.tsx tabs).
-            FilterTabsRow(
-                selected = uiState.selectedTab,
-                unreadCount = uiState.unreadCount,
-                totalCount = uiState.notifications.size,
-                onSelected = viewModel::onTabSelected
-            )
+/** `card.tsx` — avatar circle with the type's icon, the unread dot, the line, the time, and the X. */
+@Composable
+private fun NotificationCard(
+    notification: AppNotification,
+    now: Instant,
+    deleting: Boolean,
+    onOpen: () -> Unit,
+    onDelete: () -> Unit,
+) {
+    val colors = HogwartsTheme.colors
+    val type = HogwartsTheme.type
+    val kind = NotificationKind.fromWire(notification.type)
+    val urgent = notification.priority == NotificationPriority.Urgent
+    val stateLabel = stringResource(if (notification.isRead) R.string.notifications_a11y_read else R.string.notifications_a11y_unread)
+    val typeLabel = kind?.let { stringResource(it.labelRes()) }
+    val showTypeLabel = typeLabel != null && typeLabel != notification.title
+    val priorityLabel = when (notification.priority) {
+        NotificationPriority.Urgent -> stringResource(R.string.notifications_priority_urgent)
+        NotificationPriority.High -> stringResource(R.string.notifications_priority_high)
+        else -> null
+    }
 
-            // Type filter chips (mirror web filter bar).
-            val typeChipKeys = listOf(ALL_KEY) + NotificationType.entries.map { it.name }
-            val typeLabels = typeChipKeys.associateWith { key ->
-                if (key == ALL_KEY) stringResource(R.string.notifications_filter_all_types)
-                else stringResource(typeFilterLabelRes(NotificationType.valueOf(key)))
-            }
-            FilterChipsRow(
-                chips = typeChipKeys.map { typeLabels.getValue(it) },
-                selectedChip = typeLabels[uiState.selectedType?.name ?: ALL_KEY],
-                onChipSelected = { label ->
-                    val key = typeLabels.entries.firstOrNull { it.value == label }?.key
-                    viewModel.onTypeFilterSelected(
-                        if (key == null || key == ALL_KEY) null else NotificationType.valueOf(key)
-                    )
-                },
-                showFadeEdges = false
-            )
-
-            if (uiState.isLoading && uiState.notifications.isEmpty()) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .alpha(if (deleting) 0.5f else 1f)
+            .background(if (notification.isRead) Color.Transparent else colors.muted.copy(alpha = 0.3f))
+            .clickable(enabled = !deleting, onClick = onOpen)
+            .semantics { contentDescription = "$stateLabel: ${notification.title}" },
+    ) {
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            Box {
                 Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) { CircularProgressIndicator() }
-                return@Column
-            }
-
-            val filtered = uiState.filtered
-            if (filtered.isEmpty()) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                    Modifier
+                        .size(48.dp)
+                        .clip(HogwartsShapes.Pill)
+                        .background(if (urgent) colors.destructive.copy(alpha = 0.1f) else colors.muted),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    EmptyState(
-                        icon = HogwartsIcons.Notifications,
-                        title = stringResource(R.string.notifications_no_notifications_title),
-                        subtitle = stringResource(R.string.notifications_no_notifications_subtitle)
+                    Icon(
+                        kind.icon(),
+                        contentDescription = null,
+                        tint = if (urgent) colors.destructive else colors.mutedForeground,
+                        modifier = Modifier.size(20.dp),
                     )
                 }
-                return@Column
+                if (!notification.isRead) {
+                    Box(
+                        Modifier
+                            .align(Alignment.TopEnd)
+                            .offset(x = 4.dp, y = (-4).dp)
+                            .size(14.dp)
+                            .border(2.dp, if (colors.isDark) colors.background else Color.White, HogwartsShapes.Pill)
+                            .padding(2.dp)
+                            .clip(HogwartsShapes.Pill)
+                            .background(colors.primary),
+                    )
+                }
             }
-
-            // Group by Today / Yesterday / This Week / Earlier (mirror web grouping).
-            val groups = filtered.groupBy { groupKeyFor(it.createdAt) }
-            val groupOrder = listOf(GroupKey.TODAY, GroupKey.YESTERDAY, GroupKey.THIS_WEEK, GroupKey.EARLIER)
-
-            AppleInsetGroupedList(
-                modifier = Modifier.fillMaxSize(),
-                state = listState
-            ) {
-                groupOrder.forEach { key ->
-                    val groupItems = groups[key].orEmpty()
-                    if (groupItems.isEmpty()) return@forEach
-                    item(key = "section-${key.name}") {
-                        AppleListSection(header = stringResource(groupHeaderRes(key))) {
-                            groupItems.forEachIndexed { index, n ->
-                                NotificationRow(
-                                    notification = n,
-                                    timeLabel = timeFormatter.format(n.createdAt),
-                                    showDivider = index < groupItems.size - 1,
-                                    onClick = { viewModel.markRead(n.id) }
-                                )
-                            }
+            Column(Modifier.weight(1f)) {
+                if (showTypeLabel || priorityLabel != null) {
+                    Row(
+                        Modifier.padding(bottom = 2.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    ) {
+                        if (showTypeLabel) {
+                            Text(typeLabel.orEmpty(), style = type.caption.copy(fontSize = 11.sp, fontWeight = FontWeight.Medium), color = colors.mutedForeground)
+                        }
+                        if (priorityLabel != null) {
+                            PriorityBadge(priorityLabel, if (urgent) BadgeVariant.Destructive else BadgeVariant.Outline)
                         }
                     }
                 }
-
-                if (uiState.error != null) {
-                    item(key = "cached-banner") {
-                        Text(
-                            text = stringResource(R.string.notifications_showing_cached, uiState.error ?: ""),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(AppleSpacing.Standard)
-                        )
+                val line = buildAnnotatedString {
+                    notification.actorName?.let { withStyle(SpanStyle(fontWeight = FontWeight.SemiBold)) { append("$it ") } }
+                    append(notification.title)
+                    if (notification.body.isNotBlank() && notification.body != notification.title) {
+                        append(". ")
+                        withStyle(SpanStyle(color = colors.mutedForeground)) { append(notification.body) }
                     }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun FilterTabsRow(
-    selected: NotificationConfig.FilterTab,
-    unreadCount: Int,
-    totalCount: Int,
-    onSelected: (NotificationConfig.FilterTab) -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = AppleSpacing.Standard, vertical = AppleSpacing.Tiny),
-        horizontalArrangement = Arrangement.spacedBy(AppleSpacing.Small)
-    ) {
-        FilterChip(
-            selected = selected == NotificationConfig.FilterTab.ALL,
-            onClick = { onSelected(NotificationConfig.FilterTab.ALL) },
-            label = {
-                BadgedBox(badge = { if (totalCount > 0) Badge { Text(totalCount.toString()) } }) {
-                    Text(stringResource(R.string.notifications_tab_all))
-                }
-            }
-        )
-        FilterChip(
-            selected = selected == NotificationConfig.FilterTab.UNREAD,
-            onClick = { onSelected(NotificationConfig.FilterTab.UNREAD) },
-            label = {
-                BadgedBox(badge = {
-                    if (unreadCount > 0) Badge(containerColor = MaterialTheme.colorScheme.error) {
-                        Text(unreadCount.toString())
-                    }
-                }) {
-                    Text(stringResource(R.string.notifications_tab_unread))
-                }
-            }
-        )
-    }
-}
-
-@Composable
-private fun NotificationRow(
-    notification: AppNotification,
-    timeLabel: String,
-    showDivider: Boolean,
-    onClick: () -> Unit
-) {
-    AppleListRow(
-        showDivider = showDivider,
-        onClick = onClick
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(AppleSpacing.Small),
-            verticalAlignment = Alignment.Top
-        ) {
-            // Urgent priority gets a destructive accent bar (mirrors web "border-s-destructive").
-            if (notification.priority == NotificationPriority.URGENT) {
-                Box(
-                    modifier = Modifier
-                        .width(3.dp)
-                        .height(40.dp)
-                        .clip(RoundedCornerShape(2.dp))
-                        .background(MaterialTheme.colorScheme.error)
-                )
-            }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(AppleSpacing.Tiny),
-                modifier = Modifier.weight(1f)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = notification.title,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = if (!notification.isRead) FontWeight.SemiBold else FontWeight.Normal,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.weight(1f)
-                    )
-                    Text(
-                        text = timeLabel,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
                 }
                 Text(
-                    text = notification.body,
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 2
+                    line,
+                    style = type.body,
+                    color = if (notification.isRead) colors.mutedForeground else colors.foreground,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
                 )
-                if (notification.priority == NotificationPriority.URGENT) {
-                    AssistChip(
-                        onClick = {},
-                        label = { Text(stringResource(R.string.notifications_priority_urgent)) },
-                        colors = AssistChipDefaults.assistChipColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer,
-                            labelColor = MaterialTheme.colorScheme.onErrorContainer
-                        )
-                    )
+                Text(
+                    timeLabel(notification.createdAt, now),
+                    style = type.caption,
+                    color = colors.mutedForeground,
+                    modifier = Modifier.padding(top = 2.dp),
+                )
+            }
+            Box(
+                Modifier
+                    .padding(top = 2.dp)
+                    .size(28.dp)
+                    .clip(HogwartsShapes.Md)
+                    .clickable(enabled = !deleting, role = Role.Button, onClick = onDelete),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    Icons.Outlined.Close,
+                    contentDescription = stringResource(R.string.notifications_a11y_delete),
+                    tint = colors.mutedForeground,
+                    modifier = Modifier.size(14.dp),
+                )
+            }
+        }
+        Box(Modifier.fillMaxWidth().height(1.dp).background(colors.border))
+    }
+}
+
+/** `Badge` at `h-4 px-1.5 text-[10px]`. */
+@Composable
+private fun PriorityBadge(label: String, variant: BadgeVariant) {
+    val colors = HogwartsTheme.colors
+    val destructive = variant == BadgeVariant.Destructive
+    Text(
+        label,
+        style = HogwartsTheme.type.caption.copy(fontSize = 10.sp, lineHeight = 14.sp, fontWeight = FontWeight.Medium),
+        color = if (destructive) Color.White else colors.foreground,
+        maxLines = 1,
+        modifier = Modifier
+            .clip(HogwartsShapes.Md)
+            .background(if (destructive) colors.destructive else Color.Transparent)
+            .border(1.dp, if (destructive) Color.Transparent else colors.border, HogwartsShapes.Md)
+            .padding(horizontal = 6.dp),
+    )
+}
+
+@Composable
+private fun timeLabel(created: Instant, now: Instant): String {
+    val resources = LocalContext.current.resources
+    return when (val distance = ago(created, now)) {
+        Ago.LessThanMinute -> stringResource(R.string.notifications_ago_less_than_minute)
+        is Ago.Minutes -> resources.getQuantityString(R.plurals.notifications_ago_minutes, distance.count, distance.count.toString())
+        is Ago.Hours -> resources.getQuantityString(R.plurals.notifications_ago_hours, distance.count, distance.count.toString())
+        is Ago.Days -> resources.getQuantityString(R.plurals.notifications_ago_days, distance.count, distance.count.toString())
+        Ago.Date -> notificationDate(created, currentLocale().language.takeIf { it == "en" } ?: "ar")
+    }
+}
+
+/** `list.tsx` empty state: a bell in a grey circle, the heading and its line. */
+@Composable
+private fun EmptyNotifications() {
+    val colors = HogwartsTheme.colors
+    Column(Modifier.fillMaxWidth().padding(vertical = 48.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(Modifier.clip(HogwartsShapes.Pill).background(colors.muted).padding(16.dp)) {
+            Icon(Icons.Outlined.Notifications, contentDescription = null, tint = colors.mutedForeground, modifier = Modifier.size(32.dp))
+        }
+        Spacer(Modifier.height(16.dp))
+        Text(stringResource(R.string.notifications_empty_title), style = HogwartsTheme.type.section, color = colors.foreground)
+        Spacer(Modifier.height(4.dp))
+        Text(
+            stringResource(R.string.notifications_empty_description),
+            style = HogwartsTheme.type.body,
+            color = colors.mutedForeground,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.widthIn(max = 250.dp),
+        )
+    }
+}
+
+@Composable
+private fun LoadFailed(onRetry: () -> Unit) {
+    Column(Modifier.fillMaxWidth().padding(vertical = 48.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(stringResource(R.string.notifications_load_failed), style = HogwartsTheme.type.body, color = HogwartsTheme.colors.mutedForeground)
+        Spacer(Modifier.height(16.dp))
+        PillButton(label = stringResource(R.string.notifications_retry), onClick = onRetry, variant = PillVariant.Outline)
+    }
+}
+
+/** `NotificationCenterSkeleton`: six rows of avatar and lines. */
+@Composable
+private fun NotificationSkeleton() {
+    val muted = HogwartsTheme.colors.muted
+    Column(Modifier.fillMaxWidth()) {
+        repeat(6) {
+            Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Box(Modifier.size(48.dp).clip(HogwartsShapes.Pill).background(muted))
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(Modifier.fillMaxWidth(0.8f).height(16.dp).clip(HogwartsShapes.Md).background(muted))
+                    Box(Modifier.fillMaxWidth(0.6f).height(16.dp).clip(HogwartsShapes.Md).background(muted))
+                    Box(Modifier.size(width = 96.dp, height = 12.dp).clip(HogwartsShapes.Md).background(muted))
                 }
             }
         }
     }
 }
 
-private const val ALL_KEY = "__ALL__"
-
-private enum class GroupKey { TODAY, YESTERDAY, THIS_WEEK, EARLIER }
-
-private fun groupKeyFor(at: Instant): GroupKey {
-    val today = LocalDate.now(ZoneId.systemDefault())
-    val that = at.atZone(ZoneId.systemDefault()).toLocalDate()
-    val days = ChronoUnit.DAYS.between(that, today)
-    return when {
-        days <= 0L -> GroupKey.TODAY
-        days == 1L -> GroupKey.YESTERDAY
-        days < 7L -> GroupKey.THIS_WEEK
-        else -> GroupKey.EARLIER
+/** `content.tsx` pagination: Previous, up to five page numbers, Next. */
+@Composable
+private fun Pagination(page: Int, totalPages: Int, onPage: (Int) -> Unit) {
+    val numbers = when {
+        totalPages <= 5 -> 1..totalPages
+        page <= 3 -> 1..5
+        page >= totalPages - 2 -> (totalPages - 4)..totalPages
+        else -> (page - 2)..(page + 2)
+    }
+    Row(
+        Modifier.fillMaxWidth().padding(top = 24.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        PagerButton(enabled = page > 1, onClick = { onPage(page - 1) }) {
+            Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = null, modifier = Modifier.size(16.dp), tint = HogwartsTheme.colors.foreground)
+            Text(stringResource(R.string.notifications_previous), style = HogwartsTheme.type.bodyMedium, color = HogwartsTheme.colors.foreground)
+        }
+        numbers.forEach { number ->
+            val current = number == page
+            Box(
+                Modifier
+                    .size(32.dp)
+                    .clip(HogwartsShapes.Md)
+                    .background(if (current) HogwartsTheme.colors.primary else HogwartsTheme.colors.background)
+                    .border(1.dp, if (current) Color.Transparent else HogwartsTheme.colors.border, HogwartsShapes.Md)
+                    .clickable(enabled = !current, role = Role.Button) { onPage(number) },
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    number.toString(),
+                    style = HogwartsTheme.type.bodyMedium,
+                    color = if (current) HogwartsTheme.colors.primaryForeground else HogwartsTheme.colors.foreground,
+                )
+            }
+        }
+        PagerButton(enabled = page < totalPages, onClick = { onPage(page + 1) }) {
+            Text(stringResource(R.string.notifications_next), style = HogwartsTheme.type.bodyMedium, color = HogwartsTheme.colors.foreground)
+            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, modifier = Modifier.size(16.dp), tint = HogwartsTheme.colors.foreground)
+        }
     }
 }
 
-private fun groupHeaderRes(key: GroupKey): Int = when (key) {
-    GroupKey.TODAY -> R.string.notifications_group_today
-    GroupKey.YESTERDAY -> R.string.notifications_group_yesterday
-    GroupKey.THIS_WEEK -> R.string.notifications_group_this_week
-    GroupKey.EARLIER -> R.string.notifications_group_earlier
-}
-
-private fun typeFilterLabelRes(type: NotificationType) = when (type) {
-    NotificationType.ANNOUNCEMENT -> R.string.notifications_type_announcement
-    NotificationType.ATTENDANCE -> R.string.notifications_type_attendance
-    NotificationType.GRADE -> R.string.notifications_type_grade
-    NotificationType.FEE -> R.string.notifications_type_fee
-    NotificationType.MESSAGE -> R.string.notifications_type_message
-    NotificationType.TIMETABLE -> R.string.notifications_type_timetable
-    NotificationType.GENERAL -> R.string.notifications_type_general
+@Composable
+private fun PagerButton(enabled: Boolean, onClick: () -> Unit, content: @Composable () -> Unit) {
+    Row(
+        Modifier
+            .height(32.dp)
+            .alpha(if (enabled) 1f else 0.5f)
+            .clip(HogwartsShapes.Md)
+            .border(1.dp, HogwartsTheme.colors.border, HogwartsShapes.Md)
+            .clickable(enabled = enabled, role = Role.Button, onClick = onClick)
+            .padding(horizontal = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+    ) { content() }
 }

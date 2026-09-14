@@ -53,8 +53,7 @@ import org.hogwarts.android.feature.messaging.navigation.Messaging
 import org.hogwarts.android.feature.messaging.navigation.messagesGraph
 import org.hogwarts.android.feature.notifications.navigation.NotificationPreferences
 import org.hogwarts.android.feature.notifications.navigation.Notifications
-import org.hogwarts.android.feature.notifications.navigation.notificationPreferencesScreen
-import org.hogwarts.android.feature.notifications.navigation.notificationsScreen
+import org.hogwarts.android.feature.notifications.navigation.notificationsGraph
 import org.hogwarts.android.feature.profile.navigation.Profile
 import org.hogwarts.android.feature.profile.navigation.profileScreen
 import org.hogwarts.android.feature.settings.navigation.Settings
@@ -318,13 +317,10 @@ fun HogwartsNavHost(
             onOpenHref = { href -> hrefOpener.open(href) },
         )
 
-        // Notifications
-        notificationsScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToPreferences = { navController.navigate(NotificationPreferences) }
-        )
-        notificationPreferencesScreen(
-            onNavigateBack = { navController.popBackStack() }
+        // Notifications (web /notifications, /unread, /preferences)
+        notificationsGraph(
+            onOpenHref = { href -> hrefOpener.open(href) },
+            onNavigate = { route -> navController.navigate(route) { launchSingleTop = true } },
         )
 
         // Settings (web /settings)

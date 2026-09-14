@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.roborazzi)
 }
 
 android {
@@ -24,12 +25,15 @@ android {
     buildFeatures {
         compose = true
     }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
 }
 
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
-    implementation(project(":core:database"))
     implementation(project(":core:network"))
     implementation(project(":core:designsystem"))
 
@@ -42,18 +46,15 @@ dependencies {
     implementation(libs.bundles.lifecycle)
     implementation(libs.bundles.coroutines)
     implementation(libs.navigation.compose)
-
-    // Room
-    implementation(libs.bundles.room)
-    ksp(libs.room.compiler)
-
-    // Serialization
     implementation(libs.kotlinx.serialization.json)
-
-    // Network
     implementation(libs.bundles.network)
+    implementation(libs.timber)
 
-    testImplementation(libs.junit)
-    testImplementation(libs.mockk)
+    testImplementation(libs.bundles.testing)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
     androidTestImplementation(libs.compose.ui.test.junit4)
 }

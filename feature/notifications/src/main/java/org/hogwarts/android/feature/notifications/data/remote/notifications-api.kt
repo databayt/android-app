@@ -2,43 +2,43 @@ package org.hogwarts.android.feature.notifications.data.remote
 
 import org.hogwarts.android.feature.notifications.data.remote.dto.NotificationListResponse
 import org.hogwarts.android.feature.notifications.data.remote.dto.NotificationPreferenceListResponse
-import org.hogwarts.android.feature.notifications.data.remote.dto.RegisterDeviceTokenRequest
 import org.hogwarts.android.feature.notifications.data.remote.dto.UpdatePreferencesRequest
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/** `src/app/api/mobile/notifications*`. Device-token registration lives in `core/push`. */
 interface NotificationsApi {
 
     @GET("api/mobile/notifications")
     suspend fun getNotifications(
         @Query("unread") unreadOnly: Boolean? = null,
         @Query("page") page: Int = 1,
-        @Query("per_page") perPage: Int = 30
+        @Query("per_page") perPage: Int = PER_PAGE,
     ): Response<NotificationListResponse>
 
     @POST("api/mobile/notifications/{notificationId}/read")
-    suspend fun markRead(
-        @Path("notificationId") notificationId: String
-    ): Response<Unit>
+    suspend fun markRead(@Path("notificationId") notificationId: String): Response<Unit>
 
     @POST("api/mobile/notifications/read-all")
     suspend fun markAllRead(): Response<Unit>
+
+    @DELETE("api/mobile/notifications/{notificationId}")
+    suspend fun delete(@Path("notificationId") notificationId: String): Response<Unit>
 
     @GET("api/mobile/notifications/preferences")
     suspend fun getPreferences(): Response<NotificationPreferenceListResponse>
 
     @PUT("api/mobile/notifications/preferences")
-    suspend fun updatePreferences(
-        @Body request: UpdatePreferencesRequest
-    ): Response<Unit>
+    suspend fun updatePreferences(@Body request: UpdatePreferencesRequest): Response<Unit>
 
-    @POST("api/mobile/notifications/register")
-    suspend fun registerDeviceToken(
-        @Body request: RegisterDeviceTokenRequest
-    ): Response<Unit>
+    companion object {
+        /** The web notification center's page size (`content.tsx`). */
+        const val PER_PAGE = 20
+    }
 }

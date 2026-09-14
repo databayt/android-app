@@ -1,50 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- شاشة الإشعارات -->
-    <string name="notifications_title">الإشعارات</string>
-    <string name="notifications_back">رجوع</string>
-    <string name="notifications_read_all">قراءة الكل</string>
-    <string name="notifications_no_notifications_title">لا توجد إشعارات</string>
-    <string name="notifications_no_notifications_subtitle">أنت على اطلاع بكل شيء!</string>
-    <string name="notifications_count_header">%1$d إشعارات</string>
-    <string name="notifications_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
-
-    <!-- علامات التبويب -->
+    <!-- Tabs and layout (notifications dictionary) -->
     <string name="notifications_tab_all">الكل</string>
-    <string name="notifications_tab_unread">غير المقروءة</string>
+    <string name="notifications_tab_unread">غير مقروءة</string>
+    <string name="notifications_tab_settings">الإعدادات</string>
+    <string name="notifications_mark_all_read">تعليم الكل كمقروء</string>
 
-    <!-- تصفية حسب النوع -->
-    <string name="notifications_filter_all_types">كل الأنواع</string>
-    <string name="notifications_type_announcement">إعلان</string>
-    <string name="notifications_type_attendance">الحضور</string>
-    <string name="notifications_type_grade">الدرجات</string>
-    <string name="notifications_type_fee">الرسوم</string>
-    <string name="notifications_type_message">رسالة</string>
-    <string name="notifications_type_timetable">الجدول</string>
-    <string name="notifications_type_general">عام</string>
-
-    <!-- مجموعات التاريخ -->
-    <string name="notifications_group_today">اليوم</string>
-    <string name="notifications_group_yesterday">أمس</string>
-    <string name="notifications_group_this_week">هذا الأسبوع</string>
-    <string name="notifications_group_earlier">سابقًا</string>
-
-    <!-- الأولوية -->
+    <!-- List -->
+    <string name="notifications_empty_title">لا توجد إشعارات</string>
+    <string name="notifications_empty_description">أنت مطّلع على كل شيء!</string>
+    <string name="notifications_load_failed">فشل تحميل الإشعارات</string>
+    <string name="notifications_retry">إعادة المحاولة</string>
+    <string name="notifications_offline">ستتم مزامنة الإشعارات عند عودة الاتصال</string>
+    <string name="notifications_previous">السابق</string>
+    <string name="notifications_next">التالي</string>
+    <string name="notifications_a11y_delete">حذف الإشعار</string>
+    <string name="notifications_a11y_unread">إشعار غير مقروء</string>
+    <string name="notifications_a11y_read">إشعار مقروء</string>
+    <string name="notifications_priority_high">عالي</string>
     <string name="notifications_priority_urgent">عاجل</string>
 
-    <!-- التفضيلات -->
-    <string name="notifications_preferences_title">إعدادات الإشعارات</string>
-    <string name="notifications_preferences_save">حفظ</string>
-    <string name="notifications_preferences_error">تعذر حفظ التفضيلات: %1$s</string>
+    <!-- Time, as date-fns words it on the card (Latin digits, as the web renders) -->
+    <string name="notifications_ago_less_than_minute">منذ أقل من دقيقة</string>
+    <plurals name="notifications_ago_minutes">
+        <item quantity="zero">منذ %1$s دقيقة</item>
+        <item quantity="one">منذ دقيقة واحدة</item>
+        <item quantity="two">منذ دقيقتان</item>
+        <item quantity="few">منذ %1$s دقائق</item>
+        <item quantity="many">منذ %1$s دقيقة</item>
+        <item quantity="other">منذ %1$s دقيقة</item>
+    </plurals>
+    <plurals name="notifications_ago_hours">
+        <item quantity="zero">منذ %1$s ساعة تقريباً</item>
+        <item quantity="one">منذ ساعة واحدة تقريباً</item>
+        <item quantity="two">منذ ساعتين تقريبا</item>
+        <item quantity="few">منذ %1$s ساعات تقريباً</item>
+        <item quantity="many">منذ %1$s ساعة تقريباً</item>
+        <item quantity="other">منذ %1$s ساعة تقريباً</item>
+    </plurals>
+    <plurals name="notifications_ago_days">
+        <item quantity="zero">منذ %1$s يوم</item>
+        <item quantity="one">منذ يوم واحد</item>
+        <item quantity="two">منذ يومان</item>
+        <item quantity="few">منذ %1$s أيام</item>
+        <item quantity="many">منذ %1$s يوم</item>
+        <item quantity="other">منذ %1$s يوم</item>
+    </plurals>
 
+    <!-- Types -->
+    <string name="notifications_type_message">رسالة جديدة</string>
+    <string name="notifications_type_message_mention">تمت الإشارة إليك</string>
+    <string name="notifications_type_assignment_created">واجب جديد</string>
+    <string name="notifications_type_assignment_due">موعد تسليم الواجب قريب</string>
+    <string name="notifications_type_assignment_graded">تم تقييم الواجب</string>
+    <string name="notifications_type_grade_posted">تم نشر درجة جديدة</string>
+    <string name="notifications_type_attendance_marked">تم تسجيل الحضور</string>
+    <string name="notifications_type_attendance_alert">تنبيه غياب</string>
+    <string name="notifications_type_fee_due">رسوم مستحقة الدفع</string>
+    <string name="notifications_type_fee_overdue">رسوم متأخرة</string>
+    <string name="notifications_type_fee_paid">تم استلام الدفعة</string>
+    <string name="notifications_type_announcement">إعلان جديد</string>
+    <string name="notifications_type_event_reminder">تذكير بحدث</string>
+    <string name="notifications_type_class_cancelled">تم إلغاء الحصة</string>
+    <string name="notifications_type_class_rescheduled">تم إعادة جدولة الحصة</string>
+    <string name="notifications_type_system_alert">تنبيه النظام</string>
+    <string name="notifications_type_account_created">تم إنشاء الحساب</string>
+    <string name="notifications_type_password_reset">إعادة تعيين كلمة المرور</string>
+    <string name="notifications_type_login_alert">تنبيه تسجيل الدخول</string>
+    <string name="notifications_type_document_shared">تمت مشاركة مستند</string>
+    <string name="notifications_type_report_ready">التقرير جاهز</string>
+    <string name="notifications_type_absence_intention">تم تقديم نية الغياب</string>
+    <string name="notifications_type_absence_intention_decision">تمت مراجعة نية الغياب</string>
+    <string name="notifications_type_absence_unreported_followup">غياب غير مُبلَّغ — متابعة ولي الأمر</string>
+    <string name="notifications_type_setup_guide">دليل الإعداد</string>
+    <string name="notifications_type_live_class_scheduled">تم جدولة فصل مباشر</string>
+    <string name="notifications_type_live_class_starting_soon">فصل مباشر يبدأ قريباً</string>
+    <string name="notifications_type_live_class_started">الفصل المباشر يبث الآن</string>
+    <string name="notifications_type_live_class_cancelled">تم إلغاء الفصل المباشر</string>
+    <string name="notifications_type_live_class_recording_ready">تسجيل الفصل جاهز</string>
+    <string name="notifications_type_content_review">بانتظار مراجعة المنصة</string>
+    <string name="notifications_type_content_approved">تمت الموافقة على المحتوى</string>
+    <string name="notifications_type_content_rejected">المحتوى يحتاج تعديلاً</string>
+
+    <!-- Preferences -->
+    <string name="notifications_preferences_title">تفضيلات الإشعارات</string>
+    <string name="notifications_preferences_description">إدارة كيفية تلقي الإشعارات</string>
+    <string name="notifications_preferences_load_failed">فشل تحميل التفضيلات</string>
+    <string name="notifications_preferences_saved">تم حفظ التفضيلات بنجاح</string>
+    <string name="notifications_preferences_save_failed">فشل حفظ التفضيلات</string>
+    <string name="notifications_types_title">أنواع الإشعارات</string>
+    <string name="notifications_types_description">اختر الإشعارات التي تريد تلقيها</string>
+    <string name="notifications_action_required">يتطلب إجراء</string>
     <string name="notifications_channel_in_app">داخل التطبيق</string>
-    <string name="notifications_channel_in_app_footer">إظهار الإشعارات داخل التطبيق.</string>
     <string name="notifications_channel_email">البريد الإلكتروني</string>
-    <string name="notifications_channel_email_footer">استلام الإشعارات عبر البريد.</string>
-    <string name="notifications_channel_push">إشعارات الجهاز</string>
-    <string name="notifications_channel_push_footer">استلام الإشعارات على هذا الجهاز.</string>
-    <string name="notifications_channel_sms">الرسائل النصية</string>
-    <string name="notifications_channel_sms_footer">استلام الإشعارات عبر رسالة نصية.</string>
+    <string name="notifications_channel_push">إشعار فوري</string>
+    <string name="notifications_channel_sms">رسالة نصية</string>
     <string name="notifications_channel_whatsapp">واتساب</string>
-    <string name="notifications_channel_whatsapp_footer">استلام الإشعارات عبر واتساب.</string>
+    <string name="notifications_reset">إعادة تعيين</string>
+    <string name="notifications_save">حفظ</string>
+    <string name="notifications_channel_settings">إعدادات القنوات</string>
+    <string name="notifications_delivery_methods">طرق التوصيل</string>
+    <string name="notifications_delivery_in_app">داخل التطبيق</string>
+    <string name="notifications_delivery_in_app_description">عرض الإشعارات في التطبيق</string>
+    <string name="notifications_delivery_email">البريد الإلكتروني</string>
+    <string name="notifications_delivery_email_description">إرسال الإشعارات عبر البريد الإلكتروني</string>
+    <string name="notifications_delivery_push">إشعارات الدفع</string>
+    <string name="notifications_delivery_push_description">إرسال إشعارات الدفع إلى جهازك</string>
+    <string name="notifications_delivery_sms">رسالة نصية</string>
+    <string name="notifications_delivery_sms_description">إرسال إشعارات نصية (قريباً)</string>
+    <string name="notifications_quiet_hours_title">ساعات الهدوء</string>
+    <string name="notifications_quiet_hours_description">عدم إرسال إشعارات خلال هذه الساعات</string>
+    <string name="notifications_digest_title">ملخص البريد الإلكتروني</string>
+    <string name="notifications_digest_description">تلقي الإشعارات كرسالة ملخصة</string>
 </resources>
