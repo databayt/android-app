@@ -4,9 +4,7 @@ import org.hogwarts.android.core.common.result.Result
 import org.hogwarts.android.feature.auth.data.repository.AuthRepository
 import javax.inject.Inject
 
-/**
- * Use case for requesting password reset OTP.
- */
+/** Email a 6-digit reset code. */
 class RequestPasswordResetUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
@@ -14,6 +12,8 @@ class RequestPasswordResetUseCase @Inject constructor(
         return try {
             authRepository.requestPasswordReset(email)
             Result.Success(Unit)
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.Error(e)
         }
@@ -21,23 +21,9 @@ class RequestPasswordResetUseCase @Inject constructor(
 }
 
 /**
- * Use case for verifying OTP code.
- */
-class VerifyOtpUseCase @Inject constructor(
-    private val authRepository: AuthRepository
-) {
-    suspend operator fun invoke(email: String, otp: String): Result<Unit> {
-        return try {
-            authRepository.verifyOtp(email, otp)
-            Result.Success(Unit)
-        } catch (e: Exception) {
-            Result.Error(e)
-        }
-    }
-}
-
-/**
- * Use case for setting a new password after OTP verification.
+ * Set a new password with the emailed code. The code is checked here, by
+ * `new-password`, not by a prior `verify-otp` call: that route deletes the
+ * code on success, which would make this call fail.
  */
 class SetNewPasswordUseCase @Inject constructor(
     private val authRepository: AuthRepository
@@ -46,6 +32,8 @@ class SetNewPasswordUseCase @Inject constructor(
         return try {
             authRepository.setNewPassword(email, otp, newPassword)
             Result.Success(Unit)
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.Error(e)
         }

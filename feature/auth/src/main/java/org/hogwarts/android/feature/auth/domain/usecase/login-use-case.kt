@@ -5,23 +5,15 @@ import org.hogwarts.android.feature.auth.data.repository.AuthRepository
 import org.hogwarts.android.feature.auth.domain.model.AuthResult
 import javax.inject.Inject
 
-/**
- * Use case for user authentication.
- */
+/** Sign in with an email or student username and a password. */
 class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    /**
-     * Authenticate user with email and password.
-     *
-     * @param email User's email address
-     * @param password User's password
-     * @return Result containing AuthResult on success or error
-     */
-    suspend operator fun invoke(email: String, password: String): Result<AuthResult> {
+    suspend operator fun invoke(identifier: String, password: String): Result<AuthResult> {
         return try {
-            val result = authRepository.login(email, password)
-            Result.Success(result)
+            Result.Success(authRepository.login(identifier, password))
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.Error(e)
         }

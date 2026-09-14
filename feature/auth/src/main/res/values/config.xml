@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Google OAuth *web* client of project 861303536195 — the audience
+        hogwarts `api/mobile/auth/google` checks (GOOGLE_CLIENT_ID). Public, not
+        a secret. Credential Manager also needs an Android OAuth client for the
+        app's package + signing SHA-1 in the same project. Blank hides the button.
+    -->
+    <string name="google_web_client_id" translatable="false">861303536195-188jq8irdl78cvv5vqo0o9m2il1pqq6n.apps.googleusercontent.com</string>
+</resources>

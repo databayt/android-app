@@ -2,22 +2,21 @@ package org.hogwarts.android.feature.auth.domain.usecase
 
 import org.hogwarts.android.core.common.result.Result
 import org.hogwarts.android.feature.auth.data.repository.AuthRepository
-import org.hogwarts.android.feature.auth.domain.model.AuthResult
+import org.hogwarts.android.feature.auth.domain.model.SocialLogin
 import javax.inject.Inject
 
 /**
- * Use case for Google OAuth authentication.
- *
- * Sends the Google ID token to the backend which validates it
- * and returns a Hogwarts JWT.
+ * Google sign-in: the backend verifies the ID token and answers with tokens
+ * or with the schools the email belongs to ([SocialLogin.NeedsSchool]).
  */
 class GoogleAuthUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke(idToken: String): Result<AuthResult> {
+    suspend operator fun invoke(idToken: String, schoolId: String? = null): Result<SocialLogin> {
         return try {
-            val result = authRepository.loginWithGoogle(idToken)
-            Result.Success(result)
+            Result.Success(authRepository.loginWithGoogle(idToken, schoolId))
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.Error(e)
         }

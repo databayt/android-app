@@ -1,27 +1,33 @@
 package org.hogwarts.android.feature.auth.data.repository
 
+import kotlinx.coroutines.CancellationException
 import org.hogwarts.android.core.data.tenant.CurrentUser
 import org.hogwarts.android.core.data.tenant.SessionManager
 import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.security.TokenManager
 import org.hogwarts.android.feature.auth.data.remote.AuthApi
 import org.hogwarts.android.feature.auth.data.remote.dto.AuthResponseDto
-import org.hogwarts.android.feature.auth.data.remote.dto.FacebookAuthRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.GoogleAuthRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.LoginRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.NewPasswordRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.ResetPasswordRequestDto
+import org.hogwarts.android.feature.auth.data.remote.dto.SchoolDto
 import org.hogwarts.android.feature.auth.data.remote.dto.SignUpRequestDto
+import org.hogwarts.android.feature.auth.data.remote.dto.UserDto
 import org.hogwarts.android.feature.auth.data.remote.dto.VerifyOtpRequestDto
+import org.hogwarts.android.feature.auth.domain.model.AuthError
+import org.hogwarts.android.feature.auth.domain.model.AuthException
 import org.hogwarts.android.feature.auth.domain.model.AuthResult
+import org.hogwarts.android.feature.auth.domain.model.SchoolInfo
+import org.hogwarts.android.feature.auth.domain.model.SocialLogin
 import retrofit2.Response
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Implementation of AuthRepository.
- *
- * Handles authentication against Hogwarts backend API.
+ * [AuthRepository] over hogwarts `api/mobile/auth/`. Tokens are saved only
+ * after the role parses, so an unknown role never leaves a half session.
  */
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
@@ -30,19 +36,27 @@ class AuthRepositoryImpl @Inject constructor(
     private val sessionManager: SessionManager
 ) : AuthRepository {
 
-    override suspend fun login(email: String, password: String): AuthResult {
-        val response = authApi.login(LoginRequestDto(email, password))
-        return handleAuthResponse(response)
+    override suspend fun login(identifier: String, password: String): AuthResult {
+        val response = call { authApi.login(LoginRequestDto(identifier.trim(), password)) }
+        return saveAuthResult(response.bodyOrThrow(AuthEndpoint.Login))
     }
 
-    override suspend fun loginWithGoogle(idToken: String): AuthResult {
-        val response = authApi.loginWithGoogle(GoogleAuthRequestDto(idToken))
-        return handleAuthResponse(response)
-    }
+    override suspend fun loginWithGoogle(idToken: String, schoolId: String?): SocialLogin {
+        val body = call { authApi.loginWithGoogle(GoogleAuthRequestDto(idToken, schoolId)) }
+            .bodyOrThrow(AuthEndpoint.Social)
 
-    override suspend fun loginWithFacebook(accessToken: String): AuthResult {
-        val response = authApi.loginWithFacebook(FacebookAuthRequestDto(accessToken))
-        return handleAuthResponse(response)
+        if (body.needsSchool) {
+            if (body.schools.isEmpty()) throw AuthException(AuthError.NoSchool)
+            return SocialLogin.NeedsSchool(body.schools.map { it.toInfo() })
+        }
+        val user = body.user
+        val accessToken = body.accessToken
+        if (user == null || accessToken.isNullOrEmpty() || body.expiresAt == null) {
+            throw AuthException(AuthError.Generic)
+        }
+        return SocialLogin.Authenticated(
+            saveAuthResult(AuthResponseDto(accessToken, body.refreshToken, body.expiresAt, user))
+        )
     }
 
     override suspend fun register(
@@ -52,77 +66,54 @@ class AuthRepositoryImpl @Inject constructor(
         password: String,
         schoolId: String
     ): AuthResult {
-        val response = authApi.register(
-            SignUpRequestDto(
-                email = email,
-                password = password,
-                firstName = firstName,
-                lastName = lastName,
-                schoolId = schoolId
+        val response = call {
+            authApi.register(
+                SignUpRequestDto(
+                    email = email,
+                    password = password,
+                    firstName = firstName,
+                    lastName = lastName,
+                    schoolId = schoolId
+                )
             )
-        )
-        return handleAuthResponse(response)
+        }
+        return saveAuthResult(response.bodyOrThrow(AuthEndpoint.Login))
     }
 
     override suspend fun requestPasswordReset(email: String) {
-        val response = authApi.requestPasswordReset(ResetPasswordRequestDto(email))
-        if (!response.isSuccessful) {
-            throw AuthException(
-                when (response.code()) {
-                    404 -> "Email not found"
-                    429 -> "Too many attempts. Please try again later."
-                    else -> "Failed to send reset email: ${response.message()}"
-                }
-            )
-        }
+        call { authApi.requestPasswordReset(ResetPasswordRequestDto(email.trim().lowercase())) }
+            .throwIfFailed(AuthEndpoint.Reset)
     }
 
     override suspend fun verifyOtp(email: String, otp: String) {
-        val response = authApi.verifyOtp(VerifyOtpRequestDto(email, otp))
-        if (!response.isSuccessful) {
-            throw AuthException(
-                when (response.code()) {
-                    400 -> "Invalid or expired OTP"
-                    429 -> "Too many attempts. Please try again later."
-                    else -> "Verification failed: ${response.message()}"
-                }
-            )
-        }
+        call { authApi.verifyOtp(VerifyOtpRequestDto(email.trim().lowercase(), otp)) }
+            .throwIfFailed(AuthEndpoint.NewPassword)
     }
 
     override suspend fun setNewPassword(email: String, otp: String, newPassword: String) {
-        val response = authApi.setNewPassword(NewPasswordRequestDto(email, otp, newPassword))
-        if (!response.isSuccessful) {
-            throw AuthException(
-                when (response.code()) {
-                    400 -> "Invalid or expired OTP"
-                    422 -> "Password does not meet requirements"
-                    else -> "Failed to set new password: ${response.message()}"
-                }
-            )
-        }
+        call { authApi.setNewPassword(NewPasswordRequestDto(email.trim().lowercase(), otp, newPassword)) }
+            .throwIfFailed(AuthEndpoint.NewPassword)
     }
 
     override suspend fun refreshToken(): AuthResult {
         val refreshToken = tokenManager.refreshToken
-            ?: throw AuthException("No refresh token available")
+            ?: throw AuthException(AuthError.Generic)
 
-        val response = authApi.refreshToken(refreshToken)
-
+        val response = call { authApi.refreshToken(refreshToken) }
         if (!response.isSuccessful) {
             tokenManager.clearTokens()
             sessionManager.clearSession()
-            throw AuthException("Session expired. Please login again.")
+            throw AuthException(authErrorFor(AuthEndpoint.Login, response.code(), null))
         }
-
-        val body = response.body() ?: throw AuthException("Empty response from server")
-        return saveAuthResult(body)
+        return saveAuthResult(response.body() ?: throw AuthException(AuthError.Generic))
     }
 
     override suspend fun logout() {
         try {
             authApi.logout()
-        } catch (e: Exception) {
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
             // Ignore logout API errors - we're logging out anyway
         } finally {
             tokenManager.clearTokens()
@@ -130,13 +121,8 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSchools(): List<SchoolInfo> {
-        val response = authApi.getSchools()
-        if (!response.isSuccessful) {
-            throw AuthException("Failed to load schools")
-        }
-        return response.body()?.map { SchoolInfo(id = it.id, name = it.name) } ?: emptyList()
-    }
+    override suspend fun getSchools(): List<SchoolInfo> =
+        call { authApi.getSchools() }.bodyOrThrow(AuthEndpoint.Social).map { it.toInfo() }
 
     override val isAuthenticated: Boolean
         get() = tokenManager.hasTokens
@@ -147,22 +133,23 @@ class AuthRepositoryImpl @Inject constructor(
     override val currentUserRole: String?
         get() = sessionManager.currentUser?.role?.name
 
-    private suspend fun handleAuthResponse(response: Response<AuthResponseDto>): AuthResult {
-        if (!response.isSuccessful) {
-            throw AuthException(
-                when (response.code()) {
-                    401 -> "Invalid credentials"
-                    404 -> "Account not found"
-                    409 -> "Account already exists"
-                    422 -> "Invalid input"
-                    429 -> "Too many attempts. Please try again later."
-                    else -> "Authentication failed: ${response.message()}"
-                }
-            )
+    /** Network failures become [AuthError.Network]. */
+    private suspend fun <T> call(block: suspend () -> Response<T>): Response<T> =
+        try {
+            block()
+        } catch (e: IOException) {
+            throw AuthException(AuthError.Network, e)
         }
 
-        val body = response.body() ?: throw AuthException("Empty response from server")
-        return saveAuthResult(body)
+    private fun <T> Response<T>.throwIfFailed(endpoint: AuthEndpoint) {
+        if (!isSuccessful) {
+            throw AuthException(authErrorFor(endpoint, code(), parseErrorMessage(errorBody()?.string())))
+        }
+    }
+
+    private fun <T> Response<T>.bodyOrThrow(endpoint: AuthEndpoint): T {
+        throwIfFailed(endpoint)
+        return body() ?: throw AuthException(AuthError.Generic)
     }
 
     private suspend fun saveAuthResult(body: AuthResponseDto): AuthResult {
@@ -170,7 +157,7 @@ class AuthRepositoryImpl @Inject constructor(
         // can never leave tokens saved without a session.
         val role = UserRole.fromWire(body.user.role)
         if (role == UserRole.UNKNOWN) {
-            throw AuthException("Unsupported account role")
+            throw AuthException(AuthError.UnsupportedRole)
         }
 
         tokenManager.saveTokens(
@@ -179,36 +166,35 @@ class AuthRepositoryImpl @Inject constructor(
             expiryMillis = body.expiresAt
         )
 
-        val userEmail = body.user.email.orEmpty()
-        val userSchoolId = body.user.schoolId.orEmpty()
+        val user: UserDto = body.user
+        val userEmail = user.email.orEmpty()
+        val userSchoolId = user.schoolId.orEmpty()
 
-        val currentUser = CurrentUser(
-            id = body.user.id,
-            email = userEmail,
-            schoolId = userSchoolId,
-            role = role,
-            givenName = body.user.givenName,
-            familyName = body.user.familyName,
-            grade = body.user.grade
+        sessionManager.setUser(
+            CurrentUser(
+                id = user.id,
+                email = userEmail,
+                schoolId = userSchoolId,
+                role = role,
+                givenName = user.givenName,
+                familyName = user.familyName,
+                grade = user.grade
+            )
         )
-        sessionManager.setUser(currentUser)
 
         return AuthResult(
-            userId = body.user.id,
+            userId = user.id,
             email = userEmail,
             schoolId = userSchoolId,
             role = role,
-            givenName = body.user.givenName,
-            familyName = body.user.familyName,
+            givenName = user.givenName,
+            familyName = user.familyName,
             accessToken = body.accessToken,
             refreshToken = body.refreshToken,
             expiresAt = body.expiresAt,
-            grade = body.user.grade
+            grade = user.grade
         )
     }
 }
 
-/**
- * Exception for authentication errors.
- */
-class AuthException(message: String) : Exception(message)
+private fun SchoolDto.toInfo() = SchoolInfo(id = id, name = name, nameEn = nameEn, logoUrl = logoUrl, domain = domain)

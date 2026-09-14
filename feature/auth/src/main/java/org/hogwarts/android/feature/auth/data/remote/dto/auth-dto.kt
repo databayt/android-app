@@ -1,5 +1,7 @@
 package org.hogwarts.android.feature.auth.data.remote.dto
 
+import kotlinx.serialization.EncodeDefault
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -33,21 +35,48 @@ data class AuthResponseDto(
 )
 
 /**
- * Google OAuth request DTO.
+ * Google sign-in request. `school_id` is omitted until the user picks a school
+ * after a `needs_school` answer — the route's zod schema rejects an explicit null.
  */
+@OptIn(ExperimentalSerializationApi::class)
 @Serializable
 data class GoogleAuthRequestDto(
     @SerialName("id_token")
-    val idToken: String
+    val idToken: String,
+
+    @SerialName("school_id")
+    @EncodeDefault(EncodeDefault.Mode.NEVER)
+    val schoolId: String? = null
 )
 
 /**
- * Facebook OAuth request DTO.
+ * Social sign-in answer: either the usual tokens, or
+ * `{ needs_school: true, schools: [...] }` with no tokens
+ * (hogwarts `api/mobile/auth/social-school.ts`).
  */
 @Serializable
-data class FacebookAuthRequestDto(
+data class SocialAuthResponseDto(
     @SerialName("access_token")
-    val accessToken: String
+    val accessToken: String? = null,
+
+    @SerialName("refresh_token")
+    val refreshToken: String? = null,
+
+    @SerialName("expires_at")
+    val expiresAt: Long? = null,
+
+    val user: UserDto? = null,
+
+    @SerialName("needs_school")
+    val needsSchool: Boolean = false,
+
+    val schools: List<SchoolDto> = emptyList()
+)
+
+/** Every mobile route fails with `{ error }` (400s add `details`). */
+@Serializable
+data class ApiErrorDto(
+    val error: String? = null
 )
 
 /**

@@ -5,10 +5,13 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.hogwarts.android.core.common.result.Result
-import org.hogwarts.android.core.data.tenant.UserRole
-import org.hogwarts.android.feature.auth.data.repository.AuthException
 import org.hogwarts.android.feature.auth.data.repository.AuthRepository
-import org.hogwarts.android.feature.auth.domain.model.AuthResult
+import org.hogwarts.android.feature.auth.domain.model.AuthError
+import org.hogwarts.android.feature.auth.domain.model.AuthException
+import org.hogwarts.android.feature.auth.domain.model.SchoolInfo
+import org.hogwarts.android.feature.auth.domain.model.SocialLogin
+import org.hogwarts.android.feature.auth.domain.model.toAuthError
+import org.hogwarts.android.feature.auth.testing.fakeAuthResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -18,244 +21,64 @@ class AuthUseCasesTest {
 
     private lateinit var authRepository: AuthRepository
 
-    private val fakeAuthResult = AuthResult(
-        userId = "user-1",
-        email = "student@hogwarts.edu",
-        schoolId = "school-1",
-        role = UserRole.STUDENT,
-        givenName = "Harry",
-        familyName = "Potter",
-        accessToken = "token",
-        refreshToken = "refresh",
-        expiresAt = System.currentTimeMillis() + 3600_000
-    )
-
     @Before
     fun setup() {
         authRepository = mockk(relaxed = true)
     }
 
-    // ──────────────────────────────────────────────
-    // LoginUseCase
-    // ──────────────────────────────────────────────
-
     @Test
     fun `LoginUseCase success returns Success`() = runTest {
         coEvery { authRepository.login(any(), any()) } returns fakeAuthResult
-        val useCase = LoginUseCase(authRepository)
-
-        val result = useCase("student@hogwarts.edu", "password")
-
-        assertTrue(result is Result.Success)
+        val result = LoginUseCase(authRepository)("admin@balqalam.com", "1234")
         assertEquals(fakeAuthResult, (result as Result.Success).data)
+        coVerify { authRepository.login("admin@balqalam.com", "1234") }
     }
 
     @Test
-    fun `LoginUseCase exception returns Error`() = runTest {
-        coEvery { authRepository.login(any(), any()) } throws AuthException("Invalid credentials")
-        val useCase = LoginUseCase(authRepository)
-
-        val result = useCase("student@hogwarts.edu", "wrong")
-
-        assertTrue(result is Result.Error)
-        assertEquals("Invalid credentials", (result as Result.Error).exception.message)
+    fun `LoginUseCase keeps the error kind`() = runTest {
+        coEvery { authRepository.login(any(), any()) } throws AuthException(AuthError.InvalidCredentials)
+        val result = LoginUseCase(authRepository)("admin@balqalam.com", "wrong")
+        assertEquals(AuthError.InvalidCredentials, (result as Result.Error).exception.toAuthError())
     }
 
     @Test
-    fun `LoginUseCase passes correct params`() = runTest {
-        coEvery { authRepository.login(any(), any()) } returns fakeAuthResult
-        val useCase = LoginUseCase(authRepository)
-
-        useCase("test@mail.com", "Pass1234")
-
-        coVerify { authRepository.login("test@mail.com", "Pass1234") }
-    }
-
-    // ──────────────────────────────────────────────
-    // GoogleAuthUseCase
-    // ──────────────────────────────────────────────
-
-    @Test
-    fun `GoogleAuthUseCase success returns Success`() = runTest {
-        coEvery { authRepository.loginWithGoogle(any()) } returns fakeAuthResult
-        val useCase = GoogleAuthUseCase(authRepository)
-
-        val result = useCase("google-id-token")
-
-        assertTrue(result is Result.Success)
-        assertEquals(fakeAuthResult, (result as Result.Success).data)
+    fun `GoogleAuthUseCase passes token and school`() = runTest {
+        coEvery { authRepository.loginWithGoogle("token", "school-1") } returns SocialLogin.Authenticated(fakeAuthResult)
+        val result = GoogleAuthUseCase(authRepository)("token", "school-1")
+        assertEquals(SocialLogin.Authenticated(fakeAuthResult), (result as Result.Success).data)
     }
 
     @Test
-    fun `GoogleAuthUseCase exception returns Error`() = runTest {
-        coEvery { authRepository.loginWithGoogle(any()) } throws AuthException("Invalid token")
-        val useCase = GoogleAuthUseCase(authRepository)
-
-        val result = useCase("bad-token")
-
-        assertTrue(result is Result.Error)
-        assertEquals("Invalid token", (result as Result.Error).exception.message)
+    fun `GoogleAuthUseCase surfaces needs school`() = runTest {
+        val schools = listOf(SchoolInfo("s1", "الملك فهد", "King Fahd"))
+        coEvery { authRepository.loginWithGoogle("token", null) } returns SocialLogin.NeedsSchool(schools)
+        val result = GoogleAuthUseCase(authRepository)("token")
+        assertEquals(SocialLogin.NeedsSchool(schools), (result as Result.Success).data)
     }
-
-    @Test
-    fun `GoogleAuthUseCase passes idToken to repository`() = runTest {
-        coEvery { authRepository.loginWithGoogle(any()) } returns fakeAuthResult
-        val useCase = GoogleAuthUseCase(authRepository)
-
-        useCase("my-google-token")
-
-        coVerify { authRepository.loginWithGoogle("my-google-token") }
-    }
-
-    // ──────────────────────────────────────────────
-    // FacebookAuthUseCase
-    // ──────────────────────────────────────────────
-
-    @Test
-    fun `FacebookAuthUseCase success returns Success`() = runTest {
-        coEvery { authRepository.loginWithFacebook(any()) } returns fakeAuthResult
-        val useCase = FacebookAuthUseCase(authRepository)
-
-        val result = useCase("fb-access-token")
-
-        assertTrue(result is Result.Success)
-    }
-
-    @Test
-    fun `FacebookAuthUseCase exception returns Error`() = runTest {
-        coEvery { authRepository.loginWithFacebook(any()) } throws AuthException("Facebook auth failed")
-        val useCase = FacebookAuthUseCase(authRepository)
-
-        val result = useCase("bad-token")
-
-        assertTrue(result is Result.Error)
-        assertEquals("Facebook auth failed", (result as Result.Error).exception.message)
-    }
-
-    // ──────────────────────────────────────────────
-    // LogoutUseCase
-    // ──────────────────────────────────────────────
 
     @Test
     fun `LogoutUseCase calls repository logout`() = runTest {
-        val useCase = LogoutUseCase(authRepository)
-
-        useCase()
-
+        LogoutUseCase(authRepository)()
         coVerify { authRepository.logout() }
     }
 
     @Test
-    fun `LogoutUseCase propagates exception`() = runTest {
-        coEvery { authRepository.logout() } throws RuntimeException("Network error")
-        val useCase = LogoutUseCase(authRepository)
-
-        var thrown = false
-        try {
-            useCase()
-        } catch (e: RuntimeException) {
-            thrown = true
-            assertEquals("Network error", e.message)
-        }
-        assertTrue(thrown)
-    }
-
-    // ──────────────────────────────────────────────
-    // RequestPasswordResetUseCase
-    // ──────────────────────────────────────────────
-
-    @Test
-    fun `RequestPasswordResetUseCase success returns Success`() = runTest {
-        val useCase = RequestPasswordResetUseCase(authRepository)
-
-        val result = useCase("harry@hogwarts.edu")
-
-        assertTrue(result is Result.Success)
+    fun `RequestPasswordResetUseCase success and failure`() = runTest {
+        assertTrue(RequestPasswordResetUseCase(authRepository)("a@b.co") is Result.Success)
+        coEvery { authRepository.requestPasswordReset(any()) } throws AuthException(AuthError.TooManyRequests)
+        val result = RequestPasswordResetUseCase(authRepository)("a@b.co")
+        assertEquals(AuthError.TooManyRequests, (result as Result.Error).exception.toAuthError())
     }
 
     @Test
-    fun `RequestPasswordResetUseCase exception returns Error`() = runTest {
-        coEvery { authRepository.requestPasswordReset(any()) } throws AuthException("Email not found")
-        val useCase = RequestPasswordResetUseCase(authRepository)
-
-        val result = useCase("unknown@mail.com")
-
-        assertTrue(result is Result.Error)
-        assertEquals("Email not found", (result as Result.Error).exception.message)
+    fun `SetNewPasswordUseCase passes all params`() = runTest {
+        SetNewPasswordUseCase(authRepository)("a@b.co", "123456", "secret1")
+        coVerify { authRepository.setNewPassword("a@b.co", "123456", "secret1") }
     }
 
     @Test
-    fun `RequestPasswordResetUseCase passes email to repository`() = runTest {
-        val useCase = RequestPasswordResetUseCase(authRepository)
-
-        useCase("harry@hogwarts.edu")
-
-        coVerify { authRepository.requestPasswordReset("harry@hogwarts.edu") }
-    }
-
-    // ──────────────────────────────────────────────
-    // VerifyOtpUseCase
-    // ──────────────────────────────────────────────
-
-    @Test
-    fun `VerifyOtpUseCase success returns Success`() = runTest {
-        val useCase = VerifyOtpUseCase(authRepository)
-
-        val result = useCase("harry@hogwarts.edu", "123456")
-
-        assertTrue(result is Result.Success)
-    }
-
-    @Test
-    fun `VerifyOtpUseCase exception returns Error`() = runTest {
-        coEvery { authRepository.verifyOtp(any(), any()) } throws AuthException("Invalid OTP")
-        val useCase = VerifyOtpUseCase(authRepository)
-
-        val result = useCase("harry@hogwarts.edu", "000000")
-
-        assertTrue(result is Result.Error)
-        assertEquals("Invalid OTP", (result as Result.Error).exception.message)
-    }
-
-    @Test
-    fun `VerifyOtpUseCase passes email and otp to repository`() = runTest {
-        val useCase = VerifyOtpUseCase(authRepository)
-
-        useCase("test@mail.com", "999999")
-
-        coVerify { authRepository.verifyOtp("test@mail.com", "999999") }
-    }
-
-    // ──────────────────────────────────────────────
-    // SetNewPasswordUseCase
-    // ──────────────────────────────────────────────
-
-    @Test
-    fun `SetNewPasswordUseCase success returns Success`() = runTest {
-        val useCase = SetNewPasswordUseCase(authRepository)
-
-        val result = useCase("harry@hogwarts.edu", "123456", "NewPass1")
-
-        assertTrue(result is Result.Success)
-    }
-
-    @Test
-    fun `SetNewPasswordUseCase exception returns Error`() = runTest {
-        coEvery { authRepository.setNewPassword(any(), any(), any()) } throws AuthException("Expired OTP")
-        val useCase = SetNewPasswordUseCase(authRepository)
-
-        val result = useCase("harry@hogwarts.edu", "000000", "NewPass1")
-
-        assertTrue(result is Result.Error)
-        assertEquals("Expired OTP", (result as Result.Error).exception.message)
-    }
-
-    @Test
-    fun `SetNewPasswordUseCase passes all params to repository`() = runTest {
-        val useCase = SetNewPasswordUseCase(authRepository)
-
-        useCase("test@mail.com", "123456", "MyNewPassword1")
-
-        coVerify { authRepository.setNewPassword("test@mail.com", "123456", "MyNewPassword1") }
+    fun `an IOException is a network error`() {
+        assertEquals(AuthError.Network, java.io.IOException("offline").toAuthError())
+        assertEquals(AuthError.Generic, IllegalStateException().toAuthError())
     }
 }
