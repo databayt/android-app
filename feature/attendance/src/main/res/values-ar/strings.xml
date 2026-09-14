@@ -121,7 +121,7 @@
     <string name="attendance_quick_save">حفظ التحضير</string>
     <string name="attendance_quick_saving">جارٍ الحفظ…</string>
     <string name="attendance_quick_saved_title">تم حفظ التحضير</string>
-    <string name="attendance_quick_saved_summary">%1$s حاضر • %2$s غائب • %3$s متأخر</string>
+    <string name="attendance_quick_saved_summary">%1$s حاضر · %2$s غائب · %3$s متأخر</string>
     <string name="attendance_quick_guardians_notified">تم إشعار أولياء أمور %1$s من الطلاب الغائبين</string>
     <string name="attendance_quick_no_guardians_notified">لم تُرسل إشعارات لأولياء الأمور</string>
     <string name="attendance_quick_message_guardian">مراسلة ولي الأمر</string>

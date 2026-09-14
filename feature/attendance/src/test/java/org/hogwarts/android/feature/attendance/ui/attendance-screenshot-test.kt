@@ -1,6 +1,9 @@
 package org.hogwarts.android.feature.attendance.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import com.github.takahirom.roborazzi.captureRoboImage
 import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
@@ -59,15 +62,23 @@ class AttendanceScreenshotTest {
     @Test @Config(sdk = [35], qualifiers = "en-w390dp-h1100dp-xxhdpi")
     fun student_en_light() = capture("student_en_light") { Student(ar = false) }
 
-    @Test @Config(sdk = [35], qualifiers = "ar-ldrtl-w390dp-h1500dp-xxhdpi")
+    @Test @Config(sdk = [35], qualifiers = "ar-ldrtl-w390dp-h1800dp-xxhdpi")
     fun guardian_ar_light() = capture("guardian_ar_light") { Guardian(ar = true) }
 
-    @Test @Config(sdk = [35], qualifiers = "en-w390dp-h1500dp-xxhdpi")
+    @Test @Config(sdk = [35], qualifiers = "en-w390dp-h1800dp-xxhdpi")
     fun guardian_en_light() = capture("guardian_en_light") { Guardian(ar = false) }
 
+    /**
+     * The `ar` qualifier resolves values-ar and Arabic digits; the direction is
+     * forced because a library manifest carries no `supportsRtl`, so `ldrtl`
+     * alone leaves Compose laid out left to right.
+     */
     private fun capture(name: String, content: @Composable () -> Unit) {
+        val rtl = name.contains("_ar_")
         captureRoboImage("src/test/screenshots/$name.png") {
-            HogwartsTheme(darkTheme = false) { content() }
+            CompositionLocalProvider(LocalLayoutDirection provides if (rtl) LayoutDirection.Rtl else LayoutDirection.Ltr) {
+                HogwartsTheme(darkTheme = false) { content() }
+            }
         }
     }
 }
