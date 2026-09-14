@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.timetable.ui
 
+import org.hogwarts.android.core.designsystem.locale.currentLocale
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -90,7 +91,7 @@ fun TimetableScreen(
                                 onClick = { viewModel.selectDay(day) },
                                 label = {
                                     Text(
-                                        text = day.getDisplayName(TextStyle.SHORT, Locale.getDefault()),
+                                        text = day.getDisplayName(TextStyle.SHORT, currentLocale()),
                                         style = MaterialTheme.typography.labelSmall
                                     )
                                 },
@@ -111,7 +112,7 @@ fun TimetableScreen(
                 } else {
                     item {
                         AppleListSection(
-                            header = uiState.selectedDay.getDisplayName(TextStyle.FULL, Locale.getDefault())
+                            header = uiState.selectedDay.getDisplayName(TextStyle.FULL, currentLocale())
                         ) {
                             dayEntries.forEachIndexed { index, entry ->
                                 AppleListRow(

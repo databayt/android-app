@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.lumos.ui
 
+import androidx.compose.ui.platform.LocalResources
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -57,6 +58,7 @@ fun CourseCertificateScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val resources = LocalResources.current
 
     Scaffold(
         topBar = {
@@ -224,7 +226,7 @@ fun CourseCertificateScreen(
                                 type = "text/plain"
                                 putExtra(
                                     Intent.EXTRA_TEXT,
-                                    context.getString(
+                                    resources.getString(
                                         R.string.lumos_share_certificate_text,
                                         cert.courseName,
                                         cert.verificationCode

@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.fees.ui
 
+import androidx.compose.ui.platform.LocalResources
 import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -58,6 +59,7 @@ fun PaymentReceiptScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val resources = LocalResources.current
 
     Scaffold(
         modifier = modifier,
@@ -80,7 +82,7 @@ fun PaymentReceiptScreen(
                                 )
                                 type = "text/plain"
                             }
-                            context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.fees_receipt_share_chooser)))
+                            context.startActivity(Intent.createChooser(sendIntent, resources.getString(R.string.fees_receipt_share_chooser)))
                         }) {
                             Icon(Icons.Default.Share, contentDescription = stringResource(R.string.fees_receipt_share))
                         }
@@ -240,7 +242,7 @@ fun PaymentReceiptScreen(
                                     type = "text/plain"
                                 }
                                 context.startActivity(
-                                    Intent.createChooser(sendIntent, context.getString(R.string.fees_receipt_share_chooser))
+                                    Intent.createChooser(sendIntent, resources.getString(R.string.fees_receipt_share_chooser))
                                 )
                             },
                             modifier = Modifier.weight(1f)

@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.auth.ui
 
+import androidx.compose.ui.platform.LocalResources
 import android.app.Activity
 import android.content.res.Configuration
 import android.widget.Toast
@@ -74,6 +75,7 @@ fun SignUpScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val resources = LocalResources.current
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(uiState.isSuccess) {
@@ -96,8 +98,8 @@ fun SignUpScreen(
                     val credentialManager = CredentialManager.create(context)
                     val googleIdOption = GetGoogleIdOption.Builder()
                         .setFilterByAuthorizedAccounts(false)
-                        .setServerClientId(context.getString(
-                            context.resources.getIdentifier(
+                        .setServerClientId(resources.getString(
+                            resources.getIdentifier(
                                 "google_web_client_id", "string", context.packageName
                             )
                         ))
@@ -124,7 +126,7 @@ fun SignUpScreen(
             }
         },
         onFacebookClick = {
-            Toast.makeText(context, context.getString(R.string.auth_signup_facebook_not_configured), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, resources.getString(R.string.auth_signup_facebook_not_configured), Toast.LENGTH_SHORT).show()
         },
         onNavigateToLogin = onNavigateToLogin,
         onBackClick = onNavigateBack

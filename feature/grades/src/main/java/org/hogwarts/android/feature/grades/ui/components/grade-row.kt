@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.grades.ui.components
 
+import org.hogwarts.android.core.designsystem.locale.currentLocale
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
@@ -62,7 +63,7 @@ fun GradeRow(
                 text = stringResource(
                     R.string.grades_type_date_format,
                     assessmentTypeLabel(record.assessmentType),
-                    record.date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(Locale.getDefault()))
+                    record.date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM).withLocale(currentLocale()))
                 ),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant

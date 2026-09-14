@@ -99,5 +99,5 @@
     <!-- Admin recent activity -->
     <string name="dashboard_activity_enrollments">١٢ تسجيل طالب جديد</string>
     <string name="dashboard_activity_reports">تم إنشاء تقارير الحضور</string>
-    <string name="dashboard_activity_fee_collection">تحصيل الرسوم: اكتمل ٨٥٪</string>
+    <string name="dashboard_activity_fee_collection" formatted="false">تحصيل الرسوم: اكتمل ٨٥٪</string>
 </resources>

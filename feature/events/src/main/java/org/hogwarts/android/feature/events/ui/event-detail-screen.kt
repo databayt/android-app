@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.events.ui
 
+import androidx.compose.ui.platform.LocalResources
 import android.content.Intent
 import android.provider.CalendarContract
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +50,7 @@ fun EventDetailScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val resources = LocalResources.current
 
     Scaffold(
         topBar = {
@@ -67,7 +69,7 @@ fun EventDetailScreen(
                                 putExtra(Intent.EXTRA_TEXT, "${event.title}\n${event.startDate}\n${event.location ?: ""}")
                                 type = "text/plain"
                             }
-                            context.startActivity(Intent.createChooser(sendIntent, context.getString(R.string.events_share_event)))
+                            context.startActivity(Intent.createChooser(sendIntent, resources.getString(R.string.events_share_event)))
                         }
                     }) {
                         Icon(Icons.Default.Share, contentDescription = stringResource(R.string.events_share_content_desc))

@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.events.ui
 
+import org.hogwarts.android.core.designsystem.locale.currentLocale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -86,7 +87,7 @@ fun EventCalendarScreen(
                     Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = stringResource(R.string.events_previous_month))
                 }
                 Text(
-                    text = "${uiState.currentMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${uiState.currentMonth.year}",
+                    text = "${uiState.currentMonth.month.getDisplayName(TextStyle.FULL, currentLocale())} ${uiState.currentMonth.year}",
                     style = MaterialTheme.typography.titleMedium
                 )
                 IconButton(onClick = { viewModel.nextMonth() }) {

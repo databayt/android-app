@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.dashboard.ui.components
 
+import org.hogwarts.android.core.designsystem.locale.currentLocale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -62,7 +63,7 @@ private val PAGE_INNER_PADDING = 16.dp
 fun BoxScope.TodayWidgetPage(state: DashboardUiState) {
     val today = LocalDate.now()
     val dayOfWeek = today.dayOfWeek
-        .getDisplayName(TextStyle.FULL, Locale.getDefault())
+        .getDisplayName(TextStyle.FULL, currentLocale())
 
     PageCard(
         gradient = listOf(Color.White, Color.White)

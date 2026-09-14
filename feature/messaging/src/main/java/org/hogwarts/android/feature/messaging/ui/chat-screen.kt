@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.messaging.ui
 
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -83,9 +84,10 @@ fun ChatScreen(
         val conversationId = remember(uiState.messages) { uiState.messages.firstOrNull()?.conversationId ?: "" }
 
         val context = LocalContext.current
+        val resources = LocalResources.current
         LaunchedEffect(uiState.toastResId) {
             val id = uiState.toastResId ?: return@LaunchedEffect
-            Toast.makeText(context, context.getString(id), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, resources.getString(id), Toast.LENGTH_SHORT).show()
             viewModel.clearToast()
         }
 

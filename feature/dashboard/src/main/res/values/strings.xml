@@ -99,5 +99,5 @@
     <!-- Admin recent activity -->
     <string name="dashboard_activity_enrollments">12 new student enrollments</string>
     <string name="dashboard_activity_reports">Attendance reports generated</string>
-    <string name="dashboard_activity_fee_collection">Fee collection: 85% completed</string>
+    <string name="dashboard_activity_fee_collection" formatted="false">Fee collection: 85% completed</string>
 </resources>

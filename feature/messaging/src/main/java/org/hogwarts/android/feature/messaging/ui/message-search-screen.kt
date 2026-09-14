@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.messaging.ui
 
+import org.hogwarts.android.core.designsystem.locale.currentLocale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -204,7 +205,7 @@ private fun ResultRow(result: MessageSearchResult, onClick: () -> Unit) {
                 fontWeight = FontWeight.Medium,
             )
             Text(
-                text = DateTimeFormatter.ofPattern("dd MMM HH:mm", Locale.getDefault())
+                text = DateTimeFormatter.ofPattern("dd MMM HH:mm", currentLocale())
                     .withZone(ZoneId.systemDefault())
                     .format(result.sentAt),
                 style = MaterialTheme.typography.labelSmall,

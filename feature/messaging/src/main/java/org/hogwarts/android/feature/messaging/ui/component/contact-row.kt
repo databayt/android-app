@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.messaging.ui.component
 
+import org.hogwarts.android.core.designsystem.locale.currentLocale
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -127,8 +128,8 @@ fun ContactRow(
                         ?: contact.contextLabel
                         ?: ""
                     else -> contact.contextLabel
-                        ?: contact.role.lowercase(Locale.getDefault())
-                            .replaceFirstChar { it.uppercase(Locale.getDefault()) }
+                        ?: contact.role.lowercase(currentLocale())
+                            .replaceFirstChar { it.uppercase(currentLocale()) }
                 }
                 Text(
                     text = secondaryText,
