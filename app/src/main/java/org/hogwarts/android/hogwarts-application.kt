@@ -4,6 +4,8 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +17,9 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.hogwarts.android.core.data.preferences.AppPreferences
+import org.hogwarts.android.core.data.preferences.DefaultAppLocale
 import org.hogwarts.android.startup.AppStartupInitializer
 import javax.inject.Inject
 
@@ -56,6 +60,8 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
         // boot sequence stays in one place.
         appStartupInitializer.initialize()
 
+        applyDefaultLocale()
+
         // AppLocalesMetadataHolderService (manifest, autoStoreLocales=true) handles
         // locale persistence on Android <13; the platform LocaleManager handles 13+.
         // We just warm the DataStore cache off-main so settings reads stay snappy.
@@ -65,6 +71,28 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
         }
 
         createNotificationChannels()
+    }
+
+    /**
+     * Arabic by default, once, before the first Activity inflates — so the first
+     * frame is already RTL. The DataStore read only blocks while no per-app
+     * language is set, which after the first launch is rare.
+     */
+    private fun applyDefaultLocale() {
+        if (!AppCompatDelegate.getApplicationLocales().isEmpty) return
+        // runBlocking on the main thread: DataStore does its IO on its own dispatcher,
+        // and AppCompat is called from main.
+        runBlocking {
+            DefaultAppLocale(
+                appLocalesEmpty = { AppCompatDelegate.getApplicationLocales().isEmpty },
+                setAppLocale = { tag ->
+                    // AppCompat applies and persists this on the main thread's next Activity.
+                    AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag))
+                },
+                alreadyDefaulted = { appPreferences.localeDefaulted.first() },
+                markDefaulted = { appPreferences.markLocaleDefaulted(it) },
+            ).apply()
+        }
     }
 
     private fun createNotificationChannels() {

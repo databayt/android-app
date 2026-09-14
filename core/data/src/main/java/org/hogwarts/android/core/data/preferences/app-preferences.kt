@@ -25,6 +25,7 @@ class AppPreferences @Inject constructor(
         val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
         val THEME_MODE = stringPreferencesKey("theme_mode") // "light", "dark", "system"
         val WALLPAPER = stringPreferencesKey("wallpaper") // matches WallpaperCatalog ids
+        val LOCALE_DEFAULTED = booleanPreferencesKey("locale_defaulted") // Arabic applied on first launch
     }
 
     val themeMode: Flow<String> = context.dataStore.data.map { it[Keys.THEME_MODE] ?: "system" }
@@ -42,6 +43,17 @@ class AppPreferences @Inject constructor(
 
     suspend fun setNotificationsEnabled(enabled: Boolean) {
         context.dataStore.edit { it[Keys.NOTIFICATIONS_ENABLED] = enabled }
+    }
+
+    /** Whether the first-launch Arabic default has already been applied (once, ever). */
+    val localeDefaulted: Flow<Boolean> = context.dataStore.data.map { it[Keys.LOCALE_DEFAULTED] ?: false }
+
+    /** Records the first-launch default, and the language it chose, so settings agrees. */
+    suspend fun markLocaleDefaulted(language: String) {
+        context.dataStore.edit {
+            it[Keys.LOCALE_DEFAULTED] = true
+            it[Keys.LANGUAGE] = language
+        }
     }
 
     suspend fun setWallpaper(id: String) {
