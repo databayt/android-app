@@ -2,11 +2,9 @@ package org.hogwarts.android.core.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import org.hogwarts.android.core.designsystem.R
 
 /**
  * Hogwarts Typography following Material 3 type scale.
@@ -34,40 +32,15 @@ import org.hogwarts.android.core.designsystem.R
  * ```
  */
 
-/**
- * SF Pro font family for Latin text (English).
- * Apple's system font — variable font with full weight axis.
- */
-val SFProFontFamily = FontFamily(
-    Font(R.font.sf_pro, FontWeight.Normal),
-    Font(R.font.sf_pro, FontWeight.Medium),
-    Font(R.font.sf_pro, FontWeight.SemiBold),
-    Font(R.font.sf_pro, FontWeight.Bold)
-)
-
-/**
- * SF Arabic font family for Arabic text (RTL).
- * Apple's system Arabic font — variable font with full weight axis.
- */
-val SFArabicFontFamily = FontFamily(
-    Font(R.font.sf_arabic, FontWeight.Normal),
-    Font(R.font.sf_arabic, FontWeight.Medium),
-    Font(R.font.sf_arabic, FontWeight.SemiBold),
-    Font(R.font.sf_arabic, FontWeight.Bold)
-)
-
-/**
- * Default font family (SF Pro). Use [SFArabicFontFamily] for Arabic locale.
- * The active font is selected in [HogwartsTheme] via [hogwartsTypography].
- */
-val HogwartsFontFamily = SFProFontFamily
-val HogwartsArabicFontFamily = SFArabicFontFamily
+/** Default families; the active one is chosen per layout direction in [HogwartsTheme]. */
+val HogwartsFontFamily = BrandFonts.LatinText
+val HogwartsArabicFontFamily = BrandFonts.ArabicText
 
 /**
  * Builds a [Typography] scale using the given [fontFamily].
- * Call with [SFProFontFamily] for English or [SFArabicFontFamily] for Arabic.
+ * Pass [BrandFonts.forDirection] for the current layout direction.
  */
-fun hogwartsTypography(fontFamily: FontFamily = SFProFontFamily): Typography = Typography(
+fun hogwartsTypography(fontFamily: FontFamily = BrandFonts.LatinText): Typography = Typography(
     // Display styles (rarely used, for hero sections)
     displayLarge = TextStyle(
         fontFamily = fontFamily,
@@ -188,4 +161,4 @@ fun hogwartsTypography(fontFamily: FontFamily = SFProFontFamily): Typography = T
  * Default typography using Rubik. Backward-compatible with existing code.
  * For locale-aware typography, use [hogwartsTypography] with the appropriate font family.
  */
-val HogwartsTypography = hogwartsTypography(SFProFontFamily)
+val HogwartsTypography = hogwartsTypography(BrandFonts.LatinText)

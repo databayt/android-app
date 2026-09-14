@@ -137,7 +137,7 @@ fun HogwartsTheme(
     }
 
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-    val fontFamily = if (isRtl) SFArabicFontFamily else SFProFontFamily
+    val fontFamily = BrandFonts.forDirection(isRtl)
     val typography = hogwartsTypography(fontFamily)
 
     MaterialTheme(
