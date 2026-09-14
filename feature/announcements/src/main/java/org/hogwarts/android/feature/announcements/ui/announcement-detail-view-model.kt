@@ -8,57 +8,46 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.hogwarts.android.core.common.utils.LocaleFormatter
-import org.hogwarts.android.core.data.util.Resource
+import org.hogwarts.android.feature.announcements.data.repository.AnnouncementsRepository
+import org.hogwarts.android.feature.announcements.data.repository.DetailResult
 import org.hogwarts.android.feature.announcements.domain.model.Announcement
-import org.hogwarts.android.feature.announcements.domain.usecase.GetAnnouncementDetailUseCase
 import javax.inject.Inject
 
-data class AnnouncementDetailUiState(
-    val isLoading: Boolean = true,
-    val announcement: Announcement? = null,
-    val error: String? = null
-)
+sealed interface AnnouncementDetailUiState {
+    data object Loading : AnnouncementDetailUiState
+    data class Ready(val announcement: Announcement, val isOffline: Boolean = false) : AnnouncementDetailUiState
+    /** `detail.tsx`'s error branch: "Announcement not found". */
+    data object NotFound : AnnouncementDetailUiState
+    data class Failed(val message: String?) : AnnouncementDetailUiState
+}
 
 @HiltViewModel
 class AnnouncementDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getAnnouncementDetailUseCase: GetAnnouncementDetailUseCase,
-    val localeFormatter: LocaleFormatter
+    private val repository: AnnouncementsRepository,
 ) : ViewModel() {
 
-    private val announcementId: String = savedStateHandle["announcementId"] ?: ""
+    private val announcementId: String = savedStateHandle.get<String>("announcementId").orEmpty()
 
-    private val _uiState = MutableStateFlow(AnnouncementDetailUiState())
+    private val _uiState = MutableStateFlow<AnnouncementDetailUiState>(AnnouncementDetailUiState.Loading)
     val uiState: StateFlow<AnnouncementDetailUiState> = _uiState.asStateFlow()
 
     init {
-        loadAnnouncementDetail()
+        load()
     }
 
-    private fun loadAnnouncementDetail() {
+    fun load() {
         if (announcementId.isBlank()) {
-            _uiState.value = AnnouncementDetailUiState(isLoading = false, error = "Invalid announcement ID")
+            _uiState.value = AnnouncementDetailUiState.NotFound
             return
         }
-
         viewModelScope.launch {
-            getAnnouncementDetailUseCase(announcementId).collect { resource ->
-                _uiState.value = when (resource) {
-                    is Resource.Loading -> AnnouncementDetailUiState(
-                        isLoading = true,
-                        announcement = resource.data
-                    )
-                    is Resource.Success -> AnnouncementDetailUiState(
-                        isLoading = false,
-                        announcement = resource.data
-                    )
-                    is Resource.Error -> AnnouncementDetailUiState(
-                        isLoading = false,
-                        announcement = resource.data,
-                        error = resource.error?.message ?: "Failed to load announcement"
-                    )
-                }
+            if (_uiState.value !is AnnouncementDetailUiState.Ready) _uiState.value = AnnouncementDetailUiState.Loading
+            _uiState.value = when (val result = repository.detail(announcementId)) {
+                is DetailResult.Fresh -> AnnouncementDetailUiState.Ready(result.announcement)
+                is DetailResult.Cached -> AnnouncementDetailUiState.Ready(result.announcement, isOffline = true)
+                DetailResult.NotFound -> AnnouncementDetailUiState.NotFound
+                is DetailResult.Failed -> AnnouncementDetailUiState.Failed(result.message)
             }
         }
     }

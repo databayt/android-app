@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Announcements Screen -->
+    <!-- Wording copied from hogwarts school-en.json school.announcements, and lumos-en.json lumos.offline -->
     <string name="announcements_title">Announcements</string>
-    <string name="announcements_back">Back</string>
-    <string name="announcements_filter_all">All</string>
-    <string name="announcements_no_announcements_title">No Announcements</string>
-    <string name="announcements_no_announcements_subtitle">No announcements at this time.</string>
-    <string name="announcements_section_important">Important</string>
-    <string name="announcements_section_recent">Recent</string>
-    <string name="announcements_showing_cached">Showing cached data. %1$s</string>
-    <string name="announcements_by_author">by %1$s</string>
-    <string name="announcements_at_venue">@ %1$s</string>
+    <string name="announcements_nav_all">All</string>
+    <string name="announcements_nav_templates">Templates</string>
+    <string name="announcements_nav_archived">Archived</string>
+    <string name="announcements_nav_settings">Settings</string>
+    <string name="announcements_search">Title</string>
+    <string name="announcements_published">Published</string>
+    <string name="announcements_draft">Draft</string>
+    <string name="announcements_scope_school">School</string>
+    <string name="announcements_scope_class">Class</string>
+    <string name="announcements_scope_role">Role</string>
+    <string name="announcements_priority_urgent">Urgent</string>
+    <string name="announcements_priority_high">High</string>
+    <string name="announcements_priority_normal">Normal</string>
+    <string name="announcements_priority_low">Low</string>
+    <string name="announcements_load_more">Load More</string>
+    <string name="announcements_loading">Loading...</string>
+    <string name="announcements_empty_title">All Announcements</string>
+    <string name="announcements_empty_description">Create a new announcement for your school</string>
+    <string name="announcements_stale_copy">Slow connection — showing the last saved copy of this page.</string>
+    <string name="announcements_retry">Retry</string>
 
-    <!-- Announcement Detail Screen -->
-    <string name="announcements_detail_title">Announcement</string>
-    <string name="announcements_detail_important">Important</string>
-    <string name="announcements_detail_section_details">Details</string>
-    <string name="announcements_detail_section_event">Event Details</string>
-    <string name="announcements_detail_venue">Venue</string>
-    <string name="announcements_detail_time">Time</string>
-    <string name="announcements_detail_time_range">%1$s - %2$s</string>
-    <string name="announcements_detail_section_attachment">Attachment</string>
-    <string name="announcements_detail_view_attachment">View Attachment</string>
-    <string name="announcements_detail_load_failed">Failed to load announcement</string>
+    <!-- Reading page -->
+    <string name="announcements_back">Back</string>
+    <string name="announcements_details">Announcement Details</string>
+    <string name="announcements_scope">Scope</string>
+    <string name="announcements_target_role">Target Role</string>
+    <string name="announcements_priority">Priority</string>
+    <string name="announcements_status">Status</string>
+    <string name="announcements_created_at">Created</string>
+    <string name="announcements_updated_at">Last Updated</string>
+    <string name="announcements_no_content">No content</string>
+    <string name="announcements_error">Error</string>
+    <string name="announcements_not_found">Announcement not found</string>
+    <string name="announcements_not_saved_title">This page isn\'t on this device yet</string>
+    <string name="announcements_not_saved_hint">Open it once while you\'re connected and it will be here next time. Pages you\'ve already opened still work.</string>
+    <string name="announcements_detail_high">High</string>
+    <string name="announcements_detail_medium">Medium</string>
+    <string name="announcements_detail_low">Low</string>
+    <string name="announcements_detail_normal">Normal</string>
+    <string name="announcements_role_admin">Admin</string>
+    <string name="announcements_role_teacher">Teacher</string>
+    <string name="announcements_role_student">Student</string>
+    <string name="announcements_role_guardian">Guardian</string>
+    <string name="announcements_role_staff">Staff</string>
+    <string name="announcements_role_accountant">Accountant</string>
 </resources>

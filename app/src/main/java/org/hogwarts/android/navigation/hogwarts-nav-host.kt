@@ -24,8 +24,7 @@ import org.hogwarts.android.feature.fees.navigation.Fees
 import org.hogwarts.android.feature.grades.navigation.Grades
 import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.announcements.navigation.Announcements
-import org.hogwarts.android.feature.announcements.navigation.announcementDetailScreen
-import org.hogwarts.android.feature.announcements.navigation.announcementsScreen
+import org.hogwarts.android.feature.announcements.navigation.announcementsGraph
 import org.hogwarts.android.feature.exams.navigation.ExamCertificate
 import org.hogwarts.android.feature.exams.navigation.ExamDetail
 import org.hogwarts.android.feature.exams.navigation.ExamResults
@@ -363,17 +362,13 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Announcements
-        announcementsScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToAnnouncement = { announcementId ->
+        // Announcements (list + reading page)
+        announcementsGraph(
+            onOpenAnnouncement = { announcementId ->
                 navController.navigate(AnnouncementDetail(announcementId))
-            }
-        )
-
-        // Announcement Detail
-        announcementDetailScreen(
-            onNavigateBack = { navController.popBackStack() }
+            },
+            onOpenHref = { href -> hrefOpener.open(href) },
+            onBack = { navController.popBackStack() },
         )
 
         // Guardian - Children List

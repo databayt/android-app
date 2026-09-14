@@ -9,19 +9,19 @@ import retrofit2.http.Query
 
 interface AnnouncementsApi {
 
+    /** The list the web's `/announcements` shows this caller's role. */
     @GET("api/mobile/announcements")
     suspend fun getAnnouncements(
-        @Query("type") type: String? = null
+        @Query("page") page: Int = 1,
+        @Query("per_page") perPage: Int = 20,
+        @Query("title") title: String? = null,
+        @Query("lang") lang: String? = null,
     ): Response<AnnouncementListResponse>
 
+    /** The reading page; 404 when the caller is not its audience. Marks it read. */
     @GET("api/mobile/announcements/{id}")
     suspend fun getAnnouncement(
-        @Path("id") id: String
+        @Path("id") id: String,
+        @Query("lang") lang: String? = null,
     ): Response<AnnouncementDto>
-
-    @GET("api/mobile/events")
-    suspend fun getEvents(
-        @Query("from") fromDate: String? = null,
-        @Query("to") toDate: String? = null
-    ): Response<AnnouncementListResponse>
 }

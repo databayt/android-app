@@ -1,26 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Announcements Screen -->
+    <!-- Wording copied from hogwarts school-ar.json school.announcements, and lumos-ar.json lumos.offline -->
     <string name="announcements_title">الإعلانات</string>
-    <string name="announcements_back">رجوع</string>
-    <string name="announcements_filter_all">الكل</string>
-    <string name="announcements_no_announcements_title">لا توجد إعلانات</string>
-    <string name="announcements_no_announcements_subtitle">لا توجد إعلانات في الوقت الحالي.</string>
-    <string name="announcements_section_important">مهم</string>
-    <string name="announcements_section_recent">الأخيرة</string>
-    <string name="announcements_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
-    <string name="announcements_by_author">بواسطة %1$s</string>
-    <string name="announcements_at_venue">@ %1$s</string>
+    <string name="announcements_nav_all">الكل</string>
+    <string name="announcements_nav_templates">القوالب</string>
+    <string name="announcements_nav_archived">المؤرشفة</string>
+    <string name="announcements_nav_settings">الإعدادات</string>
+    <string name="announcements_search">العنوان</string>
+    <string name="announcements_published">منشور</string>
+    <string name="announcements_draft">مسودة</string>
+    <string name="announcements_scope_school">مدرسة</string>
+    <string name="announcements_scope_class">فصل</string>
+    <string name="announcements_scope_role">دور</string>
+    <string name="announcements_priority_urgent">عاجل</string>
+    <string name="announcements_priority_high">مرتفع</string>
+    <string name="announcements_priority_normal">عادي</string>
+    <string name="announcements_priority_low">منخفض</string>
+    <string name="announcements_load_more">تحميل المزيد</string>
+    <string name="announcements_loading">جارٍ التحميل...</string>
+    <string name="announcements_empty_title">جميع الإعلانات</string>
+    <string name="announcements_empty_description">إنشاء إعلان جديد لمدرستك</string>
+    <string name="announcements_stale_copy">الاتصال بطيء — نعرض آخر نسخة محفوظة من هذه الصفحة.</string>
+    <string name="announcements_retry">إعادة المحاولة</string>
 
-    <!-- Announcement Detail Screen -->
-    <string name="announcements_detail_title">إعلان</string>
-    <string name="announcements_detail_important">مهم</string>
-    <string name="announcements_detail_section_details">التفاصيل</string>
-    <string name="announcements_detail_section_event">تفاصيل الحدث</string>
-    <string name="announcements_detail_venue">المكان</string>
-    <string name="announcements_detail_time">الوقت</string>
-    <string name="announcements_detail_time_range">%1$s - %2$s</string>
-    <string name="announcements_detail_section_attachment">المرفق</string>
-    <string name="announcements_detail_view_attachment">عرض المرفق</string>
-    <string name="announcements_detail_load_failed">فشل في تحميل الإعلان</string>
+    <!-- Reading page -->
+    <string name="announcements_back">رجوع</string>
+    <string name="announcements_details">تفاصيل الإعلان</string>
+    <string name="announcements_scope">النطاق</string>
+    <string name="announcements_target_role">الفئة المستهدفة</string>
+    <string name="announcements_priority">الأولوية</string>
+    <string name="announcements_status">الحالة</string>
+    <string name="announcements_created_at">تاريخ الإنشاء</string>
+    <string name="announcements_updated_at">آخر تحديث</string>
+    <string name="announcements_no_content">لا يوجد محتوى</string>
+    <string name="announcements_error">خطأ</string>
+    <string name="announcements_not_found">الإعلان غير موجود</string>
+    <string name="announcements_not_saved_title">هذه الصفحة غير محفوظة على هذا الجهاز بعد</string>
+    <string name="announcements_not_saved_hint">افتحها مرة واحدة وأنت متصل وستجدها هنا في المرة القادمة. الصفحات التي فتحتها من قبل ما زالت تعمل.</string>
+    <string name="announcements_detail_high">عالية</string>
+    <string name="announcements_detail_medium">متوسطة</string>
+    <string name="announcements_detail_low">منخفضة</string>
+    <string name="announcements_detail_normal">عادية</string>
+    <string name="announcements_role_admin">مدير</string>
+    <string name="announcements_role_teacher">معلم</string>
+    <string name="announcements_role_student">طالب</string>
+    <string name="announcements_role_guardian">ولي أمر</string>
+    <string name="announcements_role_staff">موظف</string>
+    <string name="announcements_role_accountant">محاسب</string>
 </resources>

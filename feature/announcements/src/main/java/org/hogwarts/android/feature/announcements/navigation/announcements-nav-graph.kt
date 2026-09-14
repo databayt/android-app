@@ -6,27 +6,26 @@ import kotlinx.serialization.Serializable
 import org.hogwarts.android.feature.announcements.ui.AnnouncementDetailScreen
 import org.hogwarts.android.feature.announcements.ui.AnnouncementsScreen
 
+/** Web `/announcements`. */
 @Serializable data object Announcements
+
+/** Web `/announcements/[id]`. */
 @Serializable data class AnnouncementDetail(val announcementId: String)
 
-fun NavGraphBuilder.announcementsScreen(
-    onNavigateBack: () -> Unit,
-    onNavigateToAnnouncement: (String) -> Unit
+/**
+ * The listing and its reading page. The writers' other tabs (templates,
+ * archived, settings) are desktop admin pages: they go out through [onOpenHref]
+ * as web paths for the shell to hand off.
+ */
+fun NavGraphBuilder.announcementsGraph(
+    onOpenAnnouncement: (id: String) -> Unit,
+    onOpenHref: (href: String) -> Unit,
+    onBack: () -> Unit,
 ) {
     composable<Announcements> {
-        AnnouncementsScreen(
-            onNavigateBack = onNavigateBack,
-            onNavigateToAnnouncement = onNavigateToAnnouncement
-        )
+        AnnouncementsScreen(onOpenAnnouncement = onOpenAnnouncement, onOpenHref = onOpenHref)
     }
-}
-
-fun NavGraphBuilder.announcementDetailScreen(
-    onNavigateBack: () -> Unit
-) {
     composable<AnnouncementDetail> {
-        AnnouncementDetailScreen(
-            onNavigateBack = onNavigateBack
-        )
+        AnnouncementDetailScreen(onBack = onBack)
     }
 }

@@ -1,45 +1,33 @@
 package org.hogwarts.android.feature.announcements.domain.model
 
-import java.time.LocalDate
-import java.time.LocalTime
+import java.time.Instant
 
+/** One announcement as the web card and reading page draw it. */
 data class Announcement(
     val id: String,
     val title: String,
-    val content: String,
-    val type: AnnouncementType,
-    val category: String? = null,
-    val authorId: String? = null,
-    val authorName: String? = null,
-    val targetAudience: String? = null,
-    val date: LocalDate,
-    val startTime: LocalTime? = null,
-    val endTime: LocalTime? = null,
-    val venue: String? = null,
-    val isImportant: Boolean = false,
-    val attachmentUrl: String? = null,
-    val status: AnnouncementStatus = AnnouncementStatus.ACTIVE
-)
-
-enum class AnnouncementType {
-    ANNOUNCEMENT,
-    EVENT,
-    NEWS,
-    ALERT;
-
-    companion object {
-        fun fromString(value: String): AnnouncementType =
-            entries.find { it.name.equals(value, ignoreCase = true) } ?: ANNOUNCEMENT
-    }
+    val body: String,
+    /** `school` · `class` · `role`. */
+    val scope: String,
+    /** `low` · `normal` · `high` · `urgent`. */
+    val priority: String,
+    val targetRole: String?,
+    val isPublished: Boolean,
+    val isPinned: Boolean,
+    val createdAt: Instant?,
+    val updatedAt: Instant?,
+    val isRead: Boolean,
+) {
+    /** The web badges only these two levels on a card and a reading page. */
+    val isNotablePriority: Boolean get() = priority.lowercase() == "high" || priority.lowercase() == "urgent"
 }
 
-enum class AnnouncementStatus {
-    ACTIVE,
-    ARCHIVED,
-    DRAFT;
-
-    companion object {
-        fun fromString(value: String): AnnouncementStatus =
-            entries.find { it.name.equals(value, ignoreCase = true) } ?: ACTIVE
-    }
+/** One page of the list. */
+data class AnnouncementsPage(
+    val items: List<Announcement>,
+    val total: Int,
+    val page: Int,
+    val perPage: Int,
+) {
+    val hasMore: Boolean get() = page * perPage < total
 }

@@ -1,231 +1,226 @@
 package org.hogwarts.android.feature.announcements.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Newspaper
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.hogwarts.android.core.designsystem.kit.BadgeVariant
+import org.hogwarts.android.core.designsystem.kit.ItemCard
+import org.hogwarts.android.core.designsystem.kit.ItemGrid
+import org.hogwarts.android.core.designsystem.kit.ItemGridMore
+import org.hogwarts.android.core.designsystem.kit.LabelBadge
+import org.hogwarts.android.core.designsystem.kit.PageNav
+import org.hogwarts.android.core.designsystem.kit.PageNavItem
+import org.hogwarts.android.core.designsystem.kit.PillButton
+import org.hogwarts.android.core.designsystem.kit.PillVariant
+import org.hogwarts.android.core.designsystem.kit.SearchPill
+import org.hogwarts.android.core.designsystem.theme.HogwartsShapes
+import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.announcements.R
-import org.hogwarts.android.core.designsystem.apple.AppleInsetGroupedList
-import org.hogwarts.android.core.designsystem.apple.AppleListRow
-import org.hogwarts.android.core.designsystem.apple.AppleListSection
-import org.hogwarts.android.core.designsystem.apple.AppleSpacing
-import org.hogwarts.android.core.designsystem.apple.HogwartsIcons
-import org.hogwarts.android.core.designsystem.atom.EmptyState
-import org.hogwarts.android.core.designsystem.atom.StatusBadge
-import org.hogwarts.android.core.common.utils.LocaleFormatter
 import org.hogwarts.android.feature.announcements.domain.model.Announcement
-import org.hogwarts.android.feature.announcements.domain.model.AnnouncementType
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnnouncementsScreen(
-    onNavigateBack: () -> Unit,
-    onNavigateToAnnouncement: (String) -> Unit,
+    onOpenAnnouncement: (id: String) -> Unit,
+    onOpenHref: (href: String) -> Unit,
     viewModel: AnnouncementsViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val listState = rememberLazyListState()
-    val formatter = viewModel.localeFormatter
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    AnnouncementsContent(
+        state = state,
+        onQueryChange = viewModel::onQueryChange,
+        onOpenAnnouncement = onOpenAnnouncement,
+        onOpenHref = onOpenHref,
+        onLoadMore = viewModel::loadMore,
+        onRetry = viewModel::retry,
+    )
+}
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.announcements_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(HogwartsIcons.Back, contentDescription = stringResource(R.string.announcements_back))
-                    }
-                }
+/**
+ * The phone branch of `/announcements`: the page heading, the role's tabs
+ * (`permissions.ts` `getTabsForRole`, shown only when there is more than one),
+ * the search, then `table.tsx`'s grid — two cards across with a load-more pill.
+ */
+@Composable
+fun AnnouncementsContent(
+    state: AnnouncementsUiState,
+    onQueryChange: (String) -> Unit,
+    onOpenAnnouncement: (id: String) -> Unit,
+    onOpenHref: (href: String) -> Unit,
+    onLoadMore: () -> Unit,
+    onRetry: () -> Unit,
+) {
+    val colors = HogwartsTheme.colors
+    val type = HogwartsTheme.type
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(colors.background)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 16.dp)
+            .padding(top = 16.dp, bottom = 32.dp),
+    ) {
+        // PageHeadingDisplay: `text-4xl font-semibold tracking-tight`, mb-6.
+        Text(
+            stringResource(R.string.announcements_title),
+            style = type.bannerHeadline.copy(fontSize = 36.sp, lineHeight = 40.sp, fontWeight = FontWeight.SemiBold),
+            color = colors.foreground,
+        )
+        Spacer(Modifier.height(24.dp))
+
+        val tabs = tabsFor(state)
+        if (tabs.size > 1) {
+            PageNav(
+                items = tabs.map { it.item },
+                selectedKey = TAB_ALL,
+                onSelect = { picked -> tabs.firstOrNull { it.item.key == picked.key && it.href != null }?.href?.let(onOpenHref) },
+            )
+            Spacer(Modifier.height(24.dp))
+        }
+
+        SearchPill(
+            value = state.query,
+            onValueChange = onQueryChange,
+            placeholder = stringResource(R.string.announcements_search),
+        )
+
+        if (state.isOffline) {
+            Text(
+                stringResource(R.string.announcements_stale_copy),
+                style = type.caption,
+                color = colors.mutedForeground,
+                modifier = Modifier.padding(top = 12.dp),
             )
         }
-    ) { innerPadding ->
-        if (uiState.isLoading && uiState.announcements.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            AppleInsetGroupedList(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
-                state = listState
-            ) {
-                // Type filter chips
-                item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = AppleSpacing.Compact),
-                        horizontalArrangement = Arrangement.spacedBy(AppleSpacing.Tiny)
-                    ) {
-                        val allLabel = stringResource(R.string.announcements_filter_all)
-                        val filters = listOf(null to allLabel) + AnnouncementType.entries.map {
-                            it to it.name.lowercase().replaceFirstChar { c -> c.uppercase() }
-                        }
-                        filters.forEach { (type, label) ->
-                            FilterChip(
-                                selected = uiState.selectedFilter == type,
-                                onClick = { viewModel.onFilterChanged(type) },
-                                label = {
-                                    Text(
-                                        text = label,
-                                        style = MaterialTheme.typography.labelSmall
-                                    )
-                                }
-                            )
-                        }
-                    }
+
+        Spacer(Modifier.height(8.dp))
+        when {
+            state.isLoading && state.items.isEmpty() -> SkeletonGrid()
+            state.items.isEmpty() -> EmptyGrid(showRetry = state.failed, onRetry = onRetry)
+            else -> {
+                ItemGrid(count = state.items.size) { index, modifier ->
+                    AnnouncementCard(state.items[index], modifier, onClick = { onOpenAnnouncement(state.items[index].id) })
                 }
-
-                if (uiState.announcements.isEmpty()) {
-                    item {
-                        EmptyState(
-                            icon = HogwartsIcons.Notifications,
-                            title = stringResource(R.string.announcements_no_announcements_title),
-                            subtitle = stringResource(R.string.announcements_no_announcements_subtitle)
-                        )
-                    }
-                } else {
-                    // Group by important vs regular
-                    val important = uiState.announcements.filter { it.isImportant }
-                    val regular = uiState.announcements.filter { !it.isImportant }
-
-                    if (important.isNotEmpty()) {
-                        item {
-                            AppleListSection(header = stringResource(R.string.announcements_section_important)) {
-                                important.forEachIndexed { index, announcement ->
-                                    AnnouncementRow(
-                                        announcement = announcement,
-                                        formatter = formatter,
-                                        showDivider = index < important.size - 1,
-                                        onClick = { onNavigateToAnnouncement(announcement.id) }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    if (regular.isNotEmpty()) {
-                        item {
-                            AppleListSection(header = stringResource(R.string.announcements_section_recent)) {
-                                regular.forEachIndexed { index, announcement ->
-                                    AnnouncementRow(
-                                        announcement = announcement,
-                                        formatter = formatter,
-                                        showDivider = index < regular.size - 1,
-                                        onClick = { onNavigateToAnnouncement(announcement.id) }
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (uiState.error != null) {
-                    item {
-                        Text(
-                            text = stringResource(R.string.announcements_showing_cached, uiState.error ?: ""),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(AppleSpacing.Standard)
-                        )
-                    }
+                if (state.hasMore) {
+                    ItemGridMore(
+                        label = stringResource(R.string.announcements_load_more),
+                        loadingLabel = stringResource(R.string.announcements_loading),
+                        loading = state.isLoadingMore,
+                        onClick = onLoadMore,
+                    )
                 }
             }
         }
     }
 }
 
-@Composable
-private fun AnnouncementRow(
-    announcement: Announcement,
-    formatter: LocaleFormatter,
-    showDivider: Boolean,
-    onClick: () -> Unit
-) {
-    val typeColor = when (announcement.type) {
-        AnnouncementType.ANNOUNCEMENT -> MaterialTheme.colorScheme.primary
-        AnnouncementType.EVENT -> MaterialTheme.colorScheme.tertiary
-        AnnouncementType.NEWS -> MaterialTheme.colorScheme.secondary
-        AnnouncementType.ALERT -> MaterialTheme.colorScheme.error
-    }
+private const val TAB_ALL = "all"
 
-    AppleListRow(
-        showDivider = showDivider,
-        onClick = onClick
+private data class Tab(val item: PageNavItem, val href: String?)
+
+@Composable
+private fun tabsFor(state: AnnouncementsUiState): List<Tab> = buildList {
+    add(Tab(PageNavItem(TAB_ALL, stringResource(R.string.announcements_nav_all)), null))
+    if (state.canWrite) {
+        add(Tab(PageNavItem("templates", stringResource(R.string.announcements_nav_templates)), "/announcements/templates"))
+        add(Tab(PageNavItem("archived", stringResource(R.string.announcements_nav_archived)), "/announcements/archived"))
+    }
+    if (state.isAdmin) {
+        add(Tab(PageNavItem("settings", stringResource(R.string.announcements_nav_settings)), "/announcements/settings"))
+    }
+}
+
+/** One `ItemCard` from `table.tsx`: scope eyebrow, title, status and notable-priority chips, created date. */
+@Composable
+private fun AnnouncementCard(announcement: Announcement, modifier: Modifier, onClick: () -> Unit) {
+    val colors = HogwartsTheme.colors
+    val format = announcementsFormat()
+    // On a grey card a quiet chip sits on the page's own white (`bg-background`).
+    val onPage = Modifier.clip(HogwartsShapes.Md).background(colors.background)
+    ItemCard(
+        title = announcement.title,
+        eyebrow = scopeLabel(announcement.scope),
+        meta = format.shortDate(announcement.createdAt),
+        modifier = modifier,
+        onClick = onClick,
+        badges = {
+            if (announcement.isPublished) {
+                LabelBadge(stringResource(R.string.announcements_published), variant = BadgeVariant.Default)
+            } else {
+                LabelBadge(stringResource(R.string.announcements_draft), variant = BadgeVariant.Outline, modifier = onPage)
+            }
+            when (announcement.priority.lowercase()) {
+                "urgent" -> LabelBadge(cardPriorityLabel(announcement.priority), variant = BadgeVariant.Destructive)
+                "high" -> LabelBadge(cardPriorityLabel(announcement.priority), variant = BadgeVariant.Outline, modifier = onPage)
+            }
+        },
+    )
+}
+
+/** `GridEmptyState`: icon, `font-medium` title, muted description, `py-12` centred. */
+@Composable
+private fun EmptyGrid(showRetry: Boolean, onRetry: () -> Unit) {
+    val colors = HogwartsTheme.colors
+    val type = HogwartsTheme.type
+    Column(
+        Modifier.fillMaxWidth().padding(vertical = 48.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(AppleSpacing.Tiny)
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = announcement.title,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier.weight(1f)
-                )
-                StatusBadge(
-                    text = announcement.type.name.lowercase()
-                        .replaceFirstChar { it.uppercase() },
-                    color = typeColor
-                )
-            }
-            Text(
-                text = announcement.content.take(120) + if (announcement.content.length > 120) "..." else "",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 2
+        Icon(Icons.Outlined.Newspaper, contentDescription = null, tint = colors.mutedForeground, modifier = Modifier.size(48.dp))
+        Spacer(Modifier.height(16.dp))
+        Text(
+            stringResource(R.string.announcements_empty_title),
+            style = type.body.copy(fontSize = 16.sp, lineHeight = 24.sp, fontWeight = FontWeight.Medium),
+            color = colors.foreground,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            stringResource(R.string.announcements_empty_description),
+            style = type.body,
+            color = colors.mutedForeground,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 4.dp),
+        )
+        if (showRetry) {
+            PillButton(
+                label = stringResource(R.string.announcements_retry),
+                onClick = onRetry,
+                variant = PillVariant.Muted,
+                modifier = Modifier.padding(top = 16.dp),
             )
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(AppleSpacing.Small)
-            ) {
-                Text(
-                    text = formatter.formatDate(announcement.date),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                announcement.authorName?.let { author ->
-                    Text(
-                        text = stringResource(R.string.announcements_by_author, author),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                announcement.venue?.let { venue ->
-                    Text(
-                        text = stringResource(R.string.announcements_at_venue, venue),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.tertiary
-                    )
-                }
-            }
         }
+    }
+}
+
+@Composable
+private fun SkeletonGrid() {
+    val colors = HogwartsTheme.colors
+    ItemGrid(count = 4) { _, modifier ->
+        Box(modifier.heightIn(min = 128.dp).clip(HogwartsShapes.Card).background(colors.muted))
     }
 }
