@@ -71,7 +71,7 @@ class LocaleFormatterTest {
     fun `unicodeWrap inserts bidi marks around mixed text in rtl context`() {
         val wrapped = formatter.unicodeWrap("ID: ABC-123", isRtlContext = true)
         // BidiFormatter inserts U+200F (RLM) when wrapping LTR data into an RTL context.
-        assertTrue("Expected RLM marker in $wrapped", wrapped.any { it == '‏' })
+        assertTrue("Expected RLM marker in $wrapped", wrapped.any { it == '\u200F' })
     }
 
     // Below API 33 AppCompatDelegate keeps per-app locales in memory; on 33+ it

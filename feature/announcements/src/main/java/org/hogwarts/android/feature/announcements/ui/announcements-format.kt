@@ -20,8 +20,8 @@ internal class AnnouncementsFormat(locale: Locale, private val zone: ZoneId = Zo
     private val digits = DecimalStyle.of(if (arabic) Locale.forLanguageTag("ar-u-nu-arab") else Locale.ENGLISH)
     private val locale = if (arabic) Locale.forLanguageTag("ar") else Locale.ENGLISH
 
-    /** The default `{ year, month: "2-digit", day: "2-digit" }` — "09/14/2026" · "١٤‏/٠٩‏/٢٠٢٦". */
-    fun shortDate(instant: Instant?): String = format(instant, if (arabic) "dd‏/MM‏/yyyy" else "MM/dd/yyyy")
+    /** The default `{ year, month: "2-digit", day: "2-digit" }` — "09/14/2026" · "١٤\u200F/٠٩\u200F/٢٠٢٦". */
+    fun shortDate(instant: Instant?): String = format(instant, if (arabic) "dd\u200F/MM\u200F/yyyy" else "MM/dd/yyyy")
 
     /** `{ year, month: "long", day }` — "September 14, 2026" · "١٤ سبتمبر ٢٠٢٦". */
     fun longDate(instant: Instant?): String = format(instant, if (arabic) "d MMMM yyyy" else "MMMM d, yyyy")

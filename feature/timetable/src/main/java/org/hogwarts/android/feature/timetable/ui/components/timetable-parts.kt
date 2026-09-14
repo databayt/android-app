@@ -145,7 +145,7 @@ fun DayRows(
                         },
                         description = if (teacherView) row.className else row.teacher,
                         // First-strong isolate: a room like "ب10" keeps its own order inside the line.
-                        meta = listOfNotNull(labels[index], row.timeRange(), row.room?.let { "⁨$it⁩" }).joinToString(" · "),
+                        meta = listOfNotNull(labels[index], row.timeRange(), row.room?.let { "\u2068$it\u2069" }).joinToString(" · "),
                         trailing = target?.let { { PillButton(join, onClick = { onJoin(it) }, icon = Icons.Outlined.Videocam) } },
                     )
                 }
@@ -187,9 +187,9 @@ fun NowCard(
     val joinable = now.kind == NowKind.Current || (row.start.minutes - nowMinutes) in 0..10
     val target = row.liveClass?.joinTarget?.takeIf { joinable }
     val where = if (teacherView) {
-        listOfNotNull(row.className, row.room?.let { "⁨$it⁩" }).joinToString(" · ")
+        listOfNotNull(row.className, row.room?.let { "\u2068$it\u2069" }).joinToString(" · ")
     } else {
-        listOfNotNull(row.teacher, row.room?.let { "⁨$it⁩" }).joinToString(" • ")
+        listOfNotNull(row.teacher, row.room?.let { "\u2068$it\u2069" }).joinToString(" • ")
     }
     Row(
         modifier

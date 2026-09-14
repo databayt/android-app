@@ -25,16 +25,7 @@ import org.hogwarts.android.feature.grades.navigation.Grades
 import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.announcements.navigation.Announcements
 import org.hogwarts.android.feature.announcements.navigation.announcementsGraph
-import org.hogwarts.android.feature.exams.navigation.ExamCertificate
-import org.hogwarts.android.feature.exams.navigation.ExamDetail
-import org.hogwarts.android.feature.exams.navigation.ExamResults
-import org.hogwarts.android.feature.exams.navigation.examDetailScreen
-import org.hogwarts.android.feature.exams.navigation.examsScreen
-import org.hogwarts.android.feature.exams.navigation.quizScreen
-import org.hogwarts.android.feature.exams.navigation.onlineExamScreen
-import org.hogwarts.android.feature.exams.navigation.questionBankScreen
-import org.hogwarts.android.feature.exams.navigation.examResultsScreen
-import org.hogwarts.android.feature.exams.navigation.examCertificateScreen
+import org.hogwarts.android.feature.exams.navigation.examsGraph
 import org.hogwarts.android.feature.fees.navigation.feesGraph
 import org.hogwarts.android.feature.grades.navigation.gradesScreen
 import org.hogwarts.android.feature.messaging.navigation.Chat
@@ -275,22 +266,11 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Exams
-        examsScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToExam = { examId ->
-                navController.navigate(ExamDetail(examId))
-            }
-        )
-
-        // Exam Detail
-        examDetailScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Quiz
-        quizScreen(
-            onNavigateBack = { navController.popBackStack() }
+        // Exams: role landings, upcoming, detail, question bank, online exam (web /exams)
+        examsGraph(
+            onNavigate = { route -> navController.navigate(route) { launchSingleTop = true } },
+            onOpenHref = { href -> hrefOpener.open(href) },
+            onBack = { navController.popBackStack() },
         )
 
         // Announcements (list + reading page)
@@ -532,32 +512,6 @@ fun HogwartsNavHost(
 
         // Advanced Attendance - Method Settings
         attendanceMethodSettingsScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Advanced Exams - Online Exam Taking
-        onlineExamScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToResults = { examId ->
-                navController.navigate(ExamResults(examId))
-            }
-        )
-
-        // Advanced Exams - Question Bank
-        questionBankScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Advanced Exams - Detailed Results
-        examResultsScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToCertificate = { examId ->
-                navController.navigate(ExamCertificate(examId))
-            }
-        )
-
-        // Advanced Exams - Certificate
-        examCertificateScreen(
             onNavigateBack = { navController.popBackStack() }
         )
 

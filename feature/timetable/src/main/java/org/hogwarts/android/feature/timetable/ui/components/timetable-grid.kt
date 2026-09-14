@@ -69,7 +69,7 @@ import org.hogwarts.android.feature.timetable.domain.model.subjectColorIndex
 private val MIN_COLUMN = 128.dp
 
 /** LTR isolate for a time or range inside Arabic text. */
-internal fun ltr(text: String) = "⁦$text⁩"
+internal fun ltr(text: String) = "\u2066$text\u2069"
 
 /**
  * The week (or one day) as the web's `SimpleGrid`: a pinned period column, one

@@ -52,7 +52,7 @@ internal class ExamsFormat(locale: Locale, private val zone: ZoneId = ZoneId.sys
 internal fun examsFormat(): ExamsFormat = ExamsFormat(currentLocale())
 
 /** Left-to-right isolate for times, scores and codes inside Arabic text. */
-internal fun ltr(text: String): String = "⁦$text⁩"
+internal fun ltr(text: String): String = "\u2066$text\u2069"
 
 /** `${percentage.toFixed(0)}%`. */
 internal fun percentLabel(value: Double): String = "${value.roundToInt()}%"

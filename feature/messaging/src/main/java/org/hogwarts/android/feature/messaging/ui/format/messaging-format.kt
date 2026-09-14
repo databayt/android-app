@@ -70,8 +70,8 @@ class MessagingFormat(
     private companion object {
         val CLOCK: DateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
         val MONTH_DAY_EN: DateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd", Locale.ENGLISH)
-        // `ar-u-nu-latn` prints "10‏/09": a right-to-left mark after the day.
-        val DAY_MONTH_AR: DateTimeFormatter = DateTimeFormatter.ofPattern("dd'‏'/MM", Locale.ENGLISH)
+        // `ar-u-nu-latn` prints "10\u200F/09": a right-to-left mark after the day.
+        val DAY_MONTH_AR: DateTimeFormatter = DateTimeFormatter.ofPattern("dd'\u200F'/MM", Locale.ENGLISH)
     }
 }
 

@@ -59,7 +59,7 @@ internal class FinanceFormat(locale: Locale) {
                 .toString()
             // The house style is a lowercase Latin suffix; a translated word stays as written.
             val cased = text.replace(Regex("(?<=\\d)([KMBT])\\b")) { it.value.lowercase() }
-            // Intl leads an Arabic compact figure with RLM ("‏48 ألف"); ICU does not.
+            // Intl leads an Arabic compact figure with RLM ("\u200F48 ألف"); ICU does not.
             return if (arabic && !cased.startsWith(RLM)) RLM + cased.replace('\u00A0', ' ') else cased
         }
         return NumberFormat.getNumberInstance(staffLocale).apply {
@@ -113,7 +113,7 @@ internal class FinanceFormat(locale: Locale) {
 }
 
 /** Left-to-right isolate for codes (invoice and payment numbers) inside Arabic text. */
-internal fun ltr(text: String): String = "⁦$text⁩"
+internal fun ltr(text: String): String = "\u2066$text\u2069"
 
 @Composable
 @ReadOnlyComposable

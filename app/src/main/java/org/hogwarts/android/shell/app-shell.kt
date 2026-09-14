@@ -43,7 +43,10 @@ import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.attendance.navigation.Attendance
 import org.hogwarts.android.feature.dashboard.navigation.Dashboard
 import org.hogwarts.android.feature.events.navigation.EventsList
+import org.hogwarts.android.feature.exams.navigation.ExamDetail
 import org.hogwarts.android.feature.exams.navigation.Exams
+import org.hogwarts.android.feature.exams.navigation.ExamsUpcoming
+import org.hogwarts.android.feature.exams.navigation.QuestionBank
 import org.hogwarts.android.feature.fees.navigation.Fees
 import org.hogwarts.android.feature.grades.navigation.Grades
 import org.hogwarts.android.feature.guardian.navigation.GuardianChildren
@@ -175,7 +178,12 @@ private fun isShellDestination(destination: androidx.navigation.NavDestination):
         destination.hasRoute<Notifications>() ||
         destination.hasRoute<NotificationsUnread>() ||
         destination.hasRoute<NotificationPreferences>() ||
-        destination.hasRoute<Timetable>()
+        destination.hasRoute<Timetable>() ||
+        destination.hasRoute<Fees>() ||
+        destination.hasRoute<Exams>() ||
+        destination.hasRoute<ExamsUpcoming>() ||
+        destination.hasRoute<ExamDetail>() ||
+        destination.hasRoute<QuestionBank>()
 
 /**
  * Native screens for menu keys. A key without one (school configuration,

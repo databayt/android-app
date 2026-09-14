@@ -36,7 +36,7 @@ class MessagingAdaptTest {
         assertEquals("09:05", en.listStamp(Instant.parse("2026-09-14T09:05:00Z"), "Yesterday"))
         assertEquals("Yesterday", en.listStamp(Instant.parse("2026-09-13T23:00:00Z"), "Yesterday"))
         assertEquals("09/10", en.listStamp(Instant.parse("2026-09-10T10:00:00Z"), "Yesterday"))
-        assertEquals("10‏/09", ar.listStamp(Instant.parse("2026-09-10T10:00:00Z"), "أمس"))
+        assertEquals("10\u200F/09", ar.listStamp(Instant.parse("2026-09-10T10:00:00Z"), "أمس"))
     }
 
     @Test

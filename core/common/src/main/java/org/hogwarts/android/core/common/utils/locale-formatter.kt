@@ -47,7 +47,7 @@ class LocaleFormatter @Inject constructor(
     fun formatDate(date: LocalDate, locale: Locale = current()): String =
         date.format(pattern("yMMMd", locale))
 
-    /** Numeric date, e.g. "3/15/26" / "15‏/3‏/26". */
+    /** Numeric date, e.g. "3/15/26" / "15\u200F/3\u200F/26". */
     fun formatDateShort(date: LocalDate, locale: Locale = current()): String =
         date.format(pattern("yMd", locale))
 
@@ -90,7 +90,7 @@ class LocaleFormatter @Inject constructor(
             .apply { maximumFractionDigits = 1 }
             .format(value / 100.0)
 
-    /** Locale-correct currency, e.g. "SAR 1,500.00" / "١٬٥٠٠٫٠٠ ر.س.‏". */
+    /** Locale-correct currency, e.g. "SAR 1,500.00" / "١٬٥٠٠٫٠٠ ر.س.\u200F". */
     fun formatCurrency(
         amount: Double,
         currencyCode: String = "SAR",
