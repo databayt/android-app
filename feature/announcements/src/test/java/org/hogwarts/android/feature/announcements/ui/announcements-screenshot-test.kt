@@ -42,7 +42,7 @@ class AnnouncementsScreenshotTest {
     @Test fun teacher_en_light() = shot("announcements_teacher_en_light", rtl = false, dark = false) { List(list(UserRole.TEACHER, enItems)) }
 
     @Config(qualifiers = "+ar")
-    @Test fun teacher_ar_light() = shot("announcements_teacher_ar_light", rtl = true, dark = false) { List(list(UserRole.ADMIN, arItems)) }
+    @Test fun admin_ar_light() = shot("announcements_admin_ar_light", rtl = true, dark = false) { List(list(UserRole.ADMIN, arItems)) }
 
     @Config(qualifiers = "+ar")
     @Test fun student_ar_dark() = shot("announcements_student_ar_dark", rtl = true, dark = true) {
