@@ -3,6 +3,9 @@ package org.hogwarts.android.feature.dashboard.data.repository
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import org.hogwarts.android.core.data.tenant.TenantContext
@@ -22,6 +25,8 @@ sealed interface DashboardResult {
 }
 
 interface DashboardRepository {
+    /** The last dashboard seen this session (cache or network); the shell reads the school's modules from it. */
+    val latest: StateFlow<DashboardDto?>
     suspend fun cached(): DashboardDto?
     suspend fun refresh(): DashboardResult
 }
@@ -39,6 +44,9 @@ class DashboardRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
 ) : DashboardRepository {
 
+    private val _latest = MutableStateFlow<DashboardDto?>(null)
+    override val latest: StateFlow<DashboardDto?> = _latest.asStateFlow()
+
     private fun cacheFile(): File? =
         tenantContext.userId?.let { File(context.filesDir, "dashboard-$it.json") }
 
@@ -46,6 +54,7 @@ class DashboardRepositoryImpl @Inject constructor(
         runCatching { cacheFile()?.takeIf { it.exists() }?.readText()?.let { json.decodeFromString<DashboardDto>(it) } }
             .onFailure { Timber.w(it, "Dashboard cache unreadable") }
             .getOrNull()
+            ?.also { if (_latest.value == null) _latest.value = it }
     }
 
     override suspend fun refresh(): DashboardResult {
@@ -56,6 +65,7 @@ class DashboardRepositoryImpl @Inject constructor(
                 withContext(Dispatchers.IO) {
                     runCatching { cacheFile()?.writeText(json.encodeToString(DashboardDto.serializer(), body)) }
                 }
+                _latest.value = body
                 DashboardResult.Fresh(body)
             } else {
                 cached()?.let { DashboardResult.Cached(it) } ?: DashboardResult.Failed("HTTP ${response.code()}")
