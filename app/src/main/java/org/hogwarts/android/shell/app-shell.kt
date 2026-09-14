@@ -39,6 +39,7 @@ import org.hogwarts.android.core.designsystem.kit.PlatformHeader
 import org.hogwarts.android.core.designsystem.locale.currentLocale
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.announcements.navigation.Announcements
+import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.attendance.navigation.Attendance
 import org.hogwarts.android.feature.dashboard.navigation.Dashboard
 import org.hogwarts.android.feature.events.navigation.EventsList
@@ -47,7 +48,9 @@ import org.hogwarts.android.feature.fees.navigation.Fees
 import org.hogwarts.android.feature.grades.navigation.Grades
 import org.hogwarts.android.feature.guardian.navigation.GuardianChildren
 import org.hogwarts.android.feature.messaging.navigation.Messaging
+import org.hogwarts.android.feature.notifications.navigation.NotificationPreferences
 import org.hogwarts.android.feature.notifications.navigation.Notifications
+import org.hogwarts.android.feature.notifications.navigation.NotificationsUnread
 import org.hogwarts.android.feature.profile.navigation.Profile
 import org.hogwarts.android.feature.settings.navigation.Settings
 import org.hogwarts.android.feature.students.navigation.StudentsList
@@ -165,13 +168,22 @@ private val HEADER_HEIGHT = 49.dp
 
 private fun isShellDestination(destination: androidx.navigation.NavDestination): Boolean =
     destination.hasRoute<Dashboard>() ||
-        destination.hasRoute<Attendance>()
+        destination.hasRoute<Attendance>() ||
+        destination.hasRoute<Announcements>() ||
+        destination.hasRoute<AnnouncementDetail>() ||
+        destination.hasRoute<Settings>() ||
+        destination.hasRoute<Notifications>() ||
+        destination.hasRoute<NotificationsUnread>() ||
+        destination.hasRoute<NotificationPreferences>() ||
+        destination.hasRoute<Timetable>()
 
 /**
  * Native screens for menu keys. A key without one (school configuration,
  * sales, compliance, transport, live, library until its API exists…) opens
  * the web page instead.
  */
+private val NATIVE_TIMETABLE_ROLES = setOf(UserRole.STUDENT, UserRole.TEACHER, UserRole.GUARDIAN)
+
 internal fun nativeRoute(key: String, role: UserRole?): Any? = when (key) {
     "dashboard" -> Dashboard
     "announcements" -> Announcements
@@ -182,7 +194,8 @@ internal fun nativeRoute(key: String, role: UserRole?): Any? = when (key) {
     "exams" -> Exams
     "events" -> EventsList
     "attendance" -> Attendance
-    "timetable" -> Timetable
+    // Staff timetables need school-wide data the mobile API lacks; they stay on the web.
+    "timetable" -> if (role in NATIVE_TIMETABLE_ROLES) Timetable else null
     "parentPortal" -> if (role == UserRole.GUARDIAN) GuardianChildren else null
     "profile" -> Profile
     "settings" -> Settings
