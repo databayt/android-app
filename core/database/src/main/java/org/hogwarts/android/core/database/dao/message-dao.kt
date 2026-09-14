@@ -28,6 +28,13 @@ interface MessageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(message: MessageEntity)
 
+    /** Drops one row — the optimistic twin once the server's row replaces it. */
+    @Query("DELETE FROM messages WHERE id = :id")
+    suspend fun deleteById(id: String)
+
+    @Query("SELECT * FROM messages WHERE id = :id LIMIT 1")
+    suspend fun findById(id: String): MessageEntity?
+
     @Query("UPDATE messages SET status = :status WHERE id = :id")
     suspend fun updateStatus(id: String, status: String)
 

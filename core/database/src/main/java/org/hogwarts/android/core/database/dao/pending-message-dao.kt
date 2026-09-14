@@ -16,6 +16,9 @@ interface PendingMessageDao {
     @Query("SELECT * FROM pending_messages WHERE status IN ('QUEUED', 'FAILED') AND retryCount < 5 ORDER BY createdAt ASC")
     suspend fun getAllPending(): List<PendingMessageEntity>
 
+    @Query("SELECT * FROM pending_messages WHERE id = :id LIMIT 1")
+    suspend fun findById(id: String): PendingMessageEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(message: PendingMessageEntity)
 
