@@ -76,7 +76,7 @@ data class TimetableUiState(
     val failed: Boolean = false,
     val week: WeekTimetable? = null,
     /** The page's own tab (the web's `/timetable` vs `/timetable/full`). */
-    val tab: TimetableTab = if (surfaceFor(role) == TimetableSurface.Admin) TimetableTab.All else TimetableTab.Today,
+    val tab: TimetableTab = tabsFor(role).firstOrNull { it.href == null } ?: TimetableTab.Today,
     /** The student's week/day pick; null follows the phone's default, the single day. */
     val pickedRange: RangeMode? = null,
     val children: List<Child> = emptyList(),

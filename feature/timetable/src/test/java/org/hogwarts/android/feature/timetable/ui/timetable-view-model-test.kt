@@ -64,6 +64,10 @@ class TimetableViewModelTest {
         assertEquals(emptyList<TimetableTab>(), tabsFor(UserRole.STUDENT))
         // Every admin sub-page opens on the web.
         adminTabs.drop(1).forEach { assertNotNull(it.href) }
+        // The page opens on its first native tab, whichever the role has.
+        assertEquals(TimetableTab.All, TimetableUiState(UserRole.ADMIN).tab)
+        assertEquals(TimetableTab.Today, TimetableUiState(UserRole.STAFF).tab)
+        assertEquals(TimetableTab.Today, TimetableUiState(UserRole.ACCOUNTANT).tab)
     }
 
     @Test
