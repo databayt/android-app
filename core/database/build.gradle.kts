@@ -19,6 +19,17 @@ android {
         }
     }
 
+    // The migration test reads the exported schema JSON as test assets.
+    sourceSets {
+        getByName("test") {
+            assets.directories.add("$projectDir/schemas")
+        }
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -45,5 +56,8 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.coroutines.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.room.testing)
+    testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.room.testing)
 }

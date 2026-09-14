@@ -8,23 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.hogwarts.android.core.database.HogwartsDatabase
-import org.hogwarts.android.core.database.migration.MIGRATION_10_11
-import org.hogwarts.android.core.database.migration.MIGRATION_11_12
-import org.hogwarts.android.core.database.migration.MIGRATION_12_13
-import org.hogwarts.android.core.database.migration.MIGRATION_13_14
-import org.hogwarts.android.core.database.migration.MIGRATION_14_15
-import org.hogwarts.android.core.database.migration.MIGRATION_15_16
-import org.hogwarts.android.core.database.migration.MIGRATION_16_17
-import org.hogwarts.android.core.database.migration.MIGRATION_17_18
-import org.hogwarts.android.core.database.migration.MIGRATION_18_19
-import org.hogwarts.android.core.database.migration.MIGRATION_19_20
-import org.hogwarts.android.core.database.migration.MIGRATION_20_21
-import org.hogwarts.android.core.database.migration.MIGRATION_21_22
-import org.hogwarts.android.core.database.migration.MIGRATION_22_23
-import org.hogwarts.android.core.database.migration.MIGRATION_23_24
-import org.hogwarts.android.core.database.migration.MIGRATION_7_8
-import org.hogwarts.android.core.database.migration.MIGRATION_8_9
-import org.hogwarts.android.core.database.migration.MIGRATION_9_10
+import org.hogwarts.android.core.database.migration.ALL_MIGRATIONS
 import org.hogwarts.android.core.database.dao.AnnouncementDao
 import org.hogwarts.android.core.database.dao.AttendanceBadgeDao
 import org.hogwarts.android.core.database.dao.AttendanceDao
@@ -69,28 +53,7 @@ object DatabaseModule {
         HogwartsDatabase::class.java,
         HogwartsDatabase.DATABASE_NAME
     )
-        .addMigrations(
-            // Span: v7 → v23 (current). v1→v7 has no authored migrations; users
-            // never shipped on those versions outside development. New v23+
-            // schema bumps must add a corresponding MIGRATION_X_Y file here.
-            MIGRATION_7_8,
-            MIGRATION_8_9,
-            MIGRATION_9_10,
-            MIGRATION_10_11,
-            MIGRATION_11_12,
-            MIGRATION_12_13,
-            MIGRATION_13_14,
-            MIGRATION_14_15,
-            MIGRATION_15_16,
-            MIGRATION_16_17,
-            MIGRATION_17_18,
-            MIGRATION_18_19,
-            MIGRATION_19_20,
-            MIGRATION_20_21,
-            MIGRATION_21_22,
-            MIGRATION_22_23,
-            MIGRATION_23_24,
-        )
+        .addMigrations(*ALL_MIGRATIONS)
         .build()
 
     @Provides

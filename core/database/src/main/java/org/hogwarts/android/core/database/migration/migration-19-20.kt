@@ -21,6 +21,9 @@ val MIGRATION_19_20 = object : Migration(19, 20) {
         db.execSQL("ALTER TABLE `conversations` ADD COLUMN `isWhatsAppEnabled` INTEGER NOT NULL DEFAULT 0")
         db.execSQL("ALTER TABLE `conversations` ADD COLUMN `isPinned` INTEGER NOT NULL DEFAULT 0")
         db.execSQL("ALTER TABLE `conversations` ADD COLUMN `isMuted` INTEGER NOT NULL DEFAULT 0")
+        // The entity declared this index from v20 on, but the migration never created
+        // it, so Room's post-migration validation failed for anyone upgrading from ≤19.
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_conversations_schoolId_isPinned_updatedAt` ON `conversations` (`schoolId`, `isPinned`, `updatedAt`)")
 
         // messages: 7 new columns
         db.execSQL("ALTER TABLE `messages` ADD COLUMN `senderAvatarUrl` TEXT")
@@ -30,6 +33,7 @@ val MIGRATION_19_20 = object : Migration(19, 20) {
         db.execSQL("ALTER TABLE `messages` ADD COLUMN `isDeleted` INTEGER NOT NULL DEFAULT 0")
         db.execSQL("ALTER TABLE `messages` ADD COLUMN `nonce` TEXT")
         db.execSQL("ALTER TABLE `messages` ADD COLUMN `whatsappStatus` TEXT")
+        db.execSQL("CREATE INDEX IF NOT EXISTS `index_messages_schoolId_nonce` ON `messages` (`schoolId`, `nonce`)")
 
         // message_attachments: new table
         db.execSQL(
