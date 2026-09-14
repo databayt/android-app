@@ -1,40 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Top bar -->
-    <string name="settings_title">الإعدادات</string>
-    <string name="settings_back">رجوع</string>
+    <!-- Tabs (school settings dictionary) -->
+    <string name="settings_tab_appearance">المظهر</string>
+    <string name="settings_tab_notifications">الإشعارات</string>
+    <string name="settings_tab_password">كلمة المرور</string>
+    <string name="settings_tab_language">اللغة</string>
+    <string name="settings_active">نشط</string>
 
-    <!-- Account section -->
-    <string name="settings_section_account">الحساب</string>
-    <string name="settings_profile">الملف الشخصي</string>
-
-    <!-- Appearance section -->
-    <string name="settings_section_appearance">المظهر</string>
-    <string name="settings_theme">السمة</string>
+    <!-- Appearance -->
+    <string name="settings_appearance_title">إعدادات المظهر</string>
+    <string name="settings_appearance_description">اختر مظهر التطبيق على هذا الجهاز.</string>
     <string name="settings_theme_light">فاتح</string>
     <string name="settings_theme_dark">داكن</string>
     <string name="settings_theme_system">النظام</string>
-    <string name="settings_theme_system_default">الافتراضي للنظام</string>
-    <string name="settings_language">اللغة</string>
-    <string name="settings_language_arabic">العربية</string>
-    <string name="settings_language_english">English</string>
-    <string name="settings_wallpaper">الخلفية</string>
-    <string name="settings_wallpaper_preview">معاينة الخلفية</string>
 
-    <!-- Notifications section -->
-    <string name="settings_section_notifications">الإشعارات</string>
-    <string name="settings_push_notifications">الإشعارات الفورية</string>
+    <!-- Notifications (notifications dictionary: preferences) -->
+    <string name="settings_notification_preferences">تفضيلات الإشعارات</string>
+    <string name="settings_notification_preferences_description">إدارة كيفية تلقي الإشعارات</string>
 
-    <!-- About section -->
-    <string name="settings_section_about">حول</string>
-    <string name="settings_version">الإصدار</string>
+    <!-- Password -->
+    <string name="settings_password_unavailable">تغيير كلمة المرور غير متاح في التطبيق بعد. يمكنك تغييرها على الويب.</string>
+    <string name="settings_open_on_web">فتح على الويب</string>
 
-    <!-- Logout -->
+    <!-- Language -->
+    <string name="settings_language_preference">تفضيل اللغة</string>
+    <string name="settings_language_description">اختر لغة العرض المفضلة لديك. يؤثر هذا على لغة الواجهة لحسابك.</string>
+
+    <!-- Account -->
     <string name="settings_logout">تسجيل الخروج</string>
-    <string name="settings_logout_title">تسجيل الخروج</string>
-    <string name="settings_logout_message">هل أنت متأكد من تسجيل الخروج؟ ستحتاج إلى تسجيل الدخول مرة أخرى.</string>
-    <string name="settings_logout_confirm">تسجيل الخروج</string>
-
-    <!-- Dialogs -->
-    <string name="settings_cancel">إلغاء</string>
 </resources>

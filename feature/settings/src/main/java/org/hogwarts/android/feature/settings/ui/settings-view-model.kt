@@ -13,82 +13,54 @@ import kotlinx.coroutines.launch
 import org.hogwarts.android.core.data.preferences.AppPreferences
 import javax.inject.Inject
 
+/** Applies a per-app language; the real one goes through AppCompat, tests record the call. */
+fun interface AppLocaleSetter {
+    fun set(languageTag: String)
+}
+
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
-    private val appPreferences: AppPreferences
+class SettingsViewModel internal constructor(
+    private val preferences: SettingsPreferences,
+    private val localeSetter: AppLocaleSetter,
 ) : ViewModel() {
+
+    @Inject constructor(appPreferences: AppPreferences) : this(
+        preferences = AppSettingsPreferences(appPreferences),
+        // From a live AppCompatActivity this reaches the platform LocaleManager on
+        // API 33+ and AppCompat's own storage below — the path the shell Menu uses.
+        localeSetter = { tag -> AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(tag)) },
+    )
 
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
     init {
-        observePreferences()
-    }
-
-    private fun observePreferences() {
         viewModelScope.launch {
-            appPreferences.themeMode.collect { mode ->
-                _uiState.update { it.copy(themeMode = mode, isDarkMode = when (mode) {
-                    "dark" -> true
-                    "light" -> false
-                    else -> null
-                }) }
-            }
-        }
-        viewModelScope.launch {
-            appPreferences.language.collect { lang ->
-                _uiState.update { it.copy(language = lang) }
-            }
-        }
-        viewModelScope.launch {
-            appPreferences.notificationsEnabled.collect { enabled ->
-                _uiState.update { it.copy(notificationsEnabled = enabled) }
-            }
-        }
-        viewModelScope.launch {
-            appPreferences.wallpaper.collect { id ->
-                _uiState.update { it.copy(wallpaperId = id) }
-            }
+            preferences.themeMode().collect { mode -> _uiState.update { it.copy(themeMode = ThemeMode.fromWire(mode)) } }
         }
     }
 
-    fun onThemeModeChanged(mode: String) {
-        viewModelScope.launch { appPreferences.setThemeMode(mode) }
+    fun selectTab(tab: SettingsTab) = _uiState.update { it.copy(tab = tab) }
+
+    fun setThemeMode(mode: ThemeMode) {
+        viewModelScope.launch { preferences.setThemeMode(mode.wire) }
     }
 
-    fun onDarkModeChanged(isDarkMode: Boolean?) {
-        val mode = when (isDarkMode) {
-            true -> "dark"
-            false -> "light"
-            null -> "system"
-        }
-        onThemeModeChanged(mode)
+    fun setLanguage(language: String) {
+        localeSetter.set(language)
+        viewModelScope.launch { preferences.setLanguage(language) }
     }
+}
 
-    fun onLanguageChanged(language: String) {
-        AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(language)
-        )
-        viewModelScope.launch { appPreferences.setLanguage(language) }
-    }
+/** The two preferences this screen writes, behind a seam so tests need no DataStore. */
+interface SettingsPreferences {
+    fun themeMode(): kotlinx.coroutines.flow.Flow<String>
+    suspend fun setThemeMode(mode: String)
+    suspend fun setLanguage(language: String)
+}
 
-    fun onNotificationsToggled(enabled: Boolean) {
-        viewModelScope.launch { appPreferences.setNotificationsEnabled(enabled) }
-    }
-
-    fun toggleLanguagePicker() {
-        _uiState.update { it.copy(showLanguagePicker = !it.showLanguagePicker) }
-    }
-
-    fun toggleThemePicker() {
-        _uiState.update { it.copy(showThemePicker = !it.showThemePicker) }
-    }
-
-    fun toggleWallpaperPicker() {
-        _uiState.update { it.copy(showWallpaperPicker = !it.showWallpaperPicker) }
-    }
-
-    fun onWallpaperChanged(id: String) {
-        viewModelScope.launch { appPreferences.setWallpaper(id) }
-    }
+private class AppSettingsPreferences(private val prefs: AppPreferences) : SettingsPreferences {
+    override fun themeMode() = prefs.themeMode
+    override suspend fun setThemeMode(mode: String) = prefs.setThemeMode(mode)
+    override suspend fun setLanguage(language: String) = prefs.setLanguage(language)
 }

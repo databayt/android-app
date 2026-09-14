@@ -5,18 +5,19 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import org.hogwarts.android.feature.settings.ui.SettingsScreen
 
+/** Web `/settings`. */
 @Serializable data object Settings
 
-fun NavGraphBuilder.settingsScreen(
-    onNavigateBack: () -> Unit,
-    onNavigateToProfile: () -> Unit,
-    onLogout: () -> Unit
+fun NavGraphBuilder.settingsGraph(
+    onOpenHref: (String) -> Unit,
+    onOpenNotificationPreferences: () -> Unit,
+    onLogout: () -> Unit,
 ) {
     composable<Settings> {
         SettingsScreen(
-            onNavigateBack = onNavigateBack,
-            onNavigateToProfile = onNavigateToProfile,
-            onLogout = onLogout
+            onOpenHref = onOpenHref,
+            onOpenNotificationPreferences = onOpenNotificationPreferences,
+            onLogout = onLogout,
         )
     }
 }

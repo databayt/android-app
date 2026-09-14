@@ -59,7 +59,7 @@ import org.hogwarts.android.feature.notifications.navigation.notificationsScreen
 import org.hogwarts.android.feature.profile.navigation.Profile
 import org.hogwarts.android.feature.profile.navigation.profileScreen
 import org.hogwarts.android.feature.settings.navigation.Settings
-import org.hogwarts.android.feature.settings.navigation.settingsScreen
+import org.hogwarts.android.feature.settings.navigation.settingsGraph
 import org.hogwarts.android.feature.students.navigation.StudentDetail
 import org.hogwarts.android.feature.students.navigation.StudentEdit
 import org.hogwarts.android.feature.students.navigation.StudentsList
@@ -328,10 +328,10 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Settings
-        settingsScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToProfile = { navController.navigate(Profile) },
+        // Settings (web /settings)
+        settingsGraph(
+            onOpenHref = { href -> hrefOpener.open(href) },
+            onOpenNotificationPreferences = { navController.navigate(NotificationPreferences) { launchSingleTop = true } },
             onLogout = {
                 onLogout()
                 navController.navigate(AuthGraph) {

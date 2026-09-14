@@ -1,40 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Top bar -->
-    <string name="settings_title">Settings</string>
-    <string name="settings_back">Back</string>
+    <!-- Tabs (school settings dictionary) -->
+    <string name="settings_tab_appearance">Appearance</string>
+    <string name="settings_tab_notifications">Notifications</string>
+    <string name="settings_tab_password">Password</string>
+    <string name="settings_tab_language">Language</string>
+    <string name="settings_active">Active</string>
 
-    <!-- Account section -->
-    <string name="settings_section_account">Account</string>
-    <string name="settings_profile">Profile</string>
-
-    <!-- Appearance section -->
-    <string name="settings_section_appearance">Appearance</string>
-    <string name="settings_theme">Theme</string>
+    <!-- Appearance -->
+    <string name="settings_appearance_title">Appearance Settings</string>
+    <string name="settings_appearance_description">Choose how the app looks on this device.</string>
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_system">System</string>
-    <string name="settings_theme_system_default">System Default</string>
-    <string name="settings_language">Language</string>
-    <string name="settings_language_arabic">العربية</string>
-    <string name="settings_language_english">English</string>
-    <string name="settings_wallpaper">Wallpaper</string>
-    <string name="settings_wallpaper_preview">Wallpaper preview</string>
 
-    <!-- Notifications section -->
-    <string name="settings_section_notifications">Notifications</string>
-    <string name="settings_push_notifications">Push Notifications</string>
+    <!-- Notifications (notifications dictionary: preferences) -->
+    <string name="settings_notification_preferences">Notification Preferences</string>
+    <string name="settings_notification_preferences_description">Manage how you receive notifications</string>
 
-    <!-- About section -->
-    <string name="settings_section_about">About</string>
-    <string name="settings_version">Version</string>
+    <!-- Password -->
+    <string name="settings_password_unavailable">Changing your password is not available in the app yet. You can change it on the web.</string>
+    <string name="settings_open_on_web">Open on the web</string>
 
-    <!-- Logout -->
-    <string name="settings_logout">Log Out</string>
-    <string name="settings_logout_title">Log Out</string>
-    <string name="settings_logout_message">Are you sure you want to log out? You\'ll need to sign in again.</string>
-    <string name="settings_logout_confirm">Log Out</string>
+    <!-- Language -->
+    <string name="settings_language_preference">Language Preference</string>
+    <string name="settings_language_description">Choose your preferred display language. This affects the interface language for your account.</string>
 
-    <!-- Dialogs -->
-    <string name="settings_cancel">Cancel</string>
+    <!-- Account -->
+    <string name="settings_logout">Logout</string>
 </resources>

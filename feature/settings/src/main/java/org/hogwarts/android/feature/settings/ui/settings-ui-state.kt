@@ -1,15 +1,20 @@
 package org.hogwarts.android.feature.settings.ui
 
-import org.hogwarts.android.core.designsystem.wallpaper.WallpaperCatalog
+/** The settings page's tabs, in the web's order — `settings/content-enhanced.tsx`. */
+enum class SettingsTab { Appearance, Notifications, Password, Language }
+
+/** The web's colour modes; the app persists the choice as `AppPreferences.themeMode`. */
+enum class ThemeMode(val wire: String) {
+    Light("light"),
+    Dark("dark"),
+    System("system");
+
+    companion object {
+        fun fromWire(value: String?): ThemeMode = entries.firstOrNull { it.wire == value } ?: System
+    }
+}
 
 data class SettingsUiState(
-    val themeMode: String = "system", // "light", "dark", "system"
-    val isDarkMode: Boolean? = null,
-    val language: String = "en",
-    val notificationsEnabled: Boolean = true,
-    val appVersion: String = "1.0.0",
-    val showLanguagePicker: Boolean = false,
-    val showThemePicker: Boolean = false,
-    val wallpaperId: String = WallpaperCatalog.DEFAULT_ID,
-    val showWallpaperPicker: Boolean = false
+    val tab: SettingsTab = SettingsTab.Appearance,
+    val themeMode: ThemeMode = ThemeMode.System,
 )
