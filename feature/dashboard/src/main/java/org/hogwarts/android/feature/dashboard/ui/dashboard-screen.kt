@@ -5,137 +5,103 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import org.hogwarts.android.core.designsystem.apple.HogwartsIcons
-import org.hogwarts.android.core.designsystem.theme.AppleBlue
-import org.hogwarts.android.core.designsystem.theme.AppleGreen
-import org.hogwarts.android.core.designsystem.theme.AppleOrange
-import org.hogwarts.android.core.designsystem.theme.AppleRed
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.core.designsystem.kit.PillButton
+import org.hogwarts.android.core.designsystem.kit.PillVariant
+import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.dashboard.R
-import org.hogwarts.android.feature.dashboard.ui.components.HomeDock
-import org.hogwarts.android.feature.dashboard.ui.components.HomeDockItem
-import org.hogwarts.android.feature.dashboard.ui.components.HomeSearchPill
-import org.hogwarts.android.feature.dashboard.ui.components.HomeWallpaper
+import org.hogwarts.android.feature.dashboard.data.remote.NextActionDto
+import org.hogwarts.android.feature.dashboard.ui.components.HomeBlock
+import org.hogwarts.android.feature.dashboard.ui.components.NextActionBanner
+import org.hogwarts.android.feature.dashboard.ui.components.QuickActions
+import org.hogwarts.android.feature.dashboard.ui.components.RoleStats
+import org.hogwarts.android.feature.dashboard.ui.components.TodayClasses
 
 /**
- * Main Dashboard screen hosting the iOS-style [HomeScreen] body and the iOS-style [HomeDock].
- *
- * Logout is surfaced from the Settings screen — the dashboard itself no longer owns that flow.
+ * The phone dashboard — mirrors hogwarts `dashboard/content.tsx` below `md`:
+ * home block, next action, today's classes, quick actions, then the role's
+ * own section, 24dp apart on a 16dp gutter. The platform header and Menu come
+ * from the app shell.
  */
 @Composable
 fun DashboardScreen(
-    onNavigateToStudents: () -> Unit,
-    onNavigateToAttendance: () -> Unit,
-    onNavigateToGrades: () -> Unit,
-    onNavigateToFees: () -> Unit,
-    onNavigateToTimetable: () -> Unit,
-    onNavigateToMessages: () -> Unit,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToStream: () -> Unit,
-    onNavigateToSubjects: () -> Unit,
-    onNavigateToAtomStudio: () -> Unit,
-    onNavigateToAnnouncements: () -> Unit,
-    onNavigateToLibrary: () -> Unit,
-    onNavigateToProfile: () -> Unit,
+    onOpenHref: (href: String) -> Unit,
     viewModel: DashboardViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    DashboardContent(
+        state = state,
+        onOpenHref = onOpenHref,
+        onAcknowledge = viewModel::acknowledge,
+        onRefresh = viewModel::refresh,
+    )
+}
 
-    HomeWallpaper(
-        modifier = modifier.fillMaxSize(),
-        wallpaperId = uiState.wallpaperId
-    ) {
-    Scaffold(
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DashboardContent(
+    state: DashboardUiState,
+    onOpenHref: (href: String) -> Unit,
+    onAcknowledge: (NextActionDto) -> Unit,
+    onRefresh: () -> Unit,
+) {
+    val colors = HogwartsTheme.colors
+    val type = HogwartsTheme.type
+    PullToRefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = onRefresh,
         modifier = Modifier.fillMaxSize(),
-        containerColor = Color.Transparent,
-        bottomBar = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    HomeSearchPill(
-                        label = stringResource(R.string.home_search_hint),
-                        onClick = { /* TODO: universal search screen */ }
-                    )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
+                .padding(horizontal = 16.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
+        ) {
+            if (state.isOffline) {
+                Text(stringResource(R.string.dash_offline), style = type.caption, color = colors.mutedForeground)
+            }
+
+            HomeBlock(eventsToday = state.data?.eventsToday, onOpen = onOpenHref)
+
+            val data = state.data
+            if (data == null) {
+                if (!state.isLoading && state.error != null) {
+                    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(stringResource(R.string.dash_error), style = type.body, color = colors.mutedForeground)
+                        Box(Modifier.padding(top = 12.dp)) {
+                            PillButton(stringResource(R.string.dash_retry), onClick = onRefresh, variant = PillVariant.Muted)
+                        }
+                    }
                 }
-                HomeDock(
-                    items = listOf(
-                        HomeDockItem(
-                            icon = HogwartsIcons.Home,
-                            background = AppleBlue,
-                            contentDescription = stringResource(R.string.dashboard_tab_home),
-                            onClick = { /* already on home */ },
-                            iconRes = R.drawable.ic_tile_home
-                        ),
-                        HomeDockItem(
-                            icon = HogwartsIcons.Messages,
-                            background = AppleGreen,
-                            contentDescription = stringResource(R.string.dashboard_tab_messages),
-                            onClick = onNavigateToMessages,
-                            iconRes = R.drawable.ic_tile_message
-                        ),
-                        HomeDockItem(
-                            icon = HogwartsIcons.Notifications,
-                            background = AppleRed,
-                            contentDescription = stringResource(R.string.dashboard_tab_alerts),
-                            onClick = { /* TODO: notifications screen */ },
-                            iconRes = R.drawable.ic_tile_alerts
-                        ),
-                        HomeDockItem(
-                            icon = HogwartsIcons.Settings,
-                            background = AppleOrange,
-                            contentDescription = stringResource(R.string.dashboard_tab_settings),
-                            onClick = onNavigateToSettings,
-                            iconRes = R.drawable.ic_tile_setting
-                        )
-                    )
-                )
+                return@Column
             }
-        }
-    ) { innerPadding ->
-        if (uiState.isLoading) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            HomeScreen(
-                uiState = uiState,
-                onNavigateToStudents = onNavigateToStudents,
-                onNavigateToAttendance = onNavigateToAttendance,
-                onNavigateToGrades = onNavigateToGrades,
-                onNavigateToFees = onNavigateToFees,
-                onNavigateToTimetable = onNavigateToTimetable,
-                onNavigateToMessages = onNavigateToMessages,
-                onNavigateToStream = onNavigateToStream,
-                onNavigateToSubjects = onNavigateToSubjects,
-                onNavigateToSettings = onNavigateToSettings,
-                onNavigateToAtomStudio = onNavigateToAtomStudio,
-                onNavigateToAnnouncements = onNavigateToAnnouncements,
-                onNavigateToLibrary = onNavigateToLibrary,
-                onNavigateToProfile = onNavigateToProfile,
-                modifier = Modifier.padding(innerPadding)
+
+            NextActionBanner(actions = state.nextActions, onOpen = onOpenHref, onAcknowledge = onAcknowledge)
+            TodayClasses(
+                timetable = data.todayTimetable,
+                teacherView = state.role == UserRole.TEACHER,
+                onOpenTimetable = { onOpenHref("/timetable") },
             )
+            QuickActions(actions = data.quickActions, onOpen = onOpenHref)
+            RoleStats(role = state.role, data = data)
         }
-    }
     }
 }

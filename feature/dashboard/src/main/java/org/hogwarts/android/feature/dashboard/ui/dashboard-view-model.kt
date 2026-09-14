@@ -8,86 +8,58 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.hogwarts.android.core.data.preferences.AppPreferences
 import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.feature.dashboard.data.remote.NextActionDto
 import org.hogwarts.android.feature.dashboard.data.repository.DashboardRepository
-import timber.log.Timber
+import org.hogwarts.android.feature.dashboard.data.repository.DashboardResult
 import javax.inject.Inject
 
-/**
- * ViewModel for the Dashboard screen.
- *
- * Fetches role-based dashboard stats from the backend API.
- */
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val tenantContext: TenantContext,
     private val repository: DashboardRepository,
-    private val appPreferences: AppPreferences
+    private val tenantContext: TenantContext,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(DashboardUiState())
+    private val _uiState = MutableStateFlow(DashboardUiState(role = tenantContext.userRole ?: UserRole.UNKNOWN))
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
     init {
-        loadDashboard()
-        observeWallpaper()
-    }
-
-    private fun observeWallpaper() {
         viewModelScope.launch {
-            appPreferences.wallpaper.collect { id ->
-                _uiState.update { it.copy(wallpaperId = id) }
-            }
-        }
-    }
-
-    private fun loadDashboard() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-
-            try {
-                val dto = repository.getDashboard()
-                val role = UserRole.fromWire(dto.role).takeIf { it != UserRole.UNKNOWN }
-                    ?: tenantContext.userRole ?: UserRole.UNKNOWN
-
-                _uiState.update {
-                    it.copy(
-                        userName = dto.userName.ifEmpty {
-                            tenantContext.userName ?: "User"
-                        },
-                        userRole = role,
-                        schoolName = dto.schoolName.ifEmpty { "School" },
-                        isLoading = false,
-                        isOffline = false,
-                        todayClasses = dto.todayClasses ?: dto.totalClasses ?: 0,
-                        attendancePercentage = dto.attendancePercentage ?: 0f,
-                        unreadNotifications = dto.unreadNotifications,
-                        upcomingExams = dto.upcomingExams ?: 0,
-                        childrenCount = dto.childrenCount ?: 0,
-                        totalStudents = dto.totalStudents ?: 0,
-                    )
-                }
-            } catch (e: Exception) {
-                Timber.d(e, "Dashboard API unavailable, using local context")
-                // Fallback to tenant context only — no fake numbers
-                val role = tenantContext.userRole ?: UserRole.STUDENT
-                val userName = tenantContext.userName ?: "User"
-
-                _uiState.update {
-                    it.copy(
-                        userName = userName,
-                        userRole = role,
-                        isLoading = false,
-                        isOffline = true,
-                    )
-                }
-            }
+            repository.cached()?.let { cached -> _uiState.update { it.copy(data = cached, isLoading = false) } }
+            load(refreshing = false)
         }
     }
 
     fun refresh() {
-        loadDashboard()
+        viewModelScope.launch { load(refreshing = true) }
+    }
+
+    /** "Acknowledge" is a local dismissal, as on the web — it goes nowhere. */
+    fun acknowledge(action: NextActionDto) {
+        val index = _uiState.value.data?.nextActions?.indexOf(action) ?: -1
+        if (index >= 0) _uiState.update { it.copy(dismissedActions = it.dismissedActions + index) }
+    }
+
+    private suspend fun load(refreshing: Boolean) {
+        _uiState.update { it.copy(isRefreshing = refreshing) }
+        when (val result = repository.refresh()) {
+            is DashboardResult.Fresh -> _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    isRefreshing = false,
+                    isOffline = false,
+                    error = null,
+                    data = result.data,
+                    role = UserRole.fromWire(result.data.role).takeIf { r -> r != UserRole.UNKNOWN } ?: it.role,
+                )
+            }
+            is DashboardResult.Cached -> _uiState.update {
+                it.copy(isLoading = false, isRefreshing = false, isOffline = true, data = result.data)
+            }
+            is DashboardResult.Failed -> _uiState.update {
+                it.copy(isLoading = false, isRefreshing = false, error = result.message)
+            }
+        }
     }
 }

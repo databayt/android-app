@@ -37,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.hogwarts.android.core.designsystem.R
@@ -132,7 +133,15 @@ fun TileFace(
 
 /** One destination as a home-screen icon: face, then a label that may wrap to two lines. */
 @Composable
-fun AppTile(item: AppTileItem, modifier: Modifier = Modifier, face: (@Composable () -> Unit)? = null) {
+fun AppTile(
+    item: AppTileItem,
+    modifier: Modifier = Modifier,
+    face: (@Composable () -> Unit)? = null,
+    /** Section doors cap the icon at 64dp; the dashboard lets it fill its cell. */
+    maxFaceSize: Dp? = 64.dp,
+    /** Section doors may wrap to two lines; the dashboard truncates to one. */
+    labelLines: Int = 2,
+) {
     val colors = HogwartsTheme.colors
     val type = HogwartsTheme.type
     val interaction = remember { MutableInteractionSource() }
@@ -145,7 +154,7 @@ fun AppTile(item: AppTileItem, modifier: Modifier = Modifier, face: (@Composable
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        Box(Modifier.widthIn(max = 64.dp).scale(if (pressed) 0.95f else 1f)) {
+        Box((if (maxFaceSize != null) Modifier.widthIn(max = maxFaceSize) else Modifier).scale(if (pressed) 0.95f else 1f)) {
             face?.invoke() ?: TileFace(art = item.art, icon = item.icon, tint = item.tint)
             if (item.badge > 0) {
                 CountBadge(
@@ -161,7 +170,7 @@ fun AppTile(item: AppTileItem, modifier: Modifier = Modifier, face: (@Composable
             style = type.tileLabel,
             color = colors.foreground,
             textAlign = TextAlign.Center,
-            maxLines = 2,
+            maxLines = labelLines,
             overflow = TextOverflow.Ellipsis,
         )
     }
@@ -169,12 +178,18 @@ fun AppTile(item: AppTileItem, modifier: Modifier = Modifier, face: (@Composable
 
 /** Doors as rows of four icons — `AppTileGrid`: 16dp column gap, 20dp row gap. */
 @Composable
-fun AppTileGrid(items: List<AppTileItem>, modifier: Modifier = Modifier) {
+fun AppTileGrid(
+    items: List<AppTileItem>,
+    modifier: Modifier = Modifier,
+    columnGap: Dp = 16.dp,
+    maxFaceSize: Dp? = 64.dp,
+    labelLines: Int = 2,
+) {
     if (items.isEmpty()) return
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(20.dp)) {
         items.chunked(4).forEach { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                row.forEach { AppTile(it, Modifier.weight(1f)) }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(columnGap)) {
+                row.forEach { AppTile(it, Modifier.weight(1f), maxFaceSize = maxFaceSize, labelLines = labelLines) }
                 repeat(4 - row.size) { Box(Modifier.weight(1f)) }
             }
         }

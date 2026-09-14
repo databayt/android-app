@@ -1,6 +1,7 @@
 package org.hogwarts.android.navigation
 
 import androidx.compose.runtime.Composable
+import org.hogwarts.android.shell.LocalHrefOpener
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -210,6 +211,7 @@ fun HogwartsNavHost(
     tenantContext: TenantContext,
     modifier: Modifier = Modifier
 ) {
+    val hrefOpener = LocalHrefOpener.current
     val startDestination: Any = if (isAuthenticated) {
         Dashboard
     } else {
@@ -232,35 +234,8 @@ fun HogwartsNavHost(
             biometricHelper = biometricHelper
         )
 
-        // Main app flow - Dashboard with tab bar
-        dashboardScreen(
-            onNavigateToStudents = { navController.navigate(StudentsList) },
-            onNavigateToAttendance = { navController.navigate(Attendance) },
-            onNavigateToGrades = { navController.navigate(Grades) },
-            onNavigateToFees = { navController.navigate(Fees) },
-            onNavigateToTimetable = { navController.navigate(Timetable) },
-            onNavigateToMessages = { navController.navigate(Messaging) },
-            onNavigateToSettings = { navController.navigate(Settings) },
-            onNavigateToStream = {
-                // Students skip the marketing landing and drop straight into a
-                // catalog locked to their grade. Other roles still see LumosHome.
-                if (tenantContext.userRole == UserRole.STUDENT) {
-                    navController.navigate(
-                        LumosCatalog(
-                            initialGrade = tenantContext.studentGrade,
-                            lockGrade = true
-                        )
-                    )
-                } else {
-                    navController.navigate(LumosHome)
-                }
-            },
-            onNavigateToSubjects = { navController.navigate(Subjects) },
-            onNavigateToAtomStudio = { navController.navigate(AtomStudioRoute) },
-            onNavigateToAnnouncements = { navController.navigate(Announcements) },
-            onNavigateToLibrary = { navController.navigate(LibraryCatalog) },
-            onNavigateToProfile = { navController.navigate(Profile) }
-        )
+        // Main app flow: the phone dashboard. Its doors are web paths the shell resolves.
+        dashboardScreen(onOpenHref = { href -> hrefOpener.open(href) })
 
         atomStudioScreen(
             onNavigateBack = { navController.popBackStack() }

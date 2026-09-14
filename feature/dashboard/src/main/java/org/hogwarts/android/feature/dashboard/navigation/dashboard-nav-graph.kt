@@ -5,46 +5,15 @@ import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import org.hogwarts.android.feature.dashboard.ui.DashboardScreen
 
-/**
- * Type-safe route for the dashboard destination.
- */
 @Serializable data object Dashboard
 
 /**
- * Dashboard navigation graph entry.
- *
- * Registers the dashboard composable with all required navigation callbacks.
+ * Dashboard destination. Every door on it is a web path (`/attendance`,
+ * `/finance/invoice`…) resolved by the app shell to a native screen or a web
+ * handoff, so the dashboard stays a literal mirror of the server's links.
  */
-fun NavGraphBuilder.dashboardScreen(
-    onNavigateToStudents: () -> Unit,
-    onNavigateToAttendance: () -> Unit,
-    onNavigateToGrades: () -> Unit,
-    onNavigateToFees: () -> Unit,
-    onNavigateToTimetable: () -> Unit,
-    onNavigateToMessages: () -> Unit,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToStream: () -> Unit,
-    onNavigateToSubjects: () -> Unit,
-    onNavigateToAtomStudio: () -> Unit,
-    onNavigateToAnnouncements: () -> Unit,
-    onNavigateToLibrary: () -> Unit,
-    onNavigateToProfile: () -> Unit
-) {
+fun NavGraphBuilder.dashboardScreen(onOpenHref: (href: String) -> Unit) {
     composable<Dashboard> {
-        DashboardScreen(
-            onNavigateToStudents = onNavigateToStudents,
-            onNavigateToAttendance = onNavigateToAttendance,
-            onNavigateToGrades = onNavigateToGrades,
-            onNavigateToFees = onNavigateToFees,
-            onNavigateToTimetable = onNavigateToTimetable,
-            onNavigateToMessages = onNavigateToMessages,
-            onNavigateToSettings = onNavigateToSettings,
-            onNavigateToStream = onNavigateToStream,
-            onNavigateToSubjects = onNavigateToSubjects,
-            onNavigateToAtomStudio = onNavigateToAtomStudio,
-            onNavigateToAnnouncements = onNavigateToAnnouncements,
-            onNavigateToLibrary = onNavigateToLibrary,
-            onNavigateToProfile = onNavigateToProfile
-        )
+        DashboardScreen(onOpenHref = onOpenHref)
     }
 }
