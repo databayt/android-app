@@ -25,19 +25,17 @@ import org.hogwarts.android.feature.grades.navigation.Grades
 import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.announcements.navigation.Announcements
 import org.hogwarts.android.feature.announcements.navigation.announcementsGraph
-import org.hogwarts.android.feature.exams.navigation.examsGraph
-import org.hogwarts.android.feature.fees.navigation.FeeInvoiceDetail
-import org.hogwarts.android.feature.fees.navigation.FeeInvoices
-import org.hogwarts.android.feature.fees.navigation.FeePayment
-import org.hogwarts.android.feature.fees.navigation.FeeReceipt
-import org.hogwarts.android.feature.fees.navigation.FeeTransactions
-import org.hogwarts.android.feature.fees.navigation.feesScreen
-import org.hogwarts.android.feature.fees.navigation.invoiceListScreen
-import org.hogwarts.android.feature.fees.navigation.invoiceDetailScreen
-import org.hogwarts.android.feature.fees.navigation.paymentProcessingScreen
-import org.hogwarts.android.feature.fees.navigation.paymentReceiptScreen
-import org.hogwarts.android.feature.fees.navigation.transactionHistoryScreen
-import org.hogwarts.android.feature.fees.navigation.feeBalanceDashboardScreen
+import org.hogwarts.android.feature.exams.navigation.ExamCertificate
+import org.hogwarts.android.feature.exams.navigation.ExamDetail
+import org.hogwarts.android.feature.exams.navigation.ExamResults
+import org.hogwarts.android.feature.exams.navigation.examDetailScreen
+import org.hogwarts.android.feature.exams.navigation.examsScreen
+import org.hogwarts.android.feature.exams.navigation.quizScreen
+import org.hogwarts.android.feature.exams.navigation.onlineExamScreen
+import org.hogwarts.android.feature.exams.navigation.questionBankScreen
+import org.hogwarts.android.feature.exams.navigation.examResultsScreen
+import org.hogwarts.android.feature.exams.navigation.examCertificateScreen
+import org.hogwarts.android.feature.fees.navigation.feesGraph
 import org.hogwarts.android.feature.grades.navigation.gradesScreen
 import org.hogwarts.android.feature.messaging.navigation.Chat
 import org.hogwarts.android.feature.messaging.navigation.Messaging
@@ -240,60 +238,8 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Fees
-        feesScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Fee Balance Dashboard
-        feeBalanceDashboardScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToInvoices = { navController.navigate(FeeInvoices) },
-            onNavigateToTransactions = { navController.navigate(FeeTransactions) },
-            onNavigateToPayment = { navController.navigate(FeeInvoices) }
-        )
-
-        // Invoices
-        invoiceListScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToInvoice = { invoiceId ->
-                navController.navigate(FeeInvoiceDetail(invoiceId))
-            },
-            onNavigateToTransactions = {
-                navController.navigate(FeeTransactions)
-            }
-        )
-
-        // Invoice Detail
-        invoiceDetailScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToPayment = { invoiceId ->
-                navController.navigate(FeePayment(invoiceId))
-            }
-        )
-
-        // Payment Processing
-        paymentProcessingScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onPaymentComplete = { transactionId ->
-                navController.navigate(FeeReceipt(transactionId)) {
-                    popUpTo<FeeInvoices> { inclusive = false }
-                }
-            }
-        )
-
-        // Payment Receipt
-        paymentReceiptScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Transaction History
-        transactionHistoryScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToReceipt = { transactionId ->
-                navController.navigate(FeeReceipt(transactionId))
-            }
-        )
+        // Finance (web /finance): family money or the finance hub; deeper pages are web paths.
+        feesGraph(onOpenHref = { href -> hrefOpener.open(href) })
 
         // Timetable (web /timetable): the role's view; admin sub-pages and live rooms are web paths.
         timetableGraph(onOpenHref = { href -> hrefOpener.open(href) })
@@ -329,11 +275,22 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() }
         )
 
-        // Exams: role landings, upcoming, detail, question bank, online exam (web /exams)
-        examsGraph(
-            onNavigate = { route -> navController.navigate(route) { launchSingleTop = true } },
-            onOpenHref = { href -> hrefOpener.open(href) },
-            onBack = { navController.popBackStack() },
+        // Exams
+        examsScreen(
+            onNavigateBack = { navController.popBackStack() },
+            onNavigateToExam = { examId ->
+                navController.navigate(ExamDetail(examId))
+            }
+        )
+
+        // Exam Detail
+        examDetailScreen(
+            onNavigateBack = { navController.popBackStack() }
+        )
+
+        // Quiz
+        quizScreen(
+            onNavigateBack = { navController.popBackStack() }
         )
 
         // Announcements (list + reading page)
@@ -575,6 +532,32 @@ fun HogwartsNavHost(
 
         // Advanced Attendance - Method Settings
         attendanceMethodSettingsScreen(
+            onNavigateBack = { navController.popBackStack() }
+        )
+
+        // Advanced Exams - Online Exam Taking
+        onlineExamScreen(
+            onNavigateBack = { navController.popBackStack() },
+            onNavigateToResults = { examId ->
+                navController.navigate(ExamResults(examId))
+            }
+        )
+
+        // Advanced Exams - Question Bank
+        questionBankScreen(
+            onNavigateBack = { navController.popBackStack() }
+        )
+
+        // Advanced Exams - Detailed Results
+        examResultsScreen(
+            onNavigateBack = { navController.popBackStack() },
+            onNavigateToCertificate = { examId ->
+                navController.navigate(ExamCertificate(examId))
+            }
+        )
+
+        // Advanced Exams - Certificate
+        examCertificateScreen(
             onNavigateBack = { navController.popBackStack() }
         )
 
