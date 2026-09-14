@@ -20,7 +20,6 @@
 
     <!-- Password -->
     <string name="settings_password_unavailable">Changing your password is not available in the app yet. You can change it on the web.</string>
-    <string name="settings_open_on_web">Open on the web</string>
 
     <!-- Language -->
     <string name="settings_language_preference">Language Preference</string>

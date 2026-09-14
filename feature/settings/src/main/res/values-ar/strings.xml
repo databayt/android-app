@@ -20,7 +20,6 @@
 
     <!-- Password -->
     <string name="settings_password_unavailable">تغيير كلمة المرور غير متاح في التطبيق بعد. يمكنك تغييرها على الويب.</string>
-    <string name="settings_open_on_web">فتح على الويب</string>
 
     <!-- Language -->
     <string name="settings_language_preference">تفضيل اللغة</string>

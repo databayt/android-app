@@ -39,8 +39,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hogwarts.android.core.designsystem.kit.PageNav
 import org.hogwarts.android.core.designsystem.kit.PageNavItem
-import org.hogwarts.android.core.designsystem.kit.PillButton
-import org.hogwarts.android.core.designsystem.kit.PillVariant
 import org.hogwarts.android.core.designsystem.locale.currentLocale
 import org.hogwarts.android.core.designsystem.theme.HogwartsShapes
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
@@ -50,7 +48,7 @@ import org.hogwarts.android.feature.settings.R
  * `/settings` on a phone: the page's tabs, then each tab's grey grouped list.
  * The app shell draws the platform header above it.
  *
- * @param onOpenHref web paths that have no native screen (the password form).
+ * @param onOpenHref web paths that have no native screen.
  * @param onOpenNotificationPreferences the real per-type preferences page.
  */
 @Composable
@@ -101,7 +99,7 @@ internal fun SettingsContent(
         when (state.tab) {
             SettingsTab.Appearance -> AppearanceTab(state.themeMode, onThemeMode)
             SettingsTab.Notifications -> NotificationsTab(onOpenNotificationPreferences)
-            SettingsTab.Password -> PasswordTab(onOpenHref)
+            SettingsTab.Password -> PasswordTab()
             SettingsTab.Language -> LanguageTab(language, onLanguage)
         }
         Spacer(Modifier.height(32.dp))
@@ -177,19 +175,18 @@ private fun NotificationsTab(onOpenNotificationPreferences: () -> Unit) {
     }
 }
 
-/** Password. No mobile API changes a signed-in user's password yet, so the web page does it. */
+/**
+ * Password. No mobile API changes a signed-in user's password yet, and the
+ * shell can't hand `/settings` to the web (it resolves to this screen), so
+ * the tab says where to do it.
+ */
 @Composable
-private fun PasswordTab(onOpenHref: (String) -> Unit) {
+private fun PasswordTab() {
     Text(
         stringResource(R.string.settings_password_unavailable),
         style = HogwartsTheme.type.body,
         color = HogwartsTheme.colors.mutedForeground,
-        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-    )
-    PillButton(
-        label = stringResource(R.string.settings_open_on_web),
-        onClick = { onOpenHref("/settings") },
-        variant = PillVariant.Outline,
+        modifier = Modifier.fillMaxWidth(),
     )
 }
 
