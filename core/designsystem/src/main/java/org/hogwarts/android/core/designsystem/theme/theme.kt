@@ -1,148 +1,109 @@
 package org.hogwarts.android.core.designsystem.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.SideEffect
-import android.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.view.WindowCompat
 
 /**
- * Light color scheme for Hogwarts Android.
+ * Material 3 roles derived from the web tokens, so stock components (dialogs,
+ * text fields, switches) land on the same neutral palette as the kit.
+ * shadcn's neutral theme has no accent hue: primary is near-black in light and
+ * near-white in dark, exactly as on the phone web.
  */
-private val LightColorScheme = lightColorScheme(
-    primary = HogwartsPrimary,
-    onPrimary = HogwartsOnPrimary,
-    primaryContainer = HogwartsPrimaryLight,
-    onPrimaryContainer = HogwartsPrimaryDark,
-
-    secondary = HogwartsSecondary,
-    onSecondary = HogwartsOnSecondary,
-    secondaryContainer = HogwartsSecondaryLight,
-    onSecondaryContainer = HogwartsSecondaryDark,
-
-    tertiary = HogwartsTertiary,
-    onTertiary = HogwartsOnTertiary,
-    tertiaryContainer = HogwartsTertiaryLight,
-    onTertiaryContainer = HogwartsTertiaryDark,
-
-    error = HogwartsError,
-    onError = HogwartsOnError,
-    errorContainer = HogwartsErrorLight,
-    onErrorContainer = HogwartsOnErrorContainer,
-
-    background = HogwartsBackground,
-    onBackground = HogwartsOnBackground,
-
-    surface = HogwartsSurface,
-    onSurface = HogwartsOnSurface,
-    surfaceVariant = HogwartsSurfaceVariant,
-    onSurfaceVariant = HogwartsOnSurfaceVariant,
-    surfaceContainerLowest = HogwartsSurface,
-    surfaceContainerLow = HogwartsSurface,
-    surfaceContainer = HogwartsSurface,
-    surfaceContainerHigh = HogwartsSurface,
-    surfaceContainerHighest = HogwartsSurfaceVariant,
-
-    outline = HogwartsOutline,
-    outlineVariant = HogwartsOutline
-)
+private fun HogwartsColors.toColorScheme(): ColorScheme {
+    val base = if (isDark) darkColorScheme() else lightColorScheme()
+    return base.copy(
+        primary = primary,
+        onPrimary = primaryForeground,
+        primaryContainer = muted,
+        onPrimaryContainer = foreground,
+        secondary = muted,
+        onSecondary = foreground,
+        secondaryContainer = muted,
+        onSecondaryContainer = foreground,
+        tertiary = positive,
+        onTertiary = background,
+        error = destructive,
+        onError = Color.White,
+        background = background,
+        onBackground = foreground,
+        surface = background,
+        onSurface = foreground,
+        surfaceVariant = muted,
+        onSurfaceVariant = mutedForeground,
+        surfaceContainerLowest = background,
+        surfaceContainerLow = surface,
+        surfaceContainer = muted,
+        surfaceContainerHigh = muted,
+        surfaceContainerHighest = muted,
+        inverseSurface = foreground,
+        inverseOnSurface = background,
+        outline = border,
+        outlineVariant = border,
+        scrim = BrandColors.Ink,
+    )
+}
 
 /**
- * Dark color scheme for Hogwarts Android.
- */
-private val DarkColorScheme = darkColorScheme(
-    primary = HogwartsPrimaryLight,
-    onPrimary = HogwartsPrimaryDark,
-    primaryContainer = HogwartsPrimary,
-    onPrimaryContainer = HogwartsOnPrimary,
-
-    secondary = HogwartsSecondaryLight,
-    onSecondary = HogwartsSecondaryDark,
-    secondaryContainer = HogwartsSecondary,
-    onSecondaryContainer = HogwartsOnSecondary,
-
-    tertiary = HogwartsTertiaryLight,
-    onTertiary = HogwartsTertiaryDark,
-    tertiaryContainer = HogwartsTertiary,
-    onTertiaryContainer = HogwartsOnTertiary,
-
-    error = HogwartsErrorLight,
-    onError = HogwartsOnErrorContainer,
-    errorContainer = HogwartsError,
-    onErrorContainer = HogwartsOnError,
-
-    background = HogwartsBackgroundDark,
-    onBackground = HogwartsOnBackgroundDark,
-
-    surface = HogwartsSurfaceDark,
-    onSurface = HogwartsOnSurfaceDark,
-    surfaceVariant = HogwartsSurfaceVariantDark,
-    onSurfaceVariant = HogwartsOnSurfaceVariantDark,
-    surfaceContainerLowest = HogwartsBackgroundDark,
-    surfaceContainerLow = HogwartsSurfaceDark,
-    surfaceContainer = HogwartsSurfaceDark,
-    surfaceContainerHigh = HogwartsSurfaceVariantDark,
-    surfaceContainerHighest = HogwartsSurfaceVariantDark,
-
-    outline = HogwartsOutlineDark,
-    outlineVariant = HogwartsOutlineDark
-)
-
-/**
- * Hogwarts Android theme wrapper.
+ * Hogwarts theme: web tokens ([HogwartsColors]), the kit type scale and the
+ * brand fonts for the current layout direction.
  *
  * RTL is read from [LocalLayoutDirection], which the framework derives from the
- * activity's `Configuration` after [androidx.appcompat.app.AppCompatDelegate.setApplicationLocales]
- * (or the platform `LocaleManager` on Android 13+) applies the per-app locale.
- *
- * @param darkTheme Whether to use dark theme
- * @param dynamicColor Whether to use dynamic color (Android 12+)
- * @param content Composable content
+ * activity's `Configuration` after the per-app locale is applied.
+ * Edge-to-edge is enabled by the activity (`enableEdgeToEdge()`); the theme only
+ * keeps the system bar icons legible against the current background.
  */
 @Composable
 fun HogwartsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colors = if (darkTheme) HogwartsColors.Dark else HogwartsColors.Light
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            val window = (view.context as Activity).window
-            // Edge-to-edge: transparent status bar, let content draw behind
-            @Suppress("DEPRECATION")
-            window.statusBarColor = Color.TRANSPARENT
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            val window = (view.context as? Activity)?.window ?: return@SideEffect
+            WindowCompat.getInsetsController(window, view).apply {
+                isAppearanceLightStatusBars = !darkTheme
+                isAppearanceLightNavigationBars = !darkTheme
+            }
         }
     }
 
     val isRtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     val fontFamily = BrandFonts.forDirection(isRtl)
-    val typography = hogwartsTypography(fontFamily)
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalHogwartsColors provides colors,
+        LocalWhatsAppColors provides if (darkTheme) WhatsAppColors.dark else WhatsAppColors.light,
+        LocalKitTypography provides kitTypography(fontFamily),
+    ) {
+        MaterialTheme(
+            colorScheme = colors.toColorScheme(),
+            typography = hogwartsTypography(fontFamily),
+            content = content
+        )
+    }
+}
+
+/** Accessors for the Hogwarts tokens inside [HogwartsTheme]. */
+object HogwartsTheme {
+    val colors: HogwartsColors
+        @Composable @ReadOnlyComposable get() = LocalHogwartsColors.current
+
+    val type: KitTypography
+        @Composable @ReadOnlyComposable get() = LocalKitTypography.current
 }
