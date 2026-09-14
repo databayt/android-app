@@ -226,7 +226,6 @@ dependencies {
     implementation(project(":feature:lessons"))
     implementation(project(":feature:admin"))
     implementation(project(":feature:idcard"))
-    implementation(project(":feature:quizgame"))
 
     // New core modules
     implementation(project(":core:sync"))

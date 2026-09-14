@@ -168,19 +168,6 @@ import org.hogwarts.android.feature.guardian.navigation.meetingBookingScreen
 import org.hogwarts.android.feature.guardian.navigation.consentFormsScreen
 import org.hogwarts.android.feature.guardian.navigation.tripPermissionsScreen
 import org.hogwarts.android.feature.guardian.navigation.communicationPreferencesScreen
-import org.hogwarts.android.feature.quizgame.navigation.QuizGamePractice
-import org.hogwarts.android.feature.quizgame.navigation.QuizGameTimed
-import org.hogwarts.android.feature.quizgame.navigation.QuizGameLeaderboard
-import org.hogwarts.android.feature.quizgame.navigation.QuizGameAchievements
-import org.hogwarts.android.feature.quizgame.navigation.QuizGameTournament
-import org.hogwarts.android.feature.quizgame.navigation.QuizGameSession
-import org.hogwarts.android.feature.quizgame.navigation.gameHubScreen
-import org.hogwarts.android.feature.quizgame.navigation.practiceModeScreen
-import org.hogwarts.android.feature.quizgame.navigation.timedChallengeScreen
-import org.hogwarts.android.feature.quizgame.navigation.quizLeaderboardScreen
-import org.hogwarts.android.feature.quizgame.navigation.quizAchievementsScreen
-import org.hogwarts.android.feature.quizgame.navigation.tournamentScreen
-import org.hogwarts.android.feature.quizgame.navigation.quizSessionScreen
 import org.hogwarts.android.core.sync.navigation.syncSettingsScreen
 import org.hogwarts.android.core.sync.navigation.conflictResolutionScreen
 import org.hogwarts.android.core.sync.navigation.syncProgressScreen
@@ -858,52 +845,6 @@ fun HogwartsNavHost(
         // =====================================================
         // Phase 2D: Polish & Nice-to-have
         // =====================================================
-
-        // Quiz Game - Game Hub
-        gameHubScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToPractice = { navController.navigate(QuizGamePractice) },
-            onNavigateToTimed = { navController.navigate(QuizGameTimed) },
-            onNavigateToLeaderboard = { navController.navigate(QuizGameLeaderboard) },
-            onNavigateToAchievements = { navController.navigate(QuizGameAchievements) },
-            onNavigateToTournament = { navController.navigate(QuizGameTournament) }
-        )
-
-        // Quiz Game - Practice Mode
-        practiceModeScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToSession = { sessionId ->
-                navController.navigate(QuizGameSession(sessionId))
-            }
-        )
-
-        // Quiz Game - Timed Challenge
-        timedChallengeScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToSession = { sessionId ->
-                navController.navigate(QuizGameSession(sessionId))
-            }
-        )
-
-        // Quiz Game - Leaderboard
-        quizLeaderboardScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Quiz Game - Achievements
-        quizAchievementsScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Quiz Game - Tournament
-        tournamentScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
-
-        // Quiz Game - Session
-        quizSessionScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
 
         // Attendance Kiosk Mode
         kioskModeScreen(

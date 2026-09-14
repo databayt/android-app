@@ -58,7 +58,6 @@ include(":feature:lumos")
 include(":feature:lessons")
 include(":feature:admin")
 include(":feature:idcard")
-include(":feature:quizgame")
 
 // New core modules
 include(":core:sync")
