@@ -16,6 +16,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.core.text.BidiFormatter
+import androidx.core.text.TextDirectionHeuristicsCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hogwarts.android.core.designsystem.kit.FormAlert
@@ -70,7 +72,7 @@ internal fun VerifyOtpContent(
                     append(stringResource(R.string.auth_code_sent_to))
                     append(' ')
                     withStyle(SpanStyle(fontWeight = FontWeight.Bold, color = colors.foreground)) {
-                        append("⁦${maskEmail(state.email)}⁩")
+                        append(BidiFormatter.getInstance().unicodeWrap(maskEmail(state.email), TextDirectionHeuristicsCompat.LTR))
                     }
                 },
                 style = type.body,
