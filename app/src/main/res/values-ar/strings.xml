@@ -63,4 +63,46 @@
     <string name="role_teacher">معلم</string>
     <string name="role_guardian">ولي أمر</string>
     <string name="role_admin">مدير</string>
+
+    <!-- Platform menu — mirrors platform.sidebar in hogwarts en.json / ar.json -->
+    <string name="menu_overview">نظرة عامة</string>
+    <string name="menu_school">المدرسة</string>
+    <string name="menu_sales">المبيعات</string>
+    <string name="menu_announcements">الإعلانات</string>
+    <string name="menu_finance">المالية</string>
+    <string name="menu_grades">الدرجات</string>
+    <string name="menu_subjects">المواد</string>
+    <string name="menu_parents">أولياء الأمور</string>
+    <string name="menu_admission">القبول</string>
+    <string name="menu_students">الطلاب</string>
+    <string name="menu_teachers">المعلمين</string>
+    <string name="menu_classrooms">الفصول</string>
+    <string name="menu_exams">الامتحانات</string>
+    <string name="menu_events">الأحداث</string>
+    <string name="menu_attendance">الحضور</string>
+    <string name="menu_timetable">الجدول</string>
+    <string name="menu_library">المكتبة</string>
+    <string name="menu_transportation">النقل</string>
+    <string name="menu_transport_fees">رسوم النقل</string>
+    <string name="menu_my_transportation">نقل</string>
+    <string name="menu_my_assignments">واجب</string>
+    <string name="menu_parent_portal">بوابة ولي الأمر</string>
+    <string name="menu_trips">الرحلات</string>
+    <string name="menu_lumos">لوموس</string>
+    <string name="menu_live">مباشر</string>
+    <string name="menu_compliance">الامتثال التنظيمي</string>
+    <string name="menu_profile">الملف</string>
+    <string name="menu_settings">الإعدادات</string>
+    <string name="menu_charts">الرسوم البيانية</string>
+    <string name="menu_stats">الإحصائيات</string>
+    <string name="menu_billing">الفواتير</string>
+    <string name="menu_title">القائمة</string>
+    <string name="menu_toggle">تبديل القائمة</string>
+    <string name="menu_home">الرئيسية</string>
+    <string name="menu_messages">الرسائل</string>
+    <string name="menu_notifications">الإشعارات</string>
+    <string name="menu_search">بحث</string>
+    <string name="menu_language">اللغة</string>
+    <string name="menu_theme">المظهر</string>
+    <string name="menu_account">الحساب</string>
 </resources>

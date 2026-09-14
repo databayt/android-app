@@ -238,6 +238,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.bundles.lifecycle)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.browser)
 
     // Security (EncryptedSharedPreferences)
     implementation(libs.security.crypto)

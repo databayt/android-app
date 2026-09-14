@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.hogwarts.android.core.data.preferences.AppPreferences
 import org.hogwarts.android.core.database.HogwartsDatabase
 import org.hogwarts.android.core.push.DeviceTokenRegistrar
 import org.hogwarts.android.core.security.CredentialManager
@@ -29,11 +32,16 @@ class MainViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val credentialManager: CredentialManager,
     private val database: HogwartsDatabase,
-    private val deviceTokenRegistrar: DeviceTokenRegistrar
+    private val deviceTokenRegistrar: DeviceTokenRegistrar,
+    appPreferences: AppPreferences
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
     val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+
+    /** "light", "dark" or "system" — the web's mode switcher, persisted. */
+    val themeMode: StateFlow<String> = appPreferences.themeMode
+        .stateIn(viewModelScope, SharingStarted.Eagerly, "system")
 
     init {
         checkSession()

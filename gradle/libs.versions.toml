@@ -84,6 +84,9 @@ workRuntime = "2.11.2"
 # AppCompat (per-app language API)
 appcompat = "1.8.0"
 
+# Custom Tabs (web handoff)
+browser = "1.10.0"
+
 # Logging
 timber = "5.0.1"
 
@@ -196,6 +199,9 @@ androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscree
 
 # Barcode rendering
 zxing-core = { group = "com.google.zxing", name = "core", version.ref = "zxing" }
+
+# Custom Tabs
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 # Logging
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }

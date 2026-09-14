@@ -5,21 +5,23 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.core.security.BiometricHelper
 import org.hogwarts.android.navigation.HogwartsNavHost
+import org.hogwarts.android.shell.AppShell
 import javax.inject.Inject
 
 /**
@@ -63,24 +65,39 @@ fun HogwartsApp(
     tenantContext: TenantContext,
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val themeMode by viewModel.themeMode.collectAsStateWithLifecycle()
 
     if (uiState.isLoading) return
 
-    HogwartsTheme {
+    val darkTheme = when (themeMode) {
+        "dark" -> true
+        "light" -> false
+        else -> isSystemInDarkTheme()
+    }
+
+    HogwartsTheme(darkTheme = darkTheme) {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
             val navController = rememberNavController()
+            val navHost: @Composable (Modifier) -> Unit = { modifier ->
+                HogwartsNavHost(
+                    navController = navController,
+                    isAuthenticated = uiState.isAuthenticated,
+                    onLogout = viewModel::logout,
+                    biometricHelper = biometricHelper,
+                    tenantContext = tenantContext,
+                    modifier = modifier
+                )
+            }
 
-            HogwartsNavHost(
-                navController = navController,
-                isAuthenticated = uiState.isAuthenticated,
-                onLogout = viewModel::logout,
-                biometricHelper = biometricHelper,
-                tenantContext = tenantContext
-            )
+            if (uiState.isAuthenticated) {
+                AppShell(navController = navController, content = navHost)
+            } else {
+                navHost(Modifier)
+            }
         }
     }
 }
