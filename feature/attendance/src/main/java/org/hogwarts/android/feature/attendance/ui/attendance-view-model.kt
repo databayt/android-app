@@ -35,7 +35,7 @@ class AttendanceViewModel @Inject constructor(
 
     private fun loadAttendance() {
         val userId = tenantContext.userId ?: return
-        val isTeacher = tenantContext.hasAnyRole(UserRole.TEACHER, UserRole.ADMIN, UserRole.SUPER_ADMIN)
+        val isTeacher = tenantContext.hasAnyRole(UserRole.TEACHER, UserRole.ADMIN, UserRole.DEVELOPER, UserRole.STAFF)
 
         _uiState.update { it.copy(isTeacher = isTeacher) }
 

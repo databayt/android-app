@@ -49,9 +49,8 @@ class DashboardViewModel @Inject constructor(
 
             try {
                 val dto = repository.getDashboard()
-                val role = try { UserRole.valueOf(dto.role) } catch (_: Exception) {
-                    tenantContext.userRole ?: UserRole.STUDENT
-                }
+                val role = UserRole.fromWire(dto.role).takeIf { it != UserRole.UNKNOWN }
+                    ?: tenantContext.userRole ?: UserRole.UNKNOWN
 
                 _uiState.update {
                     it.copy(

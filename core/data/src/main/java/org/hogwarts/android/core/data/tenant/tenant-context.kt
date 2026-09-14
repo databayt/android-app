@@ -100,14 +100,33 @@ class TenantContext @Inject constructor(
 }
 
 /**
- * User roles matching Hogwarts backend
+ * User roles — mirrors Prisma `UserRole` in hogwarts (prisma/models/auth.prisma).
+ * [UNKNOWN] absorbs any value the server adds later so login never crashes.
  */
 enum class UserRole {
-    STUDENT,
-    TEACHER,
-    GUARDIAN,
+    DEVELOPER,
     ADMIN,
-    SUPER_ADMIN
+    TEACHER,
+    STUDENT,
+    GUARDIAN,
+    ACCOUNTANT,
+    STAFF,
+    USER,
+    UNKNOWN;
+
+    /** Platform operator or school admin. */
+    val isAdmin: Boolean get() = this == ADMIN || this == DEVELOPER
+
+    companion object {
+        /** Parse a role from the API. Never throws. */
+        fun fromWire(value: String?): UserRole = when (val v = value?.trim()?.uppercase()) {
+            null, "" -> UNKNOWN
+            "SUPER_ADMIN" -> DEVELOPER
+            "PRINCIPAL", "SCHOOL_ADMIN" -> ADMIN
+            "PARENT" -> GUARDIAN
+            else -> entries.firstOrNull { it.name == v } ?: UNKNOWN
+        }
+    }
 }
 
 /**

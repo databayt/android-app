@@ -36,11 +36,12 @@ object ProfileAccess {
         if (!sameSchool) return denied()
 
         val canView = when (viewerRole) {
-            UserRole.ADMIN, UserRole.SUPER_ADMIN -> true
+            UserRole.ADMIN, UserRole.DEVELOPER -> true
             UserRole.TEACHER -> target.role in setOf(ProfileRole.TEACHER, ProfileRole.STUDENT, ProfileRole.PARENT)
             UserRole.STUDENT -> target.role in setOf(ProfileRole.TEACHER, ProfileRole.STUDENT)
             UserRole.GUARDIAN -> target.role in setOf(ProfileRole.TEACHER, ProfileRole.STUDENT)
-            null -> false
+            UserRole.ACCOUNTANT, UserRole.STAFF -> target.role in setOf(ProfileRole.TEACHER, ProfileRole.STAFF)
+            UserRole.USER, UserRole.UNKNOWN, null -> false
         }
         return ProfilePermissions(
             canView = canView,

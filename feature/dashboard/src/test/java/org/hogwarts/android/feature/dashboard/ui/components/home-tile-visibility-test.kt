@@ -66,7 +66,7 @@ class HomeTileVisibilityTest {
 
     @Test
     fun `super admin sees every tile including AtomStudio`() {
-        val visible = HomeTileVisibility.tilesFor(UserRole.SUPER_ADMIN)
+        val visible = HomeTileVisibility.tilesFor(UserRole.DEVELOPER)
         assertEquals(HomeTileId.values().toSet(), visible)
     }
 
@@ -125,7 +125,7 @@ class HomeTileVisibilityTest {
     private fun tile(id: HomeTileId): HomeTileSpec = HomeTileSpec(
         id = id,
         labelRes = 0,
-        icon = androidx.compose.material.icons.Icons.Filled.Science,
+        icon = org.hogwarts.android.core.designsystem.apple.HogwartsIcons.Video,
         background = androidx.compose.ui.graphics.Color.Unspecified,
         onClick = {}
     )

@@ -33,7 +33,7 @@ class HallPassViewModel @Inject constructor(
     val uiState: StateFlow<HallPassUiState> = _uiState.asStateFlow()
 
     init {
-        val isTeacher = tenantContext.hasAnyRole(UserRole.TEACHER, UserRole.ADMIN, UserRole.SUPER_ADMIN)
+        val isTeacher = tenantContext.hasAnyRole(UserRole.TEACHER, UserRole.ADMIN, UserRole.DEVELOPER, UserRole.STAFF)
         _uiState.update { it.copy(isTeacher = isTeacher) }
         loadHallPasses()
     }

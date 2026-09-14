@@ -74,7 +74,10 @@ class LocaleFormatterTest {
         assertTrue("Expected RLM marker in $wrapped", wrapped.any { it == '‏' })
     }
 
+    // Below API 33 AppCompatDelegate keeps per-app locales in memory; on 33+ it
+    // delegates to the framework LocaleManager, which Robolectric doesn't persist.
     @Test
+    @Config(sdk = [32])
     fun `current locale source follows AppCompatDelegate`() {
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ar"))
         val out = formatter.formatNumber(7)

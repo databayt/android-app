@@ -7,7 +7,7 @@ import org.hogwarts.android.feature.messaging.domain.model.SidebarFilter
 /** Which contact categories each role sees, in display order.
  *  Mirrors hogwarts/src/components/school-dashboard/messaging/contacts/config.ts:7-22. */
 val ROLE_CATEGORIES: Map<UserRole, List<ContactCategory>> = mapOf(
-    UserRole.SUPER_ADMIN to listOf(
+    UserRole.DEVELOPER to listOf(
         ContactCategory.ADMIN,
         ContactCategory.TEACHERS,
         ContactCategory.STUDENTS,
@@ -37,6 +37,17 @@ val ROLE_CATEGORIES: Map<UserRole, List<ContactCategory>> = mapOf(
     UserRole.GUARDIAN to listOf(
         ContactCategory.MY_CHILDREN_TEACHERS,
         ContactCategory.ADMIN,
+    ),
+    UserRole.ACCOUNTANT to listOf(
+        ContactCategory.ADMIN,
+        ContactCategory.STAFF,
+        ContactCategory.TEACHERS,
+    ),
+    UserRole.STAFF to listOf(
+        ContactCategory.ADMIN,
+        ContactCategory.TEACHERS,
+        ContactCategory.STAFF,
+        ContactCategory.ACCOUNTANTS,
     ),
 )
 

@@ -42,7 +42,7 @@ enum class HomeTileId(val serverName: String) {
  * needs to add new entries; existing entries don't need to change.
  *
  * Mapping rationale:
- * - `SUPER_ADMIN` ≈ server `DEVELOPER`: sees everything including `AtomStudio`
+ * - `DEVELOPER`: sees everything including `AtomStudio`
  * - `ADMIN` sees everything except `AtomStudio` (dev-only)
  * - `TEACHER` sees teaching tiles + `Students` roster + `Assignments` marking;
  *   no `Fees` (teachers aren't billed) or `AtomStudio`
@@ -84,7 +84,7 @@ object HomeTileVisibility {
         UserRole.TEACHER to teacher,
         UserRole.GUARDIAN to guardian,
         UserRole.ADMIN to admin,
-        UserRole.SUPER_ADMIN to superAdmin
+        UserRole.DEVELOPER to superAdmin
     )
 
     /**

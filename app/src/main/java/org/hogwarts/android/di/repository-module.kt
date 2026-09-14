@@ -123,7 +123,7 @@ class SessionManagerImpl @javax.inject.Inject constructor(
         val email = prefs.getString(KEY_EMAIL, null) ?: return null
         val schoolId = prefs.getString(KEY_SCHOOL_ID, null) ?: return null
         val roleName = prefs.getString(KEY_ROLE, null) ?: return null
-        val role = try { UserRole.valueOf(roleName) } catch (_: Exception) { return null }
+        val role = UserRole.fromWire(roleName).takeIf { it != UserRole.UNKNOWN } ?: return null
         return CurrentUser(
             id = id,
             email = email,

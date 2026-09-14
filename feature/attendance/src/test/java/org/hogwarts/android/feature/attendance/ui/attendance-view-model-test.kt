@@ -111,7 +111,7 @@ class AttendanceViewModelTest {
             emit(Resource.Success(sampleRecords))
         }
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
 
         viewModel.uiState.test {
             // Default initial state (isLoading=true, records=empty)
@@ -140,7 +140,7 @@ class AttendanceViewModelTest {
             emit(Resource.Error<List<AttendanceRecord>>(Exception(errorMessage), emptyList()))
         }
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
 
         viewModel.uiState.test {
             // Default initial state (Loading(null) de-duplicated by StateFlow)
@@ -164,7 +164,7 @@ class AttendanceViewModelTest {
             emit(Resource.Error(Exception("Server error"), cachedRecords))
         }
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
 
         viewModel.uiState.test {
             // Default initial state
@@ -193,7 +193,7 @@ class AttendanceViewModelTest {
             Resource.Success(sampleRecords)
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         viewModel.setFilter(AttendanceFilter.ABSENT)
@@ -211,7 +211,7 @@ class AttendanceViewModelTest {
             Resource.Success(sampleRecords)
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         viewModel.setFilter(AttendanceFilter.PRESENT)
@@ -227,7 +227,7 @@ class AttendanceViewModelTest {
             Resource.Success(sampleRecords)
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         viewModel.setFilter(AttendanceFilter.ABSENT)
@@ -243,7 +243,7 @@ class AttendanceViewModelTest {
             Resource.Success(sampleRecords)
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         viewModel.setFilter(AttendanceFilter.LATE)
@@ -259,7 +259,7 @@ class AttendanceViewModelTest {
             Resource.Success(sampleRecords)
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         viewModel.setFilter(AttendanceFilter.EXCUSED)
@@ -275,7 +275,7 @@ class AttendanceViewModelTest {
             Resource.Success(sampleRecords)
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         viewModel.setFilter(AttendanceFilter.ALL)
@@ -292,7 +292,7 @@ class AttendanceViewModelTest {
             Resource.Success(emptyList())
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
 
         viewModel.uiState.test {
             // Default initial state
@@ -319,7 +319,7 @@ class AttendanceViewModelTest {
             Resource.Success(emptyList())
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
 
         viewModel.uiState.test {
             // Skip initial
@@ -339,7 +339,7 @@ class AttendanceViewModelTest {
             Resource.Success(emptyList())
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
 
         viewModel.uiState.test {
             // Skip initial
@@ -362,7 +362,7 @@ class AttendanceViewModelTest {
             Resource.Success(emptyList())
         )
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         // Use case should never be called when userId is null
@@ -390,7 +390,7 @@ class AttendanceViewModelTest {
             }
         }
 
-        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext)
+        val viewModel = AttendanceViewModel(getAttendanceUseCase, tenantContext, mockk(relaxed = true))
         advanceUntilIdle()
 
         // First call should result in error

@@ -166,6 +166,13 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     private suspend fun saveAuthResult(body: AuthResponseDto): AuthResult {
+        // Resolve the role before persisting anything, so an unexpected role
+        // can never leave tokens saved without a session.
+        val role = UserRole.fromWire(body.user.role)
+        if (role == UserRole.UNKNOWN) {
+            throw AuthException("Unsupported account role")
+        }
+
         tokenManager.saveTokens(
             accessToken = body.accessToken,
             refreshToken = body.refreshToken,
@@ -179,7 +186,7 @@ class AuthRepositoryImpl @Inject constructor(
             id = body.user.id,
             email = userEmail,
             schoolId = userSchoolId,
-            role = UserRole.valueOf(body.user.role),
+            role = role,
             givenName = body.user.givenName,
             familyName = body.user.familyName,
             grade = body.user.grade
@@ -190,7 +197,7 @@ class AuthRepositoryImpl @Inject constructor(
             userId = body.user.id,
             email = userEmail,
             schoolId = userSchoolId,
-            role = UserRole.valueOf(body.user.role),
+            role = role,
             givenName = body.user.givenName,
             familyName = body.user.familyName,
             accessToken = body.accessToken,

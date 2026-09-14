@@ -50,7 +50,7 @@ enum class ProfileRole {
             "TEACHER" -> TEACHER
             "GUARDIAN", "PARENT" -> PARENT
             "STAFF", "ACCOUNTANT" -> STAFF
-            "ADMIN", "SCHOOL_ADMIN", "SUPER_ADMIN" -> ADMIN
+            "ADMIN", "SCHOOL_ADMIN", "SUPER_ADMIN", "DEVELOPER" -> ADMIN
             else -> STUDENT
         }
     }
