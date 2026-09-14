@@ -7,10 +7,14 @@ import org.hogwarts.android.feature.timetable.ui.TimetableScreen
 
 @Serializable data object Timetable
 
-fun NavGraphBuilder.timetableScreen(
-    onNavigateBack: () -> Unit
-) {
+/**
+ * `/timetable`: the role's view under the section's tabs. [onOpenHref]
+ * receives the web paths the app does not rebuild — the admin sub-pages
+ * (`/timetable/analytics`, `generate`, `conflicts`, `settings`), the admin grid
+ * itself, and LiveKit rooms (`/live/{id}/room`).
+ */
+fun NavGraphBuilder.timetableGraph(onOpenHref: (href: String) -> Unit) {
     composable<Timetable> {
-        TimetableScreen(onNavigateBack = onNavigateBack)
+        TimetableScreen(onOpenHref = onOpenHref)
     }
 }

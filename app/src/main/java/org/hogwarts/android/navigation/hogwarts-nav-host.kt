@@ -111,7 +111,7 @@ import org.hogwarts.android.feature.guardian.navigation.guardianChildrenScreen
 import org.hogwarts.android.feature.guardian.navigation.guardianMessagesScreen
 import org.hogwarts.android.feature.guardian.navigation.guardianNotificationsScreen
 import org.hogwarts.android.feature.timetable.navigation.Timetable
-import org.hogwarts.android.feature.timetable.navigation.timetableScreen
+import org.hogwarts.android.feature.timetable.navigation.timetableGraph
 import org.hogwarts.android.feature.lumos.navigation.LumosCatalog
 import org.hogwarts.android.feature.lumos.navigation.LumosCourseDetail
 import org.hogwarts.android.feature.lumos.navigation.LumosChapters
@@ -304,10 +304,8 @@ fun HogwartsNavHost(
             }
         )
 
-        // Timetable
-        timetableScreen(
-            onNavigateBack = { navController.popBackStack() }
-        )
+        // Timetable (web /timetable): the role's view; admin sub-pages and live rooms are web paths.
+        timetableGraph(onOpenHref = { href -> hrefOpener.open(href) })
 
         // Messages: the five-tab shell and its threads (web /messages)
         messagesGraph(

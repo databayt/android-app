@@ -1,16 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Top bar -->
-    <string name="timetable_title">Timetable</string>
-    <string name="timetable_back">Back</string>
+    <!-- Mirrors the web dictionary school.timetable (hogwarts school-en.json) -->
 
-    <!-- Empty state -->
-    <string name="timetable_no_classes">No Classes</string>
-    <string name="timetable_no_classes_subtitle">No classes scheduled for this day.</string>
+    <!-- Tabs: timetable/layout.tsx -->
+    <string name="timetable_tab_all">All</string>
+    <string name="timetable_tab_analytics">Analytics</string>
+    <string name="timetable_tab_generate">Generate</string>
+    <string name="timetable_tab_conflicts">Conflicts</string>
+    <string name="timetable_tab_settings">Settings</string>
+    <string name="timetable_tab_today">Today</string>
+    <string name="timetable_tab_full">Week View</string>
 
-    <!-- Entry details -->
-    <string name="timetable_teacher_room">%1$s \u2022 Room %2$s</string>
+    <!-- Student week/day toggle -->
+    <string name="timetable_range_week">Week</string>
+    <string name="timetable_range_day">Today</string>
 
-    <!-- Error banner -->
-    <string name="timetable_showing_cached">Showing cached data. %1$s</string>
+    <!-- Grid -->
+    <string name="timetable_period">Period</string>
+    <string name="timetable_break">Break</string>
+    <string name="timetable_live_now">Live now</string>
+    <string name="timetable_scheduled_today">Scheduled</string>
+    <string-array name="timetable_day_names">
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <!-- Shared -->
+    <string name="timetable_closed_today">School is closed today</string>
+    <string name="timetable_online">Online</string>
+    <string name="timetable_join">Join</string>
+    <string name="timetable_free_period">Free Period</string>
+    <string name="timetable_load_failed">Failed to load timetable</string>
+    <string name="timetable_no_data">No timetable data available</string>
+    <string name="timetable_offline">Offline — showing your last saved timetable</string>
+    <string name="timetable_retry">Try again</string>
+
+    <!-- Teacher view -->
+    <string name="timetable_teacher_title">My Teaching Schedule</string>
+    <string name="timetable_days_per_week">days/week</string>
+    <string name="timetable_periods_per_week">periods/week</string>
+    <string name="timetable_classes">classes</string>
+    <string name="timetable_currently_teaching">Currently Teaching</string>
+    <string name="timetable_next_class">Next Class</string>
+    <string name="timetable_all_classrooms">All Classrooms</string>
+    <string name="timetable_all_subjects">All Subjects</string>
+    <string name="timetable_no_classes_day">No classes scheduled for today (%1$s)</string>
+
+    <!-- Guardian view -->
+    <string name="timetable_guardian_title">Child\'s Schedule</string>
+    <string name="timetable_guardian_description">View your child\'s class timetable</string>
+    <string name="timetable_no_children">No children linked to your guardian account</string>
+    <string name="timetable_child_next_class">%1$s\'s next class</string>
+    <string name="timetable_child_is_in">%1$s is in</string>
+    <string name="timetable_no_classes_today">No classes scheduled for today</string>
+
+    <!-- Admin view: the grid and its editor are web-only -->
+    <string name="timetable_admin_on_web">The school timetable is set up and edited on the web.</string>
+    <string name="timetable_open_on_web">Open on the web</string>
+
+    <!-- Slot detail: timetable.slotDetail -->
+    <string name="timetable_detail_title">Class details</string>
+    <string name="timetable_detail_starts_in">Starts in %1$s min</string>
+    <string name="timetable_detail_starts_in_hours">Starts in %1$s h</string>
+    <string name="timetable_detail_enter">Enter</string>
+    <string-array name="timetable_detail_periods">
+        <item>First period</item>
+        <item>Second period</item>
+        <item>Third period</item>
+        <item>Fourth period</item>
+        <item>Fifth period</item>
+        <item>Sixth period</item>
+        <item>Seventh period</item>
+        <item>Eighth period</item>
+        <item>Ninth period</item>
+        <item>Tenth period</item>
+    </string-array>
 </resources>

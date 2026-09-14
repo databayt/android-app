@@ -1,16 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Top bar -->
-    <string name="timetable_title">الجدول الدراسي</string>
-    <string name="timetable_back">رجوع</string>
+    <!-- Mirrors the web dictionary school.timetable (hogwarts school-ar.json) -->
 
-    <!-- Empty state -->
-    <string name="timetable_no_classes">لا توجد حصص</string>
-    <string name="timetable_no_classes_subtitle">لا توجد حصص مجدولة لهذا اليوم.</string>
+    <!-- Tabs: timetable/layout.tsx -->
+    <string name="timetable_tab_all">الكل</string>
+    <string name="timetable_tab_analytics">التحليلات</string>
+    <string name="timetable_tab_generate">إنشاء</string>
+    <string name="timetable_tab_conflicts">التعارضات</string>
+    <string name="timetable_tab_settings">الإعدادات</string>
+    <string name="timetable_tab_today">اليوم</string>
+    <string name="timetable_tab_full">عرض الأسبوع</string>
 
-    <!-- Entry details -->
-    <string name="timetable_teacher_room">%1$s \u2022 القاعة %2$s</string>
+    <!-- Student week/day toggle -->
+    <string name="timetable_range_week">أسبوع</string>
+    <string name="timetable_range_day">اليوم</string>
 
-    <!-- Error banner -->
-    <string name="timetable_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
+    <!-- Grid -->
+    <string name="timetable_period">الحصة</string>
+    <string name="timetable_break">استراحة</string>
+    <string name="timetable_live_now">مباشر الآن</string>
+    <string name="timetable_scheduled_today">مجدول</string>
+    <string-array name="timetable_day_names">
+        <item>الأحد</item>
+        <item>الاثنين</item>
+        <item>الثلاثاء</item>
+        <item>الأربعاء</item>
+        <item>الخميس</item>
+        <item>الجمعة</item>
+        <item>السبت</item>
+    </string-array>
+
+    <!-- Shared -->
+    <string name="timetable_closed_today">المدرسة مغلقة اليوم</string>
+    <string name="timetable_online">أونلاين</string>
+    <string name="timetable_join">انضمام</string>
+    <string name="timetable_free_period">حصة فارغة</string>
+    <string name="timetable_load_failed">فشل تحميل الجدول</string>
+    <string name="timetable_no_data">لا توجد بيانات جدول</string>
+    <string name="timetable_offline">غير متصل — يُعرض آخر جدول محفوظ</string>
+    <string name="timetable_retry">أعد المحاولة</string>
+
+    <!-- Teacher view -->
+    <string name="timetable_teacher_title">جدولي التدريسي</string>
+    <string name="timetable_days_per_week">أيام/أسبوع</string>
+    <string name="timetable_periods_per_week">حصص/أسبوع</string>
+    <string name="timetable_classes">فصول</string>
+    <string name="timetable_currently_teaching">يُدرّس حالياً</string>
+    <string name="timetable_next_class">الحصة التالية</string>
+    <string name="timetable_all_classrooms">جميع الفصول الدراسية</string>
+    <string name="timetable_all_subjects">جميع المواد</string>
+    <string name="timetable_no_classes_day">لا توجد حصص مجدولة لليوم (%1$s)</string>
+
+    <!-- Guardian view -->
+    <string name="timetable_guardian_title">جدول الطفل</string>
+    <string name="timetable_guardian_description">عرض جدول فصل طفلك</string>
+    <string name="timetable_no_children">لا يوجد أطفال مرتبطون بحساب ولي الأمر</string>
+    <string name="timetable_child_next_class">الحصة التالية لـ %1$s</string>
+    <string name="timetable_child_is_in">%1$s في</string>
+    <string name="timetable_no_classes_today">لا توجد حصص مجدولة لليوم</string>
+
+    <!-- Admin view: the grid and its editor are web-only -->
+    <string name="timetable_admin_on_web">يُعدّ جدول المدرسة ويُحرَّر على الويب.</string>
+    <string name="timetable_open_on_web">فتح على الويب</string>
+
+    <!-- Slot detail: timetable.slotDetail -->
+    <string name="timetable_detail_title">تفاصيل الحصة</string>
+    <string name="timetable_detail_starts_in">يبدأ بعد %1$s دقيقة</string>
+    <string name="timetable_detail_starts_in_hours">يبدأ بعد %1$s ساعة</string>
+    <string name="timetable_detail_enter">ادخل</string>
+    <string-array name="timetable_detail_periods">
+        <item>الحصة الأولى</item>
+        <item>الحصة الثانية</item>
+        <item>الحصة الثالثة</item>
+        <item>الحصة الرابعة</item>
+        <item>الحصة الخامسة</item>
+        <item>الحصة السادسة</item>
+        <item>الحصة السابعة</item>
+        <item>الحصة الثامنة</item>
+        <item>الحصة التاسعة</item>
+        <item>الحصة العاشرة</item>
+    </string-array>
 </resources>
