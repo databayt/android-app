@@ -1,11 +1,13 @@
 package org.hogwarts.android.feature.attendance.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import org.hogwarts.android.core.data.tenant.TenantContext
-import org.hogwarts.android.core.database.dao.AttendanceDao
+import org.hogwarts.android.feature.attendance.data.outbox.AttendanceSyncScheduler
+import org.hogwarts.android.feature.attendance.data.outbox.WorkManagerAttendanceSyncScheduler
 import org.hogwarts.android.feature.attendance.data.remote.AdvancedAttendanceApi
 import org.hogwarts.android.feature.attendance.data.remote.AttendanceApi
 import org.hogwarts.android.feature.attendance.data.repository.AdvancedAttendanceRepository
@@ -13,7 +15,14 @@ import org.hogwarts.android.feature.attendance.data.repository.AdvancedAttendanc
 import org.hogwarts.android.feature.attendance.data.repository.AttendanceRepository
 import org.hogwarts.android.feature.attendance.data.repository.AttendanceRepositoryImpl
 import retrofit2.Retrofit
+import java.time.Clock
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+/** The wall clock the attendance landing reads "today" and "now" from. */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AttendanceClock
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -25,12 +34,8 @@ object AttendanceModule {
         retrofit.create(AttendanceApi::class.java)
 
     @Provides
-    @Singleton
-    fun provideAttendanceRepository(
-        api: AttendanceApi,
-        dao: AttendanceDao,
-        tenantContext: TenantContext
-    ): AttendanceRepository = AttendanceRepositoryImpl(api, dao, tenantContext)
+    @AttendanceClock
+    fun provideAttendanceClock(): Clock = Clock.systemDefaultZone()
 
     // ─── EPIC-27: Advanced Attendance ────────────────────────────
 
@@ -45,4 +50,16 @@ object AttendanceModule {
         api: AdvancedAttendanceApi,
         tenantContext: TenantContext
     ): AdvancedAttendanceRepository = AdvancedAttendanceRepositoryImpl(api, tenantContext)
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class AttendanceBindings {
+
+    @Binds
+    @Singleton
+    abstract fun bindAttendanceRepository(impl: AttendanceRepositoryImpl): AttendanceRepository
+
+    @Binds
+    abstract fun bindAttendanceSyncScheduler(impl: WorkManagerAttendanceSyncScheduler): AttendanceSyncScheduler
 }

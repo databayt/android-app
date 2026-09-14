@@ -3,30 +3,8 @@
     <!-- Attendance Screen -->
     <string name="attendance_title">Attendance</string>
     <string name="attendance_back">Back</string>
-    <string name="attendance_no_records_title">No Records</string>
-    <string name="attendance_no_records_subtitle">No attendance records found for the selected filter.</string>
-    <string name="attendance_history_header">Attendance History</string>
-    <string name="attendance_showing_cached">Showing cached data. %1$s</string>
-
-    <!-- Attendance Row -->
-    <string name="attendance_checked_in">Checked in: %1$s</string>
-
-    <!-- Excuse Request Dialog -->
-    <string name="attendance_submit_excuse_title">Submit Excuse</string>
-    <string name="attendance_request_excuse_for">Request excuse for %1$s</string>
-    <string name="attendance_reason_label">Reason</string>
-    <string name="attendance_reason_placeholder">Enter reason for absence\u2026</string>
-    <string name="attendance_reason_required">Reason is required</string>
     <string name="attendance_submit">Submit</string>
     <string name="attendance_cancel">Cancel</string>
-
-    <!-- Attendance Analytics Card -->
-    <string name="attendance_present">Present</string>
-    <string name="attendance_absent">Absent</string>
-    <string name="attendance_late">Late</string>
-    <string name="attendance_excused">Excused</string>
-    <string name="attendance_monthly_trend">Monthly Trend</string>
-
     <!-- Gamification Screen -->
     <string name="attendance_achievements_title">Achievements</string>
     <string name="attendance_error_title">Error</string>
@@ -123,4 +101,60 @@
     <string name="attendance_kiosk_present">Present</string>
     <string name="attendance_kiosk_late">Late</string>
     <string name="attendance_kiosk_total_scans">Total Scans</string>
+
+    <!-- Attendance landing (mirrors web /attendance phone views) -->
+    <string name="attendance_tab_overview">Overview</string>
+    <string name="attendance_tab_interventions">Student Interventions</string>
+    <string name="attendance_tab_analytics">Analytics</string>
+    <string name="attendance_tab_settings">Settings</string>
+    <string name="attendance_quick_title">Quick Attendance</string>
+    <string name="attendance_quick_subtitle">Tap the absent students — everyone else is marked present</string>
+    <string name="attendance_quick_no_school_today">No school today</string>
+    <string name="attendance_quick_now">Now</string>
+    <string name="attendance_quick_marked">Marked</string>
+    <string name="attendance_quick_search_placeholder">Find a student…</string>
+    <string name="attendance_quick_no_students">No students in this section</string>
+    <string name="attendance_quick_no_sections">No sections assigned to you yet</string>
+    <string name="attendance_quick_present">present</string>
+    <string name="attendance_quick_absent">absent</string>
+    <string name="attendance_quick_late">late</string>
+    <string name="attendance_quick_save">Save attendance</string>
+    <string name="attendance_quick_saving">Saving…</string>
+    <string name="attendance_quick_saved_title">Attendance saved</string>
+    <string name="attendance_quick_saved_summary">%1$s present · %2$s absent · %3$s late</string>
+    <string name="attendance_quick_guardians_notified">Guardians notified for %1$s absent students</string>
+    <string name="attendance_quick_no_guardians_notified">No guardian notifications sent</string>
+    <string name="attendance_quick_message_guardian">Message guardian</string>
+    <string name="attendance_quick_mark_another">Mark another section</string>
+    <string name="attendance_quick_save_failed">Failed to save attendance</string>
+    <string name="attendance_quick_queued_title">Attendance saved on this device</string>
+    <string name="attendance_quick_queued_hint">It will reach the school when the connection returns. Guardians are notified then.</string>
+    <string name="attendance_quick_absent_today">Absent today</string>
+    <string name="attendance_unable_to_load">Unable to load attendance data. Please try again.</string>
+    <string name="attendance_retry">Retry</string>
+    <string name="attendance_stat_present">Present</string>
+    <string name="attendance_stat_absent">Absent</string>
+    <string name="attendance_stat_late">Late</string>
+    <string name="attendance_stat_excused">Excused</string>
+    <string name="attendance_stat_rate">Attendance Rate</string>
+    <string name="attendance_stat_children">Children</string>
+    <string name="attendance_out_of_days">Out of %1$s days</string>
+    <string name="attendance_quick_access">Quick access</string>
+    <string name="attendance_tile_hall_pass">Hall Pass</string>
+    <string name="attendance_tile_gamification">Gamification</string>
+    <string name="attendance_tile_kiosk">Kiosk Check-in</string>
+    <string name="attendance_student_title">Your Attendance Portal</string>
+    <string name="attendance_student_description">Check in and view your attendance records</string>
+    <string name="attendance_guardian_title">Your Child\'s Attendance</string>
+    <string name="attendance_guardian_description">Monitor and track attendance records</string>
+    <string name="attendance_recent_activity">Recent Activity</string>
+    <string name="attendance_no_recent_records">No recent attendance records</string>
+    <string name="attendance_recent_absences">Recent absences</string>
+    <string name="attendance_no_data">No attendance data available</string>
+    <string name="attendance_status_present">Present</string>
+    <string name="attendance_status_absent">Absent</string>
+    <string name="attendance_status_late">Late</string>
+    <string name="attendance_status_excused">Excused</string>
+    <string name="attendance_status_sick">Sick</string>
+    <string name="attendance_status_holiday">Holiday</string>
 </resources>

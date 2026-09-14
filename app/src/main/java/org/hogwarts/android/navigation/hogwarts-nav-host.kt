@@ -264,7 +264,9 @@ fun HogwartsNavHost(
 
         // Attendance
         attendanceScreen(
-            onNavigateBack = { navController.popBackStack() }
+            onNavigateBack = { navController.popBackStack() },
+            onNavigate = { route -> navController.navigate(route) },
+            onOpenMessages = { navController.navigate(Messaging) },
         )
 
         // Grades

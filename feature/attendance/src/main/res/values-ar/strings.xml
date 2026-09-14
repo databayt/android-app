@@ -3,30 +3,8 @@
     <!-- Attendance Screen -->
     <string name="attendance_title">الحضور</string>
     <string name="attendance_back">رجوع</string>
-    <string name="attendance_no_records_title">لا توجد سجلات</string>
-    <string name="attendance_no_records_subtitle">لم يتم العثور على سجلات حضور للفلتر المحدد.</string>
-    <string name="attendance_history_header">سجل الحضور</string>
-    <string name="attendance_showing_cached">عرض البيانات المخزنة مؤقتًا. %1$s</string>
-
-    <!-- Attendance Row -->
-    <string name="attendance_checked_in">تسجيل الدخول: %1$s</string>
-
-    <!-- Excuse Request Dialog -->
-    <string name="attendance_submit_excuse_title">تقديم عذر</string>
-    <string name="attendance_request_excuse_for">طلب عذر ليوم %1$s</string>
-    <string name="attendance_reason_label">السبب</string>
-    <string name="attendance_reason_placeholder">أدخل سبب الغياب\u2026</string>
-    <string name="attendance_reason_required">السبب مطلوب</string>
     <string name="attendance_submit">إرسال</string>
     <string name="attendance_cancel">إلغاء</string>
-
-    <!-- Attendance Analytics Card -->
-    <string name="attendance_present">حاضر</string>
-    <string name="attendance_absent">غائب</string>
-    <string name="attendance_late">متأخر</string>
-    <string name="attendance_excused">معذور</string>
-    <string name="attendance_monthly_trend">الاتجاه الشهري</string>
-
     <!-- Gamification Screen -->
     <string name="attendance_achievements_title">الإنجازات</string>
     <string name="attendance_error_title">خطأ</string>
@@ -123,4 +101,60 @@
     <string name="attendance_kiosk_present">حاضر</string>
     <string name="attendance_kiosk_late">متأخر</string>
     <string name="attendance_kiosk_total_scans">إجمالي عمليات المسح</string>
+
+    <!-- Attendance landing (mirrors web /attendance phone views) -->
+    <string name="attendance_tab_overview">نظرة عامة</string>
+    <string name="attendance_tab_interventions">تدخلات الطلاب</string>
+    <string name="attendance_tab_analytics">التحليلات</string>
+    <string name="attendance_tab_settings">الإعدادات</string>
+    <string name="attendance_quick_title">التحضير السريع</string>
+    <string name="attendance_quick_subtitle">اضغط على الطلاب الغائبين — والباقي يُسجل حاضرًا</string>
+    <string name="attendance_quick_no_school_today">لا يوجد دوام اليوم</string>
+    <string name="attendance_quick_now">الآن</string>
+    <string name="attendance_quick_marked">تم التحضير</string>
+    <string name="attendance_quick_search_placeholder">ابحث عن طالب…</string>
+    <string name="attendance_quick_no_students">لا يوجد طلاب في هذه الشعبة</string>
+    <string name="attendance_quick_no_sections">لا توجد شعب مسندة إليك بعد</string>
+    <string name="attendance_quick_present">حاضر</string>
+    <string name="attendance_quick_absent">غائب</string>
+    <string name="attendance_quick_late">متأخر</string>
+    <string name="attendance_quick_save">حفظ التحضير</string>
+    <string name="attendance_quick_saving">جارٍ الحفظ…</string>
+    <string name="attendance_quick_saved_title">تم حفظ التحضير</string>
+    <string name="attendance_quick_saved_summary">%1$s حاضر • %2$s غائب • %3$s متأخر</string>
+    <string name="attendance_quick_guardians_notified">تم إشعار أولياء أمور %1$s من الطلاب الغائبين</string>
+    <string name="attendance_quick_no_guardians_notified">لم تُرسل إشعارات لأولياء الأمور</string>
+    <string name="attendance_quick_message_guardian">مراسلة ولي الأمر</string>
+    <string name="attendance_quick_mark_another">تحضير شعبة أخرى</string>
+    <string name="attendance_quick_save_failed">فشل حفظ التحضير</string>
+    <string name="attendance_quick_queued_title">حُفظ التحضير على هذا الجهاز</string>
+    <string name="attendance_quick_queued_hint">سيصل إلى المدرسة عند عودة الاتصال، ويُبلَّغ أولياء الأمور حينها.</string>
+    <string name="attendance_quick_absent_today">غائبو اليوم</string>
+    <string name="attendance_unable_to_load">تعذر تحميل بيانات الحضور. يرجى المحاولة مرة أخرى.</string>
+    <string name="attendance_retry">إعادة المحاولة</string>
+    <string name="attendance_stat_present">حاضر</string>
+    <string name="attendance_stat_absent">غائب</string>
+    <string name="attendance_stat_late">متأخر</string>
+    <string name="attendance_stat_excused">بعذر</string>
+    <string name="attendance_stat_rate">معدل الحضور</string>
+    <string name="attendance_stat_children">الأبناء</string>
+    <string name="attendance_out_of_days">من أصل %1$s يوم</string>
+    <string name="attendance_quick_access">وصول سريع</string>
+    <string name="attendance_tile_hall_pass">تصريح الخروج</string>
+    <string name="attendance_tile_gamification">التحفيز</string>
+    <string name="attendance_tile_kiosk">تسجيل ذاتي (كشك)</string>
+    <string name="attendance_student_title">بوابة الحضور الخاصة بك</string>
+    <string name="attendance_student_description">تسجيل الوصول وعرض سجلات الحضور الخاصة بك</string>
+    <string name="attendance_guardian_title">حضور طفلك</string>
+    <string name="attendance_guardian_description">مراقبة وتتبع سجلات الحضور</string>
+    <string name="attendance_recent_activity">النشاط الأخير</string>
+    <string name="attendance_no_recent_records">لا توجد سجلات حضور حديثة</string>
+    <string name="attendance_recent_absences">آخر الغيابات</string>
+    <string name="attendance_no_data">لا توجد بيانات حضور متاحة</string>
+    <string name="attendance_status_present">حاضر</string>
+    <string name="attendance_status_absent">غائب</string>
+    <string name="attendance_status_late">متأخر</string>
+    <string name="attendance_status_excused">معذور</string>
+    <string name="attendance_status_sick">مريض</string>
+    <string name="attendance_status_holiday">إجازة</string>
 </resources>

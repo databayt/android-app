@@ -20,13 +20,18 @@ import org.hogwarts.android.feature.attendance.ui.kiosk.KioskModeScreen
 @Serializable data object AttendanceKiosk
 
 /**
- * Attendance navigation graph entry (existing).
+ * `/attendance`: the role's landing under the section's tabs. [onNavigate]
+ * receives the attendance sub-page routes (tabs, quick-access tiles);
+ * [onOpenMessages] is "Message guardian" after a quick save.
  */
+@Suppress("UNUSED_PARAMETER")
 fun NavGraphBuilder.attendanceScreen(
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigate: (Any) -> Unit = {},
+    onOpenMessages: () -> Unit = {},
 ) {
     composable<Attendance> {
-        AttendanceScreen(onNavigateBack = onNavigateBack)
+        AttendanceScreen(onNavigate = onNavigate, onOpenMessages = onOpenMessages)
     }
 }
 

@@ -1,53 +1,35 @@
 package org.hogwarts.android.feature.attendance.data.repository
 
-import kotlinx.coroutines.flow.Flow
-import org.hogwarts.android.core.data.util.Resource
-import org.hogwarts.android.feature.attendance.domain.model.AttendanceRecord
-import org.hogwarts.android.feature.attendance.domain.model.AttendanceSummary
-import org.hogwarts.android.feature.attendance.domain.model.BulkAttendanceRequest
-import org.hogwarts.android.feature.attendance.domain.model.ExcuseRequest
-import org.hogwarts.android.feature.attendance.domain.model.MarkAttendanceRequest
+import org.hogwarts.android.feature.attendance.domain.model.ChildAttendance
+import org.hogwarts.android.feature.attendance.domain.model.QuickContext
+import org.hogwarts.android.feature.attendance.domain.model.QuickMark
+import org.hogwarts.android.feature.attendance.domain.model.SaveOutcome
+import org.hogwarts.android.feature.attendance.domain.model.SectionRoster
+import org.hogwarts.android.feature.attendance.domain.model.StudentAttendance
+import org.hogwarts.android.feature.attendance.domain.model.TodayTotals
 import java.time.LocalDate
+import java.time.LocalTime
 
 /**
- * Repository interface for attendance data.
+ * The attendance landing's data, read straight from the hogwarts mobile API.
+ * Reads throw on failure; only [submitQuick] turns a lost connection into an
+ * outcome ([SaveOutcome.Queued]).
  */
 interface AttendanceRepository {
 
-    /**
-     * Get attendance history for a student (offline-first).
-     */
-    fun getStudentAttendance(
-        studentId: String,
-        startDate: LocalDate? = null,
-        endDate: LocalDate? = null
-    ): Flow<Resource<List<AttendanceRecord>>>
+    /** The teacher's sections for [today], current period first, with each one's marked count. */
+    suspend fun quickContext(today: LocalDate, now: LocalTime): QuickContext
 
-    /**
-     * Get attendance for a class on a specific date (offline-first).
-     */
-    fun getClassAttendance(
-        classId: String,
-        date: LocalDate
-    ): Flow<Resource<List<AttendanceRecord>>>
+    suspend fun roster(sectionId: String, date: LocalDate): SectionRoster
 
-    /**
-     * Get attendance summary for a student.
-     */
-    suspend fun getAttendanceSummary(studentId: String): AttendanceSummary
+    /** Online through `/offline/sync`; parked in the outbox when there is no connection. */
+    suspend fun submitQuick(mark: QuickMark): SaveOutcome
 
-    /**
-     * Mark attendance for a single student.
-     */
-    suspend fun markAttendance(request: MarkAttendanceRequest): AttendanceRecord
+    suspend fun todayTotals(date: LocalDate): TodayTotals
 
-    /**
-     * Mark attendance for an entire class (bulk).
-     */
-    suspend fun markBulkAttendance(request: BulkAttendanceRequest): List<AttendanceRecord>
+    /** The signed-in student's own figures and records, or null when the user has no student record. */
+    suspend fun studentAttendance(): StudentAttendance?
 
-    /**
-     * Submit an excuse request for a student absence.
-     */
-    suspend fun submitExcuse(request: ExcuseRequest): ExcuseRequest
+    /** The signed-in guardian's children; empty when the user is not a guardian. */
+    suspend fun guardianAttendance(): List<ChildAttendance>
 }
