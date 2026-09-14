@@ -40,9 +40,10 @@ class DashboardScreenshotTest {
         todayTimetable = TodayTimetableDto(
             dayOfWeek = 0,
             periods = listOf(
-                PeriodDto("p1", "الحصة 1", "07:30", "08:15", subject = "الرياضيات", className = "الخامس · أ", room = "12"),
+                PeriodDto("p0", "الحصة 0", "06:45", "07:25"),
+                PeriodDto("p1", "الحصة 1", "07:30", "08:15", subject = "الرياضيات", className = "الخامس · أ", room = "ب12", timetableId = "t1"),
                 PeriodDto("p2", "استراحة", "08:15", "08:30", isBreak = true),
-                PeriodDto("p3", "الحصة 2", "08:30", "09:15", subject = "العلوم", className = "السادس · ب", room = "Lab"),
+                PeriodDto("p3", "الحصة 2", "08:30", "09:15", subject = "العلوم", className = "السادس · ب", room = "Lab", timetableId = "t3"),
             ),
         ),
     )

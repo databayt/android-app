@@ -27,6 +27,8 @@ sealed interface DashboardResult {
 interface DashboardRepository {
     /** The last dashboard seen this session (cache or network); the shell reads the school's modules from it. */
     val latest: StateFlow<DashboardDto?>
+    /** Forget the session's dashboard on sign-out, so the next account never sees it. */
+    fun clearSession()
     suspend fun cached(): DashboardDto?
     suspend fun refresh(): DashboardResult
 }
@@ -46,6 +48,10 @@ class DashboardRepositoryImpl @Inject constructor(
 
     private val _latest = MutableStateFlow<DashboardDto?>(null)
     override val latest: StateFlow<DashboardDto?> = _latest.asStateFlow()
+
+    override fun clearSession() {
+        _latest.value = null
+    }
 
     private fun cacheFile(): File? =
         tenantContext.userId?.let { File(context.filesDir, "dashboard-$it.json") }

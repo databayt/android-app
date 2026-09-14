@@ -21,8 +21,9 @@ private val SUBJECT_TINTS = listOf(TileTint.Blue, TileTint.Green, TileTint.Orang
 /**
  * Today's classes for students and teachers — the web's `today-timetable.tsx`
  * section (title, "Full timetable" link) with each period as a kit row: the
- * subject, who and where, and the period's time. A closed day or a day with no
- * periods renders nothing, as on the web.
+ * subject, who and where, and the period's time. Breaks and free periods (no
+ * timetable slot) are quiet one-line rows, the way the web grid leaves those
+ * cells empty. A closed day or a day with no slots renders nothing, as on the web.
  */
 @Composable
 fun TodayClasses(
@@ -32,7 +33,7 @@ fun TodayClasses(
     modifier: Modifier = Modifier,
 ) {
     val periods = timetable?.periods.orEmpty()
-    if (timetable == null || timetable.closure != null || periods.none { !it.isBreak }) return
+    if (timetable == null || timetable.closure != null || periods.none { it.isClass }) return
     val colors = HogwartsTheme.colors
 
     Column(modifier.fillMaxWidth()) {
@@ -44,9 +45,12 @@ fun TodayClasses(
         ListRows(
             rows = periods.map { period ->
                 {
-                    if (period.isBreak) {
+                    if (!period.isClass) {
                         Text(
-                            listOfNotNull(stringResource(R.string.dash_break), period.timeRange()).joinToString(" · "),
+                            listOfNotNull(
+                                if (period.isBreak) stringResource(R.string.dash_break) else period.periodName,
+                                period.timeRange(),
+                            ).joinToString(" · "),
                             style = HogwartsTheme.type.caption,
                             color = colors.mutedForeground,
                             modifier = Modifier.fillMaxWidth(),
@@ -56,7 +60,9 @@ fun TodayClasses(
                             title = period.subject ?: period.periodName.orEmpty(),
                             art = { TileFace(tint = tintFor(period.subject)) },
                             description = if (teacherView) period.className else period.teacher,
-                            meta = listOfNotNull(period.periodName, period.timeRange(), period.room).joinToString(" · "),
+                            // First-strong isolate: a room like "ب10" keeps its own order inside the line.
+                            meta = listOfNotNull(period.periodName, period.timeRange(), period.room?.let { "\u2068$it\u2069" })
+                                .joinToString(" · "),
                         )
                     }
                 }
@@ -64,6 +70,10 @@ fun TodayClasses(
         )
     }
 }
+
+/** A period with a timetable slot; breaks and free periods are not classes. */
+internal val PeriodDto.isClass: Boolean
+    get() = !isBreak && timetableId != null
 
 private fun tintFor(subject: String?): TileTint =
     SUBJECT_TINTS[Math.floorMod(subject.orEmpty().hashCode(), SUBJECT_TINTS.size)]

@@ -49,7 +49,7 @@ class ShellViewModel @Inject constructor(
         viewModelScope.launch {
             // Same source the web sidebar reads: School.enabledModules, null = all on.
             dashboardRepository.latest.collect { dto ->
-                if (dto != null) _state.update { it.copy(enabledModules = dto.school?.enabledModules) }
+                _state.update { it.copy(enabledModules = dto?.school?.enabledModules) }
             }
         }
     }

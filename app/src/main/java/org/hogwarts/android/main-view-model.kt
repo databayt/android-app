@@ -16,6 +16,7 @@ import org.hogwarts.android.core.push.DeviceTokenRegistrar
 import org.hogwarts.android.core.security.CredentialManager
 import org.hogwarts.android.core.security.TokenManager
 import org.hogwarts.android.feature.auth.data.repository.AuthRepository
+import org.hogwarts.android.feature.dashboard.data.repository.DashboardRepository
 import javax.inject.Inject
 
 /**
@@ -33,6 +34,7 @@ class MainViewModel @Inject constructor(
     private val credentialManager: CredentialManager,
     private val database: HogwartsDatabase,
     private val deviceTokenRegistrar: DeviceTokenRegistrar,
+    private val dashboardRepository: DashboardRepository,
     appPreferences: AppPreferences
 ) : ViewModel() {
 
@@ -79,7 +81,7 @@ class MainViewModel @Inject constructor(
             // StateFlow already skips repeats; registering on each launch is idempotent server-side.
             tokenManager.isAuthenticated.collect { isAuthenticated ->
                 _uiState.update { it.copy(isAuthenticated = isAuthenticated) }
-                if (isAuthenticated) deviceTokenRegistrar.registerCurrentToken()
+                if (isAuthenticated) deviceTokenRegistrar.registerCurrentToken() else dashboardRepository.clearSession()
             }
         }
     }
