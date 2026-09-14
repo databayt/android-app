@@ -13,6 +13,7 @@ import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,10 @@ import org.hogwarts.android.feature.exams.domain.model.Exam
 import org.hogwarts.android.feature.exams.domain.model.OwnResult
 import org.hogwarts.android.feature.exams.navigation.ExamDetail
 import org.hogwarts.android.feature.exams.navigation.OnlineExam
+import org.hogwarts.android.feature.exams.ui.ExamsLinks
 import org.hogwarts.android.feature.exams.ui.ExamsPage
+import org.hogwarts.android.feature.exams.ui.ExamsTab
+import org.hogwarts.android.feature.exams.ui.ExamsTabs
 import org.hogwarts.android.feature.exams.ui.LoadFailedNote
 import org.hogwarts.android.feature.exams.ui.NoticeCard
 import org.hogwarts.android.feature.exams.ui.SkeletonBlock
@@ -115,8 +119,10 @@ fun ExamDetailScreen(
     viewModel: ExamDetailViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val links = remember(state.role, onNavigate, onOpenHref) { ExamsLinks(state.role, onNavigate, onOpenHref) }
     ExamDetailView(
         state = state,
+        tabs = { ExamsTabs(state.role, ExamsTab.Overview, links) },
         onTake = { id -> onNavigate(OnlineExam(id)) },
         onEdit = { id -> onOpenHref("/exams/$id/edit") },
         onRetry = viewModel::load,
@@ -131,6 +137,7 @@ fun ExamDetailScreen(
 @Composable
 internal fun ExamDetailView(
     state: ExamDetailUiState,
+    tabs: (@Composable () -> Unit)?,
     onTake: (String) -> Unit,
     onEdit: (String) -> Unit,
     onRetry: () -> Unit,
@@ -138,7 +145,8 @@ internal fun ExamDetailView(
     val colors = HogwartsTheme.colors
     val type = HogwartsTheme.type
     val format = examsFormat()
-    ExamsPage(tabs = null) {
+    // `exams/layout.tsx` wraps this page too, so the section's tabs stay above it.
+    ExamsPage(tabs = tabs) {
         val exam = state.exam
         if (state.notFound) {
             NoticeCard(icon = Icons.Outlined.ErrorOutline, title = stringResource(R.string.exams_detail_not_found), description = stringResource(R.string.exams_contact_admin))

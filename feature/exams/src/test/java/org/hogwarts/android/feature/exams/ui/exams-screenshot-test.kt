@@ -223,6 +223,7 @@ private fun Detail() = ExamDetailView(
             .copy(description = "Chapters one to three.", instructions = "Show your working for every answer."),
         result = OwnResult(score = 42.0, maxScore = 50.0, percentage = 84.0, grade = "A"),
     ),
+    tabs = tabs(UserRole.STUDENT),
     onTake = {},
     onEdit = {},
     onRetry = {},
