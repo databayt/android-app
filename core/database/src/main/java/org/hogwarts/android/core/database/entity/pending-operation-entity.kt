@@ -57,6 +57,17 @@ data class PendingOperationEntity(
 )
 
 /**
+ * `entityType` values whose rows are sent by their own feature worker straight
+ * to `/api/mobile/offline/sync`. The generic `MutationQueue` in core/sync must leave them be.
+ */
+object PendingOperationKinds {
+    /** Quick attendance for one section and day (feature/attendance). */
+    const val ATTENDANCE_QUICK = "attendance.quick"
+
+    val DRAINED_BY_FEATURE: Set<String> = setOf(ATTENDANCE_QUICK)
+}
+
+/**
  * Type of mutation operation
  */
 enum class OperationType {

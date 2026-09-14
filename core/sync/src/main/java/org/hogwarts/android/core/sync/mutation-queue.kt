@@ -2,6 +2,7 @@ package org.hogwarts.android.core.sync
 
 import org.hogwarts.android.core.database.dao.PendingOperationDao
 import org.hogwarts.android.core.database.entity.PendingOperationEntity
+import org.hogwarts.android.core.database.entity.PendingOperationKinds
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,6 +17,8 @@ class MutationQueue @Inject constructor(
         Timber.d("Processing ${pending.size} pending mutations")
 
         for (operation in pending) {
+            // Rows a feature worker delivers itself: never touch, never mark done here.
+            if (operation.entityType in PendingOperationKinds.DRAINED_BY_FEATURE) continue
             try {
                 pendingOperationDao.markProcessing(operation.id)
 
