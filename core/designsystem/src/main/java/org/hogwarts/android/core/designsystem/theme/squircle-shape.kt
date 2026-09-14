@@ -21,22 +21,23 @@ class SquircleShape(private val cornerFraction: Float) : Shape {
     override fun createOutline(size: Size, layoutDirection: LayoutDirection, density: Density): Outline {
         val w = size.width
         val h = size.height
-        // The smoothed corner starts ~1.28x further along the edge than a
-        // circular arc of the same radius would.
+        // A smoothed corner starts ~1.28x further along the edge than a
+        // circular arc of the same radius; its control points sit 80% of the
+        // way toward the corner, which keeps curvature continuous at the edge.
         val r = min(w, h) * cornerFraction
-        val extent = min(r * 1.28f, min(w, h) / 2f)
-        val k = r * 0.44f
+        val e = min(r * 1.28f, min(w, h) / 2f)
+        val c = e * 0.2f
 
         val path = Path().apply {
-            moveTo(extent, 0f)
-            lineTo(w - extent, 0f)
-            cubicTo(w - extent + k, 0f, w, extent - k, w, extent)
-            lineTo(w, h - extent)
-            cubicTo(w, h - extent + k, w - extent + k, h, w - extent, h)
-            lineTo(extent, h)
-            cubicTo(extent - k, h, 0f, h - extent + k, 0f, h - extent)
-            lineTo(0f, extent)
-            cubicTo(0f, extent - k, extent - k, 0f, extent, 0f)
+            moveTo(e, 0f)
+            lineTo(w - e, 0f)
+            cubicTo(w - c, 0f, w, c, w, e)
+            lineTo(w, h - e)
+            cubicTo(w, h - c, w - c, h, w - e, h)
+            lineTo(e, h)
+            cubicTo(c, h, 0f, h - c, 0f, h - e)
+            lineTo(0f, e)
+            cubicTo(0f, c, c, 0f, e, 0f)
             close()
         }
         return Outline.Generic(path)
