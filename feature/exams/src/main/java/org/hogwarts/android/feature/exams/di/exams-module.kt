@@ -1,17 +1,22 @@
 package org.hogwarts.android.feature.exams.di
 
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.hogwarts.android.core.data.tenant.TenantContext
-import org.hogwarts.android.core.database.dao.ExamDao
-import org.hogwarts.android.feature.exams.data.remote.AdvancedExamsApi
 import org.hogwarts.android.feature.exams.data.remote.ExamsApi
 import org.hogwarts.android.feature.exams.data.repository.ExamsRepository
 import org.hogwarts.android.feature.exams.data.repository.ExamsRepositoryImpl
 import retrofit2.Retrofit
+import java.time.Clock
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+/** "Today" for the exams pages, injectable so tests pin the date. */
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ExamsClock
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -19,19 +24,17 @@ object ExamsModule {
 
     @Provides
     @Singleton
-    fun provideExamsApi(retrofit: Retrofit): ExamsApi =
-        retrofit.create(ExamsApi::class.java)
+    fun provideExamsApi(retrofit: Retrofit): ExamsApi = retrofit.create(ExamsApi::class.java)
 
     @Provides
-    @Singleton
-    fun provideAdvancedExamsApi(retrofit: Retrofit): AdvancedExamsApi =
-        retrofit.create(AdvancedExamsApi::class.java)
+    @ExamsClock
+    fun provideExamsClock(): Clock = Clock.systemDefaultZone()
+}
 
-    @Provides
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class ExamsBindings {
+    @Binds
     @Singleton
-    fun provideExamsRepository(
-        api: ExamsApi,
-        dao: ExamDao,
-        tenantContext: TenantContext
-    ): ExamsRepository = ExamsRepositoryImpl(api, dao, tenantContext)
+    abstract fun bindExamsRepository(impl: ExamsRepositoryImpl): ExamsRepository
 }
