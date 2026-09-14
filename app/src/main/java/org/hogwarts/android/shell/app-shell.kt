@@ -164,7 +164,8 @@ fun AppShell(
 private val HEADER_HEIGHT = 49.dp
 
 private fun isShellDestination(destination: androidx.navigation.NavDestination): Boolean =
-    destination.hasRoute<Dashboard>()
+    destination.hasRoute<Dashboard>() ||
+        destination.hasRoute<Attendance>()
 
 /**
  * Native screens for menu keys. A key without one (school configuration,

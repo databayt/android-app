@@ -14,6 +14,7 @@ import org.hogwarts.android.core.data.preferences.AppPreferences
 import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.feature.auth.data.remote.AuthApi
+import org.hogwarts.android.feature.dashboard.data.repository.DashboardRepository
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,6 +33,7 @@ class ShellViewModel @Inject constructor(
     private val tenantContext: TenantContext,
     private val authApi: AuthApi,
     private val preferences: AppPreferences,
+    private val dashboardRepository: DashboardRepository,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(
@@ -44,6 +46,12 @@ class ShellViewModel @Inject constructor(
 
     init {
         resolveSchoolDomain()
+        viewModelScope.launch {
+            // Same source the web sidebar reads: School.enabledModules, null = all on.
+            dashboardRepository.latest.collect { dto ->
+                if (dto != null) _state.update { it.copy(enabledModules = dto.school?.enabledModules) }
+            }
+        }
     }
 
     fun refreshSession() {
@@ -51,8 +59,6 @@ class ShellViewModel @Inject constructor(
     }
 
     fun setMenuOpen(open: Boolean) = _state.update { it.copy(menuOpen = open) }
-
-    fun setEnabledModules(modules: List<String>?) = _state.update { it.copy(enabledModules = modules) }
 
     fun cycleTheme(isDarkNow: Boolean) {
         viewModelScope.launch { preferences.setThemeMode(if (isDarkNow) "light" else "dark") }
