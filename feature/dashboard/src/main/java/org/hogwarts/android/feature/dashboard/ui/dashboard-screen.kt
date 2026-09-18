@@ -20,7 +20,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.designsystem.kit.PillButton
 import org.hogwarts.android.core.designsystem.kit.PillVariant
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
@@ -29,14 +28,19 @@ import org.hogwarts.android.feature.dashboard.data.remote.NextActionDto
 import org.hogwarts.android.feature.dashboard.ui.components.HomeBlock
 import org.hogwarts.android.feature.dashboard.ui.components.NextActionBanner
 import org.hogwarts.android.feature.dashboard.ui.components.QuickActions
-import org.hogwarts.android.feature.dashboard.ui.components.RoleStats
-import org.hogwarts.android.feature.dashboard.ui.components.TodayClasses
+import org.hogwarts.android.feature.dashboard.ui.components.RoleSections
+import org.hogwarts.android.feature.dashboard.ui.components.TodayTimetable
 
 /**
  * The phone dashboard — mirrors hogwarts `dashboard/content.tsx` below `md`:
  * home block, next action, today's classes, quick actions, then the role's
- * own section, 24dp apart on a 16dp gutter. The platform header and Menu come
- * from the app shell.
+ * own dashboard, 24dp apart on a 16dp gutter. The platform header and Menu
+ * come from the app shell.
+ *
+ * The role's own dashboard is the two sections every role client renders under
+ * its quick actions — resource usage, then invoice history. The charts that
+ * sit between them on the web are skipped: `chart-section.tsx` draws
+ * deterministic placeholder data.
  */
 @Composable
 fun DashboardScreen(
@@ -95,13 +99,16 @@ fun DashboardContent(
             }
 
             NextActionBanner(actions = state.nextActions, onOpen = onOpenHref, onAcknowledge = onAcknowledge)
-            TodayClasses(
+            TodayTimetable(
                 timetable = data.todayTimetable,
-                teacherView = state.role == UserRole.TEACHER,
+                role = state.role,
+                weekday = state.weekday,
                 onOpenTimetable = { onOpenHref("/timetable") },
             )
             QuickActions(actions = data.quickActions, onOpen = onOpenHref)
-            RoleStats(role = state.role, data = data)
+            state.sections?.let { sections ->
+                RoleSections(role = state.role, resources = sections.resourceUsage, invoices = sections.invoices)
+            }
         }
     }
 }

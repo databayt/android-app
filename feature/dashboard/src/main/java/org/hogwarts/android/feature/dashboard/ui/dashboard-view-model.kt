@@ -13,15 +13,21 @@ import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.feature.dashboard.data.remote.NextActionDto
 import org.hogwarts.android.feature.dashboard.data.repository.DashboardRepository
 import org.hogwarts.android.feature.dashboard.data.repository.DashboardResult
+import org.hogwarts.android.feature.dashboard.data.repository.DashboardSectionsRepository
+import org.hogwarts.android.feature.dashboard.data.repository.SectionsResult
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val repository: DashboardRepository,
+    private val sectionsRepository: DashboardSectionsRepository,
     private val tenantContext: TenantContext,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(DashboardUiState(role = tenantContext.userRole ?: UserRole.UNKNOWN))
+    private val _uiState = MutableStateFlow(
+        DashboardUiState(role = tenantContext.userRole ?: UserRole.UNKNOWN, weekday = deviceWeekday()),
+    )
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
     init {
@@ -42,7 +48,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun load(refreshing: Boolean) {
-        _uiState.update { it.copy(isRefreshing = refreshing) }
+        _uiState.update { it.copy(isRefreshing = refreshing, weekday = deviceWeekday()) }
         when (val result = repository.refresh()) {
             is DashboardResult.Fresh -> _uiState.update {
                 it.copy(
@@ -61,5 +67,22 @@ class DashboardViewModel @Inject constructor(
                 it.copy(isLoading = false, isRefreshing = false, error = result.message)
             }
         }
+        loadSections()
     }
+
+    /**
+     * The two tables are a second read and never block the page: a 404 (the
+     * route is not on this school's server yet) or a failed read leaves
+     * `sections` null, and both sections hide themselves.
+     */
+    private suspend fun loadSections() {
+        val sections = when (val result = sectionsRepository.load()) {
+            is SectionsResult.Ready -> result.data
+            SectionsResult.Unavailable -> null
+        }
+        _uiState.update { it.copy(sections = sections) }
+    }
+
+    /** 0 = Sunday, matching the server's `day_of_week`. */
+    private fun deviceWeekday(): Int = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY
 }
