@@ -26,22 +26,10 @@ data class DashboardDto(
     @SerialName("next_actions") val nextActions: List<NextActionDto> = emptyList(),
     @SerialName("quick_actions") val quickActions: List<QuickActionDto> = emptyList(),
     @SerialName("today_timetable") val todayTimetable: TodayTimetableDto? = null,
-
-    // Role stats (flat, role-dependent)
-    @SerialName("attendance_percentage") val attendancePercentage: Double? = null,
-    @SerialName("upcoming_exams") val upcomingExams: Int? = null,
-    @SerialName("today_classes") val todayClasses: Int? = null,
-    @SerialName("total_classes") val totalClasses: Int? = null,
-    @SerialName("children_count") val childrenCount: Int? = null,
-    @SerialName("total_students") val totalStudents: Int? = null,
-    @SerialName("total_teachers") val totalTeachers: Int? = null,
-    @SerialName("pending_invoices") val pendingInvoices: Int? = null,
-    @SerialName("pending_amount") val pendingAmount: Double? = null,
-    @SerialName("overdue_invoices") val overdueInvoices: Int? = null,
-    @SerialName("overdue_amount") val overdueAmount: Double? = null,
-    @SerialName("collected_today") val collectedToday: Double? = null,
-    @SerialName("present_today") val presentToday: Int? = null,
-    @SerialName("upcoming_events") val upcomingEvents: Int? = null,
+    // The route still sends the flat per-role counters (total_students,
+    // collected_today, …). Nothing decodes them any more: the web dashboard
+    // renders no stat panel under the phone sections, so the panel that read
+    // them was deleted rather than kept alive on numbers the reader never sees.
 )
 
 @Serializable
@@ -70,9 +58,20 @@ data class QuickActionDto(
 data class TodayTimetableDto(
     @SerialName("day_of_week") val dayOfWeek: Int = 0,
     val date: String? = null,
+    /**
+     * Whether the resolved day IS today. The route falls forward over a
+     * weekend or a closure the way `today-timetable.tsx` does, so the day it
+     * returns is not always today and the heading has to say which
+     * ("Today's classes" vs "Next classes"). Null while the field is still
+     * rolling out — [isTodayOr] then falls back to the weekday itself.
+     */
+    @SerialName("is_today") val isToday: Boolean? = null,
     val closure: ClosureDto? = null,
     val periods: List<PeriodDto> = emptyList(),
-)
+) {
+    /** [isToday] when the server states it, else whether the day IS [weekday]. */
+    fun isTodayOr(weekday: Int): Boolean = isToday ?: (dayOfWeek == weekday)
+}
 
 @Serializable
 data class ClosureDto(val title: String? = null, val type: String? = null)

@@ -36,6 +36,12 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:network"))
+    // The day's classes on the dashboard are /timetable's own grid, exactly as
+    // `today-timetable.tsx` renders the very `SimpleGrid` the timetable page
+    // uses. A second grid here would drift from the real one, so the module
+    // borrows it. A shared `core:timetable-ui` would be the tidier home for
+    // `TimetableGrid` + its pure model; hoisting it is the lead's call.
+    implementation(project(":feature:timetable"))
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

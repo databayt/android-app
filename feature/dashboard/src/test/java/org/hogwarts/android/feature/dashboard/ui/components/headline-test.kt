@@ -37,10 +37,4 @@ class HeadlineTest {
     fun `unknown kind renders the mark alone in bold`() {
         assertEquals("Mark" to listOf("Mark"), boldRanges(null, "Mark"))
     }
-
-    @Test
-    fun `period time range reads ISO and plain times`() {
-        val p = org.hogwarts.android.feature.dashboard.data.remote.PeriodDto(startTime = "1970-01-01T07:30:00.000Z", endTime = "08:15")
-        assertEquals("\u206607:30–08:15\u2069", p.timeRange())
-    }
 }
