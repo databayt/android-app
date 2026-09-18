@@ -45,9 +45,11 @@ fun QuickActions(actions: List<QuickActionDto>, onOpen: (href: String) -> Unit, 
 
 private val FALLBACK_TINTS = listOf(TileTint.Blue, TileTint.Green, TileTint.Orange, TileTint.Purple)
 
+/** `tileByLabel` in `quick-actions.tsx`, label for label. */
 internal fun tileArtFor(label: String): TileArt? = when (label) {
     "Assignments" -> TileArt.Assignments
-    "Grades", "My Grades", "Performance" -> TileArt.Grades
+    "Grades", "Performance" -> TileArt.Grades
+    "Exams", "Reports" -> TileArt.Exams
     "Schedule" -> TileArt.Schedule
     "Messages", "Contact Teacher" -> TileArt.Message
     "Attendance" -> TileArt.Attendance
@@ -59,12 +61,17 @@ internal fun tileArtFor(label: String): TileArt? = when (label) {
     "School", "Dashboard" -> TileArt.Home
     "Settings" -> TileArt.Setting
     "Profile" -> TileArt.Profile
-    "Staff", "My Children", "Classrooms" -> TileArt.Students
+    "Staff", "Children", "Classrooms" -> TileArt.Students
     "Subjects" -> TileArt.Subject
-    "Reports" -> TileArt.Exams
     else -> null
 }
 
+/**
+ * `dashboard.quickActionsSection` keyed by the action's English label, the way
+ * the web's `toCamelCase(label)` lookup does. Every label
+ * `getQuickActionsByRole` can produce is here; an unknown one keeps its
+ * English, which is what the web falls back to too.
+ */
 @Composable
 private fun quickActionLabel(label: String): String? = when (label) {
     "School" -> stringResource(R.string.dash_qa_school)
@@ -77,10 +84,10 @@ private fun quickActionLabel(label: String): String? = when (label) {
     "Attendance" -> stringResource(R.string.dash_qa_attendance)
     "Grades" -> stringResource(R.string.dash_qa_grades)
     "Assignments" -> stringResource(R.string.dash_qa_assignments)
+    "Exams" -> stringResource(R.string.dash_qa_exams)
     "Schedule" -> stringResource(R.string.dash_qa_schedule)
-    "My Grades" -> stringResource(R.string.dash_qa_my_grades)
     "Profile" -> stringResource(R.string.dash_qa_profile)
-    "My Children" -> stringResource(R.string.dash_qa_my_children)
+    "Children" -> stringResource(R.string.dash_qa_children)
     "Contact Teacher" -> stringResource(R.string.dash_qa_contact_teacher)
     "Invoices" -> stringResource(R.string.dash_qa_invoices)
     "Fees" -> stringResource(R.string.dash_qa_fees)
@@ -88,5 +95,10 @@ private fun quickActionLabel(label: String): String? = when (label) {
     "Dashboard" -> stringResource(R.string.dash_qa_dashboard)
     "Announcements" -> stringResource(R.string.dash_qa_announcements)
     "Events" -> stringResource(R.string.dash_qa_events)
+    "Messages" -> stringResource(R.string.dash_qa_messages)
+    "Classrooms" -> stringResource(R.string.dash_qa_classrooms)
+    "Subjects" -> stringResource(R.string.dash_qa_subjects)
+    "Library" -> stringResource(R.string.dash_qa_library)
+    "Notifications" -> stringResource(R.string.dash_qa_notifications)
     else -> null
 }
