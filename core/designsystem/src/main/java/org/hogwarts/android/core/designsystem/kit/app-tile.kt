@@ -50,6 +50,8 @@ enum class TileArt(@DrawableRes val res: Int) {
     Announcements(R.drawable.tile_announcements),
     Assignments(R.drawable.tile_assignments),
     Attendance(R.drawable.tile_attendance),
+    /** The web's grey Contacts book — its Profile tile art. */
+    Contacts(R.drawable.tile_contacts),
     Events(R.drawable.tile_events),
     Exams(R.drawable.tile_exams),
     Grades(R.drawable.tile_grades),

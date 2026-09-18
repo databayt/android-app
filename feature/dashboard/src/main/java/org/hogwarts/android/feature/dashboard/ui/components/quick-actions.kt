@@ -60,7 +60,8 @@ internal fun tileArtFor(label: String): TileArt? = when (label) {
     "Notifications" -> TileArt.Notifications
     "School", "Dashboard" -> TileArt.Home
     "Settings" -> TileArt.Setting
-    "Profile" -> TileArt.Profile
+    // The web maps Profile to Apple's grey Contacts book, not the blue person.
+    "Profile" -> TileArt.Contacts
     "Staff", "Children", "Classrooms" -> TileArt.Students
     "Subjects" -> TileArt.Subject
     else -> null
