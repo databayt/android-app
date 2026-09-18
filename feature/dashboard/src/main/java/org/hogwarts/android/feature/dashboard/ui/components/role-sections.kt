@@ -31,7 +31,6 @@ import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.designsystem.kit.BadgeVariant
 import org.hogwarts.android.core.designsystem.kit.LabelBadge
 import org.hogwarts.android.core.designsystem.kit.SectionHeader
-import org.hogwarts.android.core.designsystem.locale.currentLocale
 import org.hogwarts.android.core.designsystem.theme.BrandColors
 import org.hogwarts.android.core.designsystem.theme.HogwartsShapes
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
@@ -39,6 +38,7 @@ import org.hogwarts.android.feature.dashboard.R
 import org.hogwarts.android.feature.dashboard.data.remote.InvoiceDto
 import org.hogwarts.android.feature.dashboard.data.remote.ResourceUsageDto
 import java.text.NumberFormat
+import java.util.Locale
 import kotlin.math.roundToInt
 
 /**
@@ -83,8 +83,7 @@ private val USAGE_COL = 168.dp
 
 @Composable
 private fun ResourceUsageTable(resources: List<ResourceUsageDto>) {
-    val locale = currentLocale()
-    val number = NumberFormat.getNumberInstance(locale).apply { maximumFractionDigits = 2 }
+    val number = tableNumberFormat()
     TableFrame(width = RESOURCE_COL + NUMBER_COL * 2 + USAGE_COL) {
         TableHeaderRow {
             HeadCell(stringResource(R.string.dash_table_resource), RESOURCE_COL)
@@ -166,8 +165,6 @@ private val ACTION_COL = 72.dp
 
 @Composable
 private fun InvoiceHistoryTable(invoices: List<InvoiceDto>) {
-    val locale = currentLocale()
-    val money = NumberFormat.getNumberInstance(locale).apply { minimumFractionDigits = 2; maximumFractionDigits = 2 }
     val invoiceWord = stringResource(R.string.dash_invoice_word)
     TableFrame(width = DATE_COL + DESC_COL + AMOUNT_COL + STATUS_COL + ACTION_COL) {
         TableHeaderRow {
@@ -184,13 +181,13 @@ private fun InvoiceHistoryTable(invoices: List<InvoiceDto>) {
         invoices.forEach { invoice ->
             TableRow {
                 BodyCell(
-                    "⁨${invoice.date}⁩",
+                    "⁨${invoiceDate(invoice.date)}⁩",
                     DATE_COL,
                     color = HogwartsTheme.colors.mutedForeground,
                 )
                 BodyCell(describe(invoice.description, invoiceWord), DESC_COL)
                 BodyCell(
-                    listOfNotNull(money.format(invoice.amount), invoice.currency).joinToString(" "),
+                    "⁨${invoiceAmount(invoice.amount)}⁩",
                     AMOUNT_COL,
                     align = TextAlign.End,
                     emphasis = true,
@@ -215,6 +212,53 @@ private fun InvoiceHistoryTable(invoices: List<InvoiceDto>) {
         }
     }
 }
+
+/**
+ * Both tables print LATIN digits, and only these two tables do.
+ *
+ * The app's default is Eastern Arabic under `ar`, out of `i18n-format.ts` —
+ * but `DetailedUsageTable` and `InvoiceHistory` never call it. They use a bare
+ * `new Intl.NumberFormat()` with no locale argument, which resolves to the
+ * runtime's own locale rather than the page's, so the live Arabic dashboard
+ * prints `3,111` and `98`. Matching what the reader actually sees on the web
+ * wins here, so these two tables stay Latin while the calendar, the banner and
+ * the day grid above them stay Eastern.
+ *
+ * `maximumFractionDigits = 3` is `Intl.NumberFormat`'s own default.
+ */
+internal fun tableNumberFormat(): NumberFormat =
+    NumberFormat.getNumberInstance(Locale.US).apply { maximumFractionDigits = 3 }
+
+/**
+ * `getInvoicesByRole` formats the amount as `$${row.amount.toFixed(2)}` — a
+ * dollar sign and two decimals on every row.
+ *
+ * The `currency` the route sends beside the amount is deliberately ignored,
+ * because the web ignores it: `queries.ts` pins `INVOICE_CURRENCY = "USD"`
+ * under the comment "The web prints every amount with a `$`". Printing ج.س
+ * here would put a different number in front of the same invoice on the phone
+ * and on the laptop, so this is a web fix, not a phone one.
+ */
+internal fun invoiceAmount(amount: Double): String = "$" + String.format(Locale.US, "%.2f", amount)
+
+/**
+ * `formatDate(row.date, "ar")` — `Intl.DateTimeFormat` with a 2-digit day and
+ * month over a numeric year, which under `ar` renders `04‏/03‏/2031`: day
+ * first, Latin digits, and a RLM after the day and the month so the parts hold
+ * their order inside Arabic text.
+ *
+ * The locale is hardcoded to `ar` in the web's server action, so the English
+ * dashboard shows a day-first date too; this mirrors that rather than quietly
+ * localizing. Built from the ISO instant's own date part, because the web
+ * formats on a server that runs in UTC and reading it on the device's clock
+ * would slide an invoice a day either way.
+ */
+internal fun invoiceDate(iso: String): String {
+    val (year, month, day) = (ISO_DATE.find(iso) ?: return iso).destructured
+    return "$day‏/$month‏/$year"
+}
+
+private val ISO_DATE = Regex("""^(\d{4})-(\d{2})-(\d{2})""")
 
 /** `translateDesc`: the server's "Invoice …" prefix takes the reader's word for it. */
 private fun describe(description: String?, invoiceWord: String): String {
@@ -375,6 +419,10 @@ private fun resourceName(resource: ResourceUsageDto): String {
         "storageUsed" -> R.string.dash_res_storage_used
         "activeSessions" -> R.string.dash_res_active_sessions
         "systemHealth" -> R.string.dash_res_system_health
+        "schoolsActive" -> R.string.dash_res_schools_active
+        "platformUsers" -> R.string.dash_res_platform_users
+        "databaseSize" -> R.string.dash_res_database_size
+        "systemUptime" -> R.string.dash_res_system_uptime
         else -> null
     }
     return if (id != null) stringResource(id) else resource.name

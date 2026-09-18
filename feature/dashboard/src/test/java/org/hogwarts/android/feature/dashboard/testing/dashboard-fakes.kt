@@ -135,17 +135,24 @@ object Fixtures {
             ResourceUsageDto("classCoverage", "Class Coverage", used = 172.0, limit = 180.0, unit = "students"),
         ),
         invoices = listOf(
-            InvoiceDto("inv-1", "2031-03-04", "Invoice 9901", amount = 320.0, currency = "SAR", status = "paid"),
-            InvoiceDto("inv-2", "2031-02-18", "Kite Workshop Materials", amount = 90.5, currency = "SAR", status = "open"),
+            InvoiceDto("inv-1", "2031-03-04T00:00:00.000Z", "Invoice 9901", amount = 320.0, currency = "SDG", status = "paid"),
+            InvoiceDto("inv-2", "2031-02-18T00:00:00.000Z", "Kite Workshop Materials", amount = 90.5, currency = "SDG", status = "open"),
         ),
     )
 
     val adminSections = DashboardSectionsDto(
         resourceUsage = listOf(
-            ResourceUsageDto("activeUsers", "Active Users", used = 640.0, limit = 2000.0, unit = "users"),
+            ResourceUsageDto("activeUsers", "Active Users", used = 1284.0, limit = 2000.0, unit = "users"),
             ResourceUsageDto("storageUsed", "Storage Used", used = 78.0, limit = 100.0, unit = "GB"),
             ResourceUsageDto("systemHealth", "System Health", used = 98.0, limit = 100.0, unit = "%"),
         ),
-        invoices = emptyList(),
+        invoices = listOf(
+            InvoiceDto("inv-3", "2031-01-31T00:00:00.000Z", "Invoice 9880", amount = 4200.0, currency = "SDG", status = "paid"),
+            InvoiceDto("inv-4", "2030-12-31T23:59:00.000Z", "Lantern Festival Hire", amount = 75.25, currency = "SDG", status = "refunded"),
+            InvoiceDto("inv-5", "2030-11-02T00:00:00.000Z", "Withdrawn Order", amount = 0.0, currency = "SDG", status = "void"),
+        ),
     )
+
+    /** The route answered, and this account simply has nothing in either table. */
+    val emptySections = DashboardSectionsDto()
 }

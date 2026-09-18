@@ -140,6 +140,10 @@
     <string name="dash_res_storage_used">Storage Used</string>
     <string name="dash_res_active_sessions">Active Sessions</string>
     <string name="dash_res_system_health">System Health</string>
+    <string name="dash_res_schools_active">Schools Active</string>
+    <string name="dash_res_platform_users">Platform Users</string>
+    <string name="dash_res_database_size">Database Size</string>
+    <string name="dash_res_system_uptime">System Uptime</string>
     <string name="dash_unit_completed">completed</string>
     <string name="dash_unit_days">days</string>
     <string name="dash_unit_lessons">lessons</string>

@@ -17,6 +17,7 @@ import org.hogwarts.android.feature.dashboard.testing.tenant
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -69,13 +70,23 @@ class DashboardViewModelTest {
     }
 
     @Test
-    fun `sections that answer are kept, empty lists included`() = runTest(dispatcher) {
+    fun `sections that answer are kept`() = runTest(dispatcher) {
         val vm = viewModel(role = UserRole.ADMIN, dashboard = DashboardResult.Fresh(Fixtures.admin), sections = SectionsResult.Ready(Fixtures.adminSections))
         advanceUntilIdle()
         val sections = vm.uiState.value.sections
         assertEquals(3, sections?.resourceUsage?.size)
-        // An empty invoice list is an answer, not an absence — the table shows
-        // its own "no invoices yet" row rather than hiding.
+        assertEquals(3, sections?.invoices?.size)
+    }
+
+    @Test
+    fun `an answer that is empty is still an answer`() = runTest(dispatcher) {
+        // Empty is not the same as absent: the tables render and show their own
+        // "no resources" / "no invoices yet" rows, where a 404 hides them both.
+        val vm = viewModel(sections = SectionsResult.Ready(Fixtures.emptySections))
+        advanceUntilIdle()
+        val sections = vm.uiState.value.sections
+        assertNotNull(sections)
+        assertEquals(emptyList<Any>(), sections?.resourceUsage)
         assertEquals(emptyList<Any>(), sections?.invoices)
     }
 

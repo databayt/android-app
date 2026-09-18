@@ -140,6 +140,10 @@
     <string name="dash_res_storage_used">التخزين المستخدم</string>
     <string name="dash_res_active_sessions">الجلسات النشطة</string>
     <string name="dash_res_system_health">صحة النظام</string>
+    <string name="dash_res_schools_active">المدارس النشطة</string>
+    <string name="dash_res_platform_users">مستخدمو المنصة</string>
+    <string name="dash_res_database_size">حجم قاعدة البيانات</string>
+    <string name="dash_res_system_uptime">وقت تشغيل النظام</string>
     <string name="dash_unit_completed">مكتمل</string>
     <string name="dash_unit_days">أيام</string>
     <string name="dash_unit_lessons">دروس</string>

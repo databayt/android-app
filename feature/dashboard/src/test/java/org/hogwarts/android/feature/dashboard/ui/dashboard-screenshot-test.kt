@@ -36,8 +36,11 @@ class DashboardScreenshotTest {
     /** The sections route is not deployed yet — both tables stay off the page. */
     @Test fun accountant_en() = shot("dashboard_accountant_en", Fixtures.accountant, UserRole.ACCOUNTANT, null, rtl = false, dark = false)
 
-    /** An admin gets no day grid (the web filters it to students and teachers) and an empty invoice table. */
+    /** An admin gets no day grid: the web filters the day to students and teachers. */
     @Test fun admin_en() = shot("dashboard_admin_en", Fixtures.admin, UserRole.ADMIN, Fixtures.adminSections, rtl = false, dark = false)
+
+    /** The route answered with nothing in it — each table shows its own empty row. */
+    @Test fun accountant_empty_en() = shot("dashboard_accountant_empty_en", Fixtures.accountant, UserRole.ACCOUNTANT, Fixtures.emptySections, rtl = false, dark = false)
 
     private fun shot(
         name: String,
