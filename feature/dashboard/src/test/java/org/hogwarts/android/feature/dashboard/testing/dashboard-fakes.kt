@@ -52,16 +52,19 @@ class FakeSectionsRepository(var result: SectionsResult = SectionsResult.Unavail
 object Fixtures {
     private fun t(hhmm: String) = "1970-01-01T$hhmm:00.000Z"
 
-    /** Sunday, three periods with a break before the third, one free period. */
+    /**
+     * A fictional Sunday: three classes, one free period and a break before
+     * the last. Nothing here is a real school's timetable.
+     */
     val teacherDay = TodayTimetableDto(
         dayOfWeek = 0,
         isToday = true,
         periods = listOf(
-            PeriodDto("p1", "Period 1", t("07:15"), t("08:05"), subject = "البلاغة والتعبير", className = "الصف العاشر - ب", teacher = "أ. نور حداد", room = "ب10", timetableId = "tt-1"),
+            PeriodDto("p1", "Period 1", t("07:15"), t("08:05"), subject = "علم الأصوات", className = "الصف الثامن - ج", teacher = "أ. ريما قصار", room = "ن4", timetableId = "tt-1"),
             PeriodDto("p2", "Period 2", t("08:10"), t("09:00")),
-            PeriodDto("p3", "Period 3", t("09:05"), t("09:55"), subject = "الفيزياء", className = "الصف التاسع - أ", teacher = "أ. نور حداد", room = "مختبر 2", timetableId = "tt-2"),
+            PeriodDto("p3", "Period 3", t("09:05"), t("09:55"), subject = "البصريات", className = "الصف السابع - د", teacher = "أ. ريما قصار", room = "مختبر 7", timetableId = "tt-2"),
             PeriodDto("br", "استراحة", t("09:55"), t("10:35"), isBreak = true),
-            PeriodDto("p4", "Period 4", t("10:35"), t("11:25"), subject = "التاريخ", className = "الصف العاشر - أ", teacher = "أ. نور حداد", room = "ب12", timetableId = "tt-3"),
+            PeriodDto("p4", "Period 4", t("10:35"), t("11:25"), subject = "الخرائط القديمة", className = "الصف الثامن - ج", teacher = "أ. ريما قصار", room = "ن9", timetableId = "tt-3"),
         ),
     )
 
@@ -91,7 +94,7 @@ object Fixtures {
     val student = DashboardDto(
         role = "STUDENT",
         eventsToday = 0,
-        nextActions = listOf(NextActionDto("assignmentDue", "الكيمياء", "/assignments")),
+        nextActions = listOf(NextActionDto("assignmentDue", "علم الأصوات", "/assignments")),
         quickActions = listOf(
             QuickActionDto("assignments", "Assignments", href = "/assignments"),
             QuickActionDto("exams", "Exams", href = "/exams"),
@@ -132,8 +135,8 @@ object Fixtures {
             ResourceUsageDto("classCoverage", "Class Coverage", used = 172.0, limit = 180.0, unit = "students"),
         ),
         invoices = listOf(
-            InvoiceDto("inv-1", "2026-03-04", "Invoice 0041", amount = 320.0, currency = "SAR", status = "paid"),
-            InvoiceDto("inv-2", "2026-02-18", "Classroom Supplies", amount = 90.5, currency = "SAR", status = "open"),
+            InvoiceDto("inv-1", "2031-03-04", "Invoice 9901", amount = 320.0, currency = "SAR", status = "paid"),
+            InvoiceDto("inv-2", "2031-02-18", "Kite Workshop Materials", amount = 90.5, currency = "SAR", status = "open"),
         ),
     )
 
