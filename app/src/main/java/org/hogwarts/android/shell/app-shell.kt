@@ -7,19 +7,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.MailOutline
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -31,6 +25,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import org.hogwarts.android.R
 import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.core.designsystem.atom.UserAvatar
+import org.hogwarts.android.core.designsystem.icon.ToolbarIcons
 import org.hogwarts.android.core.designsystem.kit.MenuControl
 import org.hogwarts.android.core.designsystem.kit.MenuLink
 import org.hogwarts.android.core.designsystem.kit.MenuPopover
@@ -115,14 +111,21 @@ fun AppShell(
                 )
             }
             CompositionLocalProvider(LocalHrefOpener provides hrefOpener) {
-                content(Modifier.weight(1f))
+                // `backdrop-blur` on the web's popover. Compose has no
+                // backdrop filter, so the page behind is what blurs — which
+                // is the same picture. The header stays sharp, as it does on
+                // the web, because the popover opens below it.
+                content(Modifier.weight(1f).blur(if (state.menuOpen) 8.dp else 0.dp))
             }
         }
 
         if (showHeader) {
             val home = stringResource(R.string.menu_home)
+            // The web's menu opens with two different places, not one:
+            // "Home" is the school's own site root (`/ar`) and "Overview" is
+            // the dashboard (`/ar/dashboard`). This used to send Home to the
+            // dashboard and drop the overview link, which lost the site.
             val links = visibleNav(state.role, state.enabledModules)
-                .filter { it.key != "dashboard" }
                 .map { item -> MenuLink(item.key, stringResource(item.titleRes), onClick = { go(item) }) }
             MenuPopover(
                 visible = state.menuOpen,
@@ -130,35 +133,56 @@ fun AppShell(
                 modifier = Modifier
                     .statusBarsPadding()
                     .padding(top = HEADER_HEIGHT),
+                // The web's toolbar, in its order: search, language, theme,
+                // bell, mail, avatar. Its search opens a command palette the
+                // app does not have, so that control is not here — five, not
+                // six. Restore it alongside a search surface.
                 controls = listOf(
-                    MenuControl("language", Icons.Outlined.Language, stringResource(R.string.menu_language), onClick = {
+                    MenuControl("language", ToolbarIcons.Languages, stringResource(R.string.menu_language), onClick = {
                         val next = if (lang == "ar") "en" else "ar"
                         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(next))
                     }),
                     MenuControl(
                         "theme",
-                        if (isDark) Icons.Outlined.LightMode else Icons.Outlined.DarkMode,
-                        stringResource(R.string.menu_theme),
+                        // One glyph in both themes, as `mode-switcher.tsx` draws it.
+                        icon = ToolbarIcons.Contrast,
+                        description = stringResource(R.string.menu_theme),
                         onClick = { viewModel.cycleTheme(isDark) },
                     ),
-                    MenuControl("notifications", Icons.Outlined.Notifications, stringResource(R.string.menu_notifications), onClick = {
+                    MenuControl("notifications", ToolbarIcons.Bell, stringResource(R.string.menu_notifications), onClick = {
                         viewModel.setMenuOpen(false)
                         navController.navigate(Notifications) { launchSingleTop = true }
                     }),
-                    MenuControl("messages", Icons.Outlined.MailOutline, stringResource(R.string.menu_messages), onClick = {
+                    MenuControl("messages", ToolbarIcons.Mail, stringResource(R.string.menu_messages), onClick = {
                         viewModel.setMenuOpen(false)
                         navController.navigate(Messaging) { launchSingleTop = true }
                     }),
-                    MenuControl("account", Icons.Outlined.Person, stringResource(R.string.menu_account), onClick = {
-                        viewModel.setMenuOpen(false)
-                        navController.navigate(Profile) { launchSingleTop = true }
-                    }),
+                    // `UserButton` renders the account control as the reader's
+                    // own avatar, not a person glyph — their photo when there
+                    // is one, their initials when there is not.
+                    MenuControl(
+                        "account",
+                        description = stringResource(R.string.menu_account),
+                        onClick = {
+                            viewModel.setMenuOpen(false)
+                            navController.navigate(Profile) { launchSingleTop = true }
+                        },
+                        content = {
+                            UserAvatar(
+                                name = state.userName.orEmpty(),
+                                imageUrl = null,
+                                size = 24.dp,
+                                containerColor = HogwartsTheme.colors.primary,
+                                contentColor = HogwartsTheme.colors.primaryForeground,
+                            )
+                        },
+                    ),
                 ),
                 sections = listOf(
                     MenuSection(
                         title = stringResource(R.string.menu_title),
                         links = listOf(MenuLink("home", home, onClick = {
-                            navController.navigate(Dashboard) { popUpTo<Dashboard> { inclusive = false }; launchSingleTop = true }
+                            WebHandoff.open(context, WebHandoff.url(state.schoolDomain, lang, "/"))
                         })) + links,
                     ),
                 ),

@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -26,10 +28,12 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 
 @Immutable
@@ -41,7 +45,8 @@ data class MenuSection(val title: String, val links: List<MenuLink>)
 @Immutable
 data class MenuControl(
     val key: String,
-    val icon: ImageVector,
+    /** The glyph, unless [content] draws the control itself. */
+    val icon: ImageVector? = null,
     val description: String,
     val onClick: () -> Unit,
     val badge: Int = 0,
@@ -70,7 +75,11 @@ fun MenuPopover(
         Box(
             Modifier
                 .fillMaxSize()
-                .background(colors.background.copy(alpha = 0.97f))
+                // `bg-background/90`, read off the live popover
+                // (oklab(1 0 0 / 0.9)). The web also blurs what shows
+                // through; Compose can only do that by blurring the content
+                // behind, so the alpha carries it here.
+                .background(colors.background.copy(alpha = 0.90f))
                 .clickable(indication = null, interactionSource = null, onClick = {}),
         ) {
             Column(
@@ -127,21 +136,42 @@ private fun ToolbarControl(control: MenuControl) {
             .clickable(role = Role.Button, onClickLabel = control.description, onClick = control.onClick),
         contentAlignment = Alignment.Center,
     ) {
-        control.content?.invoke() ?: Icon(
-            control.icon,
-            contentDescription = control.description,
-            tint = colors.foreground,
-            modifier = Modifier.size(24.dp),
-        )
+        val content = control.content
+        if (content != null) {
+            content()
+        } else if (control.icon != null) {
+            Icon(
+                control.icon,
+                contentDescription = control.description,
+                tint = colors.foreground,
+                modifier = Modifier.size(24.dp),
+            )
+        }
         if (control.badge > 0) {
+            // The web's `Badge` on the mail control: the count itself, not a
+            // dot — `h-4 min-w-4 px-1 text-[10px] font-semibold tabular-nums`
+            // on destructive, hung 6px past the button's top start corner.
             Box(
                 Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(top = 6.dp, end = 6.dp)
-                    .size(8.dp)
+                    .align(Alignment.TopStart)
+                    .offset(x = (-6).dp, y = (-6).dp)
+                    .defaultMinSize(minWidth = 16.dp, minHeight = 16.dp)
                     .clip(CircleShape)
-                    .background(colors.destructive),
-            )
+                    .background(colors.destructive)
+                    .padding(horizontal = 4.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                Text(
+                    control.badge.toString(),
+                    style = HogwartsTheme.type.caption.copy(
+                        fontSize = 10.sp,
+                        lineHeight = 10.sp,
+                        fontWeight = FontWeight.SemiBold,
+                    ),
+                    color = Color.White,
+                    maxLines = 1,
+                )
+            }
         }
     }
 }

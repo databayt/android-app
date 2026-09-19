@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.style.TextAlign
@@ -43,7 +44,10 @@ fun UserAvatar(
     name: String,
     modifier: Modifier = Modifier,
     imageUrl: String? = null,
-    size: Dp = 40.dp
+    size: Dp = 40.dp,
+    /** The fallback disc; the web's `AvatarFallback` is `bg-primary`. */
+    containerColor: Color = Color.Unspecified,
+    contentColor: Color = Color.Unspecified,
 ) {
     if (imageUrl != null) {
         AsyncImage(
@@ -64,7 +68,7 @@ fun UserAvatar(
             modifier = modifier
                 .size(size)
                 .background(
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = containerColor.takeOrElse { MaterialTheme.colorScheme.primaryContainer },
                     shape = CircleShape
                 ),
             contentAlignment = Alignment.Center
@@ -72,7 +76,7 @@ fun UserAvatar(
             Text(
                 text = initials,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = contentColor.takeOrElse { MaterialTheme.colorScheme.onPrimaryContainer }
             )
         }
     }
