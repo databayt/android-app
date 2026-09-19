@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.Canvas
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -169,39 +170,40 @@ private fun BarChartCard(data: RoleChartData, today: LocalDate) {
         }
 
         val mark = colors.chart[0]
-        Canvas(
-            Modifier
-                .fillMaxWidth()
-                .height(250.dp)
-                .padding(horizontal = 20.dp, vertical = 16.dp),
-        ) {
-            val max = series.maxOf { it.primary }.toFloat()
-            val slot = size.width / series.size
-            val barWidth = slot * 0.7f
-            series.forEachIndexed { index, point ->
-                val height = size.height * (point.primary / max)
-                // RTL draws the newest day nearest the start edge, as the web does.
-                val left = if (layoutDirection == LayoutDirection.Rtl) {
-                    size.width - (index + 1) * slot + (slot - barWidth) / 2
-                } else {
-                    index * slot + (slot - barWidth) / 2
+        // A time axis runs oldest to newest left to right even in Arabic: the
+        // web draws these into an SVG in absolute coordinates, so its plots
+        // stay LTR inside the RTL page, and the newest day is at the right
+        // with the date under it. Mirroring them here would put today on the
+        // opposite side from the site.
+        Plot {
+            Canvas(
+                Modifier
+                    .fillMaxWidth()
+                    .height(250.dp)
+                    .padding(horizontal = 20.dp, vertical = 16.dp),
+            ) {
+                val max = series.maxOf { it.primary }.toFloat()
+                val slot = size.width / series.size
+                val barWidth = slot * 0.7f
+                series.forEachIndexed { index, point ->
+                    val height = size.height * (point.primary / max)
+                    drawRect(
+                        color = mark,
+                        topLeft = Offset(index * slot + (slot - barWidth) / 2, size.height - height),
+                        size = Size(barWidth, height),
+                    )
                 }
-                drawRect(
-                    color = mark,
-                    topLeft = Offset(left, size.height - height),
-                    size = Size(barWidth, height),
-                )
             }
-        }
 
-        val formatter = DateTimeFormatter.ofPattern("d MMMM", currentLocale())
-        Text(
-            today.format(formatter),
-            style = type.caption,
-            color = colors.mutedForeground,
-            textAlign = TextAlign.End,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
-        )
+            val formatter = DateTimeFormatter.ofPattern("d MMMM", currentLocale())
+            Text(
+                today.format(formatter),
+                style = type.caption,
+                color = colors.mutedForeground,
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+            )
+        }
     }
 }
 
@@ -271,16 +273,16 @@ private fun AreaChartCard(data: RoleChartData) {
     val colors = HogwartsTheme.colors
     val type = HogwartsTheme.type
     ChartCard {
-        Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp)) {
+        // The series runs earliest to latest left to right, as on the web — see
+        // the note in the bar chart.
+        Plot { Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp)) {
             val primary = colors.chart[0]
             val secondary = colors.chart[1]
-            val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
             Canvas(Modifier.fillMaxWidth().height(200.dp)) {
                 val points = data.areaPoints
                 val max = points.maxOf { it.primary + it.secondary }.toFloat()
                 val step = if (points.size > 1) size.width / (points.size - 1) else size.width
-                fun x(index: Int) =
-                    if (rtl) size.width - index * step else index * step
+                fun x(index: Int) = index * step
                 fun y(value: Float) = size.height - size.height * (value / max)
 
                 /** One filled band between [lower] and [lower] + its own value. */
@@ -315,9 +317,19 @@ private fun AreaChartCard(data: RoleChartData) {
                     )
                 }
             }
-        }
+        } }
         TrendFooter(data.areaTrend, data.areaTrendLabel)
     }
+}
+
+/**
+ * A plot's own direction. Charts are pictures of an axis, not text: the web
+ * hands Recharts absolute SVG coordinates, so its plots read left to right
+ * whatever the page direction is. Arabic inside still shapes right to left.
+ */
+@Composable
+private fun Plot(content: @Composable () -> Unit) {
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) { content() }
 }
 
 /** "Trending up by 0.5% this month" over the chart's own caption. */
