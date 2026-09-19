@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -96,8 +97,10 @@ private fun ChartCard(
         Modifier
             .fillMaxWidth()
             .clip(HogwartsShapes.Card)
-            .background(colors.card)
-            .border(1.dp, colors.border, HogwartsShapes.Card)
+            // `bg-muted border-none shadow-none` on the web's Card, not the
+            // usual white card over a border: read off the live site, where
+            // the computed ground is oklch(0.97 0 0) and the border width 0.
+            .background(colors.muted)
             .padding(vertical = 20.dp),
     ) {
         if (title != null) {
@@ -169,7 +172,8 @@ private fun BarChartCard(data: RoleChartData, today: LocalDate) {
             }
         }
 
-        val mark = colors.chart[0]
+        val mark = colors.foreground
+        val gridLine = colors.border.copy(alpha = 0.5f)
         // A time axis runs oldest to newest left to right even in Arabic: the
         // web draws these into an SVG in absolute coordinates, so its plots
         // stay LTR inside the RTL page, and the newest day is at the right
@@ -183,8 +187,10 @@ private fun BarChartCard(data: RoleChartData, today: LocalDate) {
                     .padding(horizontal = 20.dp, vertical = 16.dp),
             ) {
                 val max = series.maxOf { it.primary }.toFloat()
+                grid(gridLine)
                 val slot = size.width / series.size
-                val barWidth = slot * 0.7f
+                // The live SVG puts a 3px bar in a 4.7px slot.
+                val barWidth = slot * 0.64f
                 series.forEachIndexed { index, point ->
                     val height = size.height * (point.primary / max)
                     drawRect(
@@ -194,16 +200,20 @@ private fun BarChartCard(data: RoleChartData, today: LocalDate) {
                     )
                 }
             }
-
-            val formatter = DateTimeFormatter.ofPattern("d MMMM", currentLocale())
-            Text(
-                today.format(formatter),
-                style = type.caption,
-                color = colors.mutedForeground,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
-            )
         }
+
+        // The date belongs to the axis, so it sits under its newest end — the
+        // right — but it is a sentence, and reads in the page's own direction:
+        // "19 سبتمبر", not "سبتمبر 19". So it stays outside the LTR plot and
+        // is pinned right rather than to the start edge.
+        val formatter = DateTimeFormatter.ofPattern("d MMMM", currentLocale())
+        Text(
+            today.format(formatter),
+            style = type.caption,
+            color = colors.mutedForeground,
+            textAlign = TextAlign.Right,
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+        )
     }
 }
 
@@ -220,8 +230,11 @@ private fun RadialChartCard(data: RoleChartData) {
             Modifier.fillMaxWidth().height(250.dp).padding(16.dp),
             contentAlignment = Alignment.Center,
         ) {
-            val track = colors.muted
-            val mark = colors.chart[1]
+            // The web paints a muted ring and a background disc under the
+            // value (`first:fill-muted last:fill-background`), and the value
+            // itself in the SVG default ink.
+            val track = colors.background
+            val mark = colors.foreground
             Canvas(Modifier.fillMaxSize()) {
                 val outer = min(size.width, size.height) / 2
                 // Recharts: innerRadius 80, outerRadius 110 — the ring is the
@@ -229,7 +242,6 @@ private fun RadialChartCard(data: RoleChartData) {
                 // inside it (polarRadius 86..74).
                 val ringWidth = outer * 30f / 110f
                 val ringRadius = outer - ringWidth / 2
-                val trackWidth = outer * 12f / 110f
                 val trackRadius = outer * 80f / 110f
                 val sweep = -(data.radialValue / data.radialMax * 250f).coerceAtMost(250f)
                 val centre = Offset(size.width / 2, size.height / 2)
@@ -244,7 +256,7 @@ private fun RadialChartCard(data: RoleChartData) {
                         style = Stroke(width = width),
                     )
                 }
-                arc(track, trackRadius, trackWidth, -250f)
+                drawCircle(track, radius = trackRadius, center = centre)
                 arc(mark, ringRadius, ringWidth, sweep)
             }
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -276,33 +288,31 @@ private fun AreaChartCard(data: RoleChartData) {
         // The series runs earliest to latest left to right, as on the web — see
         // the note in the bar chart.
         Plot { Column(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp)) {
-            val primary = colors.chart[0]
-            val secondary = colors.chart[1]
+            // Both series resolve to the same ink on the web, so the stack
+            // reads as one grey mass with no seam and no outline — the live
+            // `recharts-area-curve` computes `stroke: none`.
+            val mark = colors.foreground
+            val gridLine = colors.border.copy(alpha = 0.5f)
             Canvas(Modifier.fillMaxWidth().height(200.dp)) {
+                grid(gridLine)
                 val points = data.areaPoints
                 val max = points.maxOf { it.primary + it.secondary }.toFloat()
                 val step = if (points.size > 1) size.width / (points.size - 1) else size.width
-                fun x(index: Int) = index * step
                 fun y(value: Float) = size.height - size.height * (value / max)
 
-                /** One filled band between [lower] and [lower] + its own value. */
-                fun band(color: Color, value: (AreaPoint) -> Float, lower: (AreaPoint) -> Float) {
-                    val top = Path()
-                    points.forEachIndexed { index, point ->
-                        val py = y(lower(point) + value(point))
-                        if (index == 0) top.moveTo(x(index), py) else top.lineTo(x(index), py)
-                    }
-                    val fill = Path().apply { addPath(top) }
-                    for (index in points.indices.reversed()) {
-                        fill.lineTo(x(index), y(lower(points[index])))
-                    }
-                    fill.close()
-                    drawPath(fill, color.copy(alpha = 0.4f))
-                    drawPath(top, color, style = Stroke(width = 2.dp.toPx()))
+                // Drawn as the single shape it reads as. Two stacked bands in
+                // the same ink at the same alpha leave a hairline seam where
+                // they meet; the web has no seam, because its two fills are
+                // the same black. If the web's chart tokens are ever fixed,
+                // this splits back into a band per series.
+                val top = points.mapIndexed { index, point ->
+                    Offset(index * step, y(point.primary + point.secondary))
                 }
-
-                band(secondary, { it.secondary }, { 0f })
-                band(primary, { it.primary }, { it.secondary })
+                val fill = spline(top)
+                fill.lineTo((points.size - 1) * step, size.height)
+                fill.lineTo(0f, size.height)
+                fill.close()
+                drawPath(fill, mark.copy(alpha = 0.4f))
             }
             Row(Modifier.fillMaxWidth().padding(top = 8.dp)) {
                 data.areaPoints.forEach { point ->
@@ -320,6 +330,38 @@ private fun AreaChartCard(data: RoleChartData) {
         } }
         TrendFooter(data.areaTrend, data.areaTrendLabel)
     }
+}
+
+/** The web's cartesian grid: four bands, `border` at half alpha. */
+private fun DrawScope.grid(color: Color) {
+    repeat(5) { band ->
+        val y = size.height * band / 4f
+        drawLine(color, Offset(0f, y), Offset(size.width, y), strokeWidth = 1f)
+    }
+}
+
+/**
+ * Recharts draws these areas `type="natural"` — a smooth spline through every
+ * point, not the polyline a straight `lineTo` gives. This is the Catmull-Rom
+ * reading of the same points, which is not the identical curve but is the
+ * same smooth shape at this size.
+ */
+private fun spline(points: List<Offset>): Path {
+    val path = Path()
+    if (points.isEmpty()) return path
+    path.moveTo(points[0].x, points[0].y)
+    for (i in 0 until points.size - 1) {
+        val p0 = points[(i - 1).coerceAtLeast(0)]
+        val p1 = points[i]
+        val p2 = points[i + 1]
+        val p3 = points[(i + 2).coerceAtMost(points.size - 1)]
+        path.cubicTo(
+            p1.x + (p2.x - p0.x) / 6f, p1.y + (p2.y - p0.y) / 6f,
+            p2.x - (p3.x - p1.x) / 6f, p2.y - (p3.y - p1.y) / 6f,
+            p2.x, p2.y,
+        )
+    }
+    return path
 }
 
 /**
