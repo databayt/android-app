@@ -19,6 +19,7 @@ import org.hogwarts.android.feature.attendance.navigation.interventionsScreen
 import org.hogwarts.android.feature.attendance.navigation.attendanceAnalyticsScreen
 import org.hogwarts.android.feature.attendance.navigation.attendanceMethodSettingsScreen
 import org.hogwarts.android.feature.dashboard.navigation.Dashboard
+import org.hogwarts.android.shell.search.searchScreen
 import org.hogwarts.android.feature.dashboard.navigation.dashboardScreen
 import org.hogwarts.android.feature.fees.navigation.Fees
 import org.hogwarts.android.feature.grades.navigation.Grades
@@ -191,6 +192,16 @@ fun HogwartsNavHost(
 
         // Main app flow: the phone dashboard. Its doors are web paths the shell resolves.
         dashboardScreen(onOpenHref = { href -> hrefOpener.open(href) })
+
+        // The menu's first control. Its rows are web paths too, resolved the
+        // same way — a native screen where there is one, the site otherwise.
+        searchScreen(
+            onOpen = { href ->
+                navController.popBackStack()
+                hrefOpener.open(href)
+            },
+            onBack = { navController.popBackStack() },
+        )
 
         atomStudioScreen(
             onNavigateBack = { navController.popBackStack() }

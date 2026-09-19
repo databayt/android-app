@@ -105,4 +105,33 @@
     <string name="menu_language">اللغة</string>
     <string name="menu_theme">المظهر</string>
     <string name="menu_account">الحساب</string>
+
+    <!-- Search — hogwarts `commandMenu` + `platform-config.ts` actions -->
+    <string name="search_title">بحث</string>
+    <string name="search_placeholder">ابحث في الصفحات والإجراءات…</string>
+    <string name="search_cancel">إلغاء</string>
+    <string name="search_recent">الأخيرة</string>
+    <string name="search_category_pages">الصفحات</string>
+    <string name="search_category_actions">الإجراءات</string>
+    <string name="search_no_results">لا توجد نتائج.</string>
+    <string name="search_no_results_hint">جرّب اسماً أو معرّفاً أو كلمة أخرى.</string>
+    <string name="search_new_student">طالب جديد</string>
+    <string name="search_new_student_desc">تسجيل طالب جديد</string>
+    <string name="search_new_teacher">معلم جديد</string>
+    <string name="search_new_teacher_desc">إضافة معلم جديد</string>
+    <string name="search_new_class">فصل جديد</string>
+    <string name="search_new_class_desc">إنشاء فصل جديد</string>
+    <string name="search_new_subject">مادة جديدة</string>
+    <string name="search_new_subject_desc">إضافة مادة جديدة</string>
+    <string name="search_new_announcement">إعلان جديد</string>
+    <string name="search_new_announcement_desc">إنشاء إعلان جديد</string>
+    <string name="search_new_exam">امتحان جديد</string>
+    <string name="search_new_exam_desc">جدولة امتحان جديد</string>
+
+    <!-- Account menu — hogwarts `getUserMenuItems("platform")` -->
+    <string name="account_profile">الملف الشخصي</string>
+    <string name="account_my_account">حسابي</string>
+    <string name="account_school_settings">إعدادات المدرسة</string>
+    <string name="account_help">المساعدة والدعم</string>
+    <string name="account_logout">تسجيل الخروج</string>
 </resources>

@@ -105,4 +105,33 @@
     <string name="menu_language">Language</string>
     <string name="menu_theme">Theme</string>
     <string name="menu_account">Account</string>
+
+    <!-- Search — hogwarts `commandMenu` + `platform-config.ts` actions -->
+    <string name="search_title">Search</string>
+    <string name="search_placeholder">Search pages and actions…</string>
+    <string name="search_cancel">Cancel</string>
+    <string name="search_recent">Recent</string>
+    <string name="search_category_pages">Pages</string>
+    <string name="search_category_actions">Actions</string>
+    <string name="search_no_results">No results found.</string>
+    <string name="search_no_results_hint">Try a different name, ID, or keyword.</string>
+    <string name="search_new_student">New Student</string>
+    <string name="search_new_student_desc">Register a new student</string>
+    <string name="search_new_teacher">New Teacher</string>
+    <string name="search_new_teacher_desc">Add a new teacher</string>
+    <string name="search_new_class">New Class</string>
+    <string name="search_new_class_desc">Create a new class</string>
+    <string name="search_new_subject">New Subject</string>
+    <string name="search_new_subject_desc">Add a new subject</string>
+    <string name="search_new_announcement">New Announcement</string>
+    <string name="search_new_announcement_desc">Create a new announcement</string>
+    <string name="search_new_exam">New Exam</string>
+    <string name="search_new_exam_desc">Schedule a new exam</string>
+
+    <!-- Account menu — hogwarts `getUserMenuItems("platform")` -->
+    <string name="account_profile">Profile</string>
+    <string name="account_my_account">My Account</string>
+    <string name="account_school_settings">School Settings</string>
+    <string name="account_help">Help &amp; Support</string>
+    <string name="account_logout">Logout</string>
 </resources>

@@ -94,7 +94,7 @@ fun HogwartsApp(
             }
 
             if (uiState.isAuthenticated) {
-                AppShell(navController = navController, content = navHost)
+                AppShell(navController = navController, content = navHost, onLogout = viewModel::logout)
             } else {
                 navHost(Modifier)
             }

@@ -27,6 +27,7 @@ import org.hogwarts.android.R
 import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.designsystem.atom.UserAvatar
 import org.hogwarts.android.core.designsystem.icon.ToolbarIcons
+import org.hogwarts.android.shell.search.Search
 import org.hogwarts.android.core.designsystem.kit.MenuControl
 import org.hogwarts.android.core.designsystem.kit.MenuLink
 import org.hogwarts.android.core.designsystem.kit.MenuPopover
@@ -67,6 +68,7 @@ import org.hogwarts.android.feature.timetable.navigation.Timetable
 fun AppShell(
     navController: NavHostController,
     content: @Composable (Modifier) -> Unit,
+    onLogout: () -> Unit,
     viewModel: ShellViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -134,10 +136,12 @@ fun AppShell(
                     .statusBarsPadding()
                     .padding(top = HEADER_HEIGHT),
                 // The web's toolbar, in its order: search, language, theme,
-                // bell, mail, avatar. Its search opens a command palette the
-                // app does not have, so that control is not here — five, not
-                // six. Restore it alongside a search surface.
+                // bell, mail, avatar.
                 controls = listOf(
+                    MenuControl("search", ToolbarIcons.Search, stringResource(R.string.search_title), onClick = {
+                        viewModel.setMenuOpen(false)
+                        navController.navigate(Search) { launchSingleTop = true }
+                    }),
                     MenuControl("language", ToolbarIcons.Languages, stringResource(R.string.menu_language), onClick = {
                         val next = if (lang == "ar") "en" else "ar"
                         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(next))
@@ -157,23 +161,23 @@ fun AppShell(
                         viewModel.setMenuOpen(false)
                         navController.navigate(Messaging) { launchSingleTop = true }
                     }),
-                    // `UserButton` renders the account control as the reader's
-                    // own avatar, not a person glyph — their photo when there
-                    // is one, their initials when there is not.
+                    // `UserButton variant="platform"` — the avatar opens the
+                    // account menu; it is not a link to the profile.
                     MenuControl(
                         "account",
                         description = stringResource(R.string.menu_account),
-                        onClick = {
-                            viewModel.setMenuOpen(false)
-                            navController.navigate(Profile) { launchSingleTop = true }
-                        },
                         content = {
-                            UserAvatar(
-                                name = state.userName.orEmpty(),
-                                imageUrl = null,
-                                size = 24.dp,
-                                containerColor = HogwartsTheme.colors.primary,
-                                contentColor = HogwartsTheme.colors.primaryForeground,
+                            AccountControl(
+                                userName = state.userName,
+                                role = state.role,
+                                onOpenHref = { href ->
+                                    viewModel.setMenuOpen(false)
+                                    hrefOpener.open(href)
+                                },
+                                onLogout = {
+                                    viewModel.setMenuOpen(false)
+                                    onLogout()
+                                },
                             )
                         },
                     ),

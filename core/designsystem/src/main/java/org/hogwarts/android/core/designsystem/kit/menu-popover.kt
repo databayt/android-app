@@ -48,7 +48,8 @@ data class MenuControl(
     /** The glyph, unless [content] draws the control itself. */
     val icon: ImageVector? = null,
     val description: String,
-    val onClick: () -> Unit,
+    /** Null when [content] handles its own taps, e.g. a control that opens a menu. */
+    val onClick: (() -> Unit)? = null,
     val badge: Int = 0,
     /** Replaces the glyph, e.g. the user's avatar. */
     val content: (@Composable () -> Unit)? = null,
@@ -129,11 +130,18 @@ fun MenuPopover(
 @Composable
 private fun ToolbarControl(control: MenuControl) {
     val colors = HogwartsTheme.colors
+    val onClick = control.onClick
     Box(
         modifier = Modifier
             .size(40.dp)
             .clip(CircleShape)
-            .clickable(role = Role.Button, onClickLabel = control.description, onClick = control.onClick),
+            .then(
+                if (onClick != null) {
+                    Modifier.clickable(role = Role.Button, onClickLabel = control.description, onClick = onClick)
+                } else {
+                    Modifier
+                }
+            ),
         contentAlignment = Alignment.Center,
     ) {
         val content = control.content
