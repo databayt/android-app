@@ -111,3 +111,7 @@ firebase-debug.log
 .env.local
 .env.*.local
 secrets/
+
+# Thmanyah (خط ثمانية) — licensed for embedding, NOT for redistribution.
+# Fetched per machine by scripts/fetch-thmanyah.mjs; never committed.
+core/designsystem/.thmanyah/
