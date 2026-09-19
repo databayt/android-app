@@ -25,6 +25,7 @@ import org.hogwarts.android.core.designsystem.kit.PillVariant
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.dashboard.R
 import org.hogwarts.android.feature.dashboard.data.remote.NextActionDto
+import org.hogwarts.android.feature.dashboard.ui.components.ChartSection
 import org.hogwarts.android.feature.dashboard.ui.components.HomeBlock
 import org.hogwarts.android.feature.dashboard.ui.components.NextActionBanner
 import org.hogwarts.android.feature.dashboard.ui.components.QuickActions
@@ -37,10 +38,13 @@ import org.hogwarts.android.feature.dashboard.ui.components.TodayTimetable
  * own dashboard, 24dp apart on a 16dp gutter. The platform header and Menu
  * come from the app shell.
  *
- * The role's own dashboard is the two sections every role client renders under
- * its quick actions — resource usage, then invoice history. The charts that
- * sit between them on the web are skipped: `chart-section.tsx` draws
- * deterministic placeholder data.
+ * The role's own dashboard is what every role client renders under its quick
+ * actions, in the web's order: the chart section, then resource usage, then
+ * invoice history. The charts draw the web's own deterministic placeholder
+ * figures — `chart-section.tsx` carries a "TODO: Replace with real data"
+ * comment — but they are a third of the page the reader sees, so the app
+ * draws what the web draws. They sit outside the `sections` block because
+ * they need no fetch to render.
  */
 @Composable
 fun DashboardScreen(
@@ -106,6 +110,7 @@ fun DashboardContent(
                 onOpenTimetable = { onOpenHref("/timetable") },
             )
             QuickActions(actions = data.quickActions, onOpen = onOpenHref)
+            ChartSection(role = state.role)
             state.sections?.let { sections ->
                 RoleSections(role = state.role, resources = sections.resourceUsage, invoices = sections.invoices)
             }

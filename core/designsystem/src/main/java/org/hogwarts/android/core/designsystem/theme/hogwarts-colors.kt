@@ -45,6 +45,15 @@ data class HogwartsColors(
     val positive: Color,
     val warning: Color,
     val info: Color,
+    /**
+     * `--chart-1` … `--chart-5`, in order, for the dashboard's chart marks.
+     *
+     * Worth knowing when comparing against the live site: the web's chart
+     * components wrap these tokens as `hsl(var(--chart-1))`, but the tokens
+     * are OKLCH, so the declaration is invalid and every mark falls back to
+     * near-black. These are the colours `globals.css` actually defines.
+     */
+    val chart: List<Color>,
     val isDark: Boolean,
 ) {
     companion object {
@@ -65,6 +74,13 @@ data class HogwartsColors(
             positive = Color(0xFF009966),
             warning = Color(0xFFE17100),
             info = Color(0xFF0084D1),
+            chart = listOf(
+                Color(0xFFF54900),
+                Color(0xFF009689),
+                Color(0xFF104E64),
+                Color(0xFFFFB900),
+                Color(0xFFFE9A00),
+            ),
             isDark = false,
         )
 
@@ -85,6 +101,13 @@ data class HogwartsColors(
             positive = Color(0xFF00D492),
             warning = Color(0xFFFFB900),
             info = Color(0xFF00BCFF),
+            chart = listOf(
+                Color(0xFF1447E6),
+                Color(0xFF00BC7D),
+                Color(0xFFFE9A00),
+                Color(0xFFAD46FF),
+                Color(0xFFFF2056),
+            ),
             isDark = true,
         )
     }

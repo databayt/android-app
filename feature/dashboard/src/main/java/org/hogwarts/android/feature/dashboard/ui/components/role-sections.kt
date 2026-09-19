@@ -42,13 +42,13 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 /**
- * The two sections every role dashboard renders under its quick actions on the
- * web: `resource-usage-section.tsx` then `invoice-history-section.tsx`, each a
+ * The two tables every role dashboard renders under its charts on the web:
+ * `resource-usage-section.tsx` then `invoice-history-section.tsx`, each a
  * heading over a bordered table.
  *
- * `chart-section.tsx`, which sits between them on the web, is not here: its
- * `generateBarChartData()` is deterministic placeholder data carrying a
- * "TODO: Replace with real data" comment, so there is nothing real to draw.
+ * `chart-section.tsx`, which precedes them on the web, is rendered by the
+ * screen itself rather than here — it draws static figures and must not
+ * disappear with a failed `sections` fetch.
  *
  * Both tables scroll sideways inside their border, as the web's
  * `overflow-x-auto` containers do, rather than reflowing into cards — the

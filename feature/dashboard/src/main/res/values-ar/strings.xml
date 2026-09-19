@@ -160,4 +160,76 @@
     <string name="dash_unit_staff">موظفون</string>
     <string name="dash_unit_gb">جيجابايت</string>
     <string name="dash_unit_sar">ر.س</string>
+
+    <!-- Chart section titles — dashboard.charts -->
+    <string name="dash_charts_student">الأداء الأكاديمي</string>
+    <string name="dash_charts_teacher">تحليلات التدريس</string>
+    <string name="dash_charts_guardian">تقدم الأبناء</string>
+    <string name="dash_charts_staff">تحليلات العمل</string>
+    <string name="dash_charts_accountant">التحليلات المالية</string>
+    <string name="dash_charts_admin">تحليلات النظام</string>
+    <string name="dash_charts_developer">تحليلات المنصة</string>
+    <string name="dash_charts_default">التحليلات</string>
+
+    <!-- Chart wording — dashboard.chartLabels -->
+    <string name="dash_chart_trend_up">ارتفاع بنسبة %1$s%% هذا الشهر</string>
+    <string name="dash_chart_trend_down">انخفاض بنسبة %1$s%% هذا الشهر</string>
+    <string name="dash_chart_week">الأسبوع</string>
+    <string name="dash_chart_term">الفصل</string>
+
+    <string name="dash_chart_student_bar_title">ساعات الدراسة</string>
+    <string name="dash_chart_student_bar_desc">ساعات الدراسة اليومية خلال الأشهر الثلاثة الماضية</string>
+    <string name="dash_chart_student_bar_primary">المواد</string>
+    <string name="dash_chart_student_bar_secondary">الواجبات</string>
+    <string name="dash_chart_student_radial_label">الحضور</string>
+    <string name="dash_chart_student_radial_trend">نسبة الحضور الإجمالية هذا الفصل</string>
+    <string name="dash_chart_student_area_trend">اتجاه الأداء الأكاديمي</string>
+
+    <string name="dash_chart_teacher_bar_title">الدروس والتصحيح</string>
+    <string name="dash_chart_teacher_bar_desc">نشاط التدريس خلال الأشهر الثلاثة الماضية</string>
+    <string name="dash_chart_teacher_bar_primary">الدروس</string>
+    <string name="dash_chart_teacher_bar_secondary">المصحح</string>
+    <string name="dash_chart_teacher_radial_label">تقدم التصحيح</string>
+    <string name="dash_chart_teacher_radial_trend">الواجبات المصححة هذه الفترة</string>
+    <string name="dash_chart_teacher_area_trend">أداء الفصل عبر الزمن</string>
+
+    <string name="dash_chart_guardian_bar_title">نظرة عامة على النشاط</string>
+    <string name="dash_chart_guardian_bar_desc">أنشطة الأبناء المدرسية</string>
+    <string name="dash_chart_guardian_bar_primary">الحضور</string>
+    <string name="dash_chart_guardian_bar_secondary">الواجبات</string>
+    <string name="dash_chart_guardian_radial_label">متوسط الدرجات</string>
+    <string name="dash_chart_guardian_radial_trend">متوسط الدرجات لجميع الأبناء</string>
+    <string name="dash_chart_guardian_area_trend">اتجاه الأداء هذا الفصل</string>
+
+    <string name="dash_chart_staff_bar_title">إدارة المهام</string>
+    <string name="dash_chart_staff_bar_desc">المهام المنجزة خلال الأشهر الثلاثة الماضية</string>
+    <string name="dash_chart_staff_bar_primary">المنجز</string>
+    <string name="dash_chart_staff_bar_secondary">المعلق</string>
+    <string name="dash_chart_staff_radial_label">الكفاءة</string>
+    <string name="dash_chart_staff_radial_trend">معدل كفاءة العمل</string>
+    <string name="dash_chart_staff_area_trend">توزيع عبء العمل عبر الزمن</string>
+
+    <string name="dash_chart_accountant_bar_title">الإيرادات مقابل المصروفات</string>
+    <string name="dash_chart_accountant_bar_desc">نظرة مالية عامة للأشهر الثلاثة الماضية</string>
+    <string name="dash_chart_accountant_bar_primary">الإيرادات</string>
+    <string name="dash_chart_accountant_bar_secondary">المصروفات</string>
+    <string name="dash_chart_accountant_radial_label">نسبة التحصيل</string>
+    <string name="dash_chart_accountant_radial_trend">كفاءة تحصيل الرسوم</string>
+    <string name="dash_chart_accountant_area_trend">اتجاه الأداء المالي</string>
+
+    <string name="dash_chart_admin_bar_title">نشاط المستخدمين</string>
+    <string name="dash_chart_admin_bar_desc">استخدام النظام خلال الأشهر الثلاثة الماضية</string>
+    <string name="dash_chart_admin_bar_primary">المستخدمون النشطون</string>
+    <string name="dash_chart_admin_bar_secondary">الجلسات</string>
+    <string name="dash_chart_admin_radial_label">صحة النظام</string>
+    <string name="dash_chart_admin_radial_trend">مؤشر استقرار المنصة</string>
+    <string name="dash_chart_admin_area_trend">اتجاه نشاط النظام</string>
+
+    <string name="dash_chart_developer_bar_title">نمو المنصة</string>
+    <string name="dash_chart_developer_bar_desc">مقاييس المنصة خلال الأشهر الثلاثة الماضية</string>
+    <string name="dash_chart_developer_bar_primary">المدارس</string>
+    <string name="dash_chart_developer_bar_secondary">المستخدمون</string>
+    <string name="dash_chart_developer_radial_label">وقت التشغيل</string>
+    <string name="dash_chart_developer_radial_trend">توفر المنصة</string>
+    <string name="dash_chart_developer_area_trend">اتجاه النمو عبر الزمن</string>
 </resources>

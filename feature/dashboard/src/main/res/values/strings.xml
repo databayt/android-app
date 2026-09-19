@@ -160,4 +160,76 @@
     <string name="dash_unit_staff">staff</string>
     <string name="dash_unit_gb">GB</string>
     <string name="dash_unit_sar">SAR</string>
+
+    <!-- Chart section titles — dashboard.charts -->
+    <string name="dash_charts_student">Academic Performance</string>
+    <string name="dash_charts_teacher">Teaching Analytics</string>
+    <string name="dash_charts_guardian">Children\'s Progress</string>
+    <string name="dash_charts_staff">Work Analytics</string>
+    <string name="dash_charts_accountant">Financial Analytics</string>
+    <string name="dash_charts_admin">System Analytics</string>
+    <string name="dash_charts_developer">Platform Analytics</string>
+    <string name="dash_charts_default">Analytics</string>
+
+    <!-- Chart wording — dashboard.chartLabels -->
+    <string name="dash_chart_trend_up">Trending up by %1$s%% this month</string>
+    <string name="dash_chart_trend_down">Trending down by %1$s%% this month</string>
+    <string name="dash_chart_week">Week</string>
+    <string name="dash_chart_term">Term</string>
+
+    <string name="dash_chart_student_bar_title">Study Hours</string>
+    <string name="dash_chart_student_bar_desc">Daily study hours over the past 3 months</string>
+    <string name="dash_chart_student_bar_primary">Subjects</string>
+    <string name="dash_chart_student_bar_secondary">Assignments</string>
+    <string name="dash_chart_student_radial_label">Attendance</string>
+    <string name="dash_chart_student_radial_trend">Overall attendance rate this semester</string>
+    <string name="dash_chart_student_area_trend">Academic performance trend</string>
+
+    <string name="dash_chart_teacher_bar_title">Lessons &amp; Grading</string>
+    <string name="dash_chart_teacher_bar_desc">Teaching activity over the past 3 months</string>
+    <string name="dash_chart_teacher_bar_primary">Lessons</string>
+    <string name="dash_chart_teacher_bar_secondary">Graded</string>
+    <string name="dash_chart_teacher_radial_label">Grading Progress</string>
+    <string name="dash_chart_teacher_radial_trend">Assignments graded this period</string>
+    <string name="dash_chart_teacher_area_trend">Class performance over time</string>
+
+    <string name="dash_chart_guardian_bar_title">Activity Overview</string>
+    <string name="dash_chart_guardian_bar_desc">Children\'s school activities</string>
+    <string name="dash_chart_guardian_bar_primary">Attendance</string>
+    <string name="dash_chart_guardian_bar_secondary">Assignments</string>
+    <string name="dash_chart_guardian_radial_label">Avg Grade</string>
+    <string name="dash_chart_guardian_radial_trend">Average grade across all children</string>
+    <string name="dash_chart_guardian_area_trend">Performance trend this semester</string>
+
+    <string name="dash_chart_staff_bar_title">Task Management</string>
+    <string name="dash_chart_staff_bar_desc">Tasks completed over the past 3 months</string>
+    <string name="dash_chart_staff_bar_primary">Completed</string>
+    <string name="dash_chart_staff_bar_secondary">Pending</string>
+    <string name="dash_chart_staff_radial_label">Efficiency</string>
+    <string name="dash_chart_staff_radial_trend">Work efficiency rate</string>
+    <string name="dash_chart_staff_area_trend">Workload distribution over time</string>
+
+    <string name="dash_chart_accountant_bar_title">Revenue vs Expenses</string>
+    <string name="dash_chart_accountant_bar_desc">Financial overview for the last 3 months</string>
+    <string name="dash_chart_accountant_bar_primary">Revenue</string>
+    <string name="dash_chart_accountant_bar_secondary">Expenses</string>
+    <string name="dash_chart_accountant_radial_label">Collection Rate</string>
+    <string name="dash_chart_accountant_radial_trend">Fee collection efficiency</string>
+    <string name="dash_chart_accountant_area_trend">Financial performance trend</string>
+
+    <string name="dash_chart_admin_bar_title">User Activity</string>
+    <string name="dash_chart_admin_bar_desc">System usage over the past 3 months</string>
+    <string name="dash_chart_admin_bar_primary">Active Users</string>
+    <string name="dash_chart_admin_bar_secondary">Sessions</string>
+    <string name="dash_chart_admin_radial_label">System Health</string>
+    <string name="dash_chart_admin_radial_trend">Platform stability index</string>
+    <string name="dash_chart_admin_area_trend">System activity trend</string>
+
+    <string name="dash_chart_developer_bar_title">Platform Growth</string>
+    <string name="dash_chart_developer_bar_desc">Platform metrics over the past 3 months</string>
+    <string name="dash_chart_developer_bar_primary">Schools</string>
+    <string name="dash_chart_developer_bar_secondary">Users</string>
+    <string name="dash_chart_developer_radial_label">Uptime</string>
+    <string name="dash_chart_developer_radial_trend">Platform availability</string>
+    <string name="dash_chart_developer_area_trend">Growth trend over time</string>
 </resources>
