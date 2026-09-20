@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Live — the web's /live landing -->
+    <string name="live_headline_lead">An interactive experience</string>
+    <string name="live_headline_rest">that brings teaching closer and makes it count</string>
+    <string name="live_sessions">Sessions</string>
+    <string name="live_schedule">Schedule</string>
+    <string name="live_today">Today</string>
+    <string name="live_recordings">Recordings</string>
+    <string name="live_nothing_today">No classes today</string>
+    <string name="live_in_progress">In progress</string>
+    <string name="live_starts_at">Starts %1$s</string>
+</resources>

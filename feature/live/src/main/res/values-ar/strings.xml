@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Live — the web's /live landing -->
+    <string name="live_headline_lead">تجربة تفاعلية</string>
+    <string name="live_headline_rest">تجعل التعليم أقرب وأكثر تأثيرًا</string>
+    <string name="live_sessions">الجلسات</string>
+    <string name="live_schedule">جدولة</string>
+    <string name="live_today">اليوم</string>
+    <string name="live_recordings">التسجيلات</string>
+    <string name="live_nothing_today">لا توجد حصص اليوم</string>
+    <string name="live_in_progress">جارية الآن</string>
+    <string name="live_starts_at">تبدأ %1$s</string>
+</resources>

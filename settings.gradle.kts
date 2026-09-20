@@ -56,6 +56,7 @@ include(":feature:subjects")
 include(":feature:report-cards")
 include(":feature:lumos")
 include(":feature:lessons")
+include(":feature:live")
 include(":feature:admin")
 include(":feature:idcard")
 

@@ -223,6 +223,7 @@ dependencies {
     implementation(project(":feature:subjects"))
     implementation(project(":feature:report-cards"))
     implementation(project(":feature:lumos"))
+    implementation(project(":feature:live"))
     implementation(project(":feature:lessons"))
     implementation(project(":feature:admin"))
     implementation(project(":feature:idcard"))
