@@ -209,4 +209,24 @@
     <string name="lumos_confirm_reject">Send Feedback</string>
     <string name="lumos_video_approved_success">Video approved and published</string>
     <string name="lumos_video_rejected_success">Feedback sent to instructor</string>
+
+    <!-- Lumos home — the web's hero, feature grid, shelves and teaching CTA -->
+    <string name="lumos_headline_lead">Lumos</string>
+    <string name="lumos_headline_rest">Shine a light.</string>
+    <string name="lumos_nav_courses">Courses</string>
+    <string name="lumos_nav_dashboard">Dashboard</string>
+    <string name="lumos_feature_curated_title">Curated Courses</string>
+    <string name="lumos_feature_curated_desc">Access a wide range of carefully curated courses designed by industry experts.</string>
+    <string name="lumos_feature_interactive_title">Interactive Learning</string>
+    <string name="lumos_feature_interactive_desc">Engage with interactive content, quizzes, and hands-on assignments.</string>
+    <string name="lumos_feature_progress_title">Progress Tracking</string>
+    <string name="lumos_feature_progress_desc">Monitor your progress and achievements with detailed analytics.</string>
+    <string name="lumos_feature_community_title">Community Support</string>
+    <string name="lumos_feature_community_desc">Join a vibrant community of learners and instructors to collaborate.</string>
+    <string name="lumos_hot_releases">New releases</string>
+    <string name="lumos_continue_watching">Continue watching</string>
+    <string name="lumos_teaching_title">Come teach with us</string>
+    <string name="lumos_teaching_desc">Become an instructor and change lives — including your own</string>
+    <string name="lumos_teaching_cta">Get started</string>
+    <string name="lumos_teaching_learn_more">Learn more</string>
 </resources>

@@ -209,4 +209,24 @@
     <string name="lumos_confirm_reject">إرسال الملاحظات</string>
     <string name="lumos_video_approved_success">تم قبول الفيديو ونشره بنجاح</string>
     <string name="lumos_video_rejected_success">تم إرسال الملاحظات للمعلم</string>
+
+    <!-- Lumos home — the web's hero, feature grid, shelves and teaching CTA -->
+    <string name="lumos_headline_lead">لوموس</string>
+    <string name="lumos_headline_rest">أضئ نورًا.</string>
+    <string name="lumos_nav_courses">الدورات</string>
+    <string name="lumos_nav_dashboard">لوحة التحكم</string>
+    <string name="lumos_feature_curated_title">دورات شاملة</string>
+    <string name="lumos_feature_curated_desc">احصل على مجموعة واسعة من الدورات المنسقة بعناية والمصممة من قبل خبراء الصناعة.</string>
+    <string name="lumos_feature_interactive_title">تعلم تفاعلي</string>
+    <string name="lumos_feature_interactive_desc">تفاعل مع المحتوى التفاعلي والاختبارات والواجبات لتحسين تجربة التعلم الخاصة بك.</string>
+    <string name="lumos_feature_progress_title">تتبع التقدم</string>
+    <string name="lumos_feature_progress_desc">راقب تقدمك وإنجازاتك من خلال التحليلات التفصيلية ولوحات المعلومات الشخصية.</string>
+    <string name="lumos_feature_community_title">دعم المجتمع</string>
+    <string name="lumos_feature_community_desc">انضم إلى مجتمع نابض بالحياة من المتعلمين والمدربين للتعاون ومشاركة المعرفة.</string>
+    <string name="lumos_hot_releases">إصدارات جديدة رائجة</string>
+    <string name="lumos_continue_watching">تابع المشاهدة</string>
+    <string name="lumos_teaching_title">تعال وعلّم معنا</string>
+    <string name="lumos_teaching_desc">كن مدربًا وغيّر حياة الآخرين — بما في ذلك حياتك</string>
+    <string name="lumos_teaching_cta">ابدأ الآن</string>
+    <string name="lumos_teaching_learn_more">اعرف المزيد</string>
 </resources>

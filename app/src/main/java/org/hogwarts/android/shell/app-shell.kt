@@ -55,6 +55,7 @@ import org.hogwarts.android.feature.profile.navigation.Profile
 import org.hogwarts.android.feature.settings.navigation.Settings
 import org.hogwarts.android.feature.students.navigation.StudentsList
 import org.hogwarts.android.feature.library.navigation.LibraryCatalog
+import org.hogwarts.android.feature.lumos.navigation.LumosHome
 import org.hogwarts.android.feature.subjects.navigation.Subjects
 import org.hogwarts.android.feature.timetable.navigation.Timetable
 
@@ -209,6 +210,7 @@ private fun isShellDestination(destination: androidx.navigation.NavDestination):
         // the note above describes.
         destination.hasRoute<Subjects>() ||
         destination.hasRoute<LibraryCatalog>() ||
+        destination.hasRoute<LumosHome>() ||
         destination.hasRoute<Notifications>() ||
         destination.hasRoute<NotificationsUnread>() ||
         destination.hasRoute<NotificationPreferences>() ||
@@ -236,6 +238,9 @@ internal fun nativeRoute(key: String, role: UserRole?): Any? = when (key) {
     // landed it had nothing to show, so the menu handed /library to the
     // browser. It answers now.
     "library" -> LibraryCatalog
+    // Same story as the library: 45 files of course player that the menu sent
+    // to the browser because its endpoints were not there yet.
+    "lumos" -> LumosHome
     "students" -> StudentsList
     "exams" -> Exams
     "events" -> EventsList
