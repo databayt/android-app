@@ -460,7 +460,10 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToSubject = { subjectId ->
                 navController.navigate(SubjectDetail(subjectId))
-            }
+            },
+            // The catalog and contribute entries in the level strip are web
+            // pages with no native mirror; the shell resolves them.
+            onOpenHref = { href -> hrefOpener.open(href) },
         )
 
         // Subjects - Detail

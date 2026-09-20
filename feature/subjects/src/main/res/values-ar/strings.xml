@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Subjects List Screen -->
-    <string name="subjects_title">المواد الدراسية</string>
+    <string name="subjects_title">المواد</string>
     <string name="subjects_back">رجوع</string>
     <string name="subjects_search_placeholder">البحث في المواد…</string>
     <string name="subjects_empty_title">لم يتم العثور على مواد</string>
@@ -116,4 +116,9 @@
     <string name="subjects_assignment_minutes">%1$d دقيقة</string>
     <string name="subjects_assignment_points">%1$d نقطة</string>
     <string name="subjects_assignments_empty">لا توجد واجبات</string>
+
+    <!-- Subjects level strip — the web's /subjects tabs -->
+    <string name="subjects_filter_all">الكل</string>
+    <string name="subjects_filter_catalog">الكتالوج</string>
+    <string name="subjects_filter_contribute">المساهمة</string>
 </resources>

@@ -203,6 +203,10 @@ private fun isShellDestination(destination: androidx.navigation.NavDestination):
         destination.hasRoute<Announcements>() ||
         destination.hasRoute<AnnouncementDetail>() ||
         destination.hasRoute<Settings>() ||
+        // Subjects dropped its own TopAppBar when it was rebuilt on the web's
+        // layout, so the platform header is now its chrome — the P3 migration
+        // the note above describes.
+        destination.hasRoute<Subjects>() ||
         destination.hasRoute<Notifications>() ||
         destination.hasRoute<NotificationsUnread>() ||
         destination.hasRoute<NotificationPreferences>() ||

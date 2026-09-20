@@ -116,4 +116,9 @@
     <string name="subjects_assignment_minutes">%1$d min</string>
     <string name="subjects_assignment_points">%1$d pts</string>
     <string name="subjects_assignments_empty">0 assignments</string>
+
+    <!-- Subjects level strip — the web's /subjects tabs -->
+    <string name="subjects_filter_all">All</string>
+    <string name="subjects_filter_catalog">Catalog</string>
+    <string name="subjects_filter_contribute">Contribute</string>
 </resources>

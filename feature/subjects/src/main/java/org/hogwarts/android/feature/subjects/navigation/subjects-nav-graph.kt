@@ -16,12 +16,14 @@ import org.hogwarts.android.feature.subjects.ui.SubjectsListScreen
  */
 fun NavGraphBuilder.subjectsScreen(
     onNavigateBack: () -> Unit,
-    onNavigateToSubject: (String) -> Unit
+    onNavigateToSubject: (String) -> Unit,
+    onOpenHref: (String) -> Unit = {},
 ) {
     composable<Subjects> {
         SubjectsListScreen(
             onNavigateBack = onNavigateBack,
-            onNavigateToSubject = onNavigateToSubject
+            onNavigateToSubject = onNavigateToSubject,
+            onOpenHref = onOpenHref,
         )
     }
 }

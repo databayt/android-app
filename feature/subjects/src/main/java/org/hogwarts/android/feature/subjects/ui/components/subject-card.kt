@@ -2,6 +2,10 @@ package org.hogwarts.android.feature.subjects.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,10 +35,17 @@ import org.hogwarts.android.core.designsystem.atom.StatusBadge
 import org.hogwarts.android.feature.subjects.domain.model.Subject
 
 /**
- * Horizontal subject card matching the web grid at
- * components/school-dashboard/listings/subjects/catalog-subjects-grid.tsx.
+ * One subject, as `/subjects` draws it: a 58dp row with the name over its
+ * level and grade, and the textbook's own cover square at the end — measured
+ * off the live grid, which lays 186x58 cards out two to a row.
  *
- * Layout:  [64dp thumbnail — rounded start]  [name + badges + rating]
+ * The cover sits at the END, where the web puts it. It used to lead the row,
+ * which in Arabic put it on the opposite side from the site. It is square and
+ * uncut: the artwork is a book cover, and rounding its corners crops the
+ * printing.
+ *
+ * No rating. The web's card carries none — the stars belong to the subject
+ * page, not to a tile a reader is scanning twelve of.
  */
 @Composable
 fun SubjectCard(
@@ -44,62 +55,47 @@ fun SubjectCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val shape = RoundedCornerShape(12.dp)
-    Surface(
+    val colors = HogwartsTheme.colors
+    val shape = RoundedCornerShape(10.dp)
+    Row(
         modifier = modifier
             .fillMaxWidth()
+            .height(58.dp)
             .clip(shape)
+            .border(1.dp, colors.border, shape)
             .clickable(onClick = onClick),
-        shape = shape,
-        color = MaterialTheme.colorScheme.surface,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(),
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
-            SubjectThumbnail(
-                imageUrl = subject.thumbnailUrl,
-                color = subject.color,
-                contentDescription = subject.name,
+            Text(
+                text = subject.name,
+                fontSize = 14.sp,
+                lineHeight = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = colors.foreground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
-            Spacer(Modifier.width(12.dp))
-            Column(
-                modifier = Modifier
-                    .padding(end = 12.dp, top = 10.dp, bottom = 10.dp)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
-                Text(
-                    text = subject.name,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    StatusBadge(
-                        text = levelLabel,
-                        color = MaterialTheme.colorScheme.secondary,
-                    )
-                    if (gradeLabel != null) {
-                        StatusBadge(
-                            text = gradeLabel,
-                            color = MaterialTheme.colorScheme.tertiary,
-                        )
-                    }
-                }
-                if (subject.averageRating > 0f) {
-                    SubjectRating(
-                        rating = subject.averageRating,
-                        ratingCount = subject.ratingCount,
-                    )
-                }
-            }
+            Text(
+                text = listOfNotNull(levelLabel, gradeLabel).joinToString(" · "),
+                fontSize = 10.sp,
+                lineHeight = 13.sp,
+                fontWeight = FontWeight.Medium,
+                color = colors.mutedForeground,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
         }
+        SubjectThumbnail(
+            imageUrl = subject.thumbnailUrl,
+            color = subject.color,
+            contentDescription = subject.name,
+        )
     }
 }
 
@@ -111,11 +107,11 @@ internal fun SubjectThumbnail(
     modifier: Modifier = Modifier,
 ) {
     val fallback = parseColor(color) ?: MaterialTheme.colorScheme.surfaceVariant
-    val shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp)
+    // 56dp square, uncut. The web rounds nothing here: the artwork is a book
+    // cover and a radius crops the printing.
     Box(
         modifier = modifier
-            .size(64.dp)
-            .clip(shape)
+            .size(56.dp)
             .background(fallback),
         contentAlignment = Alignment.Center,
     ) {
