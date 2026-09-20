@@ -28,6 +28,7 @@ data class BookDto(
         author = author,
         isbn = isbn,
         category = BookCategory.fromString(category),
+        genre = category,
         description = description,
         coverImageUrl = coverImageUrl,
         availableCopies = availableCopies,

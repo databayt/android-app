@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Debug only. The release manifest keeps `usesCleartextTraffic="false"` and
+  never sees this file.
+
+  A developer running hogwarts locally reaches it from the emulator at
+  10.0.2.2, which is plain HTTP — `pnpm dev` serves no TLS. Without this the
+  app cannot talk to a local API at all, so every screen has to be verified
+  against production, which is exactly when a not-yet-deployed endpoint looks
+  like a broken screen.
+
+  Scoped to the loopback aliases and nothing else: no wildcard, no real host.
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- The emulator's alias for the host machine. -->
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <!-- A device on the same Wi-Fi, reached over adb reverse. -->
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>

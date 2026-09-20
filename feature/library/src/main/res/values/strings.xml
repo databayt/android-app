@@ -54,4 +54,15 @@
     <string name="library_fine_amount">Fine: $%1$s</string>
     <string name="library_renew">Renew</string>
     <string name="library_book_cover_description">%1$s cover</string>
+
+    <!-- Library landing — the web's hero, featured book and shelves -->
+    <string name="library_headline_lead">The school library</string>
+    <string name="library_headline_rest">gathers everything worth reading</string>
+    <string name="library_explore">Explore</string>
+    <string name="library_my_borrowings">Favourites</string>
+    <string name="library_view_book">View book</string>
+    <string name="library_latest_books">Latest Books</string>
+    <string name="library_featured_books">Featured Books</string>
+    <string name="library_literature_books">Literature Books</string>
+    <string name="library_science_books">Science Books</string>
 </resources>

@@ -54,4 +54,15 @@
     <string name="library_fine_amount">غرامة: $%1$s</string>
     <string name="library_renew">تجديد</string>
     <string name="library_book_cover_description">غلاف %1$s</string>
+
+    <!-- Library landing — the web's hero, featured book and shelves -->
+    <string name="library_headline_lead">مكتبة المدرسة</string>
+    <string name="library_headline_rest">تجمع كل ما يستحق أن تقرأه</string>
+    <string name="library_explore">استكشف</string>
+    <string name="library_my_borrowings">المفضلة</string>
+    <string name="library_view_book">عرض الكتاب</string>
+    <string name="library_latest_books">أحدث الكتب</string>
+    <string name="library_featured_books">كتب مميزة</string>
+    <string name="library_literature_books">كتب أدبية</string>
+    <string name="library_science_books">كتب علمية</string>
 </resources>

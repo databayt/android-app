@@ -1,259 +1,169 @@
 package org.hogwarts.android.feature.library.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.MenuBook
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import org.hogwarts.android.core.designsystem.apple.AppleSpacing
-import org.hogwarts.android.core.designsystem.apple.HogwartsIcons
-import org.hogwarts.android.core.designsystem.atom.EmptyState
-import org.hogwarts.android.core.designsystem.atom.HogwartsSearchBar
-import org.hogwarts.android.core.designsystem.atom.StatusBadge
+import org.hogwarts.android.core.designsystem.kit.BrandBanner
+import org.hogwarts.android.core.designsystem.kit.PillButton
+import org.hogwarts.android.core.designsystem.kit.PillVariant
+import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.library.R
-import org.hogwarts.android.feature.library.domain.model.Book
-import org.hogwarts.android.feature.library.domain.model.BookCategory
+import org.hogwarts.android.feature.library.ui.components.BookShelf
+import org.hogwarts.android.feature.library.ui.components.FeaturedBook
 
 /**
- * Book catalog screen with search bar, category filter chips, and book list.
+ * `/library` — the school's shelves, as the site lays them out: the green
+ * brand banner, one featured book, then rows of jackets.
+ *
+ * The four rows and what goes in them are `content.tsx`'s own rules, ported
+ * in `LibraryShelves` rather than re-invented: the first dozen, the second
+ * dozen, then the literature and science genres. The featured book is matched
+ * on its raw English title, before translation, because the row's photograph
+ * is of that exact edition.
+ *
+ * No top app bar and no filter chips. The platform header is the chrome on
+ * every phone screen here, and the site has neither — a reader browses the
+ * shelves and searches from the menu.
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookCatalogScreen(
     onNavigateBack: () -> Unit,
     onNavigateToBook: (String) -> Unit,
     onNavigateToMyBorrowings: () -> Unit,
-    viewModel: BookCatalogViewModel = hiltViewModel()
+    viewModel: BookCatalogViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val colors = HogwartsTheme.colors
+    val books = uiState.allBooks
+    val featured = remember(books) { LibraryShelves.featured(books) }
+    val rest = remember(books) { LibraryShelves.rest(books) }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(R.string.library_title)) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = HogwartsIcons.Back,
-                            contentDescription = stringResource(R.string.library_back)
-                        )
-                    }
-                },
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().navigationBarsPadding(),
+        contentPadding = PaddingValues(top = 16.dp, bottom = 32.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
+    ) {
+        item(key = "hero") {
+            BrandBanner(
+                headline = libraryHeadline(),
+                modifier = Modifier.padding(horizontal = 16.dp),
                 actions = {
-                    IconButton(onClick = onNavigateToMyBorrowings) {
-                        Icon(
-                            imageVector = Icons.Default.MenuBook,
-                            contentDescription = stringResource(R.string.library_my_borrowings_content_desc)
-                        )
-                    }
-                }
+                    PillButton(
+                        label = stringResource(R.string.library_explore),
+                        onClick = { },
+                        variant = PillVariant.BrandWhite,
+                    )
+                    PillButton(
+                        label = stringResource(R.string.library_my_borrowings),
+                        onClick = onNavigateToMyBorrowings,
+                        variant = PillVariant.BrandGhost,
+                    )
+                },
             )
         }
-    ) { innerPadding ->
-        PullToRefreshBox(
-            isRefreshing = uiState.isLoading,
-            onRefresh = viewModel::refresh,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            Column(modifier = Modifier.fillMaxSize()) {
-                // Search bar
-                HogwartsSearchBar(
-                    query = uiState.searchQuery,
-                    onQueryChange = viewModel::onSearchQueryChanged,
-                    placeholder = stringResource(R.string.library_search_placeholder),
-                    modifier = Modifier.padding(horizontal = AppleSpacing.Standard)
+
+        if (uiState.isLoading && books.isEmpty()) {
+            item(key = "loading") {
+                Box(Modifier.fillMaxWidth().padding(vertical = 48.dp), Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+
+        featured?.let { book ->
+            item(key = "featured") {
+                FeaturedBook(
+                    book = book,
+                    onOpenBook = onNavigateToBook,
+                    action = {
+                        PillButton(
+                            label = stringResource(R.string.library_view_book),
+                            onClick = { onNavigateToBook(book.id) },
+                            variant = PillVariant.Muted,
+                        )
+                    },
                 )
+            }
+        }
 
-                Spacer(modifier = Modifier.height(AppleSpacing.Compact))
-
-                // Category filter chips
-                LazyRow(
-                    modifier = Modifier.padding(horizontal = AppleSpacing.Standard),
-                    horizontalArrangement = Arrangement.spacedBy(AppleSpacing.Compact)
-                ) {
-                    item {
-                        FilterChip(
-                            selected = uiState.selectedCategory == null,
-                            onClick = { viewModel.selectCategory(null) },
-                            label = { Text(stringResource(R.string.library_filter_all)) }
-                        )
-                    }
-                    items(BookCategory.entries.toList()) { category ->
-                        FilterChip(
-                            selected = uiState.selectedCategory == category,
-                            onClick = { viewModel.selectCategory(category) },
-                            label = { Text(category.displayName()) }
-                        )
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(AppleSpacing.Compact))
-
-                if (uiState.filteredBooks.isEmpty() && !uiState.isLoading) {
-                    EmptyState(
-                        icon = Icons.Default.Book,
-                        title = stringResource(R.string.library_no_books_title),
-                        subtitle = if (uiState.searchQuery.isNotBlank())
-                            stringResource(R.string.library_no_books_search_subtitle)
-                        else
-                            stringResource(R.string.library_no_books_category_subtitle),
-                        modifier = Modifier.fillMaxSize()
+        val shelves = listOf(
+            R.string.library_latest_books to LibraryShelves.latest(rest),
+            R.string.library_featured_books to LibraryShelves.featuredShelf(rest),
+            R.string.library_literature_books to LibraryShelves.literature(rest),
+            R.string.library_science_books to LibraryShelves.science(rest),
+        )
+        shelves.forEach { (title, shelf) ->
+            if (shelf.isNotEmpty()) {
+                item(key = "shelf-$title") {
+                    BookShelf(
+                        title = stringResource(title),
+                        books = shelf,
+                        onOpenBook = onNavigateToBook,
                     )
-                } else {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(AppleSpacing.Small),
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(
-                            horizontal = AppleSpacing.Standard,
-                            vertical = AppleSpacing.Compact
-                        )
-                    ) {
-                        items(uiState.filteredBooks, key = { it.id }) { book ->
-                            BookCard(
-                                book = book,
-                                onClick = { onNavigateToBook(book.id) }
-                            )
-                        }
-                    }
                 }
+            }
+        }
 
-                // Error message
-                if (uiState.error != null) {
+        if (!uiState.isLoading && books.isEmpty()) {
+            item(key = "empty") {
+                Box(Modifier.fillMaxWidth().padding(vertical = 48.dp), Alignment.Center) {
                     Text(
-                        text = uiState.error ?: "",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(AppleSpacing.Standard)
+                        text = stringResource(R.string.library_no_books_title),
+                        style = HogwartsTheme.type.body,
+                        color = colors.mutedForeground,
+                        textAlign = TextAlign.Center,
                     )
                 }
+            }
+        }
+
+        uiState.error?.let { message ->
+            item(key = "error") {
+                Text(
+                    text = message,
+                    style = HogwartsTheme.type.caption,
+                    color = colors.destructive,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
             }
         }
     }
 }
 
+/**
+ * "مكتبة المدرسة تجمع كل ما يستحق أن تقرأه" — the site's headline, with its
+ * first phrase carrying the weight, the way every brand banner in this app
+ * sets the phrase the sentence turns on.
+ */
 @Composable
-private fun BookCard(
-    book: Book,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        )
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppleSpacing.Small),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Book cover image
-            if (book.coverImageUrl != null) {
-                AsyncImage(
-                    model = book.coverImageUrl,
-                    contentDescription = "${book.title} cover",
-                    modifier = Modifier
-                        .size(width = 60.dp, height = 80.dp)
-                        .clip(MaterialTheme.shapes.small),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                Box(
-                    modifier = Modifier.size(width = 60.dp, height = 80.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Book,
-                        contentDescription = null,
-                        modifier = Modifier.size(32.dp),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.width(AppleSpacing.Small))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = book.title,
-                    style = MaterialTheme.typography.titleSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(modifier = Modifier.height(AppleSpacing.Tiny))
-
-                Text(
-                    text = book.author,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-
-                Spacer(modifier = Modifier.height(AppleSpacing.Tiny))
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(AppleSpacing.Compact),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    StatusBadge(
-                        text = book.category.displayName(),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    StatusBadge(
-                        text = if (book.isAvailable)
-                            "${book.availableCopies} available"
-                        else
-                            "Unavailable",
-                        color = if (book.isAvailable)
-                            MaterialTheme.colorScheme.tertiary
-                        else
-                            MaterialTheme.colorScheme.error
-                    )
-                }
-            }
-        }
+private fun libraryHeadline(): AnnotatedString {
+    val lead = stringResource(R.string.library_headline_lead)
+    val rest = stringResource(R.string.library_headline_rest)
+    return buildAnnotatedString {
+        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(lead) }
+        append(" ")
+        append(rest)
     }
 }

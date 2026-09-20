@@ -11,6 +11,12 @@ data class Book(
     val author: String,
     val isbn: String,
     val category: BookCategory,
+    /**
+     * The school's own word for the shelf — "Fiction", "شعر الجاهلية". The
+     * web groups its rows on this raw string, not on [category], which is a
+     * coarse enum that collapses most of them to OTHER.
+     */
+    val genre: String = "",
     val description: String,
     val coverImageUrl: String?,
     val availableCopies: Int,

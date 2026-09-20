@@ -54,6 +54,7 @@ import org.hogwarts.android.feature.notifications.navigation.NotificationsUnread
 import org.hogwarts.android.feature.profile.navigation.Profile
 import org.hogwarts.android.feature.settings.navigation.Settings
 import org.hogwarts.android.feature.students.navigation.StudentsList
+import org.hogwarts.android.feature.library.navigation.LibraryCatalog
 import org.hogwarts.android.feature.subjects.navigation.Subjects
 import org.hogwarts.android.feature.timetable.navigation.Timetable
 
@@ -207,6 +208,7 @@ private fun isShellDestination(destination: androidx.navigation.NavDestination):
         // layout, so the platform header is now its chrome — the P3 migration
         // the note above describes.
         destination.hasRoute<Subjects>() ||
+        destination.hasRoute<LibraryCatalog>() ||
         destination.hasRoute<Notifications>() ||
         destination.hasRoute<NotificationsUnread>() ||
         destination.hasRoute<NotificationPreferences>() ||
@@ -230,6 +232,10 @@ internal fun nativeRoute(key: String, role: UserRole?): Any? = when (key) {
     "finance" -> Fees
     "grades" -> Grades
     "subjects" -> Subjects
+    // The library module has existed since its wave; until its endpoints
+    // landed it had nothing to show, so the menu handed /library to the
+    // browser. It answers now.
+    "library" -> LibraryCatalog
     "students" -> StudentsList
     "exams" -> Exams
     "events" -> EventsList
