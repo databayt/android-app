@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      The balqalam mark's own ground, sampled from the web's `public/icon-512.png`
+      rather than guessed: the PWA icon the browser already installs to a home
+      screen is #E8704E, and the launcher icon has to be the same object.
+    -->
+    <color name="balqalam_ground">#E8704E</color>
+</resources>

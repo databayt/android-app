@@ -5,4 +5,22 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <!--
+      The launch screen. `installSplashScreen()` was already being called, but
+      with no starting theme behind it the system fell back to drawing the
+      launcher icon on the window background — which is why the splash carried
+      whatever the icon carried, and why it changed the moment the icon did.
+
+      Named explicitly now: the mark on its own ground, and `postSplashScreen`
+      hands the window to the real theme the instant the session check ends.
+      The icon here is a separate sheet from the launcher's: Android masks a
+      splash icon to a 240dp circle and shows the inner 160dp, which is not the
+      108dp adaptive frame.
+    -->
+    <style name="Theme.Hogwarts.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/balqalam_ground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_quill</item>
+        <item name="postSplashScreenTheme">@style/Theme.Hogwarts</item>
+    </style>
 </resources>

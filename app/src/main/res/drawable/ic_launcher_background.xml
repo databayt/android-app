@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-    <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M0,0h108v108h-108z" />
-</vector>
+<!--
+  A flat ground, not artwork. An adaptive icon's background is what every
+  launcher mask cuts into a circle, a squircle or a rounded square, so anything
+  drawn near its edges is cropped differently on every device. The mark lives
+  in the foreground; this is the colour behind it.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/balqalam_ground" />
+</shape>

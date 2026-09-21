@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      From Android 12 the system draws the launch screen itself, and it reads
+      the PLATFORM attributes rather than the androidx compat ones. With only
+      the compat pair set, the ground came through (androidx maps it onto
+      `android:windowBackground`) and the mark did not — a blank terracotta
+      screen. These are the same two values under the `android:` namespace.
+    -->
+    <style name="Theme.Hogwarts.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/balqalam_ground</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_quill</item>
+        <item name="android:windowSplashScreenBackground">@color/balqalam_ground</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_quill</item>
+        <item name="postSplashScreenTheme">@style/Theme.Hogwarts</item>
+    </style>
+</resources>
