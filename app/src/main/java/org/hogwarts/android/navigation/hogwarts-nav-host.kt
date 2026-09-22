@@ -19,6 +19,7 @@ import org.hogwarts.android.feature.attendance.navigation.interventionsScreen
 import org.hogwarts.android.feature.attendance.navigation.attendanceAnalyticsScreen
 import org.hogwarts.android.feature.attendance.navigation.attendanceMethodSettingsScreen
 import org.hogwarts.android.feature.dashboard.navigation.Dashboard
+import org.hogwarts.android.feature.live.navigation.liveSessionScreens
 import org.hogwarts.android.feature.live.navigation.liveHomeScreen
 import org.hogwarts.android.shell.search.searchScreen
 import org.hogwarts.android.feature.dashboard.navigation.dashboardScreen
@@ -199,6 +200,18 @@ fun HogwartsNavHost(
 
         // The live landing: what is on now, and what was.
         liveHomeScreen(onOpenHref = { href -> hrefOpener.open(href) })
+
+        // The class page, its recordings and the room — native, as the web's /live/[id]/*.
+        liveSessionScreens(
+            onOpenHref = { href -> hrefOpener.open(href) },
+            onOpenUrl = { url ->
+                context.startActivity(
+                    android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                        .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
+                )
+            },
+            onClose = { navController.popBackStack() },
+        )
 
         // The menu's first control. Its rows are web paths too, resolved the
         // same way — a native screen where there is one, the site otherwise.

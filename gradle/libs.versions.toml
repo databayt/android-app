@@ -21,6 +21,7 @@ androidxHilt = "1.4.0"
 
 # Media3 (Lumos video)
 media3 = "1.11.1"
+livekit = "2.29.0"
 
 # Splash screen
 coreSplashscreen = "1.2.0"
@@ -189,6 +190,7 @@ googleid = { group = "com.google.android.libraries.identity.googleid", name = "g
 work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntime" }
 
 # Media3
+livekit-android = { group = "io.livekit", name = "livekit-android", version.ref = "livekit" }
 media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
 media3-exoplayer-hls = { group = "androidx.media3", name = "media3-exoplayer-hls", version.ref = "media3" }
 media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3" }

@@ -46,6 +46,11 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.timber)
 
+    // Recordings playback and the class room.
+    implementation(libs.media3.exoplayer)
+    implementation(libs.media3.ui)
+    implementation(libs.livekit.android)
+
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     androidTestImplementation(libs.compose.ui.test.junit4)

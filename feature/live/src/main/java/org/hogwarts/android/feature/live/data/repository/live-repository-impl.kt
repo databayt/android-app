@@ -18,4 +18,13 @@ class LiveRepositoryImpl @Inject constructor(
 
     override suspend fun getRecordingUrl(recordingId: String): String =
         api.getRecordingUrl(recordingId).url
+
+    override suspend fun getSession(id: String) =
+        api.getSession(id, if (Locale.getDefault().language == "en") "en" else "ar")
+
+    override suspend fun join(id: String): org.hogwarts.android.feature.live.data.remote.dto.JoinResponseDto {
+        val response = api.join(id)
+        return response.body()
+            ?: org.hogwarts.android.feature.live.data.remote.dto.JoinResponseDto(error = "HTTP_${response.code()}")
+    }
 }

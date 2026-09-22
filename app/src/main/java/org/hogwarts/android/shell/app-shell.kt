@@ -62,6 +62,8 @@ import org.hogwarts.android.feature.students.navigation.StudentsList
 import org.hogwarts.android.feature.library.navigation.LibraryBookDetail
 import org.hogwarts.android.feature.library.navigation.LibraryBooks
 import org.hogwarts.android.feature.library.navigation.LibraryCatalog
+import org.hogwarts.android.feature.live.navigation.LiveRecordings
+import org.hogwarts.android.feature.live.navigation.LiveSession
 import org.hogwarts.android.feature.live.navigation.LiveHome
 import org.hogwarts.android.feature.lumos.navigation.LumosCatalog
 import org.hogwarts.android.feature.lumos.navigation.LumosHome
@@ -264,6 +266,9 @@ private fun isShellDestination(destination: androidx.navigation.NavDestination):
         destination.hasRoute<LumosHome>() ||
         destination.hasRoute<LumosCatalog>() ||
         destination.hasRoute<LiveHome>() ||
+        // The class page and its recordings sit under the header; the room does not.
+        destination.hasRoute<LiveSession>() ||
+        destination.hasRoute<LiveRecordings>() ||
         destination.hasRoute<Notifications>() ||
         destination.hasRoute<NotificationsUnread>() ||
         destination.hasRoute<NotificationPreferences>() ||
