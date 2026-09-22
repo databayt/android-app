@@ -10,6 +10,9 @@ import org.hogwarts.android.feature.exams.navigation.ExamsUpcoming
 import org.hogwarts.android.feature.exams.navigation.QuestionBank
 import org.hogwarts.android.feature.library.navigation.LibraryBookDetail
 import org.hogwarts.android.feature.live.navigation.LiveRecordings
+import org.hogwarts.android.feature.lumos.navigation.LumosCertificate
+import org.hogwarts.android.feature.lumos.navigation.LumosCourseDetail
+import org.hogwarts.android.feature.lumos.navigation.LumosVideoLesson
 import org.hogwarts.android.feature.live.navigation.LiveRoom
 import org.hogwarts.android.feature.live.navigation.LiveSession
 import org.hogwarts.android.feature.library.navigation.LibraryBooks
@@ -62,6 +65,14 @@ private fun nestedRoute(path: String, role: UserRole?): Any? {
         when (segments[2]) {
             "room" -> return LiveRoom(segments[1])
             "recordings" -> return LiveRecordings(segments[1])
+        }
+    }
+    if (segments.size >= 3 && segments[0] == "lumos" && segments[1] == "courses") {
+        val slug = segments[2]
+        return when (segments.getOrNull(3)) {
+            null -> LumosCourseDetail(slug)
+            "certificate" -> LumosCertificate(slug)
+            else -> if (segments.size == 4) LumosVideoLesson(slug, segments[3]) else null
         }
     }
     if (segments.size == 3 && segments[0] == "library" && segments[1] == "books") {

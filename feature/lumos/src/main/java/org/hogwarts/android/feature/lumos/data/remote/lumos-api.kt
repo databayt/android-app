@@ -22,6 +22,36 @@ import retrofit2.http.Query
  */
 interface LumosApi {
 
+    /** `/lumos/courses/[slug]/[lessonId]` — the page's lesson read, quiz and words. */
+    @GET("api/mobile/lumos/lessons/{lessonId}")
+    suspend fun getLessonPage(
+        @Path("lessonId") lessonId: String,
+        @Query("lang") lang: String,
+    ): org.hogwarts.android.feature.lumos.data.remote.dto.LessonPageDto
+
+    /** Grades a lesson quiz; the body maps question id to the chosen index. */
+    @retrofit2.http.POST("api/mobile/courses/{courseId}/lessons/{lessonId}/quiz")
+    suspend fun gradeQuiz(
+        @Path("courseId") courseId: String,
+        @Path("lessonId") lessonId: String,
+        @retrofit2.http.Body body: kotlinx.serialization.json.JsonObject,
+    ): org.hogwarts.android.feature.lumos.data.remote.dto.QuizGradeDto
+
+    /**
+     * A protected `/api/lumos/{video,file}/…` path, asked with this app's token:
+     * the 302 to a short-lived signed URL is followed, and the URL it lands on
+     * is what the player or the browser opens.
+     */
+    @retrofit2.http.HEAD
+    suspend fun resolveMedia(@retrofit2.http.Url url: String): retrofit2.Response<Void>
+
+    /** `/lumos/courses/[slug]` — the page's `getCatalogCourse`, enrolment, progress and words. */
+    @GET("api/mobile/lumos/courses/{slug}")
+    suspend fun getCoursePage(
+        @Path("slug") slug: String,
+        @Query("lang") lang: String,
+    ): org.hogwarts.android.feature.lumos.data.remote.dto.CoursePageDto
+
     /** `/lumos/courses` as data — shelves, lead card and grade, or a search. */
     @GET("api/mobile/lumos/courses")
     suspend fun getCoursesPage(

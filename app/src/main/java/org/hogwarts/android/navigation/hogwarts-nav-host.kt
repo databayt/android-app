@@ -613,7 +613,8 @@ fun HogwartsNavHost(
             },
             onNavigateToCertificate = { courseId ->
                 navController.navigate(LumosCertificate(courseId))
-            }
+            },
+            onOpenHref = { href -> hrefOpener.open(href) }
         )
 
         // Lumos / LMS - Chapter List
@@ -635,7 +636,8 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToNext = { courseId, lessonId ->
                 navController.navigate(LumosVideoLesson(courseId, lessonId))
-            }
+            },
+            onOpenCourse = { slug -> navController.navigate(LumosCourseDetail(slug)) }
         )
 
         // Lumos / LMS - Text Lesson

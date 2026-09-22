@@ -150,16 +150,9 @@ class LumosRepositoryImpl @Inject constructor(
             val effectiveUrl = domain.contentUrl ?: LUMOS_FALLBACK_VIDEO_URL
             return domain.copy(
                 contentUrl = if (domain.type == LessonType.VIDEO) effectiveUrl else domain.contentUrl,
-                materials = listOf(
-                    Material(
-                        id = "mat_${lessonId}_1",
-                        lessonId = lessonId,
-                        title = "ملخص الدرس وأوراق العمل (PDF)",
-                        fileUrl = "https://cdn.databayt.org/hogwarts/sample-lesson-notes.pdf",
-                        fileType = "pdf",
-                        fileSize = 1024 * 512
-                    )
-                )
+                // No invented materials: the lesson page reads the real ones
+                // from `/api/mobile/lumos/lessons/{id}`.
+                materials = emptyList(),
             )
         }
 

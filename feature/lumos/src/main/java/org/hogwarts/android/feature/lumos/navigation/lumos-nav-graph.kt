@@ -124,16 +124,14 @@ fun NavGraphBuilder.courseDetailScreen(
     onNavigateToTextLesson: (String, String) -> Unit,
     onNavigateToQuiz: (String, String) -> Unit,
     onNavigateToProgress: (String) -> Unit,
-    onNavigateToCertificate: (String) -> Unit
+    onNavigateToCertificate: (String) -> Unit,
+    onOpenHref: (String) -> Unit = {},
 ) {
+    // `/lumos/courses/[slug]` — the web's course page, cloned (ui/course).
     composable<LumosCourseDetail> {
-        CourseDetailScreen(
-            onNavigateBack = onNavigateBack,
-            onNavigateToVideoLesson = onNavigateToVideoLesson,
-            onNavigateToTextLesson = onNavigateToTextLesson,
-            onNavigateToQuiz = onNavigateToQuiz,
-            onNavigateToProgress = onNavigateToProgress,
-            onNavigateToCertificate = onNavigateToCertificate
+        org.hogwarts.android.feature.lumos.ui.course.CoursePageScreen(
+            onOpenHref = onOpenHref,
+            onOpenLesson = onNavigateToVideoLesson,
         )
     }
 }
@@ -156,12 +154,15 @@ fun NavGraphBuilder.chapterListScreen(
 
 fun NavGraphBuilder.videoLessonScreen(
     onNavigateBack: () -> Unit,
-    onNavigateToNext: (String, String) -> Unit
+    onNavigateToNext: (String, String) -> Unit,
+    onOpenCourse: (String) -> Unit = {},
 ) {
+    // `/lumos/courses/[slug]/[lessonId]` — the web's lesson page, cloned (ui/lesson).
     composable<LumosVideoLesson> {
-        VideoLessonScreen(
+        org.hogwarts.android.feature.lumos.ui.lesson.LessonPageScreen(
+            onOpenLesson = onNavigateToNext,
+            onOpenCourse = onOpenCourse,
             onNavigateBack = onNavigateBack,
-            onNavigateToNext = onNavigateToNext
         )
     }
 }
