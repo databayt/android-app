@@ -117,4 +117,33 @@
     <string name="subjects_filter_catalog">Catalog</string>
     <string name="subjects_filter_contribute">Contribute</string>
     <string name="subjects_filter_my_contributions">My Contributions</string>
+    <!-- /subjects/[slug] on a phone — copy verbatim from school-en.json (school.subjects.catalog) -->
+    <string name="subjects_page_chapters">Chapters</string>
+    <string name="subjects_page_lessons">lessons</string>
+    <string name="subjects_page_hero_counts">%1$d Chapters • %2$d lessons</string>
+    <string name="subjects_page_explore_all">Explore all chapters</string>
+    <string name="subjects_page_summary">Summary</string>
+    <string name="subjects_page_qbank_book">QBank</string>
+    <string name="subjects_page_exams_book">Exams</string>
+    <string name="subjects_page_references_book">References</string>
+    <string name="subjects_page_textbook">Textbook</string>
+    <string name="subjects_page_stage_elementary">Primary Stage</string>
+    <string name="subjects_page_stage_middle">Middle Stage</string>
+    <string name="subjects_page_stage_high">Secondary Stage</string>
+    <string name="subjects_page_grade_ordinal">Grade %3$d</string>
+    <string name="subjects_page_stage_suffix_elementary"></string>
+    <string name="subjects_page_stage_suffix_middle">Middle</string>
+    <string name="subjects_page_stage_suffix_high">Secondary</string>
+    <string-array name="subjects_page_ordinals">
+        <item>First</item><item>Second</item><item>Third</item>
+        <item>Fourth</item><item>Fifth</item><item>Sixth</item>
+    </string-array>
+    <string name="subjects_page_unit_exam">exam</string>
+    <string name="subjects_page_unit_exams">exams</string>
+    <string name="subjects_page_unit_test">test</string>
+    <string name="subjects_page_unit_tests">tests</string>
+    <string name="subjects_page_min">min</string>
+    <string name="subjects_page_questions">questions</string>
+    <string name="subjects_page_marks">marks</string>
+    <string name="subjects_page_pts">pts</string>
 </resources>

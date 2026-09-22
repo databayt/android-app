@@ -15,20 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.hogwarts.android.feature.subjects.R
-import org.hogwarts.android.feature.subjects.domain.model.SubjectLevel
-
-/**
- * Localized label for a level. Matches `levelLabel()` in
- * components/school-dashboard/listings/subjects/catalog-subjects-grid.tsx.
- */
-@Composable
-fun levelLabel(level: SubjectLevel): String = stringResource(
-    id = when (level) {
-        SubjectLevel.ELEMENTARY -> R.string.subjects_level_elementary
-        SubjectLevel.MIDDLE -> R.string.subjects_level_middle
-        SubjectLevel.HIGH -> R.string.subjects_level_high
-    }
-)
 
 /**
  * Localized grade label. Mirrors `gradeLabel()` in catalog-subjects-grid.tsx,

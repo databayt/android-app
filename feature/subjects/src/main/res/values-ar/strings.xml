@@ -117,4 +117,33 @@
     <string name="subjects_filter_catalog">الكتالوج</string>
     <string name="subjects_filter_contribute">المساهمة</string>
     <string name="subjects_filter_my_contributions">مساهماتي</string>
+    <!-- /subjects/[slug] on a phone — copy verbatim from school-ar.json (school.subjects.catalog) -->
+    <string name="subjects_page_chapters">الفصول</string>
+    <string name="subjects_page_lessons">دروس</string>
+    <string name="subjects_page_hero_counts">%1$d الفصول • %2$d دروس</string>
+    <string name="subjects_page_explore_all">استكشف كل الفصول</string>
+    <string name="subjects_page_summary">ملخص</string>
+    <string name="subjects_page_qbank_book">بنك الأسئلة</string>
+    <string name="subjects_page_exams_book">امتحانات</string>
+    <string name="subjects_page_references_book">مراجع</string>
+    <string name="subjects_page_textbook">الكتاب المدرسي</string>
+    <string name="subjects_page_stage_elementary">المرحلة الابتدائية</string>
+    <string name="subjects_page_stage_middle">المرحلة المتوسطة</string>
+    <string name="subjects_page_stage_high">المرحلة الثانوية</string>
+    <string name="subjects_page_grade_ordinal">الصف %1$s %2$s</string>
+    <string name="subjects_page_stage_suffix_elementary"></string>
+    <string name="subjects_page_stage_suffix_middle">متوسط</string>
+    <string name="subjects_page_stage_suffix_high">ثانوي</string>
+    <string-array name="subjects_page_ordinals">
+        <item>الأول</item><item>الثاني</item><item>الثالث</item>
+        <item>الرابع</item><item>الخامس</item><item>السادس</item>
+    </string-array>
+    <string name="subjects_page_unit_exam">اختبار</string>
+    <string name="subjects_page_unit_exams">اختبارات</string>
+    <string name="subjects_page_unit_test">اختبار</string>
+    <string name="subjects_page_unit_tests">اختبارات</string>
+    <string name="subjects_page_min">دقيقة</string>
+    <string name="subjects_page_questions">سؤال</string>
+    <string name="subjects_page_marks">درجة</string>
+    <string name="subjects_page_pts">نقطة</string>
 </resources>

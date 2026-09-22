@@ -73,11 +73,12 @@ private fun QuestionTypeTile(
     color: Color,
     count: Int,
 ) {
-    val shape = RoundedCornerShape(16.dp)
+    // `rounded-xl`, 245 wide, a 250dp frame under the head — measured off
+    // catalog-content-sections.tsx.
+    val shape = RoundedCornerShape(14.dp)
     Surface(
         modifier = Modifier
-            .width(220.dp)
-            .height(260.dp)
+            .width(245.dp)
             .clip(shape),
         shape = shape,
         color = Color.Transparent,
@@ -101,7 +102,7 @@ private fun QuestionTypeTile(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(210.dp)
+                    .height(250.dp)
                     .background(color),
             ) {
                 // Count pill at top-end
