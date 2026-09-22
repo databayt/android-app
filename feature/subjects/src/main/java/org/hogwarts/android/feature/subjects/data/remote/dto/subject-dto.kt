@@ -240,6 +240,9 @@ data class SubjectDetailDto(
     val exams: List<ExamItemDto> = emptyList(),
     val assignments: List<AssignmentItemDto> = emptyList(),
     @SerialName("question_stats") val questionStats: QuestionStatsDto = QuestionStatsDto(),
+    @SerialName("textbook_pdf_url") val textbookPdfUrl: String? = null,
+    @SerialName("textbook_cover_url") val textbookCoverUrl: String? = null,
+    @SerialName("textbook_reader_href") val textbookReaderHref: String? = null,
 ) {
     fun toDomain() = SubjectDetail(
         subject = Subject(
@@ -268,6 +271,9 @@ data class SubjectDetailDto(
         exams = exams.map { it.toDomain() },
         assignments = assignments.map { it.toDomain() },
         questionStats = questionStats.toDomain(),
+        textbookPdfUrl = textbookPdfUrl,
+        textbookCoverUrl = textbookCoverUrl,
+        textbookReaderHref = textbookReaderHref,
     )
 }
 

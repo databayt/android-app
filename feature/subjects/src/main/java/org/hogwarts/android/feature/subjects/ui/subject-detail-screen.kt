@@ -48,6 +48,7 @@ import org.hogwarts.android.feature.subjects.ui.components.parseColor
 @Composable
 fun SubjectDetailScreen(
     onNavigateBack: () -> Unit,
+    onOpenHref: (String) -> Unit = {},
     viewModel: SubjectDetailViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
@@ -111,6 +112,7 @@ fun SubjectDetailScreen(
                     listStateKey = detail.subject.id,
                     error = uiState.error,
                     listState = listState,
+                    onOpenHref = onOpenHref,
                 )
             }
         }
@@ -125,6 +127,7 @@ private fun SubjectDetailContent(
     listStateKey: String,
     error: String?,
     listState: androidx.compose.foundation.lazy.LazyListState,
+    onOpenHref: (String) -> Unit,
 ) {
     val subject = detail.subject
     val heroSubtitle = buildHeroSubtitle(
@@ -212,8 +215,12 @@ private fun SubjectDetailContent(
                 MaterialsSection(
                     materials = detail.materials,
                     accentColor = accentColor,
-                    textbookPdfUrl = null,
-                    textbookCoverUrl = null,
+                    textbookPdfUrl = detail.textbookPdfUrl,
+                    textbookCoverUrl = detail.textbookCoverUrl,
+                    // Opens the web's reader (pages, themes, search), which the
+                    // server names whenever a PDF exists. The bare CDN URL is not
+                    // a school path, so it is never handed to the opener.
+                    onTextbookClick = detail.textbookReaderHref?.let { href -> { onOpenHref(href) } },
                 )
             }
         }

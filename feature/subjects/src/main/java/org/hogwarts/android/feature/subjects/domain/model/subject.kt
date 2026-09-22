@@ -53,6 +53,11 @@ data class SubjectDetail(
     val exams: List<ExamItem> = emptyList(),
     val assignments: List<AssignmentItem> = emptyList(),
     val questionStats: QuestionStats = QuestionStats(),
+    /** The subject's printed textbook, when the catalogue has one. */
+    val textbookPdfUrl: String? = null,
+    val textbookCoverUrl: String? = null,
+    /** The web's in-app reader for it — preferred over the bare PDF. */
+    val textbookReaderHref: String? = null,
 ) {
     val totalTopics: Int get() = chapters.sumOf { it.lessons.size }
 }

@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.designsystem.atom.HogwartsSearchBar
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.subjects.R
@@ -66,6 +67,7 @@ fun SubjectsListScreen(
     onNavigateBack: () -> Unit,
     onNavigateToSubject: (String) -> Unit,
     onOpenHref: (String) -> Unit = {},
+    role: UserRole? = null,
     viewModel: SubjectsListViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
@@ -101,7 +103,13 @@ fun SubjectsListScreen(
                 )
             }
 
-            item(key = "levels", span = { GridItemSpan(maxLineSpan) }) {
+            // The web shows a student no strip at all: Elementary/Middle/High
+            // are hidden from them, and with only "All" left it drops the nav
+            // bar rather than draw one tab. Catalog and Contribute are worse
+            // than decorative here — both open pages whose server actions
+            // refuse a student outright. A student's list is already only
+            // their own grade, so there is nothing left to filter by.
+            if (role != UserRole.STUDENT) item(key = "levels", span = { GridItemSpan(maxLineSpan) }) {
                 LevelStrip(
                     selected = level,
                     onSelect = { level = it },
