@@ -13,6 +13,7 @@ import org.hogwarts.android.feature.messaging.navigation.Messaging
 import org.hogwarts.android.feature.notifications.navigation.NotificationPreferences
 import org.hogwarts.android.feature.notifications.navigation.Notifications
 import org.hogwarts.android.feature.notifications.navigation.NotificationsUnread
+import org.hogwarts.android.feature.subjects.navigation.SubjectTextbook
 
 /**
  * Opens a web path (`/attendance`, `/finance/invoice`, `/messages`…) the way
@@ -48,6 +49,10 @@ internal fun routeForHref(href: String, role: UserRole?): Any? {
 /** Web sub-pages with a native mirror, matched segment by segment. */
 private fun nestedRoute(path: String, role: UserRole?): Any? {
     val segments = path.trimStart('/').split('/')
+    // The textbook reader is the one three-segment page with a native mirror.
+    if (segments.size == 3 && segments[0] == "subjects" && segments[2] == "textbook") {
+        return SubjectTextbook(segments[1])
+    }
     if (segments.size != 2) return null
     val (section, page) = segments
     return when (section) {

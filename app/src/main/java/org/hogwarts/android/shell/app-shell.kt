@@ -12,6 +12,8 @@ import androidx.compose.ui.platform.LocalConfiguration
 import org.hogwarts.android.core.designsystem.kit.ReportIssueOpener
 import org.hogwarts.android.core.designsystem.kit.LocalReportIssue
 import androidx.compose.runtime.CompositionLocalProvider
+import org.hogwarts.android.core.designsystem.component.LocalWebLink
+import org.hogwarts.android.core.designsystem.component.WebLink
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -108,6 +110,10 @@ fun AppShell(
         ReportIssueOpener { path -> reportViewModel.open(WebHandoff.url(state.schoolDomain, lang, path).toString()) }
     }
 
+    val webLink = remember(state.schoolDomain, lang) {
+        WebLink { href -> WebHandoff.url(state.schoolDomain, lang, href).toString() }
+    }
+
     fun go(item: PlatformNavItem) {
         val route = nativeRoute(item.key, state.role)
         if (route != null) {
@@ -131,6 +137,7 @@ fun AppShell(
             CompositionLocalProvider(
                 LocalHrefOpener provides hrefOpener,
                 LocalReportIssue provides reportOpener,
+                LocalWebLink provides webLink,
             ) {
                 // `backdrop-blur` on the web's popover. Compose has no
                 // backdrop filter, so the page behind is what blurs — which

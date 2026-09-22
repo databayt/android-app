@@ -68,6 +68,7 @@ import org.hogwarts.android.feature.subjects.navigation.Subjects
 import org.hogwarts.android.feature.subjects.navigation.SubjectDetail
 import org.hogwarts.android.feature.subjects.navigation.subjectsScreen as subjectsCatalogScreen
 import org.hogwarts.android.feature.subjects.navigation.subjectDetailScreen
+import org.hogwarts.android.feature.subjects.navigation.subjectTextbookScreen
 import org.hogwarts.android.feature.reportcards.navigation.ReportCardDetail
 import org.hogwarts.android.feature.reportcards.navigation.ReportCardsProgress
 import org.hogwarts.android.feature.reportcards.navigation.reportCardsListScreen
@@ -168,6 +169,7 @@ fun HogwartsNavHost(
     modifier: Modifier = Modifier
 ) {
     val hrefOpener = LocalHrefOpener.current
+    val context = androidx.compose.ui.platform.LocalContext.current
     val startDestination: Any = if (isAuthenticated) {
         Dashboard
     } else {
@@ -474,6 +476,17 @@ fun HogwartsNavHost(
         subjectDetailScreen(
             onNavigateBack = { navController.popBackStack() },
             onOpenHref = { href -> hrefOpener.open(href) },
+        )
+
+        // Subjects - Textbook reader (full screen, the web's Books-style reader)
+        subjectTextbookScreen(
+            onClose = { navController.popBackStack() },
+            onOpenPdf = { url ->
+                context.startActivity(
+                    android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                        .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
+                )
+            },
         )
 
         // Report Cards - List

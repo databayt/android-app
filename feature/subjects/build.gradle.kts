@@ -44,6 +44,7 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.coil.compose)
     implementation(libs.coil.svg)
+    implementation(libs.datastore.preferences)
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)

@@ -8,6 +8,7 @@ import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.feature.subjects.data.remote.SubjectsApi
 import org.hogwarts.android.feature.subjects.data.repository.SubjectsRepository
 import org.hogwarts.android.feature.subjects.data.repository.SubjectsRepositoryImpl
+import org.hogwarts.android.feature.subjects.textbook.data.TextbookApi
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -19,6 +20,11 @@ object SubjectsModule {
     @Singleton
     fun provideSubjectsApi(retrofit: Retrofit): SubjectsApi =
         retrofit.create(SubjectsApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTextbookApi(retrofit: Retrofit): TextbookApi =
+        retrofit.create(TextbookApi::class.java)
 
     @Provides
     @Singleton
