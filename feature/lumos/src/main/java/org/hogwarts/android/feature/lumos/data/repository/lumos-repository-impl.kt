@@ -29,11 +29,13 @@ import org.hogwarts.android.feature.lumos.domain.model.Lesson
 import org.hogwarts.android.feature.lumos.domain.model.LessonProgress
 import org.hogwarts.android.feature.lumos.domain.model.LessonProgressStatus
 import org.hogwarts.android.feature.lumos.domain.model.LessonType
+import org.hogwarts.android.feature.lumos.domain.model.LumosCoursesPage
 import org.hogwarts.android.feature.lumos.domain.model.Material
 import org.hogwarts.android.feature.lumos.domain.model.QuizQuestion
 import org.hogwarts.android.feature.lumos.domain.model.VideoItem
 import org.hogwarts.android.feature.lumos.domain.model.VideoVisibility
 import timber.log.Timber
+import java.util.Locale
 import javax.inject.Inject
 
 class LumosRepositoryImpl @Inject constructor(
@@ -424,6 +426,16 @@ class LumosRepositoryImpl @Inject constructor(
                 rejectionReason = feedback
             )
         }
+    }
+
+    override suspend fun getCoursesPage(level: Int?, search: String?, page: Int): LumosCoursesPage {
+        tenantContext.requireSchoolId()
+        return api.getCoursesPage(
+            lang = Locale.getDefault().language,
+            level = level,
+            search = search?.takeIf { it.isNotBlank() },
+            page = page,
+        ).toDomain()
     }
 }
 

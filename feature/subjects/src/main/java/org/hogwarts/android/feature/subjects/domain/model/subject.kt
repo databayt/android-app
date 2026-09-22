@@ -35,6 +35,15 @@ enum class SubjectLevel {
 }
 
 /**
+ * What `/subjects` needs to draw its page: the subjects, and the stages the
+ * school runs, which decide whether the level tabs appear at all.
+ */
+data class SubjectCatalog(
+    val subjects: List<Subject>,
+    val schoolLevels: Set<SubjectLevel> = emptySet(),
+)
+
+/**
  * Detailed view of a subject. Mirrors the aggregation in
  * src/app/[lang]/.../subjects/[slug]/page.tsx: catalog hierarchy (chapters →
  * lessons) plus the five content sections (videos, materials, exams, question

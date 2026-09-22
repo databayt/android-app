@@ -535,7 +535,8 @@ fun HogwartsNavHost(
             },
             onNavigateToTeacherVideos = {
                 navController.navigate(LumosTeacherVideos)
-            }
+            },
+            role = tenantContext.userRole
         )
 
         // Lumos / LMS - Course Catalog

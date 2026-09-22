@@ -40,17 +40,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.hogwarts.android.core.data.tenant.UserRole
-import org.hogwarts.android.core.designsystem.atom.HogwartsSearchBar
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.subjects.R
 import org.hogwarts.android.feature.subjects.domain.model.SubjectLevel
 import org.hogwarts.android.feature.subjects.ui.components.SubjectCard
 import org.hogwarts.android.feature.subjects.ui.components.gradeLabel
-import org.hogwarts.android.feature.subjects.ui.components.levelLabel
 
 /**
  * `/subjects` — the school's subjects, as the web lays them out: the page's
- * own heading, the level strip under it, then a two-column grid of cards.
+ * own heading, the tab strip under it when the reader has more than one tab,
+ * then a two-column grid of cards. No search: the web page has none.
  *
  * No top app bar. The platform header and its Menu are the chrome on every
  * phone screen in this app, and a second bar under them was a wave-one
@@ -103,26 +102,16 @@ fun SubjectsListScreen(
                 )
             }
 
-            // The web shows a student no strip at all: Elementary/Middle/High
-            // are hidden from them, and with only "All" left it drops the nav
-            // bar rather than draw one tab. Catalog and Contribute are worse
-            // than decorative here — both open pages whose server actions
-            // refuse a student outright. A student's list is already only
-            // their own grade, so there is nothing left to filter by.
-            if (role != UserRole.STUDENT) item(key = "levels", span = { GridItemSpan(maxLineSpan) }) {
+            val tabs = subjectsTabs(role, uiState.schoolLevels)
+            // With only "All" left the web draws no strip at all — one tab is
+            // not navigation. That is a student's case: every other entry is
+            // hidden from them, and their list is already only their grade.
+            if (tabs.size > 1) item(key = "levels", span = { GridItemSpan(maxLineSpan) }) {
                 LevelStrip(
+                    tabs = tabs,
                     selected = level,
                     onSelect = { level = it },
                     onOpenHref = onOpenHref,
-                    modifier = Modifier.padding(bottom = 8.dp),
-                )
-            }
-
-            item(key = "search", span = { GridItemSpan(maxLineSpan) }) {
-                HogwartsSearchBar(
-                    query = uiState.searchQuery,
-                    onQueryChange = viewModel::onSearchQueryChanged,
-                    placeholder = stringResource(R.string.subjects_search_placeholder),
                     modifier = Modifier.padding(bottom = 8.dp),
                 )
             }
@@ -152,7 +141,6 @@ fun SubjectsListScreen(
                 items(items = shown, key = { it.id }) { subject ->
                     SubjectCard(
                         subject = subject,
-                        levelLabel = levelLabel(subject.primaryLevel),
                         gradeLabel = gradeLabel(subject.grades, isArabic),
                         onClick = { onNavigateToSubject(subject.id) },
                     )
@@ -173,46 +161,76 @@ fun SubjectsListScreen(
     }
 }
 
+/** One entry in the strip: a level that filters in place, or a web page. */
+private sealed interface SubjectsTab {
+    data class Level(val level: SubjectLevel?, val label: Int) : SubjectsTab
+    data class Page(val href: String, val label: Int) : SubjectsTab
+}
+
 /**
- * The web's strip: الكل · ابتدائي · متوسط · ثانوي · الكتالوج · المساهمة.
- * 14sp medium, muted until chosen, the chosen one in the foreground over a
- * 2dp rule — the underline the site draws under the page you are on.
+ * The entries `(browse)/layout.tsx` shows this reader, in its order.
+ *
+ * - Elementary / Middle / High: never for a student, and only when the school
+ *   runs two or more stages — with one stage, "All" already is that stage.
+ * - Catalog: admins and developers only.
+ * - Contribute / My Contributions: everyone but students.
+ */
+private fun subjectsTabs(role: UserRole?, schoolLevels: Set<SubjectLevel>): List<SubjectsTab> {
+    val isStudent = role == UserRole.STUDENT
+    val isAdmin = role == UserRole.ADMIN || role == UserRole.DEVELOPER
+    val showLevels = !isStudent && schoolLevels.size >= 2
+    return buildList {
+        add(SubjectsTab.Level(null, R.string.subjects_filter_all))
+        if (showLevels) {
+            listOf(
+                SubjectLevel.ELEMENTARY to R.string.subjects_level_elementary,
+                SubjectLevel.MIDDLE to R.string.subjects_level_middle,
+                SubjectLevel.HIGH to R.string.subjects_level_high,
+            ).forEach { (level, label) ->
+                if (level in schoolLevels) add(SubjectsTab.Level(level, label))
+            }
+        }
+        if (isAdmin) add(SubjectsTab.Page("/subjects/catalog", R.string.subjects_filter_catalog))
+        if (!isStudent) {
+            add(SubjectsTab.Page("/subjects/contribute", R.string.subjects_filter_contribute))
+            add(SubjectsTab.Page("/subjects/contributions", R.string.subjects_filter_my_contributions))
+        }
+    }
+}
+
+/**
+ * The web's strip. 14sp medium, muted until chosen, the chosen one in the
+ * foreground over a 2dp rule — the underline the site draws under the page
+ * you are on. Level entries filter the grid in place, as the web's
+ * `/subjects/elementary|middle|high` pages narrow the same list; the rest are
+ * separate web pages with no native mirror, so they hand off to the site.
  */
 @Composable
 private fun LevelStrip(
+    tabs: List<SubjectsTab>,
     selected: SubjectLevel?,
     onSelect: (SubjectLevel?) -> Unit,
     onOpenHref: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val colors = HogwartsTheme.colors
     Row(
         modifier = modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        val filters = listOf(
-            null to R.string.subjects_filter_all,
-            SubjectLevel.ELEMENTARY to R.string.subjects_level_elementary,
-            SubjectLevel.MIDDLE to R.string.subjects_level_middle,
-            SubjectLevel.HIGH to R.string.subjects_level_high,
-        )
-        filters.forEach { (value, label) ->
-            StripEntry(
-                label = stringResource(label),
-                active = selected == value,
-                onClick = { onSelect(value) },
-            )
+        tabs.forEach { tab ->
+            when (tab) {
+                is SubjectsTab.Level -> StripEntry(
+                    label = stringResource(tab.label),
+                    active = selected == tab.level,
+                    onClick = { onSelect(tab.level) },
+                )
+                is SubjectsTab.Page -> StripEntry(
+                    label = stringResource(tab.label),
+                    active = false,
+                    onClick = { onOpenHref(tab.href) },
+                )
+            }
         }
-        StripEntry(
-            label = stringResource(R.string.subjects_filter_catalog),
-            active = false,
-            onClick = { onOpenHref("/subjects/catalog") },
-        )
-        StripEntry(
-            label = stringResource(R.string.subjects_filter_contribute),
-            active = false,
-            onClick = { onOpenHref("/subjects/contribute") },
-        )
     }
 }
 

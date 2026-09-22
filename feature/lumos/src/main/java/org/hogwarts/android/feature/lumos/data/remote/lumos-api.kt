@@ -4,6 +4,7 @@ import org.hogwarts.android.feature.lumos.data.remote.dto.CertificateDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.CourseDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.EnrollmentDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.LessonProgressDto
+import org.hogwarts.android.feature.lumos.data.remote.dto.LumosCoursesPageDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.ProposeVideoRequestDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.QuizResultDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.QuizSubmissionDto
@@ -19,6 +20,15 @@ import retrofit2.http.Query
  * Retrofit API interface for Lumos (LMS) endpoints matching Hogwarts backend.
  */
 interface LumosApi {
+
+    /** `/lumos/courses` as data — shelves, lead card and grade, or a search. */
+    @GET("api/mobile/lumos/courses")
+    suspend fun getCoursesPage(
+        @Query("lang") lang: String? = null,
+        @Query("level") level: Int? = null,
+        @Query("search") search: String? = null,
+        @Query("page") page: Int? = null,
+    ): LumosCoursesPageDto
 
     @GET("api/mobile/catalog/subjects")
     suspend fun getCourses(

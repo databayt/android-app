@@ -1,7 +1,7 @@
 package org.hogwarts.android.feature.subjects.domain.usecase
 
 import org.hogwarts.android.feature.subjects.data.repository.SubjectsRepository
-import org.hogwarts.android.feature.subjects.domain.model.Subject
+import org.hogwarts.android.feature.subjects.domain.model.SubjectCatalog
 import org.hogwarts.android.feature.subjects.domain.model.SubjectDetail
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class GetSubjectsUseCase @Inject constructor(
     suspend operator fun invoke(
         search: String? = null,
         department: String? = null
-    ): List<Subject> =
+    ): SubjectCatalog =
         repository.getSubjects(search = search, department = department)
 }
 

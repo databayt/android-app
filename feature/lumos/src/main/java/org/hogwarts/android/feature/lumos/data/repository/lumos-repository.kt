@@ -8,6 +8,7 @@ import org.hogwarts.android.feature.lumos.domain.model.Enrollment
 import org.hogwarts.android.feature.lumos.domain.model.Lesson
 import org.hogwarts.android.feature.lumos.domain.model.LessonProgress
 import org.hogwarts.android.feature.lumos.domain.model.LessonProgressStatus
+import org.hogwarts.android.feature.lumos.domain.model.LumosCoursesPage
 import org.hogwarts.android.feature.lumos.domain.model.QuizQuestion
 import org.hogwarts.android.feature.lumos.domain.model.VideoItem
 
@@ -37,6 +38,9 @@ interface LumosRepository {
     ): Pair<Int, Boolean>
     suspend fun getCertificate(courseId: String): CourseCertificate
     suspend fun getContinueWatching(): List<Course>
+
+    /** The web's `/lumos/courses`: browse by `level`, or a `search` page. */
+    suspend fun getCoursesPage(level: Int? = null, search: String? = null, page: Int = 1): LumosCoursesPage
 
     // Teacher & Admin Video Management
     suspend fun getMyVideos(): List<VideoItem>

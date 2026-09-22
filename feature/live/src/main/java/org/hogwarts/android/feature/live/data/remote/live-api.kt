@@ -1,7 +1,7 @@
 package org.hogwarts.android.feature.live.data.remote
 
+import org.hogwarts.android.feature.live.data.remote.dto.LiveLandingResponse
 import org.hogwarts.android.feature.live.data.remote.dto.LiveRecordingListResponse
-import org.hogwarts.android.feature.live.data.remote.dto.LiveSessionListResponse
 import org.hogwarts.android.feature.live.data.remote.dto.RecordingUrlResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,12 +16,8 @@ import retrofit2.http.Query
  */
 interface LiveApi {
 
-    @GET("api/mobile/live/sessions")
-    suspend fun getSessions(
-        @Query("window") window: String? = null,
-        @Query("page") page: Int? = null,
-        @Query("limit") limit: Int? = null,
-    ): LiveSessionListResponse
+    @GET("api/mobile/live/landing")
+    suspend fun getLanding(@Query("lang") lang: String? = null): LiveLandingResponse
 
     @GET("api/mobile/live/sessions/{id}/recordings")
     suspend fun getRecordings(@Path("id") sessionId: String): LiveRecordingListResponse

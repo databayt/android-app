@@ -18,6 +18,7 @@ import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.hogwarts.android.core.designsystem.theme.BrandColors
 import org.hogwarts.android.core.designsystem.theme.HogwartsShapes
@@ -34,6 +35,8 @@ fun BrandBanner(
     headline: AnnotatedString,
     modifier: Modifier = Modifier,
     eyebrow: String? = null,
+    /** A sentence under the headline, at `text-lg` in 75% ink — for the rare banner that must explain itself. */
+    body: String? = null,
     actions: (@Composable () -> Unit)? = null,
     footer: (@Composable () -> Unit)? = null,
 ) {
@@ -49,6 +52,14 @@ fun BrandBanner(
             Text(eyebrow, style = type.body, color = BrandColors.Ink.copy(alpha = 0.7f), modifier = Modifier.padding(bottom = 8.dp))
         }
         Text(headline, style = type.bannerHeadline, color = BrandColors.Ink)
+        if (body != null) {
+            Text(
+                body,
+                style = type.section.copy(fontWeight = FontWeight.Normal),
+                color = BrandColors.Ink.copy(alpha = 0.75f),
+                modifier = Modifier.padding(top = 16.dp),
+            )
+        }
         if (actions != null) {
             FlowRow(
                 modifier = Modifier.padding(top = 28.dp),

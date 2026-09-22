@@ -3,27 +3,32 @@ package org.hogwarts.android.feature.subjects.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.hogwarts.android.feature.subjects.domain.model.Subject
+import org.hogwarts.android.feature.subjects.domain.model.SubjectLevel
 import org.hogwarts.android.feature.subjects.domain.usecase.GetSubjectsUseCase
-import java.text.Collator
-import java.util.Locale
 import javax.inject.Inject
 
 data class SubjectsListUiState(
     val isLoading: Boolean = true,
     val subjects: List<Subject> = emptyList(),
-    val searchQuery: String = "",
+    /** The stages the school runs — the level tabs need two or more. */
+    val schoolLevels: Set<SubjectLevel> = emptySet(),
     val isRefreshing: Boolean = false,
     val error: String? = null,
 )
 
+/**
+ * The list arrives already in the web grid's order (lowest grade, then name
+ * in the reader's language), sorted server-side so every client agrees. It
+ * is not re-sorted here: a second collator is a second chance to disagree.
+ *
+ * No search. `/subjects` has none, for any role.
+ */
 @HiltViewModel
 class SubjectsListViewModel @Inject constructor(
     private val getSubjectsUseCase: GetSubjectsUseCase,
@@ -31,8 +36,6 @@ class SubjectsListViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(SubjectsListUiState())
     val uiState: StateFlow<SubjectsListUiState> = _uiState.asStateFlow()
-
-    private var searchJob: Job? = null
 
     init {
         loadSubjects()
@@ -42,13 +45,13 @@ class SubjectsListViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
             try {
-                val query = _uiState.value.searchQuery.takeIf { it.isNotBlank() }
-                val subjects = getSubjectsUseCase(search = query).sortedByGradeThenName()
+                val catalog = getSubjectsUseCase()
                 _uiState.update {
                     it.copy(
                         isLoading = false,
                         isRefreshing = false,
-                        subjects = subjects,
+                        subjects = catalog.subjects,
+                        schoolLevels = catalog.schoolLevels,
                         error = null,
                     )
                 }
@@ -64,31 +67,8 @@ class SubjectsListViewModel @Inject constructor(
         }
     }
 
-    fun onSearchQueryChanged(query: String) {
-        _uiState.update { it.copy(searchQuery = query) }
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
-            delay(300)
-            loadSubjects()
-        }
-    }
-
     fun onRefresh() {
         _uiState.update { it.copy(isRefreshing = true) }
         loadSubjects()
     }
-}
-
-/**
- * Sort mirrors catalog-subjects-grid.tsx: lowest grade first, then name
- * via a locale-aware collator so Arabic names order correctly under RTL.
- */
-private fun List<Subject>.sortedByGradeThenName(): List<Subject> {
-    val collator = Collator.getInstance(Locale.getDefault()).apply {
-        strength = Collator.SECONDARY
-    }
-    return sortedWith(
-        compareBy<Subject> { it.primaryGrade }
-            .thenComparator { a, b -> collator.compare(a.name, b.name) },
-    )
 }

@@ -35,22 +35,21 @@ import org.hogwarts.android.core.designsystem.atom.StatusBadge
 import org.hogwarts.android.feature.subjects.domain.model.Subject
 
 /**
- * One subject, as `/subjects` draws it: a 58dp row with the name over its
- * level and grade, and the textbook's own cover square at the end — measured
- * off the live grid, which lays 186x58 cards out two to a row.
+ * One subject, as `/subjects` draws it on a phone (`catalog-subjects-grid.tsx`):
+ * the cover at the START of the row, then the name — up to two lines — over
+ * the grade in an outlined pill.
  *
- * The cover sits at the END, where the web puts it. It used to lead the row,
- * which in Arabic put it on the opposite side from the site. It is square and
- * uncut: the artwork is a book cover, and rounding its corners crops the
- * printing.
+ * The cover leads because the web's markup puts it first, so in Arabic it
+ * sits on the right, where the reader starts. Only its start corners are
+ * rounded, by the card's own clip; the side against the text stays square.
  *
- * No rating. The web's card carries none — the stars belong to the subject
- * page, not to a tile a reader is scanning twelve of.
+ * No stage label: the web hides that badge below `sm`, where a card is too
+ * narrow to carry both it and the grade. Stars appear only once a subject
+ * has a rating, which is when the web draws them.
  */
 @Composable
 fun SubjectCard(
     subject: Subject,
-    levelLabel: String,
     gradeLabel: String?,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -60,42 +59,49 @@ fun SubjectCard(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(58.dp)
             .clip(shape)
             .border(1.dp, colors.border, shape)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(2.dp),
-        ) {
-            Text(
-                text = subject.name,
-                fontSize = 14.sp,
-                lineHeight = 18.sp,
-                fontWeight = FontWeight.Medium,
-                color = colors.foreground,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                text = listOfNotNull(levelLabel, gradeLabel).joinToString(" · "),
-                fontSize = 10.sp,
-                lineHeight = 13.sp,
-                fontWeight = FontWeight.Medium,
-                color = colors.mutedForeground,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
         SubjectThumbnail(
             imageUrl = subject.thumbnailUrl,
             color = subject.color,
             contentDescription = subject.name,
         )
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp, top = 4.dp, bottom = 4.dp),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            Text(
+                text = subject.name,
+                fontSize = 14.sp,
+                lineHeight = 19.sp,
+                fontWeight = FontWeight.Medium,
+                color = colors.foreground,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (gradeLabel != null) {
+                Text(
+                    text = gradeLabel,
+                    fontSize = 10.sp,
+                    lineHeight = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = colors.foreground,
+                    maxLines = 1,
+                    modifier = Modifier
+                        .border(1.dp, colors.border, RoundedCornerShape(percent = 50))
+                        .padding(horizontal = 6.dp),
+                )
+            }
+            if (subject.averageRating > 0f) {
+                SubjectRating(rating = subject.averageRating, ratingCount = subject.ratingCount)
+            }
+        }
     }
 }
 
@@ -107,8 +113,7 @@ internal fun SubjectThumbnail(
     modifier: Modifier = Modifier,
 ) {
     val fallback = parseColor(color) ?: MaterialTheme.colorScheme.surfaceVariant
-    // 56dp square, uncut. The web rounds nothing here: the artwork is a book
-    // cover and a radius crops the printing.
+    // 56dp square — `h-14 w-14` on a phone-width grid.
     Box(
         modifier = modifier
             .size(56.dp)

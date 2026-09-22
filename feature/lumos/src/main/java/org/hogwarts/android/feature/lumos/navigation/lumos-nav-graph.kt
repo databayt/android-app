@@ -6,12 +6,13 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.feature.lumos.ui.ChapterListScreen
-import org.hogwarts.android.feature.lumos.ui.CourseCatalogScreen
 import org.hogwarts.android.feature.lumos.ui.CourseCertificateScreen
 import org.hogwarts.android.feature.lumos.ui.CourseDetailScreen
 import org.hogwarts.android.feature.lumos.ui.CourseProgressScreen
 import org.hogwarts.android.feature.lumos.ui.LessonQuizScreen
+import org.hogwarts.android.feature.lumos.ui.LumosCoursesScreen
 import org.hogwarts.android.feature.lumos.ui.LumosHomeScreen
 import org.hogwarts.android.feature.lumos.ui.TextLessonScreen
 import org.hogwarts.android.feature.lumos.ui.VideoLessonScreen
@@ -77,19 +78,29 @@ fun NavController.navigateToLumosCatalog(initialGrade: Int? = null, lockGrade: B
 fun NavController.navigateToLumosCourseDetail(courseId: String, navOptions: NavOptions? = null) =
     navigate(route = LumosCourseDetail(courseId), navOptions)
 
+/**
+ * `/lumos`. A student skips the marketing home and lands on the course
+ * browser, as `lumos/page.tsx` redirects them on the web; everyone else gets
+ * the home.
+ */
 fun NavGraphBuilder.lumosHomeScreen(
     onNavigateToCourses: () -> Unit,
     onNavigateToMyLearning: () -> Unit,
     onNavigateToCourse: (String) -> Unit,
-    onNavigateToTeacherVideos: () -> Unit = {}
+    onNavigateToTeacherVideos: () -> Unit = {},
+    role: UserRole? = null,
 ) {
     composable<LumosHome> {
-        LumosHomeScreen(
-            onNavigateToCourses = onNavigateToCourses,
-            onNavigateToMyLearning = onNavigateToMyLearning,
-            onNavigateToCourse = onNavigateToCourse,
-            onNavigateToTeacherVideos = onNavigateToTeacherVideos
-        )
+        if (role == UserRole.STUDENT) {
+            LumosCoursesScreen(onNavigateToCourse = onNavigateToCourse)
+        } else {
+            LumosHomeScreen(
+                onNavigateToCourses = onNavigateToCourses,
+                onNavigateToMyLearning = onNavigateToMyLearning,
+                onNavigateToCourse = onNavigateToCourse,
+                onNavigateToTeacherVideos = onNavigateToTeacherVideos
+            )
+        }
     }
 }
 
@@ -97,11 +108,10 @@ fun NavGraphBuilder.courseCatalogScreen(
     onNavigateBack: () -> Unit,
     onNavigateToCourse: (String) -> Unit
 ) {
+    // `/lumos/courses`. There is no back arrow on the page — the platform
+    // header is the chrome — so `onNavigateBack` is kept for the call shape.
     composable<LumosCatalog> {
-        CourseCatalogScreen(
-            onNavigateBack = onNavigateBack,
-            onNavigateToCourse = onNavigateToCourse
-        )
+        LumosCoursesScreen(onNavigateToCourse = onNavigateToCourse)
     }
 }
 

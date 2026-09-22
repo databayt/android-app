@@ -3,7 +3,6 @@
     <!-- Subjects List Screen -->
     <string name="subjects_title">Subjects</string>
     <string name="subjects_back">Back</string>
-    <string name="subjects_search_placeholder">Search subjects…</string>
     <string name="subjects_empty_title">No Subjects Found</string>
     <string name="subjects_empty_subtitle_search">No subjects match your search.</string>
     <string name="subjects_empty_subtitle_default">No subjects available yet.</string>
@@ -117,4 +116,5 @@
     <string name="subjects_filter_all">All</string>
     <string name="subjects_filter_catalog">Catalog</string>
     <string name="subjects_filter_contribute">Contribute</string>
+    <string name="subjects_filter_my_contributions">My Contributions</string>
 </resources>

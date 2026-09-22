@@ -1,6 +1,6 @@
 package org.hogwarts.android.feature.subjects.data.repository
 
-import org.hogwarts.android.feature.subjects.domain.model.Subject
+import org.hogwarts.android.feature.subjects.domain.model.SubjectCatalog
 import org.hogwarts.android.feature.subjects.domain.model.SubjectDetail
 
 /**
@@ -14,7 +14,7 @@ interface SubjectsRepository {
     suspend fun getSubjects(
         search: String? = null,
         department: String? = null
-    ): List<Subject>
+    ): SubjectCatalog
 
     /**
      * Get detailed information about a specific subject.

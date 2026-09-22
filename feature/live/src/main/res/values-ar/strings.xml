@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Live — the web's /live landing -->
-    <string name="live_headline_lead">تجربة تفاعلية</string>
-    <string name="live_headline_rest">تجعل التعليم أقرب وأكثر تأثيرًا</string>
-    <string name="live_sessions">الجلسات</string>
-    <string name="live_schedule">جدولة</string>
-    <string name="live_today">اليوم</string>
-    <string name="live_recordings">التسجيلات</string>
-    <string name="live_nothing_today">لا توجد حصص اليوم</string>
-    <string name="live_in_progress">جارية الآن</string>
-    <string name="live_starts_at">تبدأ %1$s</string>
+    <!-- Live — the web's /live landing, copy verbatim from school-ar.json (school.liveClasses.landing) -->
+    <string name="live_hero_title">%1$s تجعــــل التعليم أقرب وأكثر تأثيراً</string>
+    <string name="live_hero_title_mark">تجربــة تفاعلية</string>
+    <string name="live_hero_offline">الحصص المباشرة، إلى جانب الفصل لا بديلاً عنه</string>
+    <string name="live_hero_offline_admin">مدرستك تُدرّس حضورياً. فعّل التدريس عبر الإنترنت لتتحوّل حصص الجدول إلى غرف جاهزة للانضمام.</string>
+    <string name="live_hero_offline_other">مدرستك تُدرّس حضورياً حالياً. عند تفعيل التدريس عبر الإنترنت ستجد حصصك هنا.</string>
+    <string name="live_action_sessions">الجلسات</string>
+    <string name="live_action_schedule">جدولة</string>
+    <string name="live_action_recordings">التسجيلات</string>
+    <string name="live_action_settings">الإعدادات</string>
+    <string name="live_action_turn_on">التفعيل</string>
+    <string name="live_now_empty_title">لا توجد جلسات مجدولة بعد</string>
+    <string name="live_now_empty_description">عند جدولة حصة ستظهر هنا جاهزة للانضمام.</string>
+    <string name="live_phase_soon">تبدأ قريباً</string>
+    <string name="live_phase_started">بدأت</string>
+    <string name="live_phase_ending">على وشك الانتهاء</string>
+    <string name="live_phase_progress">%1$d من %2$d دقيقة</string>
+    <string name="live_catch_up_title">ما فاتك</string>
+    <string name="live_catch_up_recording">تسجيل</string>
+    <string name="live_guide_title">ماذا يمكنك أن تفعل هنا</string>
+    <string name="live_guide_sessions_title">كل الجلسات</string>
+    <string name="live_guide_sessions_description">الجارية والقادمة والسابقة، مع البحث والتصفية.</string>
+    <string name="live_guide_schedule_title">جدولة حصة</string>
+    <string name="live_guide_schedule_description">أنشئ حصة من الجدول الدراسي أو حدّد وقتها بنفسك.</string>
+    <string name="live_guide_timetable_title">جدولي</string>
+    <string name="live_guide_timetable_description">انضم إلى حصتك من جدولك اليومي مباشرة.</string>
+    <string name="live_guide_recordings_title">التسجيلات</string>
+    <string name="live_guide_recordings_description">أعد تشغيل درس فاتك، طوال مدة الاحتفاظ به.</string>
+    <string name="live_guide_settings_title">الإعدادات</string>
+    <string name="live_guide_settings_description">نمط التدريس، والفصول التي تدرّس عبر الإنترنت، وسياسة التسجيل.</string>
+    <string name="live_guide_network_title">فحص الشبكة</string>
+    <string name="live_guide_network_description">تأكّد من قدرة شبكة المدرسة على تحمّل الجلسة قبل أول حصة.</string>
 </resources>

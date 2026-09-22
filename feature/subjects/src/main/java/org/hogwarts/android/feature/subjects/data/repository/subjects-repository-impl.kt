@@ -2,7 +2,8 @@ package org.hogwarts.android.feature.subjects.data.repository
 
 import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.feature.subjects.data.remote.SubjectsApi
-import org.hogwarts.android.feature.subjects.domain.model.Subject
+import org.hogwarts.android.feature.subjects.domain.model.SubjectCatalog
+import org.hogwarts.android.feature.subjects.domain.model.SubjectLevel
 import org.hogwarts.android.feature.subjects.domain.model.SubjectDetail
 import java.util.Locale
 import javax.inject.Inject
@@ -24,15 +25,22 @@ class SubjectsRepositoryImpl @Inject constructor(
     override suspend fun getSubjects(
         search: String?,
         department: String?,
-    ): List<Subject> {
+    ): SubjectCatalog {
         tenantContext.requireSchoolId()
         val response = api.getSubjects(
             search = search,
             department = department,
             lang = currentLang(),
         )
-        return response.body()?.data?.map { it.toDomain() }
-            ?: throw Exception("Failed to load subjects")
+        val body = response.body() ?: throw Exception("Failed to load subjects")
+        return SubjectCatalog(
+            subjects = body.data.map { it.toDomain() },
+            // Parsed strictly: an unknown stage must not count as ELEMENTARY,
+            // or it could turn the tabs on for a single-stage school.
+            schoolLevels = body.schoolLevels.mapNotNull { value ->
+                SubjectLevel.entries.find { it.name.equals(value, ignoreCase = true) }
+            }.toSet(),
+        )
     }
 
     override suspend fun getSubjectDetail(subjectId: String): SubjectDetail {

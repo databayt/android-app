@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Live — the web's /live landing -->
-    <string name="live_headline_lead">An interactive experience</string>
-    <string name="live_headline_rest">that brings teaching closer and makes it count</string>
-    <string name="live_sessions">Sessions</string>
-    <string name="live_schedule">Schedule</string>
-    <string name="live_today">Today</string>
-    <string name="live_recordings">Recordings</string>
-    <string name="live_nothing_today">No classes today</string>
-    <string name="live_in_progress">In progress</string>
-    <string name="live_starts_at">Starts %1$s</string>
+    <!-- Live — the web's /live landing, copy verbatim from school-en.json (school.liveClasses.landing) -->
+    <string name="live_hero_title">%1$s that brings learning closer</string>
+    <string name="live_hero_title_mark">An interactive experience</string>
+    <string name="live_hero_offline">Live classes, alongside the classroom — not instead of it</string>
+    <string name="live_hero_offline_admin">Your school teaches in person. Turn on online teaching and the periods already on the timetable become joinable rooms.</string>
+    <string name="live_hero_offline_other">Your school teaches in person at the moment. When online teaching is turned on, your classes will appear here.</string>
+    <string name="live_action_sessions">Sessions</string>
+    <string name="live_action_schedule">Schedule</string>
+    <string name="live_action_recordings">Recordings</string>
+    <string name="live_action_settings">Settings</string>
+    <string name="live_action_turn_on">Enable</string>
+    <string name="live_now_empty_title">Nothing scheduled yet</string>
+    <string name="live_now_empty_description">Once a class is scheduled it shows up here, ready to join.</string>
+    <string name="live_phase_soon">Starting soon</string>
+    <string name="live_phase_started">Started</string>
+    <string name="live_phase_ending">About to finish</string>
+    <string name="live_phase_progress">%1$d of %2$d min</string>
+    <string name="live_catch_up_title">Catch up</string>
+    <string name="live_catch_up_recording">Recording</string>
+    <string name="live_guide_title">What you can do here</string>
+    <string name="live_guide_sessions_title">All sessions</string>
+    <string name="live_guide_sessions_description">Live, upcoming and past, with search and filters.</string>
+    <string name="live_guide_schedule_title">Schedule a class</string>
+    <string name="live_guide_schedule_description">Create one from the timetable, or set your own time.</string>
+    <string name="live_guide_timetable_title">My timetable</string>
+    <string name="live_guide_timetable_description">Join your class straight from your own day.</string>
+    <string name="live_guide_recordings_title">Recordings</string>
+    <string name="live_guide_recordings_description">Replay a lesson you missed, for as long as it is kept.</string>
+    <string name="live_guide_settings_title">Settings</string>
+    <string name="live_guide_settings_description">Delivery mode, which sections teach online, recording policy.</string>
+    <string name="live_guide_network_title">Network test</string>
+    <string name="live_guide_network_description">Confirm the school\'s network can hold a session before the first class.</string>
 </resources>

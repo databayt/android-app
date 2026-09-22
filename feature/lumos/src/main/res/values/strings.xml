@@ -229,4 +229,37 @@
     <string name="lumos_teaching_desc">Become an instructor and change lives — including your own</string>
     <string name="lumos_teaching_cta">Get started</string>
     <string name="lumos_teaching_learn_more">Learn more</string>
+    <!-- /lumos/courses — copy verbatim from lumos-en.json (lumos.courses, courseTypes, search, coursesFilter) -->
+    <string name="lumos_browse_hero_title">Explore Courses</string>
+    <string name="lumos_browse_hero_tagline">One for every grade.</string>
+    <string name="lumos_browse_search_placeholder">What do you want to learn?</string>
+    <string name="lumos_browse_explore">Explore</string>
+    <string name="lumos_browse_search_popular">Popular</string>
+    <string name="lumos_browse_search_results">Courses</string>
+    <string name="lumos_browse_search_no_results">No matching courses</string>
+    <string name="lumos_browse_grade_label">Grade %1$d</string>
+    <string name="lumos_browse_recommended">Recommended</string>
+    <string name="lumos_browse_continue_learning">Continue learning</string>
+    <string name="lumos_browse_start_here">Start here</string>
+    <string name="lumos_browse_resume">Resume</string>
+    <string name="lumos_browse_start">Start</string>
+    <string name="lumos_browse_progress">%1$d of %2$d min</string>
+    <string name="lumos_browse_lessons">%1$d lessons</string>
+    <string name="lumos_browse_more">More</string>
+    <string name="lumos_browse_see_more">See More</string>
+    <string name="lumos_browse_empty_title">No Courses Available</string>
+    <string name="lumos_browse_empty_description">There are currently no courses available. Check back soon!</string>
+    <string name="lumos_course_type_professional_certificate">Professional Certificate</string>
+    <string name="lumos_course_type_specialization">Specialization</string>
+    <string name="lumos_course_type_course">Course</string>
+    <string name="lumos_course_type_short_course">Short Course</string>
+    <string-array name="lumos_grade_ordinals">
+        <item>First</item><item>Second</item><item>Third</item><item>Fourth</item>
+        <item>Fifth</item><item>Sixth</item><item>Seventh</item><item>Eighth</item>
+        <item>Ninth</item><item>Tenth</item><item>Eleventh</item><item>Twelfth</item>
+    </string-array>
+    <string-array name="lumos_search_terms">
+        <item>Math</item><item>Science</item><item>English</item>
+        <item>Arabic</item><item>History</item><item>Geography</item>
+    </string-array>
 </resources>

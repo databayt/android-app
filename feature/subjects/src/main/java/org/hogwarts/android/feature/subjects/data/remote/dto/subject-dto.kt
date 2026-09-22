@@ -51,6 +51,7 @@ data class SubjectDto(
 data class SubjectListResponse(
     val data: List<SubjectDto>,
     val total: Int? = null,
+    @SerialName("school_levels") val schoolLevels: List<String> = emptyList(),
 )
 
 @Serializable

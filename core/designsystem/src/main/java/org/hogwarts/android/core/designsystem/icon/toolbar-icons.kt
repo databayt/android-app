@@ -89,7 +89,7 @@ object ToolbarIcons {
     }
 }
 
-private fun stroked(name: String, vararg paths: String): ImageVector =
+internal fun stroked(name: String, vararg paths: String): ImageVector =
     ImageVector.Builder(
         name = name,
         defaultWidth = 24.dp,

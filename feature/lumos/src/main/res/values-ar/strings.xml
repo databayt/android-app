@@ -229,4 +229,37 @@
     <string name="lumos_teaching_desc">كن مدربًا وغيّر حياة الآخرين — بما في ذلك حياتك</string>
     <string name="lumos_teaching_cta">ابدأ الآن</string>
     <string name="lumos_teaching_learn_more">اعرف المزيد</string>
+    <!-- /lumos/courses — copy verbatim from lumos-ar.json (lumos.courses, courseTypes, search, coursesFilter) -->
+    <string name="lumos_browse_hero_title">استكشف الدورات</string>
+    <string name="lumos_browse_hero_tagline">لكل صف في المدرسة.</string>
+    <string name="lumos_browse_search_placeholder">ماذا تريد أن تتعلم؟</string>
+    <string name="lumos_browse_explore">استكشف</string>
+    <string name="lumos_browse_search_popular">الأكثر بحثًا</string>
+    <string name="lumos_browse_search_results">المقررات</string>
+    <string name="lumos_browse_search_no_results">لا توجد مقررات مطابقة</string>
+    <string name="lumos_browse_grade_label">الصف %1$d</string>
+    <string name="lumos_browse_recommended">موصى به</string>
+    <string name="lumos_browse_continue_learning">أكمل ما بدأته</string>
+    <string name="lumos_browse_start_here">ابدأ من هنا</string>
+    <string name="lumos_browse_resume">تابع</string>
+    <string name="lumos_browse_start">ابدأ</string>
+    <string name="lumos_browse_progress">%1$d من %2$d دقيقة</string>
+    <string name="lumos_browse_lessons">%1$d درساً</string>
+    <string name="lumos_browse_more">المزيد</string>
+    <string name="lumos_browse_see_more">عرض المزيد</string>
+    <string name="lumos_browse_empty_title">لا توجد دورات متاحة</string>
+    <string name="lumos_browse_empty_description">لا توجد دورات متاحة حالياً. تفقد لاحقاً!</string>
+    <string name="lumos_course_type_professional_certificate">شهادة احترافية</string>
+    <string name="lumos_course_type_specialization">تخصص</string>
+    <string name="lumos_course_type_course">دورة</string>
+    <string name="lumos_course_type_short_course">دورة قصيرة</string>
+    <string-array name="lumos_grade_ordinals">
+        <item>الأول</item><item>الثاني</item><item>الثالث</item><item>الرابع</item>
+        <item>الخامس</item><item>السادس</item><item>السابع</item><item>الثامن</item>
+        <item>التاسع</item><item>العاشر</item><item>الحادي عشر</item><item>الثاني عشر</item>
+    </string-array>
+    <string-array name="lumos_search_terms">
+        <item>الرياضيات</item><item>العلوم</item><item>الإنجليزية</item>
+        <item>العربية</item><item>التاريخ</item><item>الجغرافيا</item>
+    </string-array>
 </resources>
