@@ -22,7 +22,10 @@ data class Book(
     val availableCopies: Int,
     val totalCopies: Int,
     val shelfLocation: String,
-    val sectionName: String
+    val sectionName: String,
+    /** The jacket's ground when the art is missing (`coverColor`). */
+    val coverColor: String? = null,
+    val rating: Double = 0.0,
 ) {
     val isAvailable: Boolean get() = availableCopies > 0
 }
@@ -96,3 +99,54 @@ enum class BorrowingStatus {
         RENEWED -> "Renewed"
     }
 }
+
+/**
+ * `/library/books/[id]` — everything the web's book page shows, built by the
+ * same server loader (`book-detail/load.ts`).
+ */
+data class BookPage(
+    /** The CATALOG id — what the page and the shelves link by. */
+    val id: String,
+    val title: String,
+    val author: String,
+    val genre: String,
+    val rating: Double,
+    val coverUrl: String?,
+    val coverColor: String?,
+    /** The eyebrow's word; null for a general-audience book. */
+    val gradeLabel: String?,
+    val gradeLevel: String?,
+    val publicationYear: Int?,
+    val pageCount: Int?,
+    val digitalFileUrl: String?,
+    /** The school's lending copy — what borrowing takes. */
+    val schoolBookId: String,
+    val availableCopies: Int,
+    val totalCopies: Int,
+    /** The reader's open loan of this book, if any — what returning takes. */
+    val borrowRecordId: String?,
+    val about: List<String>,
+    /** The Information list, labels already in the reader's language. */
+    val info: List<Pair<String, String>>,
+    val moreByAuthor: List<Book>,
+    val similar: List<Book>,
+)
+
+/** One page of `/library/books`. */
+data class CatalogPage(
+    val books: List<Book>,
+    val total: Int,
+    val page: Int,
+    val totalPages: Int,
+    val genres: List<String>,
+)
+
+/** `/library`'s featured book and four shelves, as the page cuts them. */
+data class LibraryHome(
+    val total: Int,
+    val featured: Book?,
+    val latest: List<Book>,
+    val featuredShelf: List<Book>,
+    val literature: List<Book>,
+    val science: List<Book>,
+)

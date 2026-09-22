@@ -59,6 +59,8 @@ import org.hogwarts.android.feature.events.navigation.eventsListScreen
 import org.hogwarts.android.feature.events.navigation.eventDetailScreen as eventsDetailScreen
 import org.hogwarts.android.feature.events.navigation.eventCalendarScreen
 import org.hogwarts.android.feature.library.navigation.LibraryBookDetail
+import org.hogwarts.android.feature.library.navigation.LibraryBooks
+import org.hogwarts.android.feature.library.navigation.allBooksScreen as libraryAllBooksScreen
 import org.hogwarts.android.feature.library.navigation.LibraryCatalog
 import org.hogwarts.android.feature.library.navigation.LibraryMyBorrowings
 import org.hogwarts.android.feature.library.navigation.libraryCatalogScreen
@@ -447,13 +449,25 @@ fun HogwartsNavHost(
             },
             onNavigateToMyBorrowings = {
                 navController.navigate(LibraryMyBorrowings)
-            }
+            },
+            onNavigateToAllBooks = { navController.navigate(LibraryBooks()) },
         )
 
-        // Library - Book Detail
+        // Library - Book Detail (the web's Books-style page)
         libraryBookDetailScreen(
-            onNavigateBack = { navController.popBackStack() }
+            onNavigateBack = { navController.popBackStack() },
+            onOpenBook = { id -> navController.navigate(LibraryBookDetail(id)) },
+            onBrowse = { search, grade -> navController.navigate(LibraryBooks(search, grade)) },
+            onOpenUrl = { url ->
+                context.startActivity(
+                    android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url))
+                        .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
+                )
+            },
         )
+
+        // Library - All books (/library/books)
+        libraryAllBooksScreen(onOpenBook = { id -> navController.navigate(LibraryBookDetail(id)) })
 
         // Library - My Borrowings
         myBorrowingsScreen(

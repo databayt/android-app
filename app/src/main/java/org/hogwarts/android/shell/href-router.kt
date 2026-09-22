@@ -8,6 +8,8 @@ import org.hogwarts.android.feature.events.navigation.EventsList
 import org.hogwarts.android.feature.exams.navigation.ExamDetail
 import org.hogwarts.android.feature.exams.navigation.ExamsUpcoming
 import org.hogwarts.android.feature.exams.navigation.QuestionBank
+import org.hogwarts.android.feature.library.navigation.LibraryBookDetail
+import org.hogwarts.android.feature.library.navigation.LibraryBooks
 import org.hogwarts.android.feature.guardian.navigation.GuardianChildren
 import org.hogwarts.android.feature.messaging.navigation.Messaging
 import org.hogwarts.android.feature.notifications.navigation.NotificationPreferences
@@ -53,10 +55,14 @@ private fun nestedRoute(path: String, role: UserRole?): Any? {
     if (segments.size == 3 && segments[0] == "subjects" && segments[2] == "textbook") {
         return SubjectTextbook(segments[1])
     }
+    if (segments.size == 3 && segments[0] == "library" && segments[1] == "books") {
+        return LibraryBookDetail(segments[2])
+    }
     if (segments.size != 2) return null
     val (section, page) = segments
     return when (section) {
         "announcements" -> if (page !in ANNOUNCEMENT_WEB_PAGES) AnnouncementDetail(page) else null
+        "library" -> if (page == "books") LibraryBooks() else null
         "exams" -> when (page) {
             "upcoming" -> ExamsUpcoming
             "qbank" -> if (role in QUESTION_BANK_ROLES) QuestionBank else null

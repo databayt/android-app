@@ -65,4 +65,42 @@
     <string name="library_featured_books">كتب مميزة</string>
     <string name="library_literature_books">كتب أدبية</string>
     <string name="library_science_books">كتب علمية</string>
+
+    <!-- Book page and all-books listing: school.library in school-ar.json -->
+    <string name="library_book_label">كتاب</string>
+    <string name="library_pages_unit">صفحة</string>
+    <string name="library_read">اقرأ</string>
+    <string name="library_borrow">استعارة</string>
+    <string name="library_borrowing">جاري الاستعارة...</string>
+    <string name="library_return_short">إرجاع</string>
+    <string name="library_returning">جاري الإرجاع...</string>
+    <string name="library_unavailable_pill">غير متاح</string>
+    <string name="library_borrowed_this_book">لقد استعرت هذا الكتاب</string>
+    <string name="library_about_this_book">عن هذا الكتاب</string>
+    <string name="library_more">المزيد</string>
+    <string name="library_less">أقل</string>
+    <string name="library_information">معلومات</string>
+    <string name="library_more_by">المزيد من</string>
+    <string name="library_similar_books">قد يعجبك أيضاً</string>
+    <string name="library_borrowed_title">تمت الاستعارة</string>
+    <string name="library_borrowed_body">أُضيف هذا الكتاب إلى كتبك المستعارة. يُرجى إعادته قبل %1$s.</string>
+    <string name="library_returned_title">تم الإرجاع</string>
+    <string name="library_returned_body">شكرًا لإعادتك هذا الكتاب، فقد عاد إلى الرف ليقرأه غيرك.</string>
+    <string name="library_borrow_failed">فشل في استعارة الكتاب</string>
+    <string name="library_return_failed">فشل في إرجاع الكتاب</string>
+    <string name="library_unexpected_error">حدث خطأ غير متوقع</string>
+    <string name="library_search_books">البحث عن كتب</string>
+    <string name="library_genre">النوع</string>
+    <string name="library_grade">المستوى</string>
+    <string name="library_books_in_library">كتاب في المكتبة</string>
+    <string name="library_no_results">لم يتم العثور على كتب مطابقة لبحثك</string>
+    <string name="library_see_more">عرض المزيد</string>
+    <string name="library_empty_library">المكتبة فارغة. تحقق مرة أخرى لاحقاً أو اتصل بأمين المكتبة لإضافة كتب.</string>
+    <string name="library_hero_title">ريفيليو</string>
+    <string name="library_hero_subtitle">اكشف المخفي.</string>
+    <string name="library_grade_general">عام</string>
+    <string name="library_grade_kg">روضة</string>
+    <string name="library_grade_primary">ابتدائي</string>
+    <string name="library_grade_intermediate">متوسط</string>
+    <string name="library_grade_secondary">ثانوي</string>
 </resources>

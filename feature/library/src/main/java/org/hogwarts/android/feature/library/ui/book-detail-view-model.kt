@@ -9,25 +9,38 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.hogwarts.android.core.common.result.Result
-import org.hogwarts.android.feature.library.domain.model.Book
-import org.hogwarts.android.feature.library.domain.usecase.BorrowBookUseCase
-import org.hogwarts.android.feature.library.domain.usecase.GetBookDetailUseCase
+import org.hogwarts.android.feature.library.data.repository.LibraryRepository
+import org.hogwarts.android.feature.library.domain.model.BookPage
+import java.time.LocalDate
 import javax.inject.Inject
 
+/** The alert the web's `BorrowAlert` shows after a borrow or a return. */
+sealed interface BorrowNotice {
+    data class Borrowed(val dueDate: LocalDate) : BorrowNotice
+    data object Returned : BorrowNotice
+    /** [message] is kept for logs; the alert says the web's own sentence. */
+    data class BorrowFailed(val message: String?) : BorrowNotice
+    data class ReturnFailed(val message: String?) : BorrowNotice
+}
+
 data class BookDetailUiState(
-    val book: Book? = null,
+    val page: BookPage? = null,
     val isLoading: Boolean = false,
-    val isBorrowing: Boolean = false,
-    val borrowSuccess: Boolean = false,
-    val error: String? = null
+    /** A borrow or a return is on its way — the pill says so. */
+    val isWorking: Boolean = false,
+    val notice: BorrowNotice? = null,
+    val error: String? = null,
 )
 
+/**
+ * `/library/books/[id]`, from the page's own loader (`book-detail/load.ts`).
+ * Borrowing and returning go through the mobile routes that enforce the
+ * actions' rules, then the page reloads, as the web's `router.refresh()` does.
+ */
 @HiltViewModel
 class BookDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getBookDetailUseCase: GetBookDetailUseCase,
-    private val borrowBookUseCase: BorrowBookUseCase
+    private val repository: LibraryRepository,
 ) : ViewModel() {
 
     private val bookId: String = savedStateHandle["bookId"] ?: ""
@@ -36,48 +49,49 @@ class BookDetailViewModel @Inject constructor(
     val uiState: StateFlow<BookDetailUiState> = _uiState.asStateFlow()
 
     init {
-        loadBookDetail()
+        load()
     }
 
-    private fun loadBookDetail() {
+    private fun load(quiet: Boolean = false) {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            when (val result = getBookDetailUseCase(bookId)) {
-                is Result.Success -> _uiState.update {
-                    it.copy(isLoading = false, book = result.data)
-                }
-                is Result.Error -> _uiState.update {
-                    it.copy(isLoading = false, error = result.exception.message)
-                }
-                is Result.Loading -> {}
-            }
+            if (!quiet) _uiState.update { it.copy(isLoading = true, error = null) }
+            runCatching { repository.getBookPage(bookId) }
+                .onSuccess { page -> _uiState.update { it.copy(isLoading = false, page = page) } }
+                .onFailure { e -> _uiState.update { it.copy(isLoading = false, error = e.message) } }
         }
     }
 
-    fun borrowBook() {
+    fun borrow() {
+        val page = _uiState.value.page ?: return
         viewModelScope.launch {
-            _uiState.update { it.copy(isBorrowing = true, error = null, borrowSuccess = false) }
-            when (val result = borrowBookUseCase(bookId)) {
-                is Result.Success -> {
-                    _uiState.update { state ->
-                        state.copy(
-                            isBorrowing = false,
-                            borrowSuccess = true,
-                            book = state.book?.copy(
-                                availableCopies = (state.book.availableCopies - 1).coerceAtLeast(0)
-                            )
-                        )
-                    }
+            _uiState.update { it.copy(isWorking = true) }
+            runCatching { repository.borrowBook(page.schoolBookId) }
+                .onSuccess { loan ->
+                    _uiState.update { it.copy(isWorking = false, notice = BorrowNotice.Borrowed(loan.dueDate)) }
+                    load(quiet = true)
                 }
-                is Result.Error -> _uiState.update {
-                    it.copy(isBorrowing = false, error = result.exception.message)
+                .onFailure { e ->
+                    _uiState.update { it.copy(isWorking = false, notice = BorrowNotice.BorrowFailed(e.message)) }
                 }
-                is Result.Loading -> {}
-            }
         }
     }
 
-    fun clearBorrowSuccess() {
-        _uiState.update { it.copy(borrowSuccess = false) }
+    fun giveBack() {
+        val record = _uiState.value.page?.borrowRecordId ?: return
+        viewModelScope.launch {
+            _uiState.update { it.copy(isWorking = true) }
+            runCatching { repository.returnBorrowing(record) }
+                .onSuccess {
+                    _uiState.update { it.copy(isWorking = false, notice = BorrowNotice.Returned) }
+                    load(quiet = true)
+                }
+                .onFailure { e ->
+                    _uiState.update { it.copy(isWorking = false, notice = BorrowNotice.ReturnFailed(e.message)) }
+                }
+        }
+    }
+
+    fun dismissNotice() {
+        _uiState.update { it.copy(notice = null) }
     }
 }

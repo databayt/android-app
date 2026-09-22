@@ -12,4 +12,8 @@ interface LibraryRepository {
     suspend fun borrowBook(bookId: String): Borrowing
     suspend fun renewBorrowing(borrowingId: String): Borrowing
     suspend fun getMyBorrowings(): List<Borrowing>
+    suspend fun getHome(): org.hogwarts.android.feature.library.domain.model.LibraryHome
+    suspend fun getCatalog(page: Int, search: String?, genre: String?, gradeLevel: String?): org.hogwarts.android.feature.library.domain.model.CatalogPage
+    suspend fun getBookPage(id: String): org.hogwarts.android.feature.library.domain.model.BookPage
+    suspend fun returnBorrowing(borrowingId: String): Borrowing
 }

@@ -65,4 +65,42 @@
     <string name="library_featured_books">Featured Books</string>
     <string name="library_literature_books">Literature Books</string>
     <string name="library_science_books">Science Books</string>
+
+    <!-- Book page and all-books listing: school.library in school-en.json -->
+    <string name="library_book_label">Book</string>
+    <string name="library_pages_unit">pages</string>
+    <string name="library_read">Read</string>
+    <string name="library_borrow">Borrow</string>
+    <string name="library_borrowing">Borrowing...</string>
+    <string name="library_return_short">Return</string>
+    <string name="library_returning">Returning...</string>
+    <string name="library_unavailable_pill">Unavailable</string>
+    <string name="library_borrowed_this_book">You have borrowed this book</string>
+    <string name="library_about_this_book">About This Book</string>
+    <string name="library_more">More</string>
+    <string name="library_less">Less</string>
+    <string name="library_information">Information</string>
+    <string name="library_more_by">More by</string>
+    <string name="library_similar_books">You Might Also Like</string>
+    <string name="library_borrowed_title">Borrowed</string>
+    <string name="library_borrowed_body">This book was added to your borrowed books. Please return it by %1$s.</string>
+    <string name="library_returned_title">Returned</string>
+    <string name="library_returned_body">Thank you for returning this book. It is back on the shelf for the next reader.</string>
+    <string name="library_borrow_failed">Failed to borrow book</string>
+    <string name="library_return_failed">Failed to return book</string>
+    <string name="library_unexpected_error">An unexpected error occurred</string>
+    <string name="library_search_books">Search books</string>
+    <string name="library_genre">Genre</string>
+    <string name="library_grade">Grade</string>
+    <string name="library_books_in_library">books in the library</string>
+    <string name="library_no_results">No books found matching your search</string>
+    <string name="library_see_more">See More</string>
+    <string name="library_empty_library">The library is empty. Check back later or contact your library administrator to add books.</string>
+    <string name="library_hero_title">Revelio</string>
+    <string name="library_hero_subtitle">Unlock hidden.</string>
+    <string name="library_grade_general">General</string>
+    <string name="library_grade_kg">KG</string>
+    <string name="library_grade_primary">Elementary</string>
+    <string name="library_grade_intermediate">Middle</string>
+    <string name="library_grade_secondary">High</string>
 </resources>

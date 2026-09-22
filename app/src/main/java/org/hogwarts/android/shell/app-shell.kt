@@ -59,6 +59,8 @@ import org.hogwarts.android.feature.notifications.navigation.NotificationsUnread
 import org.hogwarts.android.feature.profile.navigation.Profile
 import org.hogwarts.android.feature.settings.navigation.Settings
 import org.hogwarts.android.feature.students.navigation.StudentsList
+import org.hogwarts.android.feature.library.navigation.LibraryBookDetail
+import org.hogwarts.android.feature.library.navigation.LibraryBooks
 import org.hogwarts.android.feature.library.navigation.LibraryCatalog
 import org.hogwarts.android.feature.live.navigation.LiveHome
 import org.hogwarts.android.feature.lumos.navigation.LumosCatalog
@@ -256,6 +258,9 @@ private fun isShellDestination(destination: androidx.navigation.NavDestination):
         // with no back bar of its own — system back returns to the list.
         destination.hasRoute<SubjectDetail>() ||
         destination.hasRoute<LibraryCatalog>() ||
+        // The book page and the listing sit under the same header on the web.
+        destination.hasRoute<LibraryBookDetail>() ||
+        destination.hasRoute<LibraryBooks>() ||
         destination.hasRoute<LumosHome>() ||
         destination.hasRoute<LumosCatalog>() ||
         destination.hasRoute<LiveHome>() ||

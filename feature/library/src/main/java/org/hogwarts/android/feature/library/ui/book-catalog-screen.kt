@@ -37,28 +37,25 @@ import org.hogwarts.android.feature.library.ui.components.FeaturedBook
  * `/library` — the school's shelves, as the site lays them out: the green
  * brand banner, one featured book, then rows of jackets.
  *
- * The four rows and what goes in them are `content.tsx`'s own rules, ported
- * in `LibraryShelves` rather than re-invented: the first dozen, the second
- * dozen, then the literature and science genres. The featured book is matched
- * on its raw English title, before translation, because the row's photograph
- * is of that exact edition.
+ * The server cuts the rows with the page's own loader (`library/load.ts`), so
+ * the phone and the site put the same book in the same row, in the reader's
+ * language. Explore opens `/library/books`, as the banner's pill does.
  *
  * No top app bar and no filter chips. The platform header is the chrome on
- * every phone screen here, and the site has neither — a reader browses the
- * shelves and searches from the menu.
+ * every phone screen here, and the site has neither.
  */
 @Composable
 fun BookCatalogScreen(
     onNavigateBack: () -> Unit,
     onNavigateToBook: (String) -> Unit,
     onNavigateToMyBorrowings: () -> Unit,
+    onNavigateToAllBooks: () -> Unit = {},
     viewModel: BookCatalogViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val colors = HogwartsTheme.colors
-    val books = uiState.allBooks
-    val featured = remember(books) { LibraryShelves.featured(books) }
-    val rest = remember(books) { LibraryShelves.rest(books) }
+    val home = uiState.home
+    val featured = home?.featured
 
     LazyColumn(
         modifier = Modifier.fillMaxSize().navigationBarsPadding(),
@@ -72,7 +69,7 @@ fun BookCatalogScreen(
                 actions = {
                     PillButton(
                         label = stringResource(R.string.library_explore),
-                        onClick = { },
+                        onClick = onNavigateToAllBooks,
                         variant = PillVariant.BrandWhite,
                     )
                     PillButton(
@@ -84,7 +81,7 @@ fun BookCatalogScreen(
             )
         }
 
-        if (uiState.isLoading && books.isEmpty()) {
+        if (uiState.isLoading && home == null) {
             item(key = "loading") {
                 Box(Modifier.fillMaxWidth().padding(vertical = 48.dp), Alignment.Center) {
                     CircularProgressIndicator()
@@ -109,10 +106,10 @@ fun BookCatalogScreen(
         }
 
         val shelves = listOf(
-            R.string.library_latest_books to LibraryShelves.latest(rest),
-            R.string.library_featured_books to LibraryShelves.featuredShelf(rest),
-            R.string.library_literature_books to LibraryShelves.literature(rest),
-            R.string.library_science_books to LibraryShelves.science(rest),
+            R.string.library_latest_books to home?.latest.orEmpty(),
+            R.string.library_featured_books to home?.featuredShelf.orEmpty(),
+            R.string.library_literature_books to home?.literature.orEmpty(),
+            R.string.library_science_books to home?.science.orEmpty(),
         )
         shelves.forEach { (title, shelf) ->
             if (shelf.isNotEmpty()) {
@@ -126,7 +123,7 @@ fun BookCatalogScreen(
             }
         }
 
-        if (!uiState.isLoading && books.isEmpty()) {
+        if (!uiState.isLoading && home != null && home.total == 0) {
             item(key = "empty") {
                 Box(Modifier.fillMaxWidth().padding(vertical = 48.dp), Alignment.Center) {
                     Text(
