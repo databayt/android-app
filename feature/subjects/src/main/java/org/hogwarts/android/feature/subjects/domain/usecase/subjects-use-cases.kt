@@ -1,7 +1,6 @@
 package org.hogwarts.android.feature.subjects.domain.usecase
 
 import org.hogwarts.android.feature.subjects.data.repository.SubjectsRepository
-import org.hogwarts.android.feature.subjects.domain.model.MySubjectSummary
 import org.hogwarts.android.feature.subjects.domain.model.Subject
 import org.hogwarts.android.feature.subjects.domain.model.SubjectDetail
 import javax.inject.Inject
@@ -27,14 +26,4 @@ class GetSubjectDetailUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(subjectId: String): SubjectDetail =
         repository.getSubjectDetail(subjectId)
-}
-
-/**
- * Retrieves the current user's enrolled/assigned subjects with summary stats.
- */
-class GetMySubjectsUseCase @Inject constructor(
-    private val repository: SubjectsRepository
-) {
-    suspend operator fun invoke(): List<MySubjectSummary> =
-        repository.getMySubjects()
 }

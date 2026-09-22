@@ -1,6 +1,5 @@
 package org.hogwarts.android.feature.subjects.data.repository
 
-import org.hogwarts.android.feature.subjects.domain.model.MySubjectSummary
 import org.hogwarts.android.feature.subjects.domain.model.Subject
 import org.hogwarts.android.feature.subjects.domain.model.SubjectDetail
 
@@ -21,9 +20,4 @@ interface SubjectsRepository {
      * Get detailed information about a specific subject.
      */
     suspend fun getSubjectDetail(subjectId: String): SubjectDetail
-
-    /**
-     * Get the current user's enrolled/assigned subjects with summary stats.
-     */
-    suspend fun getMySubjects(): List<MySubjectSummary>
 }

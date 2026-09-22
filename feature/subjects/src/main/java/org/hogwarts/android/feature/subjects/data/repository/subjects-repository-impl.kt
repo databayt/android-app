@@ -2,7 +2,6 @@ package org.hogwarts.android.feature.subjects.data.repository
 
 import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.feature.subjects.data.remote.SubjectsApi
-import org.hogwarts.android.feature.subjects.domain.model.MySubjectSummary
 import org.hogwarts.android.feature.subjects.domain.model.Subject
 import org.hogwarts.android.feature.subjects.domain.model.SubjectDetail
 import java.util.Locale
@@ -44,13 +43,6 @@ class SubjectsRepositoryImpl @Inject constructor(
         )
         return response.body()?.toDomain()
             ?: throw Exception("Failed to load subject detail")
-    }
-
-    override suspend fun getMySubjects(): List<MySubjectSummary> {
-        tenantContext.requireSchoolId()
-        val response = api.getMySubjects(lang = currentLang())
-        return response.body()?.data?.map { it.toDomain() }
-            ?: throw Exception("Failed to load my subjects")
     }
 
     /** ISO 639-1 language code ("ar"/"en") for the active app locale. */

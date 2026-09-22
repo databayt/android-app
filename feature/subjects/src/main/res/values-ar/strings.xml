@@ -40,10 +40,6 @@
     <string name="subjects_lessons_count">%1$d دروس</string>
 
     <!-- My Subjects Screen -->
-    <string name="subjects_my_title">موادي</string>
-    <string name="subjects_my_empty_title">لا توجد مواد</string>
-    <string name="subjects_my_empty_subtitle">لم يتم تسجيلك في أي مواد بعد.</string>
-    <string name="subjects_my_taught_by">يدرّسها %1$s</string>
 
     <!-- Content Section Titles (mirror school-ar.json school.subjects.catalog.*) -->
     <string name="subjects_section_videos">فيديوهات</string>

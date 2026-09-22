@@ -40,10 +40,6 @@
     <string name="subjects_lessons_count">%1$d lessons</string>
 
     <!-- My Subjects Screen -->
-    <string name="subjects_my_title">My Subjects</string>
-    <string name="subjects_my_empty_title">No Subjects</string>
-    <string name="subjects_my_empty_subtitle">You are not enrolled in any subjects yet.</string>
-    <string name="subjects_my_taught_by">Taught by %1$s</string>
 
     <!-- Content Section Titles (mirrors school-en.json school.subjects.catalog.*) -->
     <string name="subjects_section_videos">Videos</string>

@@ -68,7 +68,6 @@ import org.hogwarts.android.feature.subjects.navigation.Subjects
 import org.hogwarts.android.feature.subjects.navigation.SubjectDetail
 import org.hogwarts.android.feature.subjects.navigation.subjectsScreen as subjectsCatalogScreen
 import org.hogwarts.android.feature.subjects.navigation.subjectDetailScreen
-import org.hogwarts.android.feature.subjects.navigation.mySubjectsScreen
 import org.hogwarts.android.feature.reportcards.navigation.ReportCardDetail
 import org.hogwarts.android.feature.reportcards.navigation.ReportCardsProgress
 import org.hogwarts.android.feature.reportcards.navigation.reportCardsListScreen
@@ -475,14 +474,6 @@ fun HogwartsNavHost(
         subjectDetailScreen(
             onNavigateBack = { navController.popBackStack() },
             onOpenHref = { href -> hrefOpener.open(href) },
-        )
-
-        // Subjects - My Subjects
-        mySubjectsScreen(
-            onNavigateBack = { navController.popBackStack() },
-            onNavigateToSubject = { subjectId ->
-                navController.navigate(SubjectDetail(subjectId))
-            }
         )
 
         // Report Cards - List

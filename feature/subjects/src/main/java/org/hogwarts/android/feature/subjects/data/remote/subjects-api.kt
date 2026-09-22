@@ -1,6 +1,5 @@
 package org.hogwarts.android.feature.subjects.data.remote
 
-import org.hogwarts.android.feature.subjects.data.remote.dto.MySubjectsResponse
 import org.hogwarts.android.feature.subjects.data.remote.dto.SubjectDetailDto
 import org.hogwarts.android.feature.subjects.data.remote.dto.SubjectListResponse
 import retrofit2.Response
@@ -25,9 +24,4 @@ interface SubjectsApi {
         @Path("subjectId") subjectId: String,
         @Query("lang") lang: String? = null,
     ): Response<SubjectDetailDto>
-
-    @GET("api/mobile/subjects/my-subjects")
-    suspend fun getMySubjects(
-        @Query("lang") lang: String? = null,
-    ): Response<MySubjectsResponse>
 }

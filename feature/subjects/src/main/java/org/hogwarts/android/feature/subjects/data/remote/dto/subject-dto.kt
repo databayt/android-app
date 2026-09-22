@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 import org.hogwarts.android.feature.subjects.domain.model.AssignmentItem
 import org.hogwarts.android.feature.subjects.domain.model.ExamItem
 import org.hogwarts.android.feature.subjects.domain.model.MaterialItem
-import org.hogwarts.android.feature.subjects.domain.model.MySubjectSummary
 import org.hogwarts.android.feature.subjects.domain.model.QuestionStats
 import org.hogwarts.android.feature.subjects.domain.model.QuestionTypeCard
 import org.hogwarts.android.feature.subjects.domain.model.Subject
@@ -276,27 +275,3 @@ data class SubjectDetailDto(
         textbookReaderHref = textbookReaderHref,
     )
 }
-
-@Serializable
-data class MySubjectSummaryDto(
-    val id: String,
-    val name: String,
-    val slug: String,
-    val department: String? = null,
-    @SerialName("thumbnail_url") val thumbnailUrl: String? = null,
-    @SerialName("teacher_name") val teacherName: String? = null,
-) {
-    fun toDomain() = MySubjectSummary(
-        id = id,
-        name = name,
-        slug = slug,
-        department = department,
-        thumbnailUrl = thumbnailUrl,
-        teacherName = teacherName,
-    )
-}
-
-@Serializable
-data class MySubjectsResponse(
-    val data: List<MySubjectSummaryDto> = emptyList(),
-)

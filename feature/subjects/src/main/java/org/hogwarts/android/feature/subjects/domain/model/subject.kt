@@ -157,15 +157,3 @@ data class QuestionTypeCard(
     val count: Int = 0,
     val byDifficulty: Map<String, Int> = emptyMap(),
 )
-
-/**
- * Summary of a subject the current user is enrolled in or teaches.
- */
-data class MySubjectSummary(
-    val id: String,
-    val name: String,
-    val slug: String,
-    val department: String? = null,
-    val thumbnailUrl: String? = null,
-    val teacherName: String? = null,
-)
