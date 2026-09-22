@@ -197,7 +197,7 @@ private fun Status(session: LandingSession, compact: Boolean) {
     val running = session.phase.isRunning
     val number: String? = when {
         running && !compact && session.progressDone != null && session.progressTotal != null ->
-            stringResource(R.string.live_phase_progress, session.progressDone, session.progressTotal)
+            stringResource(R.string.live_phase_progress, session.progressDone.toString(), session.progressTotal.toString())
         running -> null
         else -> session.scheduledStart.ifBlank { null }
     }

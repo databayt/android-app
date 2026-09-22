@@ -120,7 +120,7 @@
     <!-- /subjects/[slug] on a phone — copy verbatim from school-en.json (school.subjects.catalog) -->
     <string name="subjects_page_chapters">Chapters</string>
     <string name="subjects_page_lessons">lessons</string>
-    <string name="subjects_page_hero_counts">%1$d Chapters • %2$d lessons</string>
+    <string name="subjects_page_hero_counts">%1$s Chapters • %2$s lessons</string>
     <string name="subjects_page_explore_all">Explore all chapters</string>
     <string name="subjects_page_summary">Summary</string>
     <string name="subjects_page_qbank_book">QBank</string>

@@ -16,7 +16,7 @@
     <string name="live_phase_soon">Starting soon</string>
     <string name="live_phase_started">Started</string>
     <string name="live_phase_ending">About to finish</string>
-    <string name="live_phase_progress">%1$d of %2$d min</string>
+    <string name="live_phase_progress">%1$s of %2$s min</string>
     <string name="live_catch_up_title">Catch up</string>
     <string name="live_catch_up_recording">Recording</string>
     <string name="live_guide_title">What you can do here</string>

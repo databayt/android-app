@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,10 +14,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -27,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
@@ -65,39 +67,53 @@ fun SubjectPageHero(
     lessons: Int,
 ) {
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-    Box(
-        Modifier
-            .fillMaxWidth()
-            .aspectRatio(5.4f)
-            .heightIn(min = 160.dp)
-            .background(parseColor(color) ?: Color(0xFF1E40AF)),
-    ) {
-        if (!imageUrl.isNullOrBlank()) {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = name,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize().scale(scaleX = if (rtl) -1f else 1f, scaleY = 1f),
-            )
-        }
+    // `aspect-[5.4/1] min-h-40`: the ratio's height, but never under 160dp —
+    // on a phone the minimum always wins and the art crops.
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val boxWidth = maxWidth
         Box(
-            Modifier.fillMaxSize().background(
-                Brush.verticalGradient(
-                    0f to Color.Transparent,
-                    0.5f to Color.Black.copy(alpha = 0.30f),
-                    1f to Color.Black.copy(alpha = 0.75f),
+            Modifier
+                .fillMaxWidth()
+                .height(maxOf(boxWidth / 5.4f, 160.dp))
+                .clipToBounds()
+                .background(parseColor(color) ?: Color(0xFF1E40AF)),
+        ) {
+            if (!imageUrl.isNullOrBlank()) {
+                // The web's box keeps its 5.4:1 ratio at that 160px floor,
+                // which makes it 864px wide — the whole banner — and the
+                // page clips it from the reading start. So the phone shows
+                // the banner's START, not its middle: the art is laid out at
+                // full width, pinned to the start edge, and mirrored in Arabic.
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = name,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .wrapContentWidth(Alignment.Start, unbounded = true)
+                        .width(maxOf(boxWidth, 160.dp * 5.4f))
+                        .scale(scaleX = if (rtl) -1f else 1f, scaleY = 1f),
+                )
+            }
+            Box(
+                Modifier.fillMaxSize().background(
+                    Brush.verticalGradient(
+                        0f to Color.Transparent,
+                        0.5f to Color.Black.copy(alpha = 0.30f),
+                        1f to Color.Black.copy(alpha = 0.75f),
+                    ),
                 ),
-            ),
-        )
-        Column(Modifier.align(Alignment.BottomStart).padding(16.dp)) {
-            Text(name, fontSize = 24.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold, color = Color.White)
-            Text(
-                text = stringResource(R.string.subjects_page_hero_counts, chapters, lessons),
-                fontSize = 14.sp,
-                lineHeight = 20.sp,
-                color = Color.White.copy(alpha = 0.9f),
-                modifier = Modifier.padding(top = 4.dp),
             )
+            Column(Modifier.align(Alignment.BottomStart).padding(16.dp)) {
+                Text(name, fontSize = 24.sp, lineHeight = 32.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Text(
+                    text = stringResource(R.string.subjects_page_hero_counts, chapters.toString(), lessons.toString()),
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    color = Color.White.copy(alpha = 0.9f),
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
         }
     }
 }

@@ -120,7 +120,7 @@
     <!-- /subjects/[slug] on a phone — copy verbatim from school-ar.json (school.subjects.catalog) -->
     <string name="subjects_page_chapters">الفصول</string>
     <string name="subjects_page_lessons">دروس</string>
-    <string name="subjects_page_hero_counts">%1$d الفصول • %2$d دروس</string>
+    <string name="subjects_page_hero_counts">%1$s الفصول • %2$s دروس</string>
     <string name="subjects_page_explore_all">استكشف كل الفصول</string>
     <string name="subjects_page_summary">ملخص</string>
     <string name="subjects_page_qbank_book">بنك الأسئلة</string>

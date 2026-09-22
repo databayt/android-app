@@ -237,14 +237,14 @@
     <string name="lumos_browse_search_popular">الأكثر بحثًا</string>
     <string name="lumos_browse_search_results">المقررات</string>
     <string name="lumos_browse_search_no_results">لا توجد مقررات مطابقة</string>
-    <string name="lumos_browse_grade_label">الصف %1$d</string>
+    <string name="lumos_browse_grade_label">الصف %1$s</string>
     <string name="lumos_browse_recommended">موصى به</string>
     <string name="lumos_browse_continue_learning">أكمل ما بدأته</string>
     <string name="lumos_browse_start_here">ابدأ من هنا</string>
     <string name="lumos_browse_resume">تابع</string>
     <string name="lumos_browse_start">ابدأ</string>
-    <string name="lumos_browse_progress">%1$d من %2$d دقيقة</string>
-    <string name="lumos_browse_lessons">%1$d درساً</string>
+    <string name="lumos_browse_progress">%1$s من %2$s دقيقة</string>
+    <string name="lumos_browse_lessons">%1$s درساً</string>
     <string name="lumos_browse_more">المزيد</string>
     <string name="lumos_browse_see_more">عرض المزيد</string>
     <string name="lumos_browse_empty_title">لا توجد دورات متاحة</string>

@@ -170,8 +170,8 @@ fun LumosCoursesScreen(
                                     statusLabel = stringResource(R.string.lumos_browse_resume),
                                     statusDetail = stringResource(
                                         R.string.lumos_browse_progress,
-                                        resume.watchedSeconds / 60,
-                                        maxOf(1, (resume.totalSeconds + 59) / 60),
+                                        (resume.watchedSeconds / 60).toString(),
+                                        maxOf(1, (resume.totalSeconds + 59) / 60).toString(),
                                     ),
                                     onClick = { onNavigateToCourse(resume.courseSlug) },
                                 )
@@ -187,7 +187,7 @@ fun LumosCoursesScreen(
                                     instructor = start.instructor,
                                     statusLabel = stringResource(R.string.lumos_browse_start),
                                     statusDetail = if (start.totalLessons > 0) {
-                                        stringResource(R.string.lumos_browse_lessons, start.totalLessons)
+                                        stringResource(R.string.lumos_browse_lessons, start.totalLessons.toString())
                                     } else null,
                                     onClick = { onNavigateToCourse(start.courseId) },
                                 )
@@ -461,7 +461,7 @@ private fun LeadCard(
                     color = colors.foreground, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 if (grade != null) {
                     Text(
-                        text = stringResource(R.string.lumos_browse_grade_label, grade),
+                        text = stringResource(R.string.lumos_browse_grade_label, grade.toString()),
                         fontSize = 12.sp,
                         lineHeight = 16.sp,
                         color = colors.foreground,
@@ -523,7 +523,7 @@ private fun CourseCard(
         ) {
             val grade = course.grades.firstOrNull()
             if (showGrade && grade != null) {
-                Text(stringResource(R.string.lumos_browse_grade_label, grade), fontSize = 12.sp, lineHeight = 16.sp,
+                Text(stringResource(R.string.lumos_browse_grade_label, grade.toString()), fontSize = 12.sp, lineHeight = 16.sp,
                     color = colors.mutedForeground)
             }
             Text(
@@ -707,7 +707,7 @@ private fun SearchSheet(
                                 Text(course.title, fontSize = 14.sp, fontWeight = FontWeight.Medium, color = colors.foreground,
                                     maxLines = 1, overflow = TextOverflow.Ellipsis)
                                 course.grades.firstOrNull()?.let {
-                                    Text(stringResource(R.string.lumos_browse_grade_label, it), fontSize = 12.sp,
+                                    Text(stringResource(R.string.lumos_browse_grade_label, it.toString()), fontSize = 12.sp,
                                         color = colors.mutedForeground)
                                 }
                             }

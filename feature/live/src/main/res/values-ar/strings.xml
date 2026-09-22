@@ -16,7 +16,7 @@
     <string name="live_phase_soon">تبدأ قريباً</string>
     <string name="live_phase_started">بدأت</string>
     <string name="live_phase_ending">على وشك الانتهاء</string>
-    <string name="live_phase_progress">%1$d من %2$d دقيقة</string>
+    <string name="live_phase_progress">%1$s من %2$s دقيقة</string>
     <string name="live_catch_up_title">ما فاتك</string>
     <string name="live_catch_up_recording">تسجيل</string>
     <string name="live_guide_title">ماذا يمكنك أن تفعل هنا</string>

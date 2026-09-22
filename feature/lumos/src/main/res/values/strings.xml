@@ -237,14 +237,14 @@
     <string name="lumos_browse_search_popular">Popular</string>
     <string name="lumos_browse_search_results">Courses</string>
     <string name="lumos_browse_search_no_results">No matching courses</string>
-    <string name="lumos_browse_grade_label">Grade %1$d</string>
+    <string name="lumos_browse_grade_label">Grade %1$s</string>
     <string name="lumos_browse_recommended">Recommended</string>
     <string name="lumos_browse_continue_learning">Continue learning</string>
     <string name="lumos_browse_start_here">Start here</string>
     <string name="lumos_browse_resume">Resume</string>
     <string name="lumos_browse_start">Start</string>
-    <string name="lumos_browse_progress">%1$d of %2$d min</string>
-    <string name="lumos_browse_lessons">%1$d lessons</string>
+    <string name="lumos_browse_progress">%1$s of %2$s min</string>
+    <string name="lumos_browse_lessons">%1$s lessons</string>
     <string name="lumos_browse_more">More</string>
     <string name="lumos_browse_see_more">See More</string>
     <string name="lumos_browse_empty_title">No Courses Available</string>
