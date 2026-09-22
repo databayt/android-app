@@ -15,6 +15,7 @@
     <string name="auth_biometric_use_password">استخدم كلمة المرور</string>
 
     <!-- Demo role picker -->
+    <string name="auth_try_demo">جرّب النسخة التجريبية</string>
     <string name="auth_demo_role_prompt">اختر دورًا</string>
     <string name="auth_use_email_instead">الدخول بالبريد الإلكتروني</string>
     <string name="auth_demo_role_admin">مدير المدرسة</string>

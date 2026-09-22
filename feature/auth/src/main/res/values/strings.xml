@@ -15,6 +15,7 @@
     <string name="auth_biometric_use_password">Use password</string>
 
     <!-- Demo role picker (auth/login/demo-form.tsx) -->
+    <string name="auth_try_demo">Try demo</string>
     <string name="auth_demo_role_prompt">Choose a role</string>
     <string name="auth_use_email_instead">Sign in with email instead</string>
     <string name="auth_demo_role_admin">Administrator</string>

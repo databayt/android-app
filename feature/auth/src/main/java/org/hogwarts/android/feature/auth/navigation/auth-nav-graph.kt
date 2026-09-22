@@ -33,7 +33,14 @@ fun NavGraphBuilder.authNavGraph(
 ) {
     navigation<AuthGraph>(startDestination = Welcome) {
         composable<Welcome> {
-            WelcomeScreen(onNavigateToLogin = { navController.navigate(Login) { launchSingleTop = true } })
+            WelcomeScreen(
+                onNavigateToLogin = {
+                    navController.navigate(Login) {
+                        popUpTo(Welcome) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                },
+            )
         }
 
         composable<Login> {

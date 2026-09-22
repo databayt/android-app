@@ -28,13 +28,13 @@ class AuthScreenshotTest {
 
     private val filled = LoginUiState(identifier = "admin@balqalam.com", password = "1234")
 
-    @Test fun login_ar_light() = capture("login_ar_light", ar = true, dark = false) { LoginContent(LoginUiState(), onGoogle = {}) }
-    @Test fun login_ar_dark() = capture("login_ar_dark", ar = true, dark = true) { LoginContent(filled, onGoogle = {}) }
-    @Test fun login_en_light() = capture("login_en_light", ar = false, dark = false) { LoginContent(filled, onGoogle = {}) }
-    @Test fun login_en_dark() = capture("login_en_dark", ar = false, dark = true) { LoginContent(LoginUiState(), onGoogle = {}) }
+    @Test fun login_ar_light() = capture("login_ar_light", ar = true, dark = false) { LoginContent(LoginUiState()) }
+    @Test fun login_ar_dark() = capture("login_ar_dark", ar = true, dark = true) { LoginContent(filled) }
+    @Test fun login_en_light() = capture("login_en_light", ar = false, dark = false) { LoginContent(filled) }
+    @Test fun login_en_dark() = capture("login_en_dark", ar = false, dark = true) { LoginContent(LoginUiState()) }
 
     @Test fun login_error_ar() = capture("login_error_ar", ar = true, dark = false) {
-        LoginContent(LoginUiState(identifier = "admin@balqalam.com", error = AuthError.InvalidCredentials), onGoogle = {})
+        LoginContent(LoginUiState(identifier = "admin@balqalam.com", error = AuthError.InvalidCredentials))
     }
 
     @Test fun login_fields_en() = capture("login_fields_en", ar = false, dark = false) {
@@ -82,7 +82,7 @@ class AuthScreenshotTest {
         NewPasswordContent(NewPasswordUiState(updated = true))
     }
 
-    @Test fun welcome_ar() = capture("welcome_ar", ar = true, dark = false) { WelcomeContent(onLogin = {}) }
+    @Test fun welcome_ar() = capture("welcome_ar", ar = true, dark = false) { WelcomeContent() }
 
     private val schools = listOf(
         SchoolInfo("s1", "الملك فهد", "King Fahd", null, "kingfahd"),

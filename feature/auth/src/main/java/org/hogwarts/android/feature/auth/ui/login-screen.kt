@@ -2,7 +2,13 @@ package org.hogwarts.android.feature.auth.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +26,6 @@ import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -29,15 +34,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -47,19 +49,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.credentials.GetCredentialRequest
-import androidx.credentials.exceptions.GetCredentialCancellationException
-import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.FragmentActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.libraries.identity.googleid.GetGoogleIdOption
-import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import kotlinx.coroutines.launch
 import org.hogwarts.android.core.designsystem.kit.FieldMessage
 import org.hogwarts.android.core.designsystem.kit.FormAlert
 import org.hogwarts.android.core.designsystem.kit.FormButton
-import org.hogwarts.android.core.designsystem.kit.FormButtonVariant
 import org.hogwarts.android.core.designsystem.kit.Input
 import org.hogwarts.android.core.designsystem.kit.ListRow
 import org.hogwarts.android.core.designsystem.kit.ListRows
@@ -72,14 +67,11 @@ import org.hogwarts.android.core.security.BiometricHelper
 import org.hogwarts.android.feature.auth.R
 import org.hogwarts.android.feature.auth.domain.model.SchoolInfo
 import org.hogwarts.android.feature.auth.domain.model.DemoRole
-import androidx.credentials.CredentialManager as AndroidCredentialManager
-import org.hogwarts.android.core.designsystem.R as DesignR
-import org.hogwarts.android.core.network.BuildConfig as NetworkBuildConfig
 
 /**
- * Login — hogwarts `(auth)/login` on a phone. Credentials form, the demo
- * school's role picker (debug builds), and the school picker a Google identity
- * with several schools needs.
+ * Login: email or username and a password, and under them "Try demo", which
+ * turns the card over to the demo school's role picker. No social sign-in
+ * and no sign-up link — a school account is issued, not self-made.
  */
 @Composable
 fun LoginScreen(
@@ -90,10 +82,7 @@ fun LoginScreen(
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val activity = LocalActivity.current
-    val scope = rememberCoroutineScope()
-    val uriHandler = LocalUriHandler.current
     val language = LocalConfiguration.current.locales[0].language
-    val googleClientId = stringResource(R.string.google_web_client_id)
     val biometricTitle = stringResource(R.string.auth_biometric)
     val biometricNegative = stringResource(R.string.auth_biometric_use_password)
 
@@ -101,31 +90,6 @@ fun LoginScreen(
         if (state.signedIn) onLoginSuccess()
     }
     BackHandler(enabled = state.schools != null) { viewModel.dismissSchoolPicker() }
-
-    val onGoogle: (() -> Unit)? = if (googleClientId.isBlank() || activity == null) null else {
-        {
-            scope.launch {
-                try {
-                    val option = GetGoogleIdOption.Builder()
-                        .setFilterByAuthorizedAccounts(false)
-                        .setServerClientId(googleClientId)
-                        .build()
-                    val request = GetCredentialRequest.Builder().addCredentialOption(option).build()
-                    val result = AndroidCredentialManager.create(activity).getCredential(activity, request)
-                    val credential = result.credential
-                    if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                        viewModel.signInWithGoogle(GoogleIdTokenCredential.createFrom(credential.data).idToken)
-                    } else {
-                        viewModel.onGoogleUnavailable()
-                    }
-                } catch (_: GetCredentialCancellationException) {
-                    // The user closed the sheet.
-                } catch (_: GetCredentialException) {
-                    viewModel.onGoogleUnavailable()
-                }
-            }
-        }
-    }
 
     val schools = state.schools
     if (schools != null) {
@@ -146,8 +110,6 @@ fun LoginScreen(
         onTogglePasswordVisible = viewModel::onTogglePasswordVisible,
         onLogin = viewModel::login,
         onForgotPassword = onNavigateToForgotPassword,
-        onJoin = { uriHandler.openUri("${NetworkBuildConfig.API_BASE_URL}${if (language == "ar") "ar" else "en"}/join") },
-        onGoogle = onGoogle,
         onBiometric = (activity as? FragmentActivity)?.let { fragmentActivity ->
             {
                 biometricHelper.authenticate(
@@ -175,18 +137,50 @@ internal fun LoginContent(
     onTogglePasswordVisible: () -> Unit = {},
     onLogin: () -> Unit = {},
     onForgotPassword: () -> Unit = {},
-    onJoin: () -> Unit = {},
-    onGoogle: (() -> Unit)? = null,
     onBiometric: (() -> Unit)? = null,
     onShowDemo: () -> Unit = {},
     onShowCredentials: () -> Unit = {},
     onDemoRoleSelected: (DemoRole) -> Unit = {},
     onDemoLogin: () -> Unit = {},
 ) {
-    if (state.mode == LoginMode.Demo && state.demoRoles.isNotEmpty()) {
-        DemoLoginContent(state, onDemoRoleSelected, onDemoLogin, onShowCredentials)
-        return
+    // "Try demo" turns the card over: the form spins to its edge, the role
+    // picker comes round on the back, and "Sign in with email" turns it back.
+    val demo = state.mode == LoginMode.Demo && state.demoRoles.isNotEmpty()
+    val rotation by animateFloatAsState(
+        targetValue = if (demo) 180f else 0f,
+        animationSpec = tween(durationMillis = 450),
+        label = "login-flip",
+    )
+    val density = LocalDensity.current.density
+    Box(
+        Modifier.graphicsLayer {
+            rotationY = rotation
+            cameraDistance = 12f * density
+        },
+    ) {
+        if (rotation <= 90f) {
+            CredentialsSide(state, onIdentifierChange, onPasswordChange, onTogglePasswordVisible, onLogin,
+                onForgotPassword, onBiometric, onShowDemo)
+        } else {
+            // The back face is drawn mirrored; turning it once more reads it right way round.
+            Box(Modifier.graphicsLayer { rotationY = 180f }) {
+                DemoLoginContent(state, onDemoRoleSelected, onDemoLogin, onShowCredentials)
+            }
+        }
     }
+}
+
+@Composable
+private fun CredentialsSide(
+    state: LoginUiState,
+    onIdentifierChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onTogglePasswordVisible: () -> Unit,
+    onLogin: () -> Unit,
+    onForgotPassword: () -> Unit,
+    onBiometric: (() -> Unit)?,
+    onShowDemo: () -> Unit,
+) {
     val keyboard = LocalSoftwareKeyboardController.current
     val submit = {
         keyboard?.hide()
@@ -194,26 +188,6 @@ internal fun LoginContent(
     }
 
     AuthFrame {
-        if (onGoogle != null) {
-            // form.tsx renders <Social> and the "Or continue with" rule above the fields.
-            FormButton(
-                label = stringResource(R.string.auth_google),
-                onClick = onGoogle,
-                variant = FormButtonVariant.Outline,
-                height = 40.dp,
-                enabled = !state.isLoading,
-                leading = {
-                    Icon(
-                        painter = painterResource(DesignR.drawable.ic_google),
-                        contentDescription = null,
-                        tint = HogwartsTheme.colors.foreground,
-                        modifier = Modifier.size(16.dp),
-                    )
-                },
-            )
-            OrRule(stringResource(R.string.auth_or_continue_with))
-        }
-
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 Input(
@@ -271,16 +245,23 @@ internal fun LoginContent(
             }
         }
 
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            TextLink(stringResource(R.string.auth_dont_have_account), onClick = onJoin, textAlign = TextAlign.Center)
-            if (state.demoRoles.isNotEmpty()) {
-                TextLink(stringResource(R.string.auth_demo_role_prompt), onClick = onShowDemo, enabled = !state.isLoading)
-            }
+        if (state.demoRoles.isNotEmpty()) {
+            TextLink(
+                stringResource(R.string.auth_try_demo),
+                onClick = onShowDemo,
+                enabled = !state.isLoading,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
         }
     }
 }
 
-/** `demo-form.tsx`: a role select, Login, and "Sign in with email instead". */
+/**
+ * The card's back: `demo-form.tsx` — a role select, Login, and "Sign in with
+ * email instead" to turn the card back. The select's menu opens exactly as
+ * wide as the select, as the web's popover does (`w-(--radix-select-trigger-width)`).
+ */
 @Composable
 internal fun DemoLoginContent(
     state: LoginUiState,
@@ -291,21 +272,18 @@ internal fun DemoLoginContent(
     val colors = HogwartsTheme.colors
     val type = HogwartsTheme.type
     var expanded by remember { mutableStateOf(false) }
+    var selectWidth by remember { mutableStateOf(0.dp) }
+    val density = LocalDensity.current
 
-    AuthFrame(cardPadding = false) {
-        Text(
-            text = stringResource(R.string.auth_demo_role_prompt),
-            style = type.body.copy(fontSize = 16.sp, lineHeight = 24.sp),
-            color = colors.mutedForeground,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-        )
+    // The same frame as the front, so the card keeps its width as it turns.
+    AuthFrame {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             Box {
                 val selected = state.demoRole
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .onSizeChanged { selectWidth = with(density) { it.width.toDp() } }
                         .height(48.dp)
                         .clip(HogwartsShapes.Lg)
                         .border(1.dp, colors.input, HogwartsShapes.Lg)
@@ -314,9 +292,10 @@ internal fun DemoLoginContent(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = selected?.let { stringResource(it.labelRes()) }.orEmpty(),
+                        text = selected?.let { stringResource(it.labelRes()) }
+                            ?: stringResource(R.string.auth_demo_role_prompt),
                         style = type.body.copy(fontSize = 16.sp, lineHeight = 24.sp),
-                        color = colors.foreground,
+                        color = if (selected != null) colors.foreground else colors.mutedForeground,
                         modifier = Modifier.weight(1f),
                     )
                     Icon(Icons.Outlined.KeyboardArrowDown, contentDescription = null, tint = colors.mutedForeground, modifier = Modifier.size(16.dp))
@@ -326,6 +305,7 @@ internal fun DemoLoginContent(
                     onDismissRequest = { expanded = false },
                     shape = HogwartsShapes.Lg,
                     containerColor = colors.background,
+                    modifier = Modifier.width(selectWidth),
                 ) {
                     state.demoRoles.forEach { role ->
                         DropdownMenuItem(
@@ -396,16 +376,5 @@ internal fun SchoolPickerContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.align(Alignment.CenterHorizontally),
         )
-    }
-}
-
-/** `after:border-t` rule with the label cut into it. */
-@Composable
-private fun OrRule(label: String) {
-    val colors = HogwartsTheme.colors
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        HorizontalDivider(Modifier.weight(1f), color = colors.border)
-        Text(label, style = HogwartsTheme.type.body, color = colors.mutedForeground)
-        HorizontalDivider(Modifier.weight(1f), color = colors.border)
     }
 }
