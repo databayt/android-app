@@ -32,4 +32,44 @@
     <string name="live_guide_settings_description">Delivery mode, which sections teach online, recording policy.</string>
     <string name="live_guide_network_title">Network test</string>
     <string name="live_guide_network_description">Confirm the school\'s network can hold a session before the first class.</string>
+    <!-- readiness band — school-en.json landing.readiness + live-classes.json settings -->
+    <string name="live_readiness_title">Ready to teach online</string>
+    <string name="live_readiness_description">What is working now, and what still needs provisioning before the school can rely on live classes.</string>
+    <string name="live_readiness_recording">Recording</string>
+    <string name="live_readiness_network">In-app rooms</string>
+    <string name="live_readiness_on">On</string>
+    <string name="live_readiness_off">Off</string>
+    <string name="live_readiness_ready">Ready</string>
+    <string name="live_readiness_not_provisioned">Not provisioned</string>
+    <string name="live_readiness_unknown">Unavailable</string>
+    <string name="live_readiness_no_fallback">%1$s class-subject pairs have no room of their own, and there is no standing meeting link — nothing will be created for them.</string>
+    <string name="live_settings_delivery_mode">How the school teaches</string>
+    <string name="live_settings_window_active">Active today</string>
+    <string name="live_settings_delivery_hybrid">Hybrid</string>
+    <string name="live_settings_delivery_online">Online</string>
+    <string name="live_settings_delivery_physical">In person</string>
+    <string name="live_settings_provider">Meeting back-end</string>
+    <string name="live_settings_provider_external">External link</string>
+    <string name="live_settings_provider_livekit">In-app room</string>
+    <string name="live_settings_coverage_title">Meeting-link coverage</string>
+    <string name="live_settings_coverage_all">Every class has its own meeting link.</string>
+    <!-- get-started band — school-en.json landing.getStarted -->
+    <string name="live_get_started_title">Your school can teach online without closing its doors</string>
+    <string name="live_get_started_description">Going online is additive, never a closure: the classroom stays open, and a room opens alongside it for whoever cannot be there.</string>
+    <string name="live_get_started_rooms_title">In-app rooms</string>
+    <string name="live_get_started_rooms_description">Video, audio and screen share, hosted for your school.</string>
+    <string name="live_get_started_links_title">External links</string>
+    <string name="live_get_started_links_description">Already on Meet or Zoom? Paste a link and everything else still works.</string>
+    <string name="live_get_started_recordings_title">Recordings</string>
+    <string name="live_get_started_recordings_description">Replay a lesson a student missed, for as long as you keep it.</string>
+    <string name="live_get_started_diagnostics_title">Network test</string>
+    <string name="live_get_started_diagnostics_description">Confirm the school\'s network can hold a session before the first class.</string>
+    <string name="live_get_started_how_title">How to begin</string>
+    <string name="live_get_started_step_one_title">Turn on online teaching</string>
+    <string name="live_get_started_step_one_description">In settings, tell the school which sections teach online and add a standing meeting link.</string>
+    <string name="live_get_started_step_two_title">Let the timetable fill up</string>
+    <string name="live_get_started_step_two_description">Sessions are created for each school day from the periods already on the timetable.</string>
+    <string name="live_get_started_step_three_title">Start the class</string>
+    <string name="live_get_started_step_three_description">Open the room from the sessions list or the timetable — students join from theirs.</string>
+    <string name="live_get_started_cta">Open settings</string>
 </resources>

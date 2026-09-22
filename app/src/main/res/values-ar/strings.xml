@@ -134,4 +134,13 @@
     <string name="account_school_settings">إعدادات المدرسة</string>
     <string name="account_help">المساعدة والدعم</string>
     <string name="account_logout">تسجيل الخروج</string>
+    <!-- report an issue — report-issue/dictionary.ts (ar) -->
+    <string name="report_close">إغلاق</string>
+    <string name="report_send">إرسال البلاغ</string>
+    <string name="report_composer_placeholder">ما الذي حدث؟</string>
+    <string name="report_error">حدث خطأ. حاول مرة أخرى.</string>
+    <string name="report_cooldown">يرجى الانتظار لحظة قبل إرسال بلاغ آخر.</string>
+    <string name="report_sent_title">تم إرسال البلاغ</string>
+    <string name="report_sent_body">شكرًا لك، سنراجعه.</string>
+    <string name="report_sent_body_with_id">شكرًا لك، رقم البلاغ #%1$s.</string>
 </resources>

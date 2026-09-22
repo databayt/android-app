@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.live.ui
 
+import org.hogwarts.android.core.designsystem.kit.ReportIssueFooter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,9 +52,11 @@ import org.hogwarts.android.feature.live.R
 import org.hogwarts.android.feature.live.domain.model.LandingPolicy
 import org.hogwarts.android.feature.live.domain.model.LandingViewer
 import org.hogwarts.android.feature.live.domain.model.LiveLanding
+import org.hogwarts.android.feature.live.ui.components.GetStartedBand
 import org.hogwarts.android.feature.live.ui.components.GuideCard
 import org.hogwarts.android.feature.live.ui.components.LandingSessionCard
 import org.hogwarts.android.feature.live.ui.components.LandingSessionRow
+import org.hogwarts.android.feature.live.ui.components.ReadinessBand
 import org.hogwarts.android.feature.live.ui.components.RowSize
 import org.hogwarts.android.feature.live.ui.components.guideCardsFor
 
@@ -70,9 +73,8 @@ import org.hogwarts.android.feature.live.ui.components.guideCardsFor
  * Every section is gated the way the web gates it, on the same rows and the
  * same viewer rules, because both read `loadLiveLanding`.
  *
- * Not mirrored: the admin readiness band and the offline admin's setup steps.
- * Both are configuration surfaces, and an admin reaches them through the
- * Settings card, which hands off to the web.
+ * Admins also get the readiness band, and — while the school is offline —
+ * the setup steps, as on the web.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -91,7 +93,8 @@ fun LiveHomeScreen(
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize().navigationBarsPadding(),
-            contentPadding = PaddingValues(top = 16.dp, bottom = 32.dp),
+            // 24dp under the header to the hero, as measured on the web page.
+            contentPadding = PaddingValues(top = 24.dp, bottom = 32.dp),
         ) {
             if (landing == null) {
                 item(key = "loading") {
@@ -165,6 +168,18 @@ fun LiveHomeScreen(
                 }
             }
 
+            val readiness = landing.readiness
+            if (landing.viewer.canConfigure && readiness != null) {
+                item(key = "readiness") {
+                    ReadinessBand(
+                        readiness = readiness,
+                        policy = landing.policy,
+                        onOpenHref = onOpenHref,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 64.dp),
+                    )
+                }
+            }
+
             val cards = guideCardsFor(landing.viewer)
             if (cards.isNotEmpty()) {
                 item(key = "guide-title") {
@@ -184,6 +199,21 @@ fun LiveHomeScreen(
                         modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
                     )
                 }
+            }
+
+            // The pitch and the three setup steps: admins only, and only
+            // while the school does not teach online yet.
+            if (!landing.policy.isOnline && landing.viewer.canConfigure) {
+                item(key = "get-started") {
+                    GetStartedBand(
+                        onOpenHref = onOpenHref,
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 48.dp, bottom = 64.dp),
+                    )
+                }
+            }
+
+            item(key = "report") {
+                ReportIssueFooter(pagePath = "/live", modifier = Modifier.padding(horizontal = 16.dp))
             }
         }
     }

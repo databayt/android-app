@@ -16,6 +16,19 @@ data class LiveLanding(
     val catchUp: List<LandingSession>,
     /** Two recordings, a missed class's ranked above an attended one's. */
     val recordings: List<LandingSession>,
+    /** The admin readiness band's data; null for everyone else. */
+    val readiness: LandingReadiness? = null,
+)
+
+/** `LandingReadiness` — what is provisioned, and how many classes have a room. */
+data class LandingReadiness(
+    val livekitReady: Boolean,
+    val recordingReady: Boolean,
+    val hasFallback: Boolean,
+    /** Null when the coverage read failed or the school has no active term. */
+    val coverageTotal: Int?,
+    val coverageCovered: Int?,
+    val coverageGapCount: Int?,
 )
 
 /** What the reader may do here — `landing/viewer.ts`, resolved on the server. */

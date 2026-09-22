@@ -33,6 +33,8 @@ data class CatalogCourse(
     val enrollments: Int,
     val totalLessons: Int,
     val averageRating: Double,
+    val levels: List<String> = emptyList(),
+    val category: String? = null,
 ) {
     /**
      * `getCourseTypeKey` in `course-card.tsx`: the course's kind, read off how
@@ -80,6 +82,9 @@ data class StartHereLesson(
     val totalLessons: Int,
     val instructor: LessonInstructor?,
 )
+
+/** One page of `/api/mobile/lumos/course-search`. */
+data class CourseSearchPage(val courses: List<CatalogCourse>, val count: Int)
 
 data class CourseSearch(
     val query: String,

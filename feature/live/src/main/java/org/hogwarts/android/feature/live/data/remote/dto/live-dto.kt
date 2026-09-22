@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.hogwarts.android.feature.live.domain.model.LandingPhase
 import org.hogwarts.android.feature.live.domain.model.LandingPolicy
+import org.hogwarts.android.feature.live.domain.model.LandingReadiness
 import org.hogwarts.android.feature.live.domain.model.LandingSession
 import org.hogwarts.android.feature.live.domain.model.LandingViewer
 import org.hogwarts.android.feature.live.domain.model.LiveLanding
@@ -19,6 +20,7 @@ data class LiveLandingResponse(
     val upcoming: List<LandingSessionDto> = emptyList(),
     @SerialName("catch_up") val catchUp: List<LandingSessionDto> = emptyList(),
     val recordings: List<LandingSessionDto> = emptyList(),
+    val readiness: LandingReadinessDto? = null,
 ) {
     fun toDomain() = LiveLanding(
         viewer = viewer.toDomain(),
@@ -27,6 +29,31 @@ data class LiveLandingResponse(
         upcoming = upcoming.map { it.toDomain() },
         catchUp = catchUp.map { it.toDomain() },
         recordings = recordings.map { it.toDomain() },
+        readiness = readiness?.toDomain(),
+    )
+}
+
+@Serializable
+data class LandingCoverageDto(
+    val total: Int = 0,
+    val covered: Int = 0,
+    @SerialName("gap_count") val gapCount: Int = 0,
+)
+
+@Serializable
+data class LandingReadinessDto(
+    @SerialName("livekit_ready") val livekitReady: Boolean = false,
+    @SerialName("recording_ready") val recordingReady: Boolean = false,
+    @SerialName("has_fallback") val hasFallback: Boolean = false,
+    val coverage: LandingCoverageDto? = null,
+) {
+    fun toDomain() = LandingReadiness(
+        livekitReady = livekitReady,
+        recordingReady = recordingReady,
+        hasFallback = hasFallback,
+        coverageTotal = coverage?.total,
+        coverageCovered = coverage?.covered,
+        coverageGapCount = coverage?.gapCount,
     )
 }
 

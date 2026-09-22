@@ -32,4 +32,44 @@
     <string name="live_guide_settings_description">نمط التدريس، والفصول التي تدرّس عبر الإنترنت، وسياسة التسجيل.</string>
     <string name="live_guide_network_title">فحص الشبكة</string>
     <string name="live_guide_network_description">تأكّد من قدرة شبكة المدرسة على تحمّل الجلسة قبل أول حصة.</string>
+    <!-- readiness band — school-ar.json landing.readiness + live-classes.json settings -->
+    <string name="live_readiness_title">جاهزية المدرسة للتدريس عبر الإنترنت</string>
+    <string name="live_readiness_description">ما الذي يعمل الآن، وما الذي ما زال يحتاج إلى إعداد قبل أن تعتمد المدرسة على الحصص المباشرة.</string>
+    <string name="live_readiness_recording">التسجيل</string>
+    <string name="live_readiness_network">غرف داخل التطبيق</string>
+    <string name="live_readiness_on">مُفعّل</string>
+    <string name="live_readiness_off">غير مُفعّل</string>
+    <string name="live_readiness_ready">جاهزة</string>
+    <string name="live_readiness_not_provisioned">لم تُجهَّز بعد</string>
+    <string name="live_readiness_unknown">غير متاح</string>
+    <string name="live_readiness_no_fallback">‏%1$s حصة بلا غرفة خاصة، ولا يوجد رابط اجتماع ثابت — لن تُنشأ لها غرفة على الإطلاق.</string>
+    <string name="live_settings_delivery_mode">كيف تُدرِّس المدرسة</string>
+    <string name="live_settings_window_active">سارية اليوم</string>
+    <string name="live_settings_delivery_hybrid">مختلط</string>
+    <string name="live_settings_delivery_online">عبر الإنترنت</string>
+    <string name="live_settings_delivery_physical">حضوري</string>
+    <string name="live_settings_provider">منصة الاجتماع</string>
+    <string name="live_settings_provider_external">رابط خارجي</string>
+    <string name="live_settings_provider_livekit">غرفة داخل التطبيق</string>
+    <string name="live_settings_coverage_title">تغطية روابط الاجتماعات</string>
+    <string name="live_settings_coverage_all">كل حصة لها رابط اجتماع خاص بها.</string>
+    <!-- get-started band — school-ar.json landing.getStarted -->
+    <string name="live_get_started_title">مدرستك يمكنها التدريس عبر الإنترنت دون أن تُغلق أبوابها</string>
+    <string name="live_get_started_description">التدريس عبر الإنترنت إضافة وليس إغلاقاً: تبقى الحصص الحضورية كما هي، وتُفتح إلى جانبها غرفة لمن لا يستطيع الحضور.</string>
+    <string name="live_get_started_rooms_title">غرف داخل التطبيق</string>
+    <string name="live_get_started_rooms_description">فيديو وصوت ومشاركة شاشة، مستضافة لمدرستك.</string>
+    <string name="live_get_started_links_title">روابط خارجية</string>
+    <string name="live_get_started_links_description">تستخدم Meet أو Zoom؟ الصق الرابط ويبقى كل شيء آخر كما هو.</string>
+    <string name="live_get_started_recordings_title">التسجيلات</string>
+    <string name="live_get_started_recordings_description">أعد تشغيل درساً فات الطالب، طوال مدة احتفاظك به.</string>
+    <string name="live_get_started_diagnostics_title">فحص الشبكة</string>
+    <string name="live_get_started_diagnostics_description">تأكد من قدرة شبكة المدرسة على تحمّل الجلسة قبل أول حصة.</string>
+    <string name="live_get_started_how_title">كيف تبدأ</string>
+    <string name="live_get_started_step_one_title">فعّل التدريس عبر الإنترنت</string>
+    <string name="live_get_started_step_one_description">من الإعدادات، حدّد الفصول التي تدرّس عبر الإنترنت وأضف رابط اجتماع ثابتاً.</string>
+    <string name="live_get_started_step_two_title">دع الجدول يملأ نفسه</string>
+    <string name="live_get_started_step_two_description">تُنشأ الجلسات لكل يوم دراسي من الحصص الموجودة أصلاً في الجدول.</string>
+    <string name="live_get_started_step_three_title">ابدأ الحصة</string>
+    <string name="live_get_started_step_three_description">افتح الغرفة من قائمة الجلسات أو من الجدول — وينضم الطلاب من جدولهم.</string>
+    <string name="live_get_started_cta">فتح الإعدادات</string>
 </resources>

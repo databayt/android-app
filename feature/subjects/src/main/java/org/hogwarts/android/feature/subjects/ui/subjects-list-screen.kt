@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.subjects.ui
 
+import org.hogwarts.android.core.designsystem.kit.ReportIssueFooter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -145,6 +146,10 @@ fun SubjectsListScreen(
                         onClick = { onNavigateToSubject(subject.id) },
                     )
                 }
+            }
+
+            item(key = "report", span = { GridItemSpan(maxLineSpan) }) {
+                ReportIssueFooter(pagePath = "/subjects")
             }
 
             if (uiState.error != null) {

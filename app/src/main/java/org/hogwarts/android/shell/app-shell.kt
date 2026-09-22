@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
+import org.hogwarts.android.core.designsystem.kit.ReportIssueOpener
+import org.hogwarts.android.core.designsystem.kit.LocalReportIssue
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -56,7 +59,9 @@ import org.hogwarts.android.feature.settings.navigation.Settings
 import org.hogwarts.android.feature.students.navigation.StudentsList
 import org.hogwarts.android.feature.library.navigation.LibraryCatalog
 import org.hogwarts.android.feature.live.navigation.LiveHome
+import org.hogwarts.android.feature.lumos.navigation.LumosCatalog
 import org.hogwarts.android.feature.lumos.navigation.LumosHome
+import org.hogwarts.android.feature.subjects.navigation.SubjectDetail
 import org.hogwarts.android.feature.subjects.navigation.Subjects
 import org.hogwarts.android.feature.timetable.navigation.Timetable
 
@@ -95,6 +100,14 @@ fun AppShell(
         }
     }
 
+    // "Report an issue": the report is filed against the web URL of the page
+    // the screen mirrors, the same page a browser user would be reporting.
+    val reportViewModel: ReportIssueViewModel = hiltViewModel()
+    val report by reportViewModel.uiState.collectAsStateWithLifecycle()
+    val reportOpener = remember(state.schoolDomain, lang) {
+        ReportIssueOpener { path -> reportViewModel.open(WebHandoff.url(state.schoolDomain, lang, path).toString()) }
+    }
+
     fun go(item: PlatformNavItem) {
         val route = nativeRoute(item.key, state.role)
         if (route != null) {
@@ -115,7 +128,10 @@ fun AppShell(
                     modifier = Modifier.statusBarsPadding(),
                 )
             }
-            CompositionLocalProvider(LocalHrefOpener provides hrefOpener) {
+            CompositionLocalProvider(
+                LocalHrefOpener provides hrefOpener,
+                LocalReportIssue provides reportOpener,
+            ) {
                 // `backdrop-blur` on the web's popover. Compose has no
                 // backdrop filter, so the page behind is what blurs — which
                 // is the same picture. The header stays sharp, as it does on
@@ -123,6 +139,25 @@ fun AppShell(
                 content(Modifier.weight(1f).blur(if (state.menuOpen) 8.dp else 0.dp))
             }
         }
+
+        if (report.pageUrl != null) {
+            val configuration = LocalConfiguration.current
+            val sentWithId = stringResource(R.string.report_sent_body_with_id)
+            val sentPlain = stringResource(R.string.report_sent_body)
+            ReportIssueSheet(
+                state = report,
+                onDescription = reportViewModel::onDescription,
+                onSend = {
+                    reportViewModel.send(
+                        viewport = "${configuration.screenWidthDp}x${configuration.screenHeightDp}",
+                        rtl = lang == "ar",
+                        sentBody = { id -> if (id != null) sentWithId.format(id.toString()) else sentPlain },
+                    )
+                },
+                onClose = reportViewModel::close,
+            )
+        }
+        report.sentBody?.let { body -> ReportSentAlert(body = body, onDismiss = reportViewModel::dismissSent) }
 
         if (showHeader) {
             val home = stringResource(R.string.menu_home)
@@ -210,8 +245,12 @@ private fun isShellDestination(destination: androidx.navigation.NavDestination):
         // layout, so the platform header is now its chrome — the P3 migration
         // the note above describes.
         destination.hasRoute<Subjects>() ||
+        // The subject page too: on the web it sits under the same header,
+        // with no back bar of its own — system back returns to the list.
+        destination.hasRoute<SubjectDetail>() ||
         destination.hasRoute<LibraryCatalog>() ||
         destination.hasRoute<LumosHome>() ||
+        destination.hasRoute<LumosCatalog>() ||
         destination.hasRoute<LiveHome>() ||
         destination.hasRoute<Notifications>() ||
         destination.hasRoute<NotificationsUnread>() ||

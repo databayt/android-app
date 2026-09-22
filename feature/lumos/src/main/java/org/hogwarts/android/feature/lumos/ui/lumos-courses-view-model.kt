@@ -22,6 +22,12 @@ const val RECOMMENDED_COUNT = 6
 /** How many of the remaining courses the grid shows before "See more". */
 const val OTHERS_PAGE_SIZE = 12
 
+/** The search sheet's numbers — `search-bar.tsx`. */
+private const val MIN_QUERY_LENGTH = 2
+private const val SUGGEST_DEBOUNCE_MS = 250L
+private const val SUGGEST_LIMIT = 6
+private const val FEATURED_LIMIT = 6
+
 data class LumosCoursesUiState(
     val isLoading: Boolean = true,
     val page: LumosCoursesPage? = null,
@@ -35,6 +41,10 @@ data class LumosCoursesUiState(
     val searchPage: Int = 1,
     /** Typeahead inside the search sheet, before anything is submitted. */
     val typeahead: List<CatalogCourse> = emptyList(),
+    val isSuggesting: Boolean = false,
+    val isLoadingSuggestions: Boolean = false,
+    /** The sheet's shelf on an empty box: six distinct titles of the grade. */
+    val featured: List<CatalogCourse> = emptyList(),
     val error: String? = null,
 )
 
@@ -69,18 +79,58 @@ class LumosCoursesViewModel @Inject constructor(
         _uiState.update { it.copy(visibleOthers = it.visibleOthers + OTHERS_PAGE_SIZE) }
     }
 
-    /** Typeahead while the sheet is open: debounced, results only. */
+    private val suggestionCache = mutableMapOf<String, List<CatalogCourse>>()
+    private var featuredFor: Int? = -1
+
+    /**
+     * The sheet's empty face: its shelf, read once per grade the sheet is
+     * opened on — eighteen rows asked for, six distinct titles kept, since
+     * the catalog holds one row per subject per grade.
+     */
+    fun onSheetOpened() {
+        val grade = _uiState.value.level
+        if (featuredFor == grade && _uiState.value.featured.isNotEmpty()) return
+        featuredFor = grade
+        viewModelScope.launch {
+            runCatching { repository.searchCourses(grade = grade, perPage = FEATURED_LIMIT * 3) }
+                .onSuccess { page ->
+                    val seen = mutableSetOf<String>()
+                    val featured = page.courses.filter { seen.add(it.title.trim().lowercase()) }.take(FEATURED_LIMIT)
+                    _uiState.update { it.copy(featured = featured) }
+                }
+                .onFailure { featuredFor = -1; Timber.w(it, "Lumos featured shelf failed") }
+        }
+    }
+
+    /**
+     * Typing: two characters or more is a query, answered after a 250ms
+     * pause with up to six courses, and remembered per query so backspacing
+     * over what was already asked costs nothing.
+     */
     fun onTypeahead(query: String) {
         typeaheadJob?.cancel()
-        if (query.isBlank()) {
-            _uiState.update { it.copy(typeahead = emptyList()) }
+        val term = query.trim()
+        if (term.length < MIN_QUERY_LENGTH) {
+            _uiState.update { it.copy(typeahead = emptyList(), isSuggesting = false, isLoadingSuggestions = false) }
             return
         }
+        val key = term.lowercase()
+        suggestionCache[key]?.let { cached ->
+            _uiState.update { it.copy(typeahead = cached, isSuggesting = true, isLoadingSuggestions = false) }
+            return
+        }
+        _uiState.update { it.copy(isSuggesting = true, isLoadingSuggestions = true) }
         typeaheadJob = viewModelScope.launch {
-            delay(300)
-            runCatching { repository.getCoursesPage(search = query) }
-                .onSuccess { page -> _uiState.update { it.copy(typeahead = page.search.courses) } }
-                .onFailure { Timber.w(it, "Lumos typeahead failed") }
+            delay(SUGGEST_DEBOUNCE_MS)
+            runCatching { repository.searchCourses(q = term, perPage = SUGGEST_LIMIT) }
+                .onSuccess { page ->
+                    suggestionCache[key] = page.courses
+                    _uiState.update { it.copy(typeahead = page.courses, isLoadingSuggestions = false) }
+                }
+                .onFailure {
+                    Timber.w(it, "Lumos typeahead failed")
+                    _uiState.update { it.copy(typeahead = emptyList(), isLoadingSuggestions = false) }
+                }
         }
     }
 

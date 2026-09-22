@@ -4,6 +4,7 @@ import org.hogwarts.android.feature.lumos.data.remote.dto.CertificateDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.CourseDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.EnrollmentDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.LessonProgressDto
+import org.hogwarts.android.feature.lumos.data.remote.dto.CourseSearchResponse
 import org.hogwarts.android.feature.lumos.data.remote.dto.LumosCoursesPageDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.ProposeVideoRequestDto
 import org.hogwarts.android.feature.lumos.data.remote.dto.QuizResultDto
@@ -29,6 +30,15 @@ interface LumosApi {
         @Query("search") search: String? = null,
         @Query("page") page: Int? = null,
     ): LumosCoursesPageDto
+
+    /** The search sheet: typeahead with `q`, the featured shelf without. */
+    @GET("api/mobile/lumos/course-search")
+    suspend fun searchCourses(
+        @Query("locale") locale: String,
+        @Query("q") q: String? = null,
+        @Query("grade") grade: Int? = null,
+        @Query("perPage") perPage: Int? = null,
+    ): CourseSearchResponse
 
     @GET("api/mobile/catalog/subjects")
     suspend fun getCourses(

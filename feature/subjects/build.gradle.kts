@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.bundles.coroutines)
     implementation(libs.navigation.compose)
     implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)

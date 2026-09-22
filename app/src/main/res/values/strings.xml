@@ -134,4 +134,13 @@
     <string name="account_school_settings">School Settings</string>
     <string name="account_help">Help &amp; Support</string>
     <string name="account_logout">Logout</string>
+    <!-- report an issue — report-issue/dictionary.ts (en) -->
+    <string name="report_close">Close</string>
+    <string name="report_send">Send report</string>
+    <string name="report_composer_placeholder">What went wrong?</string>
+    <string name="report_error">Something went wrong. Try again.</string>
+    <string name="report_cooldown">Please wait a moment before submitting another report.</string>
+    <string name="report_sent_title">Report sent</string>
+    <string name="report_sent_body">Thank you — we\'ll look into it.</string>
+    <string name="report_sent_body_with_id">Thank you — tracked as #%1$s.</string>
 </resources>

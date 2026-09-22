@@ -2,6 +2,8 @@ package org.hogwarts.android.core.designsystem.icon
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.PathParser
 import androidx.compose.ui.unit.dp
@@ -135,6 +137,44 @@ object LucideIcons {
         )
     }
 
+    /** lucide `clock` — an assignment's estimated time. */
+    val Clock: ImageVector by lazy {
+        stroked(
+            "Clock",
+            "M12 6v6l4 2",
+            // <circle cx="12" cy="12" r="10" />
+            "M12 2a10 10 0 1 0 0 20a10 10 0 1 0 0-20",
+        )
+    }
+
+    /** lucide `check` at the web's `strokeWidth={3}` — a ready row's mark. */
+    val CheckBold: ImageVector by lazy { strokedAt("CheckBold", 3f, "M20 6 9 17l-5-5") }
+
+    /** lucide `minus` at stroke 3 — a row that is off. */
+    val MinusBold: ImageVector by lazy { strokedAt("MinusBold", 3f, "M5 12h14") }
+
+    /** lucide `triangle-alert` at stroke 3 — a row that needs attention. */
+    val TriangleAlertBold: ImageVector by lazy {
+        strokedAt(
+            "TriangleAlertBold",
+            3f,
+            "m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3",
+            "M12 9v4",
+            "M12 17h.01",
+        )
+    }
+
+    /** lucide `link-2` — "external links" on the setup band. */
+    val Link2: ImageVector by lazy {
+        stroked(
+            "Link2",
+            "M9 17H7A5 5 0 0 1 7 7h2",
+            "M15 7h2a5 5 0 1 1 0 10h-2",
+            // <line x1="8" x2="16" y1="12" y2="12" />
+            "M8 12h8",
+        )
+    }
+
     /**
      * lucide `play`, FILLED — the web draws it `fill-current` on the
      * recording badge, so it is the one glyph here that is a solid shape.
@@ -156,3 +196,24 @@ object LucideIcons {
         }.build()
     }
 }
+
+/** [stroked] at a given width — the web sets a few glyphs heavier than 2. */
+private fun strokedAt(name: String, width: Float, vararg paths: String): ImageVector =
+    ImageVector.Builder(
+        name = name,
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24f,
+        viewportHeight = 24f,
+    ).apply {
+        paths.forEach { data ->
+            addPath(
+                pathData = PathParser().parsePathString(data).toNodes(),
+                fill = null,
+                stroke = SolidColor(Color.Black),
+                strokeLineWidth = width,
+                strokeLineCap = StrokeCap.Round,
+                strokeLineJoin = StrokeJoin.Round,
+            )
+        }
+    }.build()

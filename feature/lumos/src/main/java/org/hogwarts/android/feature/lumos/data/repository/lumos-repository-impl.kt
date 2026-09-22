@@ -29,6 +29,7 @@ import org.hogwarts.android.feature.lumos.domain.model.Lesson
 import org.hogwarts.android.feature.lumos.domain.model.LessonProgress
 import org.hogwarts.android.feature.lumos.domain.model.LessonProgressStatus
 import org.hogwarts.android.feature.lumos.domain.model.LessonType
+import org.hogwarts.android.feature.lumos.domain.model.CourseSearchPage
 import org.hogwarts.android.feature.lumos.domain.model.LumosCoursesPage
 import org.hogwarts.android.feature.lumos.domain.model.Material
 import org.hogwarts.android.feature.lumos.domain.model.QuizQuestion
@@ -138,7 +139,11 @@ class LumosRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLesson(courseId: String, lessonId: String): Lesson {
+        // A lesson opened straight from the catalog's lead card — the web's
+        // `/lumos/courses/[slug]/[lessonId]` — has not been through the course
+        // page, which is what caches lessons. Fetch the course once to fill it.
         val entity = courseDao.getLessonById(lessonId)
+            ?: run { getChapters(courseId); courseDao.getLessonById(lessonId) }
         if (entity != null) {
             val domain = entity.toDomain()
             // Provide default fallback video URL if contentUrl is null
@@ -436,6 +441,17 @@ class LumosRepositoryImpl @Inject constructor(
             search = search?.takeIf { it.isNotBlank() },
             page = page,
         ).toDomain()
+    }
+
+    override suspend fun searchCourses(q: String?, grade: Int?, perPage: Int): CourseSearchPage {
+        tenantContext.requireSchoolId()
+        val response = api.searchCourses(
+            locale = if (Locale.getDefault().language == "ar") "ar" else "en",
+            q = q?.takeIf { it.isNotBlank() },
+            grade = grade,
+            perPage = perPage,
+        )
+        return CourseSearchPage(response.rows.map { it.toDomain() }, response.count)
     }
 }
 

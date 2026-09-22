@@ -1,5 +1,6 @@
 package org.hogwarts.android.feature.subjects.ui
 
+import org.hogwarts.android.core.designsystem.kit.ReportIssueFooter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,11 +15,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -58,27 +56,10 @@ fun SubjectDetailScreen(
     val listState = rememberLazyListState()
     val isArabic = LocalConfiguration.current.locales[0].language == "ar"
 
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = uiState.subjectDetail?.subject?.name
-                            ?: stringResource(R.string.subjects_detail_title),
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            HogwartsIcons.Back,
-                            contentDescription = stringResource(R.string.subjects_back),
-                        )
-                    }
-                },
-            )
-        },
-    ) { innerPadding ->
+    // No top bar: the web's subject page sits under the platform header like
+    // every other page, and that header is the shell's (see app-shell.kt).
+    val innerPadding = PaddingValues()
+    Box(modifier = modifier.fillMaxSize()) {
         when {
             uiState.isLoading && uiState.subjectDetail == null -> {
                 Box(
@@ -156,7 +137,8 @@ private fun SubjectDetailContent(
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding),
-        contentPadding = PaddingValues(bottom = 32.dp),
+        // 36dp under the header to the banner, as measured on the web page.
+        contentPadding = PaddingValues(top = 36.dp, bottom = 32.dp),
         verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         item(key = "hero") {
@@ -260,6 +242,10 @@ private fun SubjectDetailContent(
                     AssignmentTiles(assignments = detail.assignments, accentColor = accentColor)
                 }
             }
+        }
+
+        item(key = "report") {
+            ReportIssueFooter(pagePath = "/subjects/$slug", modifier = Modifier.padding(horizontal = 16.dp))
         }
 
         if (error != null) {

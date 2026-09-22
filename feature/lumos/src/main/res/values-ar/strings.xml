@@ -253,6 +253,15 @@
     <string name="lumos_course_type_specialization">تخصص</string>
     <string name="lumos_course_type_course">دورة</string>
     <string name="lumos_course_type_short_course">دورة قصيرة</string>
+    <string name="lumos_browse_search_featured">مقررات مختارة</string>
+    <string name="lumos_browse_search_browse_all">تصفّح جميع المقررات</string>
+    <string name="lumos_browse_search_see_all">عرض كل النتائج</string>
+    <string name="lumos_browse_search_close">إغلاق</string>
+    <string name="lumos_browse_search_clear">مسح البحث</string>
+    <string name="lumos_browse_lessons_label">%1$s دروس</string>
+    <string name="lumos_course_level_elementary">ابتدائي</string>
+    <string name="lumos_course_level_middle">متوسط</string>
+    <string name="lumos_course_level_high">ثانوي</string>
     <string-array name="lumos_grade_ordinals">
         <item>الأول</item><item>الثاني</item><item>الثالث</item><item>الرابع</item>
         <item>الخامس</item><item>السادس</item><item>السابع</item><item>الثامن</item>

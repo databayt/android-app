@@ -49,6 +49,8 @@ data class CatalogCourseDto(
     val enrollments: Int = 0,
     @SerialName("total_lessons") val totalLessons: Int = 0,
     @SerialName("average_rating") val averageRating: Double = 0.0,
+    val levels: List<String> = emptyList(),
+    val category: String? = null,
 ) {
     fun toDomain() = CatalogCourse(
         id = id,
@@ -61,8 +63,16 @@ data class CatalogCourseDto(
         enrollments = enrollments,
         totalLessons = totalLessons,
         averageRating = averageRating,
+        levels = levels,
+        category = category,
     )
 }
+
+@Serializable
+data class CourseSearchResponse(
+    val rows: List<CatalogCourseDto> = emptyList(),
+    val count: Int = 0,
+)
 
 @Serializable
 data class LessonInstructorDto(val name: String? = null, val image: String? = null)

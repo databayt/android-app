@@ -1,5 +1,14 @@
 package org.hogwarts.android.feature.subjects.ui.components
 
+import coil.request.ImageRequest
+import coil.decode.SvgDecoder
+import coil.compose.AsyncImage
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,6 +52,18 @@ private val QUESTION_TYPE_PIPELINE = listOf(
     "MULTI_SELECT" to Color(0xFFA14B46),
 )
 
+/** Each type's artwork, laid over its colour at 30% — the web's `config.svg`. */
+private val QUESTION_TYPE_ART = mapOf(
+    "MULTIPLE_CHOICE" to "https://cdn.databayt.org/hogwarts/multiple-choice.svg",
+    "TRUE_FALSE" to "https://cdn.databayt.org/hogwarts/true-false.svg",
+    "SHORT_ANSWER" to "https://cdn.databayt.org/hogwarts/short-answer.svg",
+    "ESSAY" to "https://cdn.databayt.org/hogwarts/essay.svg",
+    "FILL_BLANK" to "https://cdn.databayt.org/hogwarts/fill-in-blank.svg",
+    "MATCHING" to "https://cdn.databayt.org/hogwarts/matching.svg",
+    "ORDERING" to "https://cdn.databayt.org/hogwarts/ordering.svg",
+    "MULTI_SELECT" to "https://cdn.databayt.org/hogwarts/multi-select.svg",
+)
+
 private val HEADER_CREAM = Color(0xFFF4F1D0)
 private val HEADER_INK = Color(0xFF212222)
 
@@ -54,7 +75,6 @@ fun QBankSection(
     LazyRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
     ) {
         items(items = QUESTION_TYPE_PIPELINE, key = { it.first }) { (type, color) ->
             val card = stats.cards.firstOrNull { it.type == type }
@@ -93,8 +113,11 @@ private fun QuestionTypeTile(
             ) {
                 Text(
                     text = stringResource(questionTypeLabelRes(type)),
-                    style = MaterialTheme.typography.bodyMedium,
+                    fontFamily = FontFamily.Monospace,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
                     fontWeight = FontWeight.Bold,
+                    letterSpacing = (-0.35).sp,
                     color = HEADER_INK,
                 )
             }
@@ -105,18 +128,31 @@ private fun QuestionTypeTile(
                     .height(250.dp)
                     .background(color),
             ) {
+                QUESTION_TYPE_ART[type]?.let { art ->
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(art)
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize().alpha(0.3f),
+                    )
+                }
                 // Count pill at top-end
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopEnd)
-                        .padding(10.dp)
+                        .padding(12.dp)
                         .clip(RoundedCornerShape(percent = 50))
                         .background(HEADER_CREAM.copy(alpha = 0.8f))
-                        .padding(horizontal = 10.dp, vertical = 4.dp),
+                        .padding(horizontal = 8.dp, vertical = 2.dp),
                 ) {
                     Text(
                         text = count.toString(),
-                        style = MaterialTheme.typography.labelSmall,
+                        fontFamily = FontFamily.Monospace,
+                        fontSize = 12.sp,
+                        lineHeight = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = HEADER_INK,
                     )
@@ -125,7 +161,7 @@ private fun QuestionTypeTile(
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
-                        .padding(horizontal = 14.dp, vertical = 16.dp),
+                        .padding(start = 14.dp, end = 14.dp, bottom = 24.dp),
                 ) {
                     Box(
                         modifier = Modifier
@@ -133,10 +169,12 @@ private fun QuestionTypeTile(
                             .height(1.5.dp)
                             .background(HEADER_CREAM),
                     )
-                    Spacer(Modifier.size(8.dp))
+                    Spacer(Modifier.size(10.dp))
                     Text(
                         text = stringResource(questionTypeDescRes(type)),
-                        style = MaterialTheme.typography.labelSmall,
+                        fontFamily = FontFamily.Monospace,
+                        fontSize = 12.sp,
+                        lineHeight = 19.5.sp,
                         color = HEADER_CREAM,
                     )
                 }

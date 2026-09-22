@@ -536,6 +536,9 @@ fun HogwartsNavHost(
             onNavigateToTeacherVideos = {
                 navController.navigate(LumosTeacherVideos)
             },
+            onNavigateToLesson = { courseId, lessonId ->
+                navController.navigate(LumosVideoLesson(courseId, lessonId))
+            },
             role = tenantContext.userRole
         )
 
@@ -544,7 +547,10 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToCourse = { courseId ->
                 navController.navigate(LumosCourseDetail(courseId))
-            }
+            },
+            onNavigateToLesson = { courseId, lessonId ->
+                navController.navigate(LumosVideoLesson(courseId, lessonId))
+            },
         )
 
         // Lumos / LMS - Course Detail

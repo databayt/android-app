@@ -14,4 +14,6 @@
     <string name="wallpaper_label_amber">العنبر</string>
     <string name="wallpaper_label_ocean">المحيط</string>
     <string name="wallpaper_label_farmland">الريف</string>
+    <!-- report-issue/dictionary.ts triggerText -->
+    <string name="report_issue_trigger">الإبلاغ عن مشكلة</string>
 </resources>

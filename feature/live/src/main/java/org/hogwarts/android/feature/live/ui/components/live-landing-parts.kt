@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -37,8 +39,12 @@ import org.hogwarts.android.core.designsystem.theme.HogwartsShapes
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.live.R
 import org.hogwarts.android.feature.live.domain.model.LandingPhase
+import org.hogwarts.android.feature.live.domain.model.LandingPolicy
+import org.hogwarts.android.feature.live.domain.model.LandingReadiness
 import org.hogwarts.android.feature.live.domain.model.LandingSession
 import org.hogwarts.android.feature.live.domain.model.LandingViewer
+import java.text.NumberFormat
+import java.util.Locale
 
 /** The strip's two weights — `size` in `session-row.tsx`. */
 enum class RowSize { LEAD, BRIEF }
@@ -489,6 +495,207 @@ fun GuideCard(card: GuideCardSpec, onOpenHref: (String) -> Unit, modifier: Modif
             text = stringResource(card.description),
             style = HogwartsTheme.type.body,
             color = colors.mutedForeground,
+        )
+    }
+}
+
+private enum class ReadinessState { OK, WARN, OFF }
+
+/** `num()` in readiness-band.tsx: the web counts these in Egyptian-Arabic digits. */
+private fun readinessNumber(n: Int, arabic: Boolean): String =
+    NumberFormat.getInstance(if (arabic) Locale("ar", "EG") else Locale.US).format(n)
+
+/**
+ * `readiness-band.tsx` — admins only: how the school teaches, which room back
+ * end, how many timetabled classes have a meeting link, whether recording and
+ * in-app rooms are provisioned. One bordered list, a state mark per row, and
+ * a warning under it when uncovered classes have no fallback room at all.
+ */
+@Composable
+fun ReadinessBand(
+    readiness: LandingReadiness,
+    policy: LandingPolicy,
+    onOpenHref: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = HogwartsTheme.colors
+    val arabic = LocalConfiguration.current.locales[0].language == "ar"
+    val gapCount = readiness.coverageGapCount
+    data class ReadinessRow(val state: ReadinessState, val label: String, val value: String, val href: String?)
+    val rows = listOf(
+        ReadinessRow(
+            if (policy.isOnline) ReadinessState.OK else ReadinessState.OFF,
+            stringResource(R.string.live_settings_delivery_mode),
+            stringResource(
+                when {
+                    policy.windowActive -> R.string.live_settings_window_active
+                    policy.deliveryMode == "hybrid" -> R.string.live_settings_delivery_hybrid
+                    policy.deliveryMode == "online" -> R.string.live_settings_delivery_online
+                    else -> R.string.live_settings_delivery_physical
+                },
+            ),
+            "/live/settings",
+        ),
+        ReadinessRow(
+            if (policy.degraded) ReadinessState.WARN else ReadinessState.OK,
+            stringResource(R.string.live_settings_provider),
+            stringResource(
+                if (!policy.degraded && policy.provider == "livekit") R.string.live_settings_provider_livekit
+                else R.string.live_settings_provider_external,
+            ),
+            "/live/settings",
+        ),
+        ReadinessRow(
+            when {
+                gapCount == null -> ReadinessState.OFF
+                gapCount == 0 -> ReadinessState.OK
+                else -> ReadinessState.WARN
+            },
+            stringResource(R.string.live_settings_coverage_title),
+            when {
+                gapCount == null -> stringResource(R.string.live_readiness_unknown)
+                gapCount == 0 -> stringResource(R.string.live_settings_coverage_all)
+                else -> "${readinessNumber(readiness.coverageCovered ?: 0, arabic)}/${readinessNumber(readiness.coverageTotal ?: 0, arabic)}"
+            },
+            "/live/settings",
+        ),
+        ReadinessRow(
+            if (readiness.recordingReady) ReadinessState.OK else ReadinessState.OFF,
+            stringResource(R.string.live_readiness_recording),
+            stringResource(if (readiness.recordingReady) R.string.live_readiness_on else R.string.live_readiness_off),
+            null,
+        ),
+        ReadinessRow(
+            if (readiness.livekitReady) ReadinessState.OK else ReadinessState.OFF,
+            stringResource(R.string.live_readiness_network),
+            stringResource(if (readiness.livekitReady) R.string.live_readiness_ready else R.string.live_readiness_not_provisioned),
+            "/live/network-test",
+        ),
+    )
+
+    Column(modifier) {
+        Text(stringResource(R.string.live_readiness_title), fontSize = 18.sp, lineHeight = 18.sp,
+            fontWeight = FontWeight.SemiBold, color = colors.foreground)
+        Text(stringResource(R.string.live_readiness_description), style = HogwartsTheme.type.body,
+            color = colors.mutedForeground, modifier = Modifier.padding(top = 4.dp, bottom = 20.dp))
+        Column(Modifier.fillMaxWidth().clip(HogwartsShapes.Card).border(1.dp, colors.border, HogwartsShapes.Card)) {
+            rows.forEachIndexed { index, row ->
+                if (index > 0) HorizontalDivider(color = colors.border)
+                Column(
+                    Modifier.fillMaxWidth()
+                        .then(if (row.href != null) Modifier.clickable(role = Role.Button) { onOpenHref(row.href) } else Modifier)
+                        .padding(16.dp),
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.padding(bottom = 8.dp)) {
+                        StateDot(row.state)
+                        Text(row.label, style = HogwartsTheme.type.body, color = colors.mutedForeground)
+                    }
+                    Text(row.value, fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.Medium, color = colors.foreground)
+                }
+            }
+        }
+        if (gapCount != null && gapCount > 0 && !readiness.hasFallback) {
+            Text(
+                stringResource(R.string.live_readiness_no_fallback, readinessNumber(gapCount, arabic)),
+                fontSize = 12.sp, lineHeight = 16.sp, color = colors.mutedForeground,
+                modifier = Modifier.padding(top = 12.dp),
+            )
+        }
+    }
+}
+
+/** The row's mark: a check on chart-2, a warning on chart-4, a dash on muted. */
+@Composable
+private fun StateDot(state: ReadinessState) {
+    val colors = HogwartsTheme.colors
+    val tint = when (state) {
+        ReadinessState.OK -> colors.chart.getOrElse(1) { colors.positive }
+        ReadinessState.WARN -> colors.chart.getOrElse(3) { colors.warning }
+        ReadinessState.OFF -> colors.mutedForeground
+    }
+    Box(
+        Modifier.size(16.dp).clip(CircleShape)
+            .background(if (state == ReadinessState.OFF) colors.muted else tint.copy(alpha = 0.15f)),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            imageVector = when (state) {
+                ReadinessState.OK -> LucideIcons.CheckBold
+                ReadinessState.WARN -> LucideIcons.TriangleAlertBold
+                ReadinessState.OFF -> LucideIcons.MinusBold
+            },
+            contentDescription = null,
+            tint = tint,
+            modifier = Modifier.size(10.dp),
+        )
+    }
+}
+
+/**
+ * `get-started-band.tsx` — an admin at a school that does not teach online
+ * yet: the pitch on a muted card with its four capabilities, then the three
+ * numbered steps and the way into settings.
+ */
+@Composable
+fun GetStartedBand(onOpenHref: (String) -> Unit, modifier: Modifier = Modifier) {
+    val colors = HogwartsTheme.colors
+    val items = listOf(
+        Triple(LucideIcons.Video, R.string.live_get_started_rooms_title, R.string.live_get_started_rooms_description),
+        Triple(LucideIcons.Link2, R.string.live_get_started_links_title, R.string.live_get_started_links_description),
+        Triple(LucideIcons.SquarePlay, R.string.live_get_started_recordings_title, R.string.live_get_started_recordings_description),
+        Triple(LucideIcons.Activity, R.string.live_get_started_diagnostics_title, R.string.live_get_started_diagnostics_description),
+    )
+    val steps = listOf(
+        R.string.live_get_started_step_one_title to R.string.live_get_started_step_one_description,
+        R.string.live_get_started_step_two_title to R.string.live_get_started_step_two_description,
+        R.string.live_get_started_step_three_title to R.string.live_get_started_step_three_description,
+    )
+    Column(modifier) {
+        Column(
+            Modifier.fillMaxWidth().clip(HogwartsShapes.Card).background(colors.muted.copy(alpha = 0.4f))
+                .border(1.dp, colors.border, HogwartsShapes.Card).padding(32.dp),
+        ) {
+            Text(stringResource(R.string.live_get_started_title), fontSize = 24.sp, lineHeight = 30.sp,
+                fontWeight = FontWeight.SemiBold, color = colors.foreground)
+            Text(stringResource(R.string.live_get_started_description), fontSize = 16.sp, lineHeight = 24.sp,
+                color = colors.mutedForeground, modifier = Modifier.padding(top = 12.dp))
+            Column(Modifier.padding(top = 40.dp), verticalArrangement = Arrangement.spacedBy(32.dp)) {
+                items.forEach { (icon, title, description) ->
+                    Column {
+                        Icon(icon, contentDescription = null, tint = colors.foreground,
+                            modifier = Modifier.padding(bottom = 12.dp).size(24.dp))
+                        Text(stringResource(title), fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.SemiBold,
+                            color = colors.foreground, modifier = Modifier.padding(bottom = 6.dp))
+                        Text(stringResource(description), style = HogwartsTheme.type.body, color = colors.mutedForeground)
+                    }
+                }
+            }
+        }
+        Text(stringResource(R.string.live_get_started_how_title), fontSize = 18.sp, lineHeight = 18.sp,
+            fontWeight = FontWeight.SemiBold, color = colors.foreground, modifier = Modifier.padding(top = 48.dp, bottom = 32.dp))
+        Column(verticalArrangement = Arrangement.spacedBy(32.dp)) {
+            steps.forEachIndexed { index, (title, description) ->
+                Column {
+                    Box(
+                        Modifier.padding(bottom = 12.dp).size(32.dp).clip(CircleShape).border(1.dp, colors.foreground, CircleShape),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text("${index + 1}", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = colors.foreground)
+                    }
+                    Text(stringResource(title), fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.SemiBold,
+                        color = colors.foreground, modifier = Modifier.padding(bottom = 6.dp))
+                    Text(stringResource(description), style = HogwartsTheme.type.body, color = colors.mutedForeground)
+                }
+            }
+        }
+        Text(
+            stringResource(R.string.live_get_started_cta),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = colors.foreground,
+            modifier = Modifier.padding(top = 32.dp).clip(HogwartsShapes.Pill).border(1.dp, colors.border, HogwartsShapes.Pill)
+                .clickable(role = Role.Button) { onOpenHref("/live/settings") }.padding(horizontal = 16.dp, vertical = 8.dp),
         )
     }
 }

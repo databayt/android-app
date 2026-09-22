@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -45,6 +46,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import org.hogwarts.android.core.designsystem.icon.LucideIcons
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.feature.subjects.R
 import org.hogwarts.android.feature.subjects.domain.model.AssignmentItem
@@ -516,8 +518,12 @@ fun AssignmentTiles(assignments: List<AssignmentItem>, accentColor: Color) {
                     color = colors.foreground, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 Row(Modifier.padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     assignment.estimatedTime?.let {
-                        Text("◷ $it ${stringResource(R.string.subjects_page_min)}", fontSize = 12.sp,
-                            color = colors.mutedForeground)
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Icon(LucideIcons.Clock, contentDescription = null,
+                                tint = colors.mutedForeground, modifier = Modifier.size(12.dp))
+                            Text("$it ${stringResource(R.string.subjects_page_min)}", fontSize = 12.sp,
+                                color = colors.mutedForeground)
+                        }
                     }
                     assignment.totalPoints?.let {
                         Text("${it.toInt()} ${stringResource(R.string.subjects_page_pts)}", fontSize = 12.sp,

@@ -88,11 +88,12 @@ fun NavGraphBuilder.lumosHomeScreen(
     onNavigateToMyLearning: () -> Unit,
     onNavigateToCourse: (String) -> Unit,
     onNavigateToTeacherVideos: () -> Unit = {},
+    onNavigateToLesson: (courseId: String, lessonId: String) -> Unit = { _, _ -> },
     role: UserRole? = null,
 ) {
     composable<LumosHome> {
         if (role == UserRole.STUDENT) {
-            LumosCoursesScreen(onNavigateToCourse = onNavigateToCourse)
+            LumosCoursesScreen(onNavigateToCourse = onNavigateToCourse, onNavigateToLesson = onNavigateToLesson)
         } else {
             LumosHomeScreen(
                 onNavigateToCourses = onNavigateToCourses,
@@ -106,12 +107,13 @@ fun NavGraphBuilder.lumosHomeScreen(
 
 fun NavGraphBuilder.courseCatalogScreen(
     onNavigateBack: () -> Unit,
-    onNavigateToCourse: (String) -> Unit
+    onNavigateToCourse: (String) -> Unit,
+    onNavigateToLesson: (courseId: String, lessonId: String) -> Unit = { _, _ -> },
 ) {
     // `/lumos/courses`. There is no back arrow on the page — the platform
     // header is the chrome — so `onNavigateBack` is kept for the call shape.
     composable<LumosCatalog> {
-        LumosCoursesScreen(onNavigateToCourse = onNavigateToCourse)
+        LumosCoursesScreen(onNavigateToCourse = onNavigateToCourse, onNavigateToLesson = onNavigateToLesson)
     }
 }
 
