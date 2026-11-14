@@ -1,7 +1,10 @@
 package org.hogwarts.android.feature.live.ui.room
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
+import android.media.projection.MediaProjectionManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +23,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,6 +39,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,8 +79,11 @@ private val LIVE_RED = Color(0xFFFF3B30)
  * there is one, else the cameras, the lone camera full-bleed, "alone in the
  * room" when there is nobody to show — under glass chrome: the live marker
  * and title at the top, Close at the top end, and the microphone and camera
- * at the foot. What the phone leaves to the web: raised hands, chat and
- * questions, polls, the whiteboard, slides and the quality menu.
+ * at the foot, with the class tools the school switched on: screen share
+ * (the teacher; a student with the student-share tool), raised hands, chat
+ * and the host's mute-all — on the web room's own wire (`ClassWire`), so app
+ * and web sit in one class. Still left to the web: questions, polls, the
+ * whiteboard, slides and the quality menu.
  */
 @Composable
 fun LiveRoomScreen(
@@ -93,11 +109,23 @@ fun LiveRoomScreen(
             ask.launch(permission)
         }
     }
+    // Screen share: the system's consent dialog, then the SDK's capture service.
+    val share = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data = result.data
+        if (result.resultCode == Activity.RESULT_OK && data != null) viewModel.startShare(data)
+        // A closed dialog is a choice, not a failure: nothing to say.
+    }
+    fun startShare() {
+        val manager = context.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        share.launch(manager.createScreenCaptureIntent())
+    }
+    var panel by remember { mutableStateOf<Panel?>(null) }
+    LaunchedEffect(panel) { viewModel.setChatOpen(panel == Panel.Chat) }
     val leave = {
         viewModel.leave()
         onClose()
     }
-    BackHandler(onBack = leave)
+    BackHandler(onBack = { if (panel != null) panel = null else leave() })
 
     // Light status-bar icons over the black stage, restored on the way out.
     val view = androidx.compose.ui.platform.LocalView.current
@@ -148,7 +176,23 @@ fun LiveRoomScreen(
                     onClose = leave,
                     onMic = { if (state.micOn) viewModel.setMic(false) else turnOn(Manifest.permission.RECORD_AUDIO) { viewModel.setMic(true) } },
                     onCamera = { if (state.cameraOn) viewModel.setCamera(false) else turnOn(Manifest.permission.CAMERA) { viewModel.setCamera(true) } },
+                    onShare = { if (state.shareOn) viewModel.stopShare() else startShare() },
+                    onHand = { viewModel.setHand(!state.handUp) },
+                    onHands = { panel = if (panel == Panel.Hands) null else Panel.Hands },
+                    onChat = { panel = if (panel == Panel.Chat) null else Panel.Chat },
                 )
+                NoticePill(state.notice, onShown = viewModel::noticeShown)
+                when (panel) {
+                    Panel.Chat -> ChatPanel(state, onSend = { viewModel.sendChat(it) }, onClose = { panel = null })
+                    Panel.Hands -> HandsPanel(
+                        state,
+                        onLower = { viewModel.clearHand(it) },
+                        onLowerAll = viewModel::clearAllHands,
+                        onMuteAll = viewModel::muteAll,
+                        onClose = { panel = null },
+                    )
+                    null -> Unit
+                }
                 if (phase == RoomPhase.Reconnecting) {
                     Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.6f)), Alignment.Center) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -183,6 +227,13 @@ private fun Stage(room: Room, state: RoomUiState) {
     val share = state.share
     val tiles = state.tiles
     when {
+        // Our own screen, drawn back onto itself, would mirror forever: say it instead.
+        share != null && state.shareIsMine -> Box(Modifier.fillMaxSize().padding(horizontal = 32.dp), Alignment.Center) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                Icon(LiveIcons.ScreenShare, null, tint = Color.White, modifier = Modifier.size(48.dp))
+                Text(stringResource(R.string.live_room_sharing_now), color = Color.White, fontSize = 17.sp, textAlign = TextAlign.Center)
+            }
+        }
         share != null -> VideoView(room, share, fit = true, modifier = Modifier.fillMaxSize())
         tiles.size == 1 && tiles[0].isLocal && tiles[0].camera == null -> Box(Modifier.fillMaxSize().padding(horizontal = 24.dp), Alignment.Center) {
             Text(stringResource(R.string.live_room_alone_in_room), color = Color.White.copy(alpha = 0.7f), fontSize = 18.sp, fontWeight = FontWeight.Medium, textAlign = TextAlign.Center)
@@ -263,7 +314,16 @@ private fun VideoView(room: Room, track: VideoTrack, fit: Boolean, modifier: Mod
 
 /** Glass chrome over the stage, as the lumos player's: live marker and title, Close, then mic and camera. */
 @Composable
-private fun Chrome(state: RoomUiState, onClose: () -> Unit, onMic: () -> Unit, onCamera: () -> Unit) {
+private fun Chrome(
+    state: RoomUiState,
+    onClose: () -> Unit,
+    onMic: () -> Unit,
+    onCamera: () -> Unit,
+    onShare: () -> Unit,
+    onHand: () -> Unit,
+    onHands: () -> Unit,
+    onChat: () -> Unit,
+) {
     Box(Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()) {
         Row(
             Modifier.align(Alignment.TopStart).padding(16.dp).fillMaxWidth(),
@@ -284,41 +344,237 @@ private fun Chrome(state: RoomUiState, onClose: () -> Unit, onMic: () -> Unit, o
             Box(Modifier.weight(0.01f))
             GlassButton(LiveIcons.X, stringResource(R.string.live_room_leave), onClick = onClose)
         }
+        // ONE row of equal glass discs, as the web room's phone row
+        // (`control-bar.tsx`): camera · mic · hand(s) · share · discussion.
         Row(
-            Modifier.align(Alignment.BottomCenter).padding(bottom = 24.dp).clip(CircleShape).background(GLASS).padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            Modifier.align(Alignment.BottomCenter).padding(bottom = 24.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             GlassButton(
-                if (state.micOn) LiveIcons.Mic else LiveIcons.MicOff,
-                stringResource(if (state.micOn) R.string.live_room_mic else R.string.live_room_mic_muted),
-                off = !state.micOn, onClick = onMic,
-            )
-            GlassButton(
                 if (state.cameraOn) LiveIcons.Video else LiveIcons.VideoOff,
                 stringResource(if (state.cameraOn) R.string.live_room_camera else R.string.live_room_camera_off),
-                off = !state.cameraOn, onClick = onCamera,
+                // Off tints the glyph rather than lighting a second red disc beside the mic's.
+                glyph = if (state.cameraOn) Color.White else CAMERA_OFF_RED, onClick = onCamera,
             )
+            GlassButton(
+                if (state.micOn) LiveIcons.Mic else LiveIcons.MicOff,
+                stringResource(if (state.micOn) R.string.live_room_mic else R.string.live_room_mic_muted),
+                // Muted keeps the red disc: the one alarm in the row.
+                fill = if (state.micOn) null else MUTED_RED, onClick = onMic,
+            )
+            if (state.tools.hands) {
+                if (state.isHost) {
+                    GlassButton(LiveIcons.Hand, stringResource(R.string.live_room_hands), badge = state.hands.size, onClick = onHands)
+                } else {
+                    GlassButton(
+                        LiveIcons.Hand,
+                        stringResource(if (state.handUp) R.string.live_room_lower_hand else R.string.live_room_raise_hand),
+                        fill = if (state.handUp) AMBER else null, glyph = if (state.handUp) Color.Black else Color.White,
+                        onClick = onHand,
+                    )
+                }
+            }
+            if (state.canShare) {
+                GlassButton(
+                    if (state.shareOn) LiveIcons.ScreenShareOff else LiveIcons.ScreenShare,
+                    stringResource(if (state.shareOn) R.string.live_room_stop_share else R.string.live_room_share),
+                    fill = if (state.shareOn) SHARE_BLUE else null, onClick = onShare,
+                )
+            }
+            if (state.tools.chat) {
+                GlassButton(LiveIcons.Message, stringResource(R.string.live_room_chat), badge = state.chatUnread, onClick = onChat)
+            }
+        }
+    }
+}
+
+/** A 48dp glass disc — every control in the row, one size (the web's `disc`). */
+@Composable
+private fun GlassButton(
+    icon: ImageVector,
+    label: String,
+    fill: Color? = null,
+    glyph: Color = Color.White,
+    badge: Int = 0,
+    onClick: () -> Unit,
+) {
+    Box(Modifier.size(48.dp)) {
+        Box(
+            Modifier.matchParentSize().clip(CircleShape).background(fill ?: GLASS)
+                .clickable(role = Role.Button, onClickLabel = label, onClick = onClick),
+            Alignment.Center,
+        ) {
+            Icon(icon, label, tint = glyph, modifier = Modifier.size(22.dp))
+        }
+        if (badge > 0) {
+            Text(
+                badge.toString(), color = Color.Black, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center,
+                modifier = Modifier.align(Alignment.TopEnd).padding().clip(CircleShape).background(AMBER)
+                    .widthIn(min = 20.dp).padding(horizontal = 6.dp, vertical = 1.dp),
+            )
+        }
+    }
+}
+
+/** The row's colours, from the web room: muted red disc, camera-off red glyph, sharing blue, a raised hand amber. */
+private val MUTED_RED = Color(0xFFDC2626).copy(alpha = 0.85f)
+private val CAMERA_OFF_RED = Color(0xFFF87171)
+private val AMBER = Color(0xFFFBBF24)
+private val SHARE_BLUE = Color(0xFF0284C7).copy(alpha = 0.9f)
+
+private enum class Panel { Chat, Hands }
+
+/** A notice over the stage for a few seconds — the web's room toasts. */
+@Composable
+private fun NoticePill(notice: RoomNotice?, onShown: () -> Unit) {
+    if (notice == null) return
+    LaunchedEffect(notice) {
+        kotlinx.coroutines.delay(4000)
+        onShown()
+    }
+    val text = when (notice) {
+        is RoomNotice.HandRaised -> stringResource(R.string.live_room_hand_raised_by, notice.name)
+        RoomNotice.HandLowered -> stringResource(R.string.live_room_hand_lowered)
+        RoomNotice.MutedByHost -> stringResource(R.string.live_room_muted_by_host)
+        RoomNotice.MutedAll -> stringResource(R.string.live_room_muted_all)
+        RoomNotice.ShareFailed -> stringResource(R.string.live_room_share_failed)
+    }
+    Box(Modifier.fillMaxSize().statusBarsPadding().padding(top = 72.dp, start = 16.dp, end = 16.dp), Alignment.TopCenter) {
+        Text(
+            text, color = Color.White, fontSize = 14.sp, textAlign = TextAlign.Center,
+            modifier = Modifier.clip(CircleShape).background(GLASS).padding(horizontal = 16.dp, vertical = 10.dp),
+        )
+    }
+}
+
+/** A sheet over the lower stage, the call still visible above it. */
+@Composable
+private fun Sheet(title: String, onClose: () -> Unit, action: (@Composable () -> Unit)? = null, content: @Composable () -> Unit) {
+    Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.35f)).clickable(onClick = onClose)) {
+        Column(
+            Modifier.align(Alignment.BottomCenter).fillMaxWidth().fillMaxHeight(0.62f)
+                .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)).background(TILE)
+                .clickable(enabled = false) {}
+                .navigationBarsPadding().imePadding(),
+        ) {
+            Row(Modifier.fillMaxWidth().padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(title, color = Color.White, fontSize = 17.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                action?.invoke()
+                Box(Modifier.width(8.dp))
+                GlassButton(LiveIcons.X, stringResource(R.string.live_room_close), onClick = onClose)
+            }
+            content()
+        }
+    }
+}
+
+@Composable
+private fun ChatPanel(state: RoomUiState, onSend: (String) -> Unit, onClose: () -> Unit) {
+    var draft by remember { mutableStateOf("") }
+    val list = rememberLazyListState()
+    LaunchedEffect(state.chat.size) { if (state.chat.isNotEmpty()) list.animateScrollToItem(state.chat.size - 1) }
+    Sheet(stringResource(R.string.live_room_chat), onClose) {
+        Column(Modifier.fillMaxSize()) {
+            if (state.chat.isEmpty()) {
+                Box(Modifier.weight(1f).fillMaxWidth(), Alignment.Center) {
+                    Text(stringResource(R.string.live_room_no_messages), color = Color.White.copy(alpha = 0.6f), fontSize = 15.sp)
+                }
+            } else {
+                LazyColumn(
+                    Modifier.weight(1f).fillMaxWidth().padding(horizontal = 12.dp),
+                    state = list,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    items(state.chat, key = { it.id }) { line ->
+                        Box(Modifier.fillMaxWidth(), if (line.mine) Alignment.CenterEnd else Alignment.CenterStart) {
+                            Column(
+                                Modifier.widthIn(max = 280.dp).clip(RoundedCornerShape(16.dp))
+                                    .background(if (line.mine) SHARE_BLUE else Color.White.copy(alpha = 0.12f))
+                                    .padding(horizontal = 12.dp, vertical = 8.dp),
+                            ) {
+                                if (!line.mine) Text(line.name, color = AMBER, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                                Text(line.text, color = Color.White, fontSize = 15.sp)
+                            }
+                        }
+                    }
+                }
+            }
             Row(
-                Modifier.height(48.dp).padding(horizontal = 12.dp),
+                Modifier.fillMaxWidth().padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                Icon(LiveIcons.Users, stringResource(R.string.live_room_participants), tint = Color.White, modifier = Modifier.size(20.dp))
-                Text(state.tiles.size.toString(), color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                Box(
+                    Modifier.weight(1f).clip(RoundedCornerShape(22.dp)).background(Color.White.copy(alpha = 0.12f))
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                ) {
+                    if (draft.isEmpty()) Text(stringResource(R.string.live_room_message_placeholder), color = Color.White.copy(alpha = 0.5f), fontSize = 15.sp)
+                    BasicTextField(
+                        value = draft, onValueChange = { draft = it.take(1000) },
+                        textStyle = androidx.compose.ui.text.TextStyle(color = Color.White, fontSize = 15.sp),
+                        cursorBrush = SolidColor(Color.White),
+                        maxLines = 4,
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 20.dp),
+                    )
+                }
+                GlassButton(LiveIcons.Send, stringResource(R.string.live_room_send), fill = if (draft.isNotBlank()) SHARE_BLUE else null) {
+                    if (draft.isNotBlank()) {
+                        onSend(draft)
+                        draft = ""
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun GlassButton(icon: ImageVector, label: String, off: Boolean = false, onClick: () -> Unit) {
-    Box(
-        Modifier.size(48.dp).clip(CircleShape).background(if (off) Color.White.copy(alpha = 0.9f) else GLASS)
-            .clickable(role = Role.Button, onClickLabel = label, onClick = onClick),
-        Alignment.Center,
+private fun HandsPanel(
+    state: RoomUiState,
+    onLower: (String) -> Unit,
+    onLowerAll: () -> Unit,
+    onMuteAll: () -> Unit,
+    onClose: () -> Unit,
+) {
+    Sheet(
+        stringResource(R.string.live_room_hands), onClose,
+        action = {
+            Text(
+                stringResource(R.string.live_room_mute_all), color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                modifier = Modifier.clip(CircleShape).background(Color.White.copy(alpha = 0.12f)).clickable(onClick = onMuteAll)
+                    .padding(horizontal = 14.dp, vertical = 10.dp),
+            )
+        },
     ) {
-        Icon(icon, label, tint = if (off) Color.Black else Color.White, modifier = Modifier.size(22.dp))
+        if (state.hands.isEmpty()) {
+            Box(Modifier.fillMaxSize(), Alignment.Center) {
+                Text(stringResource(R.string.live_room_no_hands), color = Color.White.copy(alpha = 0.6f), fontSize = 15.sp)
+            }
+        } else {
+            LazyColumn(Modifier.fillMaxSize().padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                items(state.hands, key = { it.identity }) { hand ->
+                    Row(Modifier.fillMaxWidth().padding(vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            "${state.hands.indexOf(hand) + 1}. ${hand.name}", color = Color.White, fontSize = 16.sp,
+                            modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        )
+                        Text(
+                            stringResource(R.string.live_room_clear_hand), color = Color.Black, fontSize = 14.sp, fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.clip(CircleShape).background(AMBER).clickable { onLower(hand.identity) }
+                                .padding(horizontal = 14.dp, vertical = 8.dp),
+                        )
+                    }
+                }
+                item {
+                    Text(
+                        stringResource(R.string.live_room_lower_all), color = Color.White, fontSize = 14.sp,
+                        modifier = Modifier.padding(vertical = 12.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.12f))
+                            .clickable(onClick = onLowerAll).padding(horizontal = 14.dp, vertical = 8.dp),
+                    )
+                }
+            }
+        }
     }
 }
 

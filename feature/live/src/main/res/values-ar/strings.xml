@@ -118,4 +118,24 @@
     <string name="live_err_recording_not_found">التسجيل غير موجود.</string>
     <string name="live_err_recording_failed">تعذّر تحميل التسجيل.</string>
     <string name="live_room_alone_in_room">أنت وحدك في هذه الغرفة</string>
+    <!-- The room's class tools: screen share, hands, chat, mute-all (wording from hogwarts live-classes.json). -->
+    <string name="live_room_share">مشاركة الشاشة</string>
+    <string name="live_room_stop_share">إيقاف المشاركة</string>
+    <string name="live_room_sharing_now">أنت تشارك شاشتك الآن. افتح التطبيق أو الملف الذي تريد أن يراه الطلاب.</string>
+    <string name="live_room_share_failed">لم تبدأ مشاركة الشاشة. حاول مرة أخرى.</string>
+    <string name="live_room_raise_hand">رفع اليد</string>
+    <string name="live_room_lower_hand">خفض اليد</string>
+    <string name="live_room_hands">الأيدي المرفوعة</string>
+    <string name="live_room_no_hands">لا توجد أيدٍ مرفوعة</string>
+    <string name="live_room_clear_hand">خفض</string>
+    <string name="live_room_lower_all">خفض الكل</string>
+    <string name="live_room_hand_raised_by">%1$s رفع يده</string>
+    <string name="live_room_hand_lowered">خفض المعلم يدك</string>
+    <string name="live_room_mute_all">كتم الجميع</string>
+    <string name="live_room_muted_all">تم كتم الجميع</string>
+    <string name="live_room_muted_by_host">كتم المعلم الميكروفون</string>
+    <string name="live_room_chat">الدردشة</string>
+    <string name="live_room_no_messages">لا توجد رسائل بعد</string>
+    <string name="live_room_message_placeholder">اكتب رسالة…</string>
+    <string name="live_room_send">إرسال</string>
 </resources>

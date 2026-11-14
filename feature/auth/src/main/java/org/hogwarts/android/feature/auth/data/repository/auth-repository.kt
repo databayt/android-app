@@ -10,7 +10,7 @@ import org.hogwarts.android.feature.auth.domain.model.SocialLogin
  */
 interface AuthRepository {
     /** Sign in with an email or student username and a password. */
-    suspend fun login(identifier: String, password: String): AuthResult
+    suspend fun login(identifier: String, password: String, school: String? = null): AuthResult
 
     /**
      * Sign in with a Google ID token. Without [schoolId] a platform-level

@@ -68,4 +68,7 @@
     <string name="auth_error_no_school">School information not found</string>
     <string name="auth_error_biometric">Biometric login failed. Please login with email and password.</string>
     <string name="auth_error_generic">Something went wrong</string>
+    <!-- A login code belongs to one school: its subdomain, asked only when the identifier is not an email. -->
+    <string name="auth_school_placeholder">School (e.g. alabidae)</string>
+    <string name="auth_field_school_required">Enter your school</string>
 </resources>

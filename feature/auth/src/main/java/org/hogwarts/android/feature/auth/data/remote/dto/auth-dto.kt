@@ -14,7 +14,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LoginRequestDto(
     val identifier: String,
-    val password: String
+    val password: String,
+    /**
+     * The school's subdomain (or id). Six-digit login codes repeat across
+     * schools, so the server resolves a code only inside a named school.
+     */
+    val school: String? = null,
 )
 
 /**

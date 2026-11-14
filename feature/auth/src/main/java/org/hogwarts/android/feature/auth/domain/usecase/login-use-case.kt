@@ -9,9 +9,9 @@ import javax.inject.Inject
 class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke(identifier: String, password: String): Result<AuthResult> {
+    suspend operator fun invoke(identifier: String, password: String, school: String? = null): Result<AuthResult> {
         return try {
-            Result.Success(authRepository.login(identifier, password))
+            Result.Success(authRepository.login(identifier, password, school))
         } catch (e: kotlinx.coroutines.CancellationException) {
             throw e
         } catch (e: Exception) {

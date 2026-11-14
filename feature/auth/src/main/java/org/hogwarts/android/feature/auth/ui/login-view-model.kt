@@ -21,6 +21,7 @@ import org.hogwarts.android.feature.auth.domain.model.toAuthError
 import org.hogwarts.android.feature.auth.domain.usecase.GoogleAuthUseCase
 import org.hogwarts.android.feature.auth.domain.usecase.LoginUseCase
 import org.hogwarts.android.feature.auth.domain.validation.AuthValidator
+import org.hogwarts.android.feature.auth.BuildConfig
 import javax.inject.Inject
 
 /** The web's two login faces: typed credentials, or the demo school's role picker. */
@@ -29,6 +30,9 @@ enum class LoginMode { Credentials, Demo }
 data class LoginUiState(
     val identifier: String = "",
     val password: String = "",
+    /** The school a login code belongs to (subdomain) — asked only for a code, never for an email. */
+    val school: String = "",
+    val schoolError: FieldError? = null,
     val passwordVisible: Boolean = false,
     val identifierError: FieldError? = null,
     val passwordError: FieldError? = null,
@@ -62,6 +66,7 @@ class LoginViewModel @Inject constructor(
             // Admin is preselected, as on the web, so Login works on first tap.
             demoRole = DemoAccounts.roles.firstOrNull { it == DemoRole.Admin } ?: DemoAccounts.roles.firstOrNull(),
             canUseBiometric = biometricHelper.isBiometricAvailable && credentialManager.hasSavedCredentials,
+            school = credentialManager.lastSchool?.takeIf { it.isNotBlank() } ?: BuildConfig.DEFAULT_SCHOOL,
         )
     )
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -71,6 +76,10 @@ class LoginViewModel @Inject constructor(
 
     fun onIdentifierChange(value: String) {
         _uiState.update { it.copy(identifier = value, identifierError = null, error = null) }
+    }
+
+    fun onSchoolChange(value: String) {
+        _uiState.update { it.copy(school = value, schoolError = null, error = null) }
     }
 
     fun onPasswordChange(value: String) {
@@ -86,13 +95,18 @@ class LoginViewModel @Inject constructor(
         if (state.isLoading) return
         val identifierError = AuthValidator.identifier(state.identifier)
         val passwordError = AuthValidator.password(state.password)
-        if (identifierError != null || passwordError != null) {
-            _uiState.update { it.copy(identifierError = identifierError, passwordError = passwordError, error = null) }
+        val needsSchool = needsSchool(state.identifier)
+        val school = if (needsSchool) normalizeSchool(state.school) else null
+        val schoolError = if (needsSchool && school.isNullOrEmpty()) FieldError.SchoolRequired else null
+        if (identifierError != null || passwordError != null || schoolError != null) {
+            _uiState.update {
+                it.copy(identifierError = identifierError, passwordError = passwordError, schoolError = schoolError, error = null)
+            }
             return
         }
         val identifier = state.identifier.trim()
         val password = state.password
-        signIn(identifier, password, rememberForBiometric = true)
+        signIn(identifier, password, rememberForBiometric = true, school = school)
     }
 
     fun showDemo() {
@@ -148,7 +162,8 @@ class LoginViewModel @Inject constructor(
         val (identifier, password) = credentials
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            when (val result = loginUseCase(identifier, password)) {
+            val school = if (needsSchool(identifier)) credentialManager.lastSchool else null
+            when (val result = loginUseCase(identifier, password, school)) {
                 is Result.Success -> _uiState.update { it.copy(isLoading = false, signedIn = true) }
                 is Result.Error -> {
                     credentialManager.clearCredentials()
@@ -172,11 +187,12 @@ class LoginViewModel @Inject constructor(
         _uiState.update { it.copy(error = AuthError.BiometricFailed) }
     }
 
-    private fun signIn(identifier: String, password: String, rememberForBiometric: Boolean) {
+    private fun signIn(identifier: String, password: String, rememberForBiometric: Boolean, school: String? = null) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            when (val result = loginUseCase(identifier, password)) {
+            when (val result = loginUseCase(identifier, password, school)) {
                 is Result.Success -> {
+                    if (school != null) credentialManager.lastSchool = school
                     if (rememberForBiometric && biometricHelper.isBiometricAvailable) {
                         credentialManager.saveCredentials(identifier, password)
                     }
@@ -220,8 +236,22 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private companion object {
+    companion object {
+        /** A login code or username, not an email: the server needs the school to resolve it. */
+        fun needsSchool(identifier: String): Boolean {
+            val id = identifier.trim()
+            return id.isNotEmpty() && !id.contains('@')
+        }
+
+        /** "alabidae", "alabidae.balqalam.com" or "https://alabidae.balqalam.com/ar" → "alabidae". */
+        fun normalizeSchool(raw: String): String =
+            raw.trim().lowercase()
+                .removePrefix("https://").removePrefix("http://")
+                .substringBefore('/').substringBefore('.')
+                .filter { it.isLetterOrDigit() || it == '-' }
+
+
         /** What [BiometricHelper] reports for a user cancel or the negative button. */
-        const val BIOMETRIC_CANCELLED = "Authentication cancelled"
+        private const val BIOMETRIC_CANCELLED = "Authentication cancelled"
     }
 }

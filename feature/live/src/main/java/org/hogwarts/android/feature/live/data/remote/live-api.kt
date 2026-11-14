@@ -5,8 +5,14 @@ import org.hogwarts.android.feature.live.data.remote.dto.LiveRecordingListRespon
 import org.hogwarts.android.feature.live.data.remote.dto.RecordingUrlResponse
 import org.hogwarts.android.feature.live.data.remote.dto.JoinResponseDto
 import org.hogwarts.android.feature.live.data.remote.dto.SessionPageDto
+import org.hogwarts.android.feature.live.data.remote.dto.MuteRequestDto
+import org.hogwarts.android.feature.live.data.remote.dto.RecordChatRequestDto
+import org.hogwarts.android.feature.live.data.remote.dto.RoomChatResponseDto
+import org.hogwarts.android.feature.live.data.remote.dto.SimpleResultDto
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -35,4 +41,16 @@ interface LiveApi {
     /** The room ticket (`performLiveClassJoin`), errors in-band. */
     @GET("api/mobile/conference/{id}/join")
     suspend fun join(@Path("id") id: String): Response<JoinResponseDto>
+
+    /** The room chat's saved history (`live/chat-core.ts`), newest page, oldest first. */
+    @GET("api/mobile/conference/{id}/chat")
+    suspend fun getChat(@Path("id") id: String, @Query("before") before: Long? = null): Response<RoomChatResponseDto>
+
+    /** Save a message this phone just sent over the room — fire-and-forget. */
+    @POST("api/mobile/conference/{id}/chat")
+    suspend fun recordChat(@Path("id") id: String, @Body body: RecordChatRequestDto): Response<SimpleResultDto>
+
+    /** Host: mute every student's microphone (`live/moderation-core.ts`). */
+    @POST("api/mobile/conference/{id}/mute")
+    suspend fun mute(@Path("id") id: String, @Body body: MuteRequestDto): Response<SimpleResultDto>
 }

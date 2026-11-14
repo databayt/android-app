@@ -27,6 +27,26 @@ internal object LiveIcons {
         icon("Users", "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", "M16 3.128a4 4 0 0 1 0 7.744", "M22 21v-2a4 4 0 0 0-3-3.87", "M9 3a4 4 0 1 0 0 8a4 4 0 1 0 0-8")
     }
     val X by lazy { icon("X", "M18 6 6 18", "m6 6 12 12") }
+    val ScreenShare by lazy {
+        icon("ScreenShare", "M13 3H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3", "M8 21h8", "M12 17v4", "m17 8 5-5", "M17 3h5v5")
+    }
+    val ScreenShareOff by lazy {
+        icon("ScreenShareOff", "M13 3H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3", "M8 21h8", "M12 17v4", "m22 3-5 5", "m17 3 5 5")
+    }
+    val Hand by lazy {
+        icon(
+            "Hand", "M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2", "M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2",
+            "M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8",
+            "M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15",
+        )
+    }
+    val Message by lazy { icon("MessageCircle", "M7.9 20A9 9 0 1 0 4 16.1L2 22Z") }
+    val Send by lazy {
+        icon(
+            "Send", "M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z",
+            "m21.854 2.147-10.94 10.939",
+        )
+    }
 
     private fun icon(name: String, vararg paths: String): ImageVector =
         ImageVector.Builder(name, 24.dp, 24.dp, 24f, 24f).apply {

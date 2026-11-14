@@ -13,6 +13,10 @@ android {
 
     defaultConfig {
         minSdk = 26
+        // The school a login code signs in to, prefilled (a school's own build:
+        // `-Phogwarts.defaultSchool=alabidae`). Empty: the teacher types it once.
+        val defaultSchool = providers.gradleProperty("hogwarts.defaultSchool").getOrElse("")
+        buildConfigField("String", "DEFAULT_SCHOOL", "\"$defaultSchool\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

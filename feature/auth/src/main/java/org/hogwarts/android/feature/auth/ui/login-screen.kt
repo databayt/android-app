@@ -106,6 +106,7 @@ fun LoginScreen(
     LoginContent(
         state = state,
         onIdentifierChange = viewModel::onIdentifierChange,
+        onSchoolChange = viewModel::onSchoolChange,
         onPasswordChange = viewModel::onPasswordChange,
         onTogglePasswordVisible = viewModel::onTogglePasswordVisible,
         onLogin = viewModel::login,
@@ -133,6 +134,7 @@ fun LoginScreen(
 internal fun LoginContent(
     state: LoginUiState,
     onIdentifierChange: (String) -> Unit = {},
+    onSchoolChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
     onTogglePasswordVisible: () -> Unit = {},
     onLogin: () -> Unit = {},
@@ -159,7 +161,7 @@ internal fun LoginContent(
         },
     ) {
         if (rotation <= 90f) {
-            CredentialsSide(state, onIdentifierChange, onPasswordChange, onTogglePasswordVisible, onLogin,
+            CredentialsSide(state, onIdentifierChange, onSchoolChange, onPasswordChange, onTogglePasswordVisible, onLogin,
                 onForgotPassword, onBiometric, onShowDemo)
         } else {
             // The back face is drawn mirrored; turning it once more reads it right way round.
@@ -174,6 +176,7 @@ internal fun LoginContent(
 private fun CredentialsSide(
     state: LoginUiState,
     onIdentifierChange: (String) -> Unit,
+    onSchoolChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onTogglePasswordVisible: () -> Unit,
     onLogin: () -> Unit,
@@ -203,6 +206,23 @@ private fun CredentialsSide(
                     ),
                 )
                 state.identifierError?.let { FieldMessage(stringResource(it.messageRes())) }
+            }
+            if (LoginViewModel.needsSchool(state.identifier)) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Input(
+                        value = state.school,
+                        onValueChange = onSchoolChange,
+                        placeholder = stringResource(R.string.auth_school_placeholder),
+                        enabled = !state.isLoading,
+                        isError = state.schoolError != null,
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Uri,
+                            imeAction = ImeAction.Next,
+                            autoCorrectEnabled = false,
+                        ),
+                    )
+                    state.schoolError?.let { FieldMessage(stringResource(it.messageRes())) }
+                }
             }
             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 PasswordInput(

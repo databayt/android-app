@@ -118,4 +118,24 @@
     <string name="live_err_recording_not_found">Recording not found.</string>
     <string name="live_err_recording_failed">Could not load the recording.</string>
     <string name="live_room_alone_in_room">You\'re alone in this room</string>
+    <!-- The room's class tools: screen share, hands, chat, mute-all (wording from hogwarts live-classes.json). -->
+    <string name="live_room_share">Share screen</string>
+    <string name="live_room_stop_share">Stop sharing</string>
+    <string name="live_room_sharing_now">You are sharing your screen. Open the app or file you want the class to see.</string>
+    <string name="live_room_share_failed">Screen sharing didn\'t start. Try again.</string>
+    <string name="live_room_raise_hand">Raise hand</string>
+    <string name="live_room_lower_hand">Lower hand</string>
+    <string name="live_room_hands">Raised hands</string>
+    <string name="live_room_no_hands">No raised hands</string>
+    <string name="live_room_clear_hand">Lower</string>
+    <string name="live_room_lower_all">Lower all</string>
+    <string name="live_room_hand_raised_by">%1$s raised a hand</string>
+    <string name="live_room_hand_lowered">The teacher lowered your hand</string>
+    <string name="live_room_mute_all">Mute all</string>
+    <string name="live_room_muted_all">Everyone is muted</string>
+    <string name="live_room_muted_by_host">The teacher muted your microphone</string>
+    <string name="live_room_chat">Chat</string>
+    <string name="live_room_no_messages">No messages yet</string>
+    <string name="live_room_message_placeholder">Write a message…</string>
+    <string name="live_room_send">Send</string>
 </resources>

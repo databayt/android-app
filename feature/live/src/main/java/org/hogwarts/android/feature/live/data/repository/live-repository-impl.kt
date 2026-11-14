@@ -27,4 +27,21 @@ class LiveRepositoryImpl @Inject constructor(
         return response.body()
             ?: org.hogwarts.android.feature.live.data.remote.dto.JoinResponseDto(error = "HTTP_${response.code()}")
     }
+
+    override suspend fun getChat(id: String) =
+        runCatching { api.getChat(id).body()?.data?.messages }.getOrNull().orEmpty()
+
+    override suspend fun recordChat(id: String, messageId: String, text: String) {
+        runCatching {
+            api.recordChat(
+                id,
+                org.hogwarts.android.feature.live.data.remote.dto.RecordChatRequestDto(messageId, text),
+            )
+        }
+    }
+
+    override suspend fun muteAll(id: String): Boolean =
+        runCatching {
+            api.mute(id, org.hogwarts.android.feature.live.data.remote.dto.MuteRequestDto()).body()?.success == true
+        }.getOrDefault(false)
 }

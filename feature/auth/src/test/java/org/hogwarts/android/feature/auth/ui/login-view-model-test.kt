@@ -75,14 +75,28 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `a student username is a valid identifier`() = runTest(dispatcher) {
-        coEvery { loginUseCase("stu.2026-01", "pw") } returns Result.Success(fakeAuthResult)
+    fun `a student username is a valid identifier, sent with its school`() = runTest(dispatcher) {
+        coEvery { loginUseCase("stu.2026-01", "pw", "alabidae") } returns Result.Success(fakeAuthResult)
         val vm = viewModel()
         vm.onIdentifierChange(" stu.2026-01 ")
+        vm.onSchoolChange("alabidae.balqalam.com")
         vm.onPasswordChange("pw")
         vm.login()
         advanceUntilIdle()
         assertTrue(vm.uiState.value.signedIn)
+        verify { credentialManager.lastSchool = "alabidae" }
+    }
+
+    @Test
+    fun `a login code without a school is stopped at the form`() = runTest(dispatcher) {
+        val vm = viewModel()
+        vm.onIdentifierChange("260001")
+        vm.onSchoolChange("")
+        vm.onPasswordChange("pw")
+        vm.login()
+        advanceUntilIdle()
+        assertEquals(FieldError.SchoolRequired, vm.uiState.value.schoolError)
+        coVerify(exactly = 0) { loginUseCase(any(), any(), any()) }
     }
 
     @Test
@@ -294,5 +308,24 @@ class LoginViewModelTest {
         assertTrue(viewModel().uiState.value.canUseBiometric)
         every { credentialManager.hasSavedCredentials } returns false
         assertFalse(viewModel().uiState.value.canUseBiometric)
+    }
+}
+
+/** A login code resolves only inside a school (hogwarts `/api/mobile/auth`). */
+class LoginSchoolRulesTest {
+    @Test
+    fun `a code or username needs a school, an email does not`() {
+        assertTrue(LoginViewModel.needsSchool("260001"))
+        assertTrue(LoginViewModel.needsSchool(" teacher.one "))
+        assertFalse(LoginViewModel.needsSchool("admin@balqalam.com"))
+        assertFalse(LoginViewModel.needsSchool("   "))
+    }
+
+    @Test
+    fun `the school is its subdomain however it is typed`() {
+        assertEquals("alabidae", LoginViewModel.normalizeSchool("alabidae"))
+        assertEquals("alabidae", LoginViewModel.normalizeSchool(" Alabidae.balqalam.com "))
+        assertEquals("alabidae", LoginViewModel.normalizeSchool("https://alabidae.balqalam.com/ar/login"))
+        assertEquals("", LoginViewModel.normalizeSchool("  "))
     }
 }

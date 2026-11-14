@@ -68,4 +68,7 @@
     <string name="auth_error_no_school">معلومات المدرسة غير موجودة</string>
     <string name="auth_error_biometric">تعذّر الدخول بالبصمة. سجّل الدخول بالبريد الإلكتروني وكلمة المرور.</string>
     <string name="auth_error_generic">حدث خطأ ما</string>
+    <!-- A login code belongs to one school: its subdomain, asked only when the identifier is not an email. -->
+    <string name="auth_school_placeholder">المدرسة (مثال: alabidae)</string>
+    <string name="auth_field_school_required">اكتب اسم مدرستك</string>
 </resources>

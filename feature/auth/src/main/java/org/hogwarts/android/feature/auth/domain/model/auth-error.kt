@@ -52,6 +52,7 @@ enum class FieldError {
     PasswordRequired,
     InvalidEmail,
     PasswordTooShort,
+    SchoolRequired,
 }
 
 /** Thrown by the repository; [error] is what the UI shows. */

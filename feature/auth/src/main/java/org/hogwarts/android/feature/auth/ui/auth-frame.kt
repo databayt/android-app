@@ -79,6 +79,7 @@ internal fun FieldError.messageRes(): Int = when (this) {
     FieldError.PasswordRequired -> R.string.auth_field_password_required
     FieldError.InvalidEmail -> R.string.auth_field_invalid_email
     FieldError.PasswordTooShort -> R.string.auth_field_password_too_short
+    FieldError.SchoolRequired -> R.string.auth_field_school_required
 }
 
 @StringRes

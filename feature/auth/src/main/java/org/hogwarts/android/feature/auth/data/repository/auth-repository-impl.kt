@@ -36,8 +36,8 @@ class AuthRepositoryImpl @Inject constructor(
     private val sessionManager: SessionManager
 ) : AuthRepository {
 
-    override suspend fun login(identifier: String, password: String): AuthResult {
-        val response = call { authApi.login(LoginRequestDto(identifier.trim(), password)) }
+    override suspend fun login(identifier: String, password: String, school: String?): AuthResult {
+        val response = call { authApi.login(LoginRequestDto(identifier.trim(), password, school)) }
         return saveAuthResult(response.bodyOrThrow(AuthEndpoint.Login))
     }
 

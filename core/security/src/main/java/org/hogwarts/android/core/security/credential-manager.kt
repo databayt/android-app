@@ -24,6 +24,7 @@ class CredentialManager @Inject constructor(
         const val KEY_EMAIL = "biometric_email"
         const val KEY_PASSWORD = "biometric_password"
         const val KEY_BIOMETRIC_ENABLED = "biometric_enabled"
+        const val KEY_SCHOOL = "login_school"
     }
 
     private val masterKey = MasterKey.Builder(context)
@@ -44,6 +45,16 @@ class CredentialManager @Inject constructor(
     val hasSavedCredentials: Boolean
         get() = encryptedPrefs.getBoolean(KEY_BIOMETRIC_ENABLED, false) &&
                 !encryptedPrefs.getString(KEY_EMAIL, null).isNullOrEmpty()
+
+    /**
+     * The school a login code last signed in to (its subdomain). Not a
+     * secret, and kept across sign-outs: a teacher types it once.
+     */
+    var lastSchool: String?
+        get() = encryptedPrefs.getString(KEY_SCHOOL, null)
+        set(value) {
+            encryptedPrefs.edit().putString(KEY_SCHOOL, value).apply()
+        }
 
     /**
      * Save credentials after successful login for biometric unlock.
