@@ -53,8 +53,8 @@ android {
         applicationId = "org.hogwarts.android"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -74,6 +74,24 @@ android {
         generateLocaleConfig = true
     }
 
+    // Release signing: the keystore stays off the repo. Set
+    // HOGWARTS_KEYSTORE (path) and HOGWARTS_KEYSTORE_PASSWORD (Keychain:
+    // hogwarts-android-keystore-password); without them a release build is
+    // left unsigned rather than signed with a throwaway key. Every update must
+    // be signed with the SAME key — losing it means reinstalling everywhere.
+    val keystorePath = providers.environmentVariable("HOGWARTS_KEYSTORE").orNull
+    val keystorePassword = providers.environmentVariable("HOGWARTS_KEYSTORE_PASSWORD").orNull
+    signingConfigs {
+        if (keystorePath != null && keystorePassword != null) {
+            create("release") {
+                storeFile = file(keystorePath)
+                storePassword = keystorePassword
+                keyAlias = "balqalam"
+                keyPassword = keystorePassword
+            }
+        }
+    }
+
     buildTypes {
         debug {
             isDebuggable = true
@@ -88,6 +106,7 @@ android {
         }
 
         release {
+            signingConfigs.findByName("release")?.let { signingConfig = it }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(

@@ -203,22 +203,25 @@ class LiveRoomViewModel @Inject constructor(
 
     /** Host: lower one student's hand (the web's `hand.clear`, addressed). */
     fun clearHand(identity: String) = viewModelScope.launch {
-        room.localParticipant.publishData(
-            ClassWire.encode("hand.clear"),
-            DataPublishReliability.RELIABLE,
-            ClassWire.CLASS_TOPIC,
-            listOf(Participant.Identity(identity)),
-        )
+        sendClass("hand.clear", listOf(Participant.Identity(identity)))
     }
 
-    fun clearAllHands() = viewModelScope.launch {
-        room.localParticipant.publishData(ClassWire.encode("hand.clearAll"), DataPublishReliability.RELIABLE, ClassWire.CLASS_TOPIC)
+    fun clearAllHands() = viewModelScope.launch { sendClass("hand.clearAll") }
+
+    /** One class-channel message, reliable; a failure is logged, never thrown into the UI. */
+    private suspend fun sendClass(type: String, to: List<Participant.Identity>? = null) {
+        val result = runCatching {
+            room.localParticipant.publishData(ClassWire.encode(type), DataPublishReliability.RELIABLE, ClassWire.CLASS_TOPIC, to)
+        }
+        val failure = result.exceptionOrNull() ?: result.getOrNull()?.exceptionOrNull()
+        if (failure != null) android.util.Log.w("LiveRoom", "class message $type not sent", failure)
+        else android.util.Log.d("LiveRoom", "class message $type sent to ${to ?: "all"}")
     }
 
     /** Host: mute every student, then tell the class why (the web host's `muted`). */
     fun muteAll() = viewModelScope.launch {
         if (repository.muteAll(sessionId)) {
-            room.localParticipant.publishData(ClassWire.encode("muted"), DataPublishReliability.RELIABLE, ClassWire.CLASS_TOPIC)
+            sendClass("muted")
             _state.update { it.copy(notice = RoomNotice.MutedAll) }
         }
     }
