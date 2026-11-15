@@ -123,6 +123,9 @@
     <string name="live_room_stop_share">Stop sharing</string>
     <string name="live_room_sharing_now">You are sharing your screen. Open the app or file you want the class to see.</string>
     <string name="live_room_share_failed">Screen sharing didn\'t start. Try again.</string>
+    <string name="live_room_share_no_sound">Your screen is shared without sound. Sound needs Android 10 or newer and the microphone permission.</string>
+    <string name="live_room_leave_confirm">Leave the class?</string>
+    <string name="live_room_stay">Stay</string>
     <string name="live_room_raise_hand">Raise hand</string>
     <string name="live_room_lower_hand">Lower hand</string>
     <string name="live_room_hands">Raised hands</string>

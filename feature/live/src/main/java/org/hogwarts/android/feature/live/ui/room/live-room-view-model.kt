@@ -1,19 +1,26 @@
 package org.hogwarts.android.feature.live.ui.room
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import io.livekit.android.LiveKit
+import io.livekit.android.audio.AudioBufferCallback
+import io.livekit.android.audio.ScreenAudioCapturer
 import io.livekit.android.events.DisconnectReason
 import io.livekit.android.events.RoomEvent
 import io.livekit.android.room.Room
 import io.livekit.android.room.datastream.StreamTextOptions
 import io.livekit.android.room.participant.Participant
 import io.livekit.android.room.track.DataPublishReliability
+import io.livekit.android.room.track.LocalAudioTrack
 import io.livekit.android.room.track.ScreenSharePresets
 import io.livekit.android.room.track.Track
 import io.livekit.android.room.track.VideoTrack
@@ -24,6 +31,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.hogwarts.android.feature.live.data.repository.LiveRepository
+import java.nio.ByteBuffer
 import javax.inject.Inject
 
 /** One person in the room, as a tile draws them. */
@@ -63,6 +71,8 @@ sealed interface RoomNotice {
     data object MutedByHost : RoomNotice
     data object MutedAll : RoomNotice
     data object ShareFailed : RoomNotice
+    /** The screen went out without its sound (Android 9 or older, or no microphone permission). */
+    data object ShareNoSound : RoomNotice
 }
 
 data class RoomUiState(
@@ -76,6 +86,8 @@ data class RoomUiState(
     val micOn: Boolean = false,
     val cameraOn: Boolean = false,
     val shareOn: Boolean = false,
+    /** The shared apps' sound goes out with the screen (mixed into this phone's microphone track). */
+    val shareAudio: Boolean = false,
     /** HOST or CO_HOST — the teacher's tools. */
     val isHost: Boolean = false,
     val tools: RoomTools = RoomTools(),
@@ -97,7 +109,7 @@ data class RoomUiState(
 @HiltViewModel
 class LiveRoomViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
     private val repository: LiveRepository,
 ) : ViewModel() {
     val sessionId: String = checkNotNull(savedStateHandle["id"])
@@ -107,6 +119,13 @@ class LiveRoomViewModel @Inject constructor(
     /** When this phone first saw each hand go up — the queue's tiebreak. */
     private val handSeen = mutableMapOf<String, Long>()
     private var chatOpen = false
+    /** The shared apps' sound while this phone shares its screen (Android 10+), else null. */
+    private var screenAudio: ScreenAudioCapturer? = null
+    /**
+     * While sharing with sound the mic track must stay live (the sound rides on it), so a teacher who
+     * turns the mic off gets silence in place of the voice and the video keeps playing to the class.
+     */
+    @Volatile private var voiceSilenced = false
 
     private val _state = MutableStateFlow(RoomUiState())
     val state: StateFlow<RoomUiState> = _state.asStateFlow()
@@ -166,6 +185,12 @@ class LiveRoomViewModel @Inject constructor(
     }
 
     fun setMic(on: Boolean) = viewModelScope.launch {
+        if (screenAudio != null) {
+            voiceSilenced = !on
+            _state.update { it.copy(micOn = on) }
+            refresh()
+            return@launch
+        }
         val ok = runCatching { room.localParticipant.setMicrophoneEnabled(on) }.getOrDefault(false)
         if (ok) _state.update { it.copy(micOn = on) }
         refresh()
@@ -182,14 +207,76 @@ class LiveRoomViewModel @Inject constructor(
         val params = ScreenCaptureParams(
             mediaProjectionPermissionResultData = data,
             // Stopped from the system (the notification, or the cast tile).
-            onStop = { _state.update { it.copy(shareOn = false) }; refresh() },
+            onStop = {
+                viewModelScope.launch {
+                    stopShareAudio()
+                    _state.update { it.copy(shareOn = false) }
+                    refresh()
+                }
+            },
         )
         val ok = runCatching { room.localParticipant.setScreenShareEnabled(true, params) }.getOrDefault(false)
         _state.update { it.copy(shareOn = ok, notice = if (ok) it.notice else RoomNotice.ShareFailed) }
+        if (ok && !startShareAudio()) _state.update { it.copy(notice = RoomNotice.ShareNoSound) }
         refresh()
     }
 
+    /**
+     * Teachers share educational videos and websites, so the sound goes with the picture:
+     * Android 10's playback capture of the shared apps, mixed into this phone's microphone track
+     * (the web and the other phones hear it as the teacher's audio). Needs the microphone
+     * permission. False when the screen goes out without sound.
+     */
+    private suspend fun startShareAudio(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return false
+        val granted = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        if (!granted) return false
+        val voiceWasOn = _state.value.micOn
+        voiceSilenced = !voiceWasOn
+        if (!voiceWasOn && !runCatching { room.localParticipant.setMicrophoneEnabled(true) }.getOrDefault(false)) {
+            voiceSilenced = false
+            return false
+        }
+        val screen = room.localParticipant.getTrackPublication(Track.Source.SCREEN_SHARE)?.track
+        val mic = room.localParticipant.getTrackPublication(Track.Source.MICROPHONE)?.track as? LocalAudioTrack
+        val capturer = screen?.let { runCatching { ScreenAudioCapturer.createFromScreenShareTrack(it) }.getOrNull() }
+        if (mic == null || capturer == null) {
+            restoreVoice(voiceWasOn)
+            return false
+        }
+        capturer.gain = SHARE_AUDIO_GAIN
+        mic.setAudioBufferCallback(object : AudioBufferCallback {
+            override fun onBuffer(
+                buffer: ByteBuffer, audioFormat: Int, channelCount: Int, sampleRate: Int, bytesRead: Int, captureTimeNs: Long,
+            ): Long {
+                if (voiceSilenced) silence(buffer, bytesRead)
+                return capturer.onBuffer(buffer, audioFormat, channelCount, sampleRate, bytesRead, captureTimeNs)
+            }
+        })
+        screenAudio = capturer
+        _state.update { it.copy(shareAudio = true) }
+        return true
+    }
+
+    /** Stops the shared sound and puts the microphone back the way the teacher left it. */
+    private suspend fun stopShareAudio() {
+        val capturer = screenAudio ?: return
+        screenAudio = null
+        (room.localParticipant.getTrackPublication(Track.Source.MICROPHONE)?.track as? LocalAudioTrack)
+            ?.setAudioBufferCallback(null)
+        runCatching { capturer.releaseAudioResources() }
+        restoreVoice(on = !voiceSilenced)
+        _state.update { it.copy(shareAudio = false) }
+    }
+
+    private suspend fun restoreVoice(on: Boolean) {
+        voiceSilenced = false
+        if (!on) runCatching { room.localParticipant.setMicrophoneEnabled(false) }
+        _state.update { it.copy(micOn = on) }
+    }
+
     fun stopShare() = viewModelScope.launch {
+        stopShareAudio()
         runCatching { room.localParticipant.setScreenShareEnabled(false) }
         _state.update { it.copy(shareOn = false) }
         refresh()
@@ -314,7 +401,8 @@ class LiveRoomViewModel @Inject constructor(
                 isLocal = p == room.localParticipant,
                 isHost = identity.isNotEmpty() && identity == hostIdentity,
                 camera = if (cam != null && !cam.muted) cam.track as? VideoTrack else null,
-                micOn = mic != null && !mic.muted,
+                // Sharing with sound keeps the mic track live; the teacher's own switch is what counts.
+                micOn = if (p == room.localParticipant && screenAudio != null) !voiceSilenced else mic != null && !mic.muted,
                 speaking = p.isSpeaking,
             )
         }.sortedWith(compareByDescending<Tile> { it.isHost }.thenBy { it.isLocal })
@@ -349,7 +437,19 @@ class LiveRoomViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        screenAudio?.let { runCatching { it.releaseAudioResources() } }
+        screenAudio = null
         room.disconnect()
         room.release()
     }
+}
+
+/** The shared sound against the teacher's voice in the one mic track (1.0 = as played). */
+private const val SHARE_AUDIO_GAIN = 0.8f
+
+/** Zeroes the voice samples of one mic buffer, leaving its position alone. */
+private fun silence(buffer: ByteBuffer, bytes: Int) {
+    val start = buffer.position()
+    val end = minOf(start + bytes, buffer.limit())
+    for (i in start until end) buffer.put(i, 0)
 }

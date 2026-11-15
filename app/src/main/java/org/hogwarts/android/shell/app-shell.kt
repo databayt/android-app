@@ -85,6 +85,8 @@ fun AppShell(
     navController: NavHostController,
     content: @Composable (Modifier) -> Unit,
     onLogout: () -> Unit,
+    pendingHref: String? = null,
+    onHrefOpened: () -> Unit = {},
     viewModel: ShellViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -106,6 +108,17 @@ fun AppShell(
                 WebHandoff.open(context, WebHandoff.url(state.schoolDomain, lang, href))
             }
         }
+    }
+
+    // A school link the app was opened with: the native screen when there is one (a class
+    // page or its room), else the dashboard it already shows. Never back to the browser,
+    // which is where the link came from.
+    LaunchedEffect(pendingHref) {
+        val href = pendingHref ?: return@LaunchedEffect
+        routeForHref(href, state.role)?.takeIf { it != Dashboard }?.let {
+            navController.navigate(it) { launchSingleTop = true }
+        }
+        onHrefOpened()
     }
 
     // "Report an issue": the report is filed against the web URL of the page

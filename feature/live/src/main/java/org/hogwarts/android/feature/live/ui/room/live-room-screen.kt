@@ -34,9 +34,11 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -95,10 +97,22 @@ fun LiveRoomScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
     var pending by remember { mutableStateOf<String?>(null) }
+    // Screen share: the system's consent dialog, then the SDK's capture service.
+    val share = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val data = result.data
+        if (result.resultCode == Activity.RESULT_OK && data != null) viewModel.startShare(data)
+        // A closed dialog is a choice, not a failure: nothing to say.
+    }
+    fun launchShare() {
+        val manager = context.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+        share.launch(manager.createScreenCaptureIntent())
+    }
     val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) when (pending) {
-            Manifest.permission.RECORD_AUDIO -> viewModel.setMic(true)
-            Manifest.permission.CAMERA -> viewModel.setCamera(true)
+        when (pending) {
+            Manifest.permission.RECORD_AUDIO -> if (granted) viewModel.setMic(true)
+            Manifest.permission.CAMERA -> if (granted) viewModel.setCamera(true)
+            // The shared sound needs the microphone permission; without it the screen still goes out.
+            SHARE_WITH_SOUND -> launchShare()
         }
         pending = null
     }
@@ -109,15 +123,13 @@ fun LiveRoomScreen(
             ask.launch(permission)
         }
     }
-    // Screen share: the system's consent dialog, then the SDK's capture service.
-    val share = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val data = result.data
-        if (result.resultCode == Activity.RESULT_OK && data != null) viewModel.startShare(data)
-        // A closed dialog is a choice, not a failure: nothing to say.
-    }
     fun startShare() {
-        val manager = context.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-        share.launch(manager.createScreenCaptureIntent())
+        val mic = Manifest.permission.RECORD_AUDIO
+        if (ContextCompat.checkSelfPermission(context, mic) == PackageManager.PERMISSION_GRANTED) launchShare()
+        else {
+            pending = SHARE_WITH_SOUND
+            ask.launch(mic)
+        }
     }
     var panel by remember { mutableStateOf<Panel?>(null) }
     LaunchedEffect(panel) { viewModel.setChatOpen(panel == Panel.Chat) }
@@ -125,7 +137,21 @@ fun LiveRoomScreen(
         viewModel.leave()
         onClose()
     }
-    BackHandler(onBack = { if (panel != null) panel = null else leave() })
+    // Back inside a class asks first: teachers pressed it by mistake and dropped out of their own class.
+    var confirmLeave by remember { mutableStateOf(false) }
+    BackHandler(onBack = { if (panel != null) panel = null else confirmLeave = true })
+    if (confirmLeave) {
+        AlertDialog(
+            onDismissRequest = { confirmLeave = false },
+            title = { Text(stringResource(R.string.live_room_leave_confirm)) },
+            confirmButton = {
+                TextButton(onClick = { confirmLeave = false; leave() }) { Text(stringResource(R.string.live_room_leave)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmLeave = false }) { Text(stringResource(R.string.live_room_stay)) }
+            },
+        )
+    }
 
     // Light status-bar icons over the black stage, restored on the way out.
     val view = androidx.compose.ui.platform.LocalView.current
@@ -425,6 +451,9 @@ private val SHARE_BLUE = Color(0xFF0284C7).copy(alpha = 0.9f)
 
 private enum class Panel { Chat, Hands }
 
+/** `pending` marker: the microphone permission was asked on the way to a screen share. */
+private const val SHARE_WITH_SOUND = "share-with-sound"
+
 /** A notice over the stage for a few seconds — the web's room toasts. */
 @Composable
 private fun NoticePill(notice: RoomNotice?, onShown: () -> Unit) {
@@ -439,6 +468,7 @@ private fun NoticePill(notice: RoomNotice?, onShown: () -> Unit) {
         RoomNotice.MutedByHost -> stringResource(R.string.live_room_muted_by_host)
         RoomNotice.MutedAll -> stringResource(R.string.live_room_muted_all)
         RoomNotice.ShareFailed -> stringResource(R.string.live_room_share_failed)
+        RoomNotice.ShareNoSound -> stringResource(R.string.live_room_share_no_sound)
     }
     Box(Modifier.fillMaxSize().statusBarsPadding().padding(top = 72.dp, start = 16.dp, end = 16.dp), Alignment.TopCenter) {
         Text(
