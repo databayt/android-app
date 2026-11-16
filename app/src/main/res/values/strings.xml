@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App -->
-    <string name="app_name">Hogwarts</string>
+    <string name="app_name">Balqalam</string>
 
     <!-- Auth -->
     <string name="login_title">Login</string>
@@ -143,4 +143,13 @@
     <string name="report_sent_title">Report sent</string>
     <string name="report_sent_body">Thank you — we\'ll look into it.</string>
     <string name="report_sent_body_with_id">Thank you — tracked as #%1$s.</string>
+
+    <!-- Update check -->
+    <string name="update_required_title">Update required</string>
+    <string name="update_required_body">Install the new version to continue.</string>
+    <string name="update_now">Update now</string>
+    <string name="update_available_title">Update available</string>
+    <string name="update_available_body">A newer version of the app is ready to download.</string>
+    <string name="update_action">Update</string>
+    <string name="update_later">Later</string>
 </resources>

@@ -38,10 +38,10 @@ jobs:
           fi
 
       - name: Build, unit test, string parity
-        run: ./gradlew assembleDebug testDebugUnitTest :app:checkStringParity --continue
+        run: ./gradlew assembleDebug testDebugUnitTest :app:testBalqalamDebugUnitTest :app:checkStringParity --continue
 
       - name: Android lint
-        run: ./gradlew :app:lintDebug
+        run: ./gradlew :app:lintBalqalamDebug
 
       - name: Test reports
         if: failure()

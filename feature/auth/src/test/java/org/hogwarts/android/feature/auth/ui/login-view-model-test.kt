@@ -13,6 +13,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.hogwarts.android.core.common.brand.BrandConfig
 import org.hogwarts.android.core.common.result.Result
 import org.hogwarts.android.core.security.BiometricHelper
 import org.hogwarts.android.core.security.CredentialManager
@@ -59,7 +60,34 @@ class LoginViewModelTest {
     @After
     fun tearDown() = Dispatchers.resetMain()
 
-    private fun viewModel() = LoginViewModel(loginUseCase, googleAuthUseCase, biometricHelper, credentialManager)
+    private fun viewModel(brand: BrandConfig = BrandConfig("", false, "", "")) =
+        LoginViewModel(loginUseCase, googleAuthUseCase, biometricHelper, credentialManager, brand)
+
+    // School-locked build
+
+    @Test
+    fun `a locked build signs a code in to its own school and hides the field and demo`() = runTest(dispatcher) {
+        coEvery { loginUseCase("260001", "pin", "sunrise") } returns Result.Success(fakeAuthResult)
+        every { credentialManager.lastSchool } returns "other"
+        val vm = viewModel(BrandConfig("sunrise", true, "", ""))
+        assertTrue(vm.uiState.value.schoolLocked)
+        assertEquals("sunrise", vm.uiState.value.school)
+        assertTrue(vm.uiState.value.demoRoles.isEmpty())
+        vm.onIdentifierChange("260001")
+        vm.onSchoolChange("")
+        vm.onPasswordChange("pin")
+        vm.login()
+        advanceUntilIdle()
+        assertTrue(vm.uiState.value.signedIn)
+        coVerify { loginUseCase("260001", "pin", "sunrise") }
+    }
+
+    @Test
+    fun `an unlocked build keeps the demo roles`() {
+        val vm = viewModel()
+        assertFalse(vm.uiState.value.schoolLocked)
+        assertTrue(vm.uiState.value.demoRoles.isNotEmpty())
+    }
 
     // Validation — createLoginSchema
 

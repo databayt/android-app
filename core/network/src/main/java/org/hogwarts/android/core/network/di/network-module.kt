@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.hogwarts.android.core.network.BuildConfig
 import org.hogwarts.android.core.network.interceptor.AcceptLanguageInterceptor
+import org.hogwarts.android.core.network.interceptor.AppVersionInterceptor
 import org.hogwarts.android.core.network.interceptor.AuthInterceptor
 import org.hogwarts.android.core.network.interceptor.TokenAuthenticator
 import retrofit2.Retrofit
@@ -58,10 +59,12 @@ object NetworkModule {
         authInterceptor: AuthInterceptor,
         tokenAuthenticator: TokenAuthenticator,
         acceptLanguageInterceptor: AcceptLanguageInterceptor,
+        appVersionInterceptor: AppVersionInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(authInterceptor)
         .addInterceptor(acceptLanguageInterceptor)
+        .addInterceptor(appVersionInterceptor)
         .addInterceptor(authBodySafe(loggingInterceptor))
         .authenticator(tokenAuthenticator)
         .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)

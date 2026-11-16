@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.hogwarts.android.core.common.brand.BrandConfig
 import org.hogwarts.android.core.common.result.Result
 import org.hogwarts.android.core.security.BiometricHelper
 import org.hogwarts.android.core.security.CredentialManager
@@ -32,6 +33,8 @@ data class LoginUiState(
     val password: String = "",
     /** The school a login code belongs to (subdomain) — asked only for a code, never for an email. */
     val school: String = "",
+    /** A school's own build: the school is fixed, so the field is never shown. */
+    val schoolLocked: Boolean = false,
     val schoolError: FieldError? = null,
     val passwordVisible: Boolean = false,
     val identifierError: FieldError? = null,
@@ -58,15 +61,19 @@ class LoginViewModel @Inject constructor(
     private val googleAuthUseCase: GoogleAuthUseCase,
     private val biometricHelper: BiometricHelper,
     private val credentialManager: CredentialManager,
+    private val brand: BrandConfig,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(
         LoginUiState(
-            demoRoles = DemoAccounts.roles,
+            // A school's own build never offers the demo school.
+            demoRoles = if (brand.locked) emptyList() else DemoAccounts.roles,
             // Admin is preselected, as on the web, so Login works on first tap.
             demoRole = DemoAccounts.roles.firstOrNull { it == DemoRole.Admin } ?: DemoAccounts.roles.firstOrNull(),
             canUseBiometric = biometricHelper.isBiometricAvailable && credentialManager.hasSavedCredentials,
-            school = credentialManager.lastSchool?.takeIf { it.isNotBlank() } ?: BuildConfig.DEFAULT_SCHOOL,
+            schoolLocked = brand.locked,
+            school = if (brand.locked) brand.school
+            else credentialManager.lastSchool?.takeIf { it.isNotBlank() } ?: BuildConfig.DEFAULT_SCHOOL,
         )
     )
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -96,7 +103,7 @@ class LoginViewModel @Inject constructor(
         val identifierError = AuthValidator.identifier(state.identifier)
         val passwordError = AuthValidator.password(state.password)
         val needsSchool = needsSchool(state.identifier)
-        val school = if (needsSchool) normalizeSchool(state.school) else null
+        val school = if (needsSchool) (if (brand.locked) brand.school else normalizeSchool(state.school)) else null
         val schoolError = if (needsSchool && school.isNullOrEmpty()) FieldError.SchoolRequired else null
         if (identifierError != null || passwordError != null || schoolError != null) {
             _uiState.update {
@@ -162,7 +169,7 @@ class LoginViewModel @Inject constructor(
         val (identifier, password) = credentials
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
-            val school = if (needsSchool(identifier)) credentialManager.lastSchool else null
+            val school = if (needsSchool(identifier)) (if (brand.locked) brand.school else credentialManager.lastSchool) else null
             when (val result = loginUseCase(identifier, password, school)) {
                 is Result.Success -> _uiState.update { it.copy(isLoading = false, signedIn = true) }
                 is Result.Error -> {

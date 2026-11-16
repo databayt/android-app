@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App -->
-    <string name="app_name">هوجورتس</string>
+    <string name="app_name">بالقلم</string>
 
     <!-- Auth -->
     <string name="login_title">تسجيل الدخول</string>
@@ -143,4 +143,13 @@
     <string name="report_sent_title">تم إرسال البلاغ</string>
     <string name="report_sent_body">شكرًا لك، سنراجعه.</string>
     <string name="report_sent_body_with_id">شكرًا لك، رقم البلاغ #%1$s.</string>
+
+    <!-- Update check -->
+    <string name="update_required_title">تحديث مطلوب</string>
+    <string name="update_required_body">نزّل النسخة الجديدة من التطبيق عشان تواصل.</string>
+    <string name="update_now">تحديث الآن</string>
+    <string name="update_available_title">يتوفر تحديث</string>
+    <string name="update_available_body">تتوفر نسخة أحدث من التطبيق جاهزة للتنزيل.</string>
+    <string name="update_action">تحديث</string>
+    <string name="update_later">لاحقاً</string>
 </resources>

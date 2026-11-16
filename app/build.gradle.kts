@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -45,6 +47,29 @@ run {
     source.copyTo(target, overwrite = false)
 }
 
+// School brand: a school's own build (name, icon, colour, locked school, own update feed) comes
+// from a directory OUTSIDE the repo, passed as `-Phogwarts.brand=/abs/path/to/brand` with
+//   brand.properties  (school, package, label, label.en, color, updateUrl, apkUrl)
+//   res/              (launcher + splash PNGs, colors.xml `balqalam_ground`, strings `app_name`)
+// Without the property the `school` flavor is disabled and the build is the generic one.
+val brandDir: java.io.File? = providers.gradleProperty("hogwarts.brand").orNull?.let { path ->
+    val dir = file(path)
+    require(dir.isDirectory && file("$path/brand.properties").isFile && file("$path/res").isDirectory) {
+        "hogwarts.brand=$path must be a directory holding brand.properties and a res/ directory."
+    }
+    dir
+}
+val brandProps = Properties().apply {
+    brandDir?.let { dir ->
+        dir.resolve("brand.properties").reader(Charsets.UTF_8).use { load(it) }
+        listOf("school", "package", "updateUrl", "apkUrl").forEach { key ->
+            require(!getProperty(key).isNullOrBlank()) { "${dir.path}/brand.properties is missing `$key`." }
+        }
+    }
+}
+fun brandProp(key: String): String = brandProps.getProperty(key).orEmpty().trim()
+fun quoted(value: String): String = "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\""
+
 android {
     namespace = "org.hogwarts.android"
     compileSdk = 37
@@ -53,8 +78,11 @@ android {
         applicationId = "org.hogwarts.android"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.1.1"
+        versionCode = 4
+        versionName = "1.2.0"
+
+        // x86 is emulator-only; shipping arm only shrinks the APK a lot.
+        ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -66,6 +94,33 @@ android {
         resourceConfigurations += listOf("en", "ar")
 
         // API and socket URLs live in core/network's BuildConfig (single source of truth).
+    }
+
+    flavorDimensions += "brand"
+    productFlavors {
+        // Generic Balqalam app: any school, signs in to whichever one the user names.
+        create("balqalam") {
+            dimension = "brand"
+            isDefault = true
+            buildConfigField("String", "BRAND_SCHOOL", quoted(""))
+            buildConfigField("String", "BRAND_UPDATE_URL", quoted("https://cdn.databayt.org/balqalam/app/version.json"))
+            buildConfigField("String", "BRAND_APK_URL", quoted("https://cdn.databayt.org/balqalam/app/balqalam.apk"))
+            buildConfigField("boolean", "BRAND_LOCKED", "false")
+        }
+        // One school's own build (only with -Phogwarts.brand=...): same signing key, its own identity.
+        create("school") {
+            dimension = "brand"
+            brandDir?.let { applicationId = brandProp("package") }
+            buildConfigField("String", "BRAND_SCHOOL", quoted(brandProp("school")))
+            buildConfigField("String", "BRAND_UPDATE_URL", quoted(brandProp("updateUrl")))
+            buildConfigField("String", "BRAND_APK_URL", quoted(brandProp("apkUrl")))
+            buildConfigField("boolean", "BRAND_LOCKED", "true")
+        }
+    }
+
+    sourceSets {
+        // The brand's res/ overrides main resources (icon, splash, colour, app_name).
+        brandDir?.let { getByName("school").res.srcDir(it.resolve("res")) }
     }
 
     androidResources {
@@ -156,6 +211,15 @@ android {
  * across the ~30 feature/core modules without relying on lint, which only
  * catches per-module gaps.
  */
+androidComponents {
+    // No brand directory: a `school` build cannot exist, so assemble/test/lint all stay generic.
+    beforeVariants(selector().all()) { variant ->
+        if (brandDir == null && variant.productFlavors.any { it.second == "school" }) {
+            variant.enable = false
+        }
+    }
+}
+
 tasks.register("checkStringParity") {
     description = "Verifies en/ar <string> name parity across all module strings.xml files."
     group = "verification"

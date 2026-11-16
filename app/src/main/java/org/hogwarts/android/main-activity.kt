@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,7 +16,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
+import org.hogwarts.android.update.UpdateGate
+import org.hogwarts.android.update.UpdateViewModel
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -44,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var tenantContext: TenantContext
 
     private val viewModel: MainViewModel by viewModels()
+    private val updateViewModel: UpdateViewModel by viewModels()
 
     /** A school link the app was opened with (a class page from the web room's "open in the app"). */
     private val incomingLink = MutableStateFlow<String?>(null)
@@ -58,13 +66,23 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         if (savedInstanceState == null) incomingLink.value = IncomingLink.path(intent)
 
+        // Version check on every start/return to the foreground (the checker throttles to 30 min).
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) { updateViewModel.check() }
+        }
+
         setContent {
-            HogwartsApp(
-                biometricHelper = biometricHelper,
-                tenantContext = tenantContext,
-                incomingLink = incomingLink,
-                onLinkOpened = { incomingLink.value = null },
-            )
+            Box(Modifier.fillMaxSize()) {
+                HogwartsApp(
+                    biometricHelper = biometricHelper,
+                    tenantContext = tenantContext,
+                    incomingLink = incomingLink,
+                    onLinkOpened = { incomingLink.value = null },
+                )
+                HogwartsTheme(darkTheme = isSystemInDarkTheme()) {
+                    UpdateGate(viewModel = updateViewModel, onExit = { finish() })
+                }
+            }
         }
     }
 

@@ -96,6 +96,11 @@ fun LiveRoomScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    // The update check stays silent while a class is on (see LiveRoomPresence).
+    DisposableEffect(Unit) {
+        org.hogwarts.android.core.common.brand.LiveRoomPresence.enter()
+        onDispose { org.hogwarts.android.core.common.brand.LiveRoomPresence.leave() }
+    }
     var pending by remember { mutableStateOf<String?>(null) }
     // Screen share: the system's consent dialog, then the SDK's capture service.
     val share = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

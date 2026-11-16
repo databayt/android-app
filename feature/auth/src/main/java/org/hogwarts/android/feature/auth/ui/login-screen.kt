@@ -207,7 +207,7 @@ private fun CredentialsSide(
                 )
                 state.identifierError?.let { FieldMessage(stringResource(it.messageRes())) }
             }
-            if (LoginViewModel.needsSchool(state.identifier)) {
+            if (!state.schoolLocked && LoginViewModel.needsSchool(state.identifier)) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Input(
                         value = state.school,
