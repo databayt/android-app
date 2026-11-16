@@ -4,7 +4,9 @@ import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.projection.MediaProjectionConfig
 import android.media.projection.MediaProjectionManager
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -111,7 +113,15 @@ fun LiveRoomScreen(
     }
     fun launchShare() {
         val manager = context.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-        share.launch(manager.createScreenCaptureIntent())
+        // The whole screen only. Android 14+ also offers "A single app", which jumps straight into
+        // the chosen app: ours is then in the background when the capture service must start, the
+        // system refuses it, and nothing is shared (a teacher on Android 15, 11-16).
+        val intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            manager.createScreenCaptureIntent(MediaProjectionConfig.createConfigForDefaultDisplay())
+        } else {
+            manager.createScreenCaptureIntent()
+        }
+        share.launch(intent)
     }
     val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         when (pending) {
@@ -120,8 +130,9 @@ fun LiveRoomScreen(
                 if (granted) viewModel.setMic(true)
             }
             Manifest.permission.CAMERA -> if (granted) viewModel.setCamera(true)
-            // The shared sound needs the microphone permission; without it the screen still goes out.
-            SHARE_WITH_SOUND -> launchShare()
+            // Sharing needs the microphone: the capture service also carries the teacher's voice
+            // (typed "microphone"), and Android 14+ refuses that service without the permission.
+            SHARE_WITH_SOUND -> if (granted) launchShare() else micDenied = true
         }
         pending = null
     }
