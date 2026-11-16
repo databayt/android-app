@@ -78,6 +78,8 @@
     <string name="live_room_reconnecting">Reconnecting…</string>
     <string name="live_room_mic_muted">Microphone muted</string>
     <string name="live_room_camera_off">Camera off</string>
+    <string name="live_room_mic_off_banner">Your mic is off — students can\'t hear you</string>
+    <string name="live_room_mic_turn_on">Turn on mic</string>
     <string name="live_room_mic">Microphone</string>
     <string name="live_room_camera">Camera</string>
     <string name="live_room_live">Live</string>

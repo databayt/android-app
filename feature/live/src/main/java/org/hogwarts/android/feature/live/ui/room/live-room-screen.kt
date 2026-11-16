@@ -102,6 +102,7 @@ fun LiveRoomScreen(
         onDispose { org.hogwarts.android.core.common.brand.LiveRoomPresence.leave() }
     }
     var pending by remember { mutableStateOf<String?>(null) }
+    var micDenied by remember { mutableStateOf(false) }
     // Screen share: the system's consent dialog, then the SDK's capture service.
     val share = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val data = result.data
@@ -114,12 +115,53 @@ fun LiveRoomScreen(
     }
     val ask = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         when (pending) {
-            Manifest.permission.RECORD_AUDIO -> if (granted) viewModel.setMic(true)
+            Manifest.permission.RECORD_AUDIO -> {
+                micDenied = !granted
+                if (granted) viewModel.setMic(true)
+            }
             Manifest.permission.CAMERA -> if (granted) viewModel.setCamera(true)
             // The shared sound needs the microphone permission; without it the screen still goes out.
             SHARE_WITH_SOUND -> launchShare()
         }
         pending = null
+    }
+    // Entry: a teacher comes in live, so ask for the microphone (and camera) right away.
+    val askEntry = rememberLauncherForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { _ ->
+        val mic = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        val cam = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        micDenied = !mic
+        viewModel.applyEntry(mic, cam)
+    }
+    LaunchedEffect(state.entryPending) {
+        if (!state.entryPending) return@LaunchedEffect
+        val missing = buildList {
+            if (state.wantsMic) add(Manifest.permission.RECORD_AUDIO)
+            if (state.wantsCamera) add(Manifest.permission.CAMERA)
+        }.filter { ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED }
+        if (missing.isEmpty()) {
+            viewModel.applyEntry(micGranted = true, cameraGranted = true)
+        } else {
+            askEntry.launch(missing.toTypedArray())
+        }
+    }
+    fun turnMicBackOn() {
+        val granted = ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        val activity = context as? Activity
+        when {
+            granted -> viewModel.setMic(true)
+            // Denied for good: the system will not ask again, so the app's settings page is the way.
+            micDenied && activity != null &&
+                !androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.RECORD_AUDIO) ->
+                context.startActivity(
+                    android.content.Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .setData(android.net.Uri.fromParts("package", context.packageName, null))
+                        .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
+                )
+            else -> {
+                pending = Manifest.permission.RECORD_AUDIO
+                ask.launch(Manifest.permission.RECORD_AUDIO)
+            }
+        }
     }
     fun turnOn(permission: String, enable: () -> Unit) {
         if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED) enable()
@@ -212,6 +254,9 @@ fun LiveRoomScreen(
                     onHands = { panel = if (panel == Panel.Hands) null else Panel.Hands },
                     onChat = { panel = if (panel == Panel.Chat) null else Panel.Chat },
                 )
+                if (RoomDefaults.showMicBanner(state.isHost, state.micOn, inRoom = true, entrySettled = !state.entryPending)) {
+                    MicOffBanner(onTurnOn = ::turnMicBackOn)
+                }
                 NoticePill(state.notice, onShown = viewModel::noticeShown)
                 when (panel) {
                     Panel.Chat -> ChatPanel(state, onSend = { viewModel.sendChat(it) }, onClose = { panel = null })
@@ -458,6 +503,27 @@ private enum class Panel { Chat, Hands }
 
 /** `pending` marker: the microphone permission was asked on the way to a screen share. */
 private const val SHARE_WITH_SOUND = "share-with-sound"
+
+/** The teacher's mic is off: a persistent bar at the top of the room, not a toast. */
+@Composable
+private fun MicOffBanner(onTurnOn: () -> Unit) {
+    Box(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 12.dp, vertical = 8.dp), Alignment.TopCenter) {
+        Row(
+            Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(MUTED_RED).padding(start = 14.dp, end = 6.dp, top = 6.dp, bottom = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Icon(LiveIcons.MicOff, null, tint = Color.White, modifier = Modifier.size(18.dp))
+            Text(
+                stringResource(R.string.live_room_mic_off_banner), color = Color.White, fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f),
+            )
+            TextButton(onClick = onTurnOn) {
+                Text(stringResource(R.string.live_room_mic_turn_on), color = Color.White, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
 
 /** A notice over the stage for a few seconds — the web's room toasts. */
 @Composable

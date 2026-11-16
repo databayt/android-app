@@ -96,6 +96,10 @@ data class RoomUiState(
     val chat: List<ChatLine> = emptyList(),
     val chatUnread: Int = 0,
     val notice: RoomNotice? = null,
+    /** Entry defaults (mic/camera on) wait for the permission answer; false once applied or not wanted. */
+    val entryPending: Boolean = false,
+    val wantsMic: Boolean = false,
+    val wantsCamera: Boolean = false,
 ) {
     /** The teacher always; a student only with the school's student-share tool. */
     val canShare: Boolean get() = isHost || tools.studentShare
@@ -103,8 +107,9 @@ data class RoomUiState(
 
 /**
  * `/live/[id]/room`, native: the ticket from `performLiveClassJoin`
- * (`/api/mobile/conference/{id}/join`), then LiveKit. The phone joins with its
- * microphone and camera off and asks for each the first time it is turned on.
+ * (`/api/mobile/conference/{id}/join`), then LiveKit. Like the web room,
+ * teachers come in live (microphone and camera on) and students follow the room's `joinMuted`;
+ * observers never publish. The screen asks for the permissions at entry, then calls [applyEntry].
  */
 @HiltViewModel
 class LiveRoomViewModel @Inject constructor(
@@ -166,7 +171,15 @@ class LiveRoomViewModel @Inject constructor(
             }
             hostIdentity = ticket.hostIdentity
             val tools = RoomTools.from(ticket.roomConfig)
-            _state.update { it.copy(isHost = ticket.role == "HOST" || ticket.role == "CO_HOST", tools = tools) }
+            val live = RoomDefaults.startsLive(ticket.role, tools.joinMuted)
+            _state.update {
+                it.copy(
+                    isHost = RoomDefaults.isHost(ticket.role), tools = tools,
+                    wantsMic = RoomDefaults.micStartsOn(ticket.role, tools.joinMuted),
+                    wantsCamera = RoomDefaults.cameraStartsOn(ticket.role, tools.joinMuted),
+                    entryPending = false,
+                )
+            }
             listenForChat()
             // A teacher's screen at 720p/15 — the web's `ScreenSharePresets.h720fps15`.
             runCatching {
@@ -176,12 +189,29 @@ class LiveRoomViewModel @Inject constructor(
             runCatching { room.connect(ticket.wsUrl, ticket.token) }
                 .onSuccess {
                     roomHosts = ClassWire.roomHosts(room.metadata)
-                    _state.update { it.copy(phase = RoomPhase.Connected) }
+                    _state.update { it.copy(phase = RoomPhase.Connected, entryPending = live) }
                     refresh()
                     if (tools.chat) loadChatHistory()
                 }
                 .onFailure { _state.update { it.copy(phase = RoomPhase.Refused("LIVE_CLASS_PROVIDER_UNAVAILABLE")) } }
         }
+    }
+
+    /** The entry permission prompt is answered: publish what the role's default asks for and the phone may. */
+    fun applyEntry(micGranted: Boolean, cameraGranted: Boolean) = viewModelScope.launch {
+        val s = _state.value
+        if (!s.entryPending) return@launch
+        // Settle first so the banner can only show after the attempt.
+        if (s.wantsMic && micGranted) {
+            val ok = runCatching { room.localParticipant.setMicrophoneEnabled(true) }.getOrDefault(false)
+            if (ok) _state.update { it.copy(micOn = true) }
+        }
+        if (s.wantsCamera && cameraGranted) {
+            val ok = runCatching { room.localParticipant.setCameraEnabled(true) }.getOrDefault(false)
+            if (ok) _state.update { it.copy(cameraOn = true) }
+        }
+        _state.update { it.copy(entryPending = false) }
+        refresh()
     }
 
     fun setMic(on: Boolean) = viewModelScope.launch {

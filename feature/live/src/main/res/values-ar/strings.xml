@@ -78,6 +78,8 @@
     <string name="live_room_reconnecting">جارٍ إعادة الاتصال…</string>
     <string name="live_room_mic_muted">الميكروفون مغلق</string>
     <string name="live_room_camera_off">الكاميرا معطّلة</string>
+    <string name="live_room_mic_off_banner">المايك مقفول — الطلاب ما سامعينك</string>
+    <string name="live_room_mic_turn_on">تشغيل المايك</string>
     <string name="live_room_mic">الميكروفون</string>
     <string name="live_room_camera">الكاميرا</string>
     <string name="live_room_live">مباشر</string>
