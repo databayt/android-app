@@ -78,8 +78,8 @@ android {
         applicationId = "org.hogwarts.android"
         minSdk = 26
         targetSdk = 36
-        versionCode = 6
-        versionName = "1.2.2"
+        versionCode = 7
+        versionName = "1.2.3"
 
         // x86 is emulator-only; shipping arm only shrinks the APK a lot.
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }

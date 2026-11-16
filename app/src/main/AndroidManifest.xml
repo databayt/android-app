@@ -9,6 +9,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- The teacher's voice while she shares another app: see ScreenCaptureService below. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!-- Camera feature (optional - for QR scanning) -->
@@ -59,6 +61,17 @@
                 <data android:host="*.balqalam.com" />
             </intent-filter>
         </activity>
+
+        <!--
+            LiveKit's screen-share service, also typed "microphone". While a teacher shares she is in
+            another app (YouTube, the gallery) and ours is in the background, where Android 11+ hands
+            a mediaProjection-only service a silent microphone: students heard the video but not her
+            (11-16). LiveKit calls startForeground() without a type, so every type declared here applies.
+        -->
+        <service
+            android:name="io.livekit.android.room.track.screencapture.ScreenCaptureService"
+            android:foregroundServiceType="mediaProjection|microphone"
+            tools:replace="android:foregroundServiceType" />
 
         <!--
             Lets AppCompat persist the per-app locale on Android < 13. Android 13+
