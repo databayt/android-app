@@ -23,6 +23,7 @@ import io.livekit.android.room.track.DataPublishReliability
 import io.livekit.android.room.track.LocalAudioTrack
 import io.livekit.android.room.track.ScreenSharePresets
 import io.livekit.android.room.track.Track
+import io.livekit.android.room.track.VideoPreset169
 import io.livekit.android.room.track.VideoTrack
 import io.livekit.android.room.track.screencapture.ScreenCaptureParams
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -185,6 +186,11 @@ class LiveRoomViewModel @Inject constructor(
             runCatching {
                 room.screenShareTrackCaptureDefaults =
                     room.screenShareTrackCaptureDefaults.copy(captureParams = ScreenSharePresets.H720_FPS15.capture)
+            }
+            // A phone camera at 360p — enough for a face, light enough for an old phone on Sudanese data.
+            runCatching {
+                room.videoTrackCaptureDefaults =
+                    room.videoTrackCaptureDefaults.copy(captureParams = VideoPreset169.H360.capture)
             }
             runCatching { room.connect(ticket.wsUrl, ticket.token) }
                 .onSuccess {

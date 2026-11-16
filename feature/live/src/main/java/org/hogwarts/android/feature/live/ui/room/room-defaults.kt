@@ -14,7 +14,14 @@ object RoomDefaults {
 
     fun micStartsOn(role: String?, joinMuted: Boolean): Boolean = startsLive(role, joinMuted)
 
-    fun cameraStartsOn(role: String?, joinMuted: Boolean): Boolean = startsLive(role, joinMuted)
+    /**
+     * The camera never starts on its own: on an old phone (Huawei Y7, Android 8) the camera's
+     * 720p simulcast next to the mic broke the connection over and over (NEGOTIATE_FAILED,
+     * PEER_CONNECTION_DISCONNECTED, 11-16) and the teacher never reached her class. The voice is
+     * what the class needs; the camera is one tap away.
+     */
+    @Suppress("UNUSED_PARAMETER")
+    fun cameraStartsOn(role: String?, joinMuted: Boolean): Boolean = false
 
     /**
      * The persistent "your mic is off" banner: only the teacher, only once the room is up and the

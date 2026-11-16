@@ -10,7 +10,7 @@ class RoomDefaultsTest {
         for (role in listOf("HOST", "CO_HOST")) {
             assertTrue(RoomDefaults.micStartsOn(role, joinMuted = false))
             assertTrue(RoomDefaults.micStartsOn(role, joinMuted = true))
-            assertTrue(RoomDefaults.cameraStartsOn(role, joinMuted = true))
+            assertFalse(RoomDefaults.cameraStartsOn(role, joinMuted = true))
         }
     }
 
@@ -18,7 +18,7 @@ class RoomDefaultsTest {
     fun `participants follow joinMuted`() {
         assertTrue(RoomDefaults.micStartsOn("PARTICIPANT", joinMuted = false))
         assertFalse(RoomDefaults.micStartsOn("PARTICIPANT", joinMuted = true))
-        assertTrue(RoomDefaults.cameraStartsOn("PARTICIPANT", joinMuted = false))
+        assertFalse(RoomDefaults.cameraStartsOn("PARTICIPANT", joinMuted = false))
         assertFalse(RoomDefaults.cameraStartsOn("PARTICIPANT", joinMuted = true))
     }
 
