@@ -15,10 +15,14 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -82,6 +86,7 @@ internal fun BoardPanel(
     onRemove: (List<String>) -> Unit,
     onClear: () -> Unit,
     onGrant: (String?) -> Unit,
+    onSurroundTap: () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     var mode by remember { mutableStateOf(BoardMode.Pen) }
@@ -127,7 +132,7 @@ internal fun BoardPanel(
             onStroke = strokeDone,
             onDraft = onDraft,
             onErase = erased,
-            modifier = m,
+            modifier = m.pointerInput(Unit) { detectTapGestures { } },
         )
     }
     val toolbar: @Composable (Modifier) -> Unit = { m ->
@@ -158,7 +163,10 @@ internal fun BoardPanel(
         }
     }
 
-    BoxWithConstraints(modifier.fillMaxSize().background(SURROUND)) {
+    BoxWithConstraints(
+        modifier.fillMaxSize().background(SURROUND)
+            .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, onClick = onSurroundTap),
+    ) {
         val portrait = maxHeight > maxWidth
         if (portrait) {
             // Upright: the page across the width, the toolbar right under it where a thumb reaches.
@@ -172,12 +180,15 @@ internal fun BoardPanel(
             }
         } else {
             Row(
-                Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding()
-                    .padding(top = 56.dp, bottom = 80.dp, start = 12.dp),
+                // Full screen: the system bars are hidden and the room chrome floats over the board.
+                Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.displayCutout),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 if (canDraw) {
-                    Column(Modifier.width(168.dp).fillMaxHeight().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.Center) {
+                    Column(
+                        Modifier.width(168.dp).fillMaxHeight().verticalScroll(rememberScrollState()).padding(start = 12.dp, end = 4.dp),
+                        verticalArrangement = Arrangement.Center,
+                    ) {
                         toolbar(Modifier.fillMaxWidth())
                     }
                 }

@@ -222,8 +222,42 @@ fun LiveRoomScreen(
         )
     }
 
-    // Light status-bar icons over the black stage, restored on the way out.
     val view = androidx.compose.ui.platform.LocalView.current
+    // The board turns the room on its side and hides the system bars, so the 16:9 page fills the
+    // screen; both are put back the moment the board folds or the room closes. The room itself
+    // lives in the ViewModel (and the activity handles the rotation), so the call stays connected.
+    DisposableEffect(boardVisible) {
+        val activity = context as? Activity
+        val window = activity?.window
+        val controller = window?.let { androidx.core.view.WindowCompat.getInsetsController(it, view) }
+        val previousOrientation = activity?.requestedOrientation
+        val previousBehavior = controller?.systemBarsBehavior
+        if (boardVisible && activity != null) {
+            activity.requestedOrientation = android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            controller?.systemBarsBehavior = androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            controller?.hide(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+        }
+        onDispose {
+            if (boardVisible && activity != null) {
+                previousOrientation?.let { activity.requestedOrientation = it }
+                controller?.show(androidx.core.view.WindowInsetsCompat.Type.systemBars())
+                previousBehavior?.let { controller.systemBarsBehavior = it }
+            }
+        }
+    }
+    // Over the board the room chrome stays out of the way; a tap on the dark surround brings it for a few seconds.
+    var chromeTapped by remember { mutableStateOf(false) }
+    LaunchedEffect(chromeTapped, boardVisible) {
+        if (chromeTapped) {
+            kotlinx.coroutines.delay(4_000)
+            chromeTapped = false
+        }
+    }
+    // The board opens with the controls showing, so the teacher sees where they went; then they fold.
+    LaunchedEffect(boardVisible) { chromeTapped = boardVisible }
+    val chromeShown = !boardVisible || chromeTapped
+
+    // Light status-bar icons over the black stage, restored on the way out.
     DisposableEffect(Unit) {
         val window = (context as? android.app.Activity)?.window
         val controller = window?.let { androidx.core.view.WindowCompat.getInsetsController(it, view) }
@@ -277,6 +311,7 @@ fun LiveRoomScreen(
                         onRemove = viewModel::boardRemove,
                         onClear = viewModel::boardClear,
                         onGrant = viewModel::boardGrant,
+                        onSurroundTap = { chromeTapped = !chromeTapped },
                     )
                     // An upright phone has no strip for the teacher: their picture floats in the corner.
                     val teacher = state.tiles.firstOrNull { it.isHost && !it.isLocal && it.camera != null }
@@ -289,7 +324,7 @@ fun LiveRoomScreen(
                 } else {
                     Stage(viewModel.room, state)
                 }
-                Chrome(
+                if (chromeShown) Chrome(
                     state = state,
                     board = BoardButton(
                         shown = state.tools.whiteboard && (state.isHost || board.show),
