@@ -45,6 +45,7 @@ val platformNav: List<PlatformNavItem> = listOf(
     PlatformNavItem("transportation", R.string.menu_transportation, "/transportation", roles(UserRole.ADMIN, UserRole.STAFF, UserRole.DEVELOPER)),
     PlatformNavItem("transportationFees", R.string.menu_transport_fees, "/transportation/fees", roles(UserRole.ACCOUNTANT, UserRole.DEVELOPER)),
     PlatformNavItem("myTransportation", R.string.menu_my_transportation, "/transportation/me", roles(UserRole.STUDENT, UserRole.GUARDIAN)),
+    PlatformNavItem("assignments", R.string.menu_assignments, "/assignments", roles(UserRole.ADMIN, UserRole.STAFF, UserRole.TEACHER)),
     PlatformNavItem("myAssignments", R.string.menu_my_assignments, "/my-assignments", roles(UserRole.STUDENT)),
     PlatformNavItem("parentPortal", R.string.menu_parent_portal, "/parent", roles(UserRole.GUARDIAN, UserRole.DEVELOPER)),
     PlatformNavItem("transportationTrips", R.string.menu_trips, "/transportation/trips", roles(UserRole.TEACHER)),

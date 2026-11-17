@@ -47,6 +47,7 @@ private val ARABIC_KEYWORDS: Map<String, List<String>> = mapOf(
     "transportationFees" to listOf("رسوم النقل", "اشتراك الباص"),
     "myTransportation" to listOf("باصي", "نقلي", "مواصلاتي"),
     "transportationTrips" to listOf("رحلات", "نقل"),
+    "assignments" to listOf("واجبات", "الواجبات", "واجب جديد", "إنشاء واجب"),
     "myAssignments" to listOf("واجبات", "واجباتي", "تكليفات"),
     "lumos" to listOf("بث", "فيديو", "دروس مصورة"),
     "liveClasses" to listOf("اجتماعات", "حصص مباشرة", "بث مباشر", "مؤتمر"),

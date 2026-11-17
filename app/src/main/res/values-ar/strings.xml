@@ -85,6 +85,7 @@
     <string name="menu_transportation">النقل</string>
     <string name="menu_transport_fees">رسوم النقل</string>
     <string name="menu_my_transportation">نقل</string>
+    <string name="menu_assignments">الواجبات</string>
     <string name="menu_my_assignments">واجب</string>
     <string name="menu_parent_portal">بوابة ولي الأمر</string>
     <string name="menu_trips">الرحلات</string>

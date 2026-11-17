@@ -20,7 +20,7 @@ class PlatformNavTest {
                 "dashboard", "school", "sales", "announcements", "finance", "grades", "subjects",
                 "parents", "admission", "students", "teachers", "classrooms", "exams", "events",
                 "attendance", "timetable", "library", "transportation", "transportationFees",
-                "myTransportation", "myAssignments", "parentPortal", "transportationTrips", "lumos",
+                "myTransportation", "assignments", "myAssignments", "parentPortal", "transportationTrips", "lumos",
                 "liveClasses", "compliance", "profile", "settings", "charts", "stats", "billing",
             ),
             platformNav.map { it.key },
@@ -39,6 +39,13 @@ class PlatformNavTest {
             ),
             keys(UserRole.STUDENT),
         )
+    }
+
+    @Test
+    fun `teachers can reach homework`() {
+        assertEquals("/assignments", platformNav.first { it.key == "assignments" }.href)
+        assert("assignments" in keys(UserRole.TEACHER))
+        assert("assignments" !in keys(UserRole.STUDENT))
     }
 
     @Test
