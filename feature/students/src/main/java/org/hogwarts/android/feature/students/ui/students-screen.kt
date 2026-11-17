@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +34,7 @@ import org.hogwarts.android.feature.students.ui.components.StudentCard
 fun StudentsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToStudent: (String) -> Unit,
+    onAddStudent: (() -> Unit)? = null,
     viewModel: StudentsViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -50,6 +52,13 @@ fun StudentsScreen(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            if (onAddStudent != null) {
+                FloatingActionButton(onClick = onAddStudent) {
+                    Icon(HogwartsIcons.Add, contentDescription = stringResource(R.string.students_add))
+                }
+            }
         }
     ) { innerPadding ->
         if (uiState.isLoading && uiState.students.isEmpty()) {

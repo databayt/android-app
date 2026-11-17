@@ -3,6 +3,7 @@
     <!-- Students list screen -->
     <string name="students_title">Students</string>
     <string name="students_back">Back</string>
+    <string name="students_add">Add student</string>
     <string name="students_search_placeholder">Search students...</string>
     <string name="students_empty_title">No Students Found</string>
     <string name="students_empty_search">No students match your search.</string>

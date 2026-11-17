@@ -16,12 +16,13 @@ import org.hogwarts.android.feature.students.ui.StudentsScreen
 fun NavGraphBuilder.studentsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToStudent: (String) -> Unit,
-    onNavigateToCreateStudent: () -> Unit = {}
+    onNavigateToCreateStudent: (() -> Unit)? = null
 ) {
     composable<StudentsList> {
         StudentsScreen(
             onNavigateBack = onNavigateBack,
-            onNavigateToStudent = onNavigateToStudent
+            onNavigateToStudent = onNavigateToStudent,
+            onAddStudent = onNavigateToCreateStudent
         )
     }
 }

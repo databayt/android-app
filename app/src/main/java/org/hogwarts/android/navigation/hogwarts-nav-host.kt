@@ -232,7 +232,14 @@ fun HogwartsNavHost(
             onNavigateBack = { navController.popBackStack() },
             onNavigateToStudent = { studentId ->
                 navController.navigate(StudentDetail(studentId))
-            }
+            },
+            // Adding a student is the web wizard (`/students/add` mints a draft and
+            // redirects into it): the mobile POST is ADMIN-only and has no guardian phone.
+            onNavigateToCreateStudent = if (
+                tenantContext.userRole == UserRole.ADMIN || tenantContext.userRole == UserRole.STAFF
+            ) {
+                { hrefOpener.open("/students/add") }
+            } else null
         )
 
         // Student Detail

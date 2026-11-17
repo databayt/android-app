@@ -3,6 +3,7 @@
     <!-- Students list screen -->
     <string name="students_title">الطلاب</string>
     <string name="students_back">رجوع</string>
+    <string name="students_add">إضافة طالب</string>
     <string name="students_search_placeholder">البحث عن طلاب...</string>
     <string name="students_empty_title">لم يتم العثور على طلاب</string>
     <string name="students_empty_search">لا يوجد طلاب مطابقون لبحثك.</string>

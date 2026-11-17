@@ -20,7 +20,7 @@ class PlatformNavTest {
                 "dashboard", "school", "sales", "announcements", "finance", "grades", "subjects",
                 "parents", "admission", "students", "teachers", "classrooms", "exams", "events",
                 "attendance", "timetable", "library", "transportation", "transportationFees",
-                "myTransportation", "assignments", "myAssignments", "parentPortal", "transportationTrips", "lumos",
+                "myTransportation", "assignments", "parentPortal", "transportationTrips", "lumos",
                 "liveClasses", "compliance", "profile", "settings", "charts", "stats", "billing",
             ),
             platformNav.map { it.key },
@@ -34,7 +34,7 @@ class PlatformNavTest {
         assertEquals(
             listOf(
                 "dashboard", "announcements", "finance", "grades", "subjects", "exams", "attendance",
-                "timetable", "library", "myTransportation", "myAssignments", "lumos", "liveClasses",
+                "timetable", "library", "myTransportation", "assignments", "lumos", "liveClasses",
                 "profile", "settings",
             ),
             keys(UserRole.STUDENT),
@@ -42,10 +42,14 @@ class PlatformNavTest {
     }
 
     @Test
-    fun `teachers can reach homework`() {
+    fun `every role that does homework sees the one assignments item`() {
         assertEquals("/assignments", platformNav.first { it.key == "assignments" }.href)
-        assert("assignments" in keys(UserRole.TEACHER))
-        assert("assignments" !in keys(UserRole.STUDENT))
+        assertEquals(1, platformNav.count { it.key == "assignments" })
+        assert(platformNav.none { it.key == "myAssignments" })
+        for (r in listOf(UserRole.ADMIN, UserRole.STAFF, UserRole.TEACHER, UserRole.STUDENT, UserRole.GUARDIAN)) {
+            assert("assignments" in keys(r)) { "$r should see assignments" }
+        }
+        assert("assignments" !in keys(UserRole.ACCOUNTANT))
     }
 
     @Test
@@ -53,7 +57,7 @@ class PlatformNavTest {
         assertEquals(
             listOf(
                 "dashboard", "announcements", "finance", "grades", "exams", "attendance", "library",
-                "myTransportation", "parentPortal", "lumos", "liveClasses", "profile", "settings",
+                "myTransportation", "assignments", "parentPortal", "lumos", "liveClasses", "profile", "settings",
             ),
             keys(UserRole.GUARDIAN),
         )
