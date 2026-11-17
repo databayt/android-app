@@ -26,12 +26,27 @@ import io.livekit.android.room.track.Track
 import io.livekit.android.room.track.VideoPreset169
 import io.livekit.android.room.track.VideoTrack
 import io.livekit.android.room.track.screencapture.ScreenCaptureParams
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonArray
 import org.hogwarts.android.feature.live.data.repository.LiveRepository
+import org.hogwarts.android.feature.live.ui.room.board.BoardMessage
+import org.hogwarts.android.feature.live.ui.room.board.BoardReducer
+import org.hogwarts.android.feature.live.ui.room.board.BoardState
+import org.hogwarts.android.feature.live.ui.room.board.BoardWire
+import org.hogwarts.android.feature.live.ui.room.board.DraftStroke
+import org.hogwarts.android.feature.live.ui.room.board.MAX_STROKES
+import org.hogwarts.android.feature.live.ui.room.board.Sender
+import org.hogwarts.android.feature.live.ui.room.board.Stroke
+import org.hogwarts.android.feature.live.ui.room.board.fitStroke
 import java.nio.ByteBuffer
 import javax.inject.Inject
 
@@ -44,6 +59,8 @@ data class Tile(
     val camera: VideoTrack?,
     val micOn: Boolean,
     val speaking: Boolean,
+    /** The participant's identity — what the board's grant names. */
+    val identity: String = "",
 )
 
 sealed interface RoomPhase {
@@ -136,12 +153,31 @@ class LiveRoomViewModel @Inject constructor(
     private val _state = MutableStateFlow(RoomUiState())
     val state: StateFlow<RoomUiState> = _state.asStateFlow()
 
+    /** The whiteboard, held here so it survives a reconnect and a screen rotation. */
+    private val _board = MutableStateFlow(BoardState())
+    val board: StateFlow<BoardState> = _board.asStateFlow()
+
+    /**
+     * Reliable board messages leave in the order they were made — a stroke and the undo that
+     * removes it must not swap on the way out — so they go through one queue, one at a time.
+     */
+    private val boardOut = Channel<suspend () -> Unit>(Channel.UNLIMITED)
+    private var boardRestored = false
+    private var boardSavedKey: List<String>? = null
+    private var draftPruner: kotlinx.coroutines.Job? = null
+
     init {
         viewModelScope.launch {
             room.events.events.collect { event ->
                 when (event) {
                     is RoomEvent.Reconnecting -> _state.update { it.copy(phase = RoomPhase.Reconnecting) }
-                    is RoomEvent.Reconnected, is RoomEvent.Connected -> _state.update { it.copy(phase = RoomPhase.Connected) }
+                    is RoomEvent.Reconnected -> {
+                        _state.update { it.copy(phase = RoomPhase.Connected) }
+                        askForBoard()
+                    }
+                    is RoomEvent.Connected -> _state.update { it.copy(phase = RoomPhase.Connected) }
+                    // The host arriving after us: ask again, they may have no board state for us yet.
+                    is RoomEvent.ParticipantConnected -> if (event.participant.identity?.value == hostIdentity) askForBoard()
                     is RoomEvent.Disconnected -> _state.update {
                         if (it.phase is RoomPhase.Over) it else it.copy(phase = RoomPhase.Over(why(event.reason)))
                     }
@@ -152,6 +188,7 @@ class LiveRoomViewModel @Inject constructor(
                 refresh()
             }
         }
+        viewModelScope.launch { for (job in boardOut) runCatching { job() } }
         join()
     }
 
@@ -198,6 +235,9 @@ class LiveRoomViewModel @Inject constructor(
                     _state.update { it.copy(phase = RoomPhase.Connected, entryPending = live) }
                     refresh()
                     if (tools.chat) loadChatHistory()
+                    // A student asks the host for the board; the host puts back what it saved.
+                    askForBoard()
+                    if (_state.value.isHost && tools.whiteboard) rememberBoard()
                 }
                 .onFailure { _state.update { it.copy(phase = RoomPhase.Refused("LIVE_CLASS_PROVIDER_UNAVAILABLE")) } }
         }
@@ -402,6 +442,9 @@ class LiveRoomViewModel @Inject constructor(
     private fun onClassMessage(event: RoomEvent.DataReceived) {
         val from = event.participant?.identity?.value ?: return
         val fromHost = from == hostIdentity || from in roomHosts
+        // The board is the one class tool students speak on: their strokes come from anyone and the
+        // reducer decides what each sender may do.
+        BoardWire.decode(event.data)?.let { onBoardMessage(it, Sender(from, fromHost)); return }
         if (!fromHost) return
         when (ClassWire.typeOf(event.data)) {
             "hand.clear", "hand.clearAll" -> {
@@ -410,6 +453,132 @@ class LiveRoomViewModel @Inject constructor(
                 _state.update { it.copy(handUp = false, notice = if (wasUp) RoomNotice.HandLowered else it.notice) }
             }
             "muted" -> _state.update { it.copy(notice = RoomNotice.MutedByHost) }
+        }
+    }
+
+    // ---- the whiteboard (hogwarts `live/room/board/`, wire in `board/board-wire.kt`) ----
+
+    val localIdentity: String get() = room.localParticipant.identity?.value.orEmpty()
+
+    private fun canDraw(): Boolean = BoardReducer.canDrawOn(_board.value.grant, localIdentity, _state.value.isHost)
+
+    private fun onBoardMessage(msg: BoardMessage, from: Sender) {
+        when (msg) {
+            BoardMessage.SyncRequest -> if (_state.value.isHost && answersSync()) {
+                boardOut.trySend { answerSync(from.identity) }
+            }
+            is BoardMessage.DraftMsg -> {
+                _board.update { BoardReducer.applyDraft(it, msg.draft, from, System.currentTimeMillis()) }
+                pruneDraftsSoon()
+            }
+            else -> _board.update { BoardReducer.apply(it, msg, from) }
+        }
+    }
+
+    /**
+     * Host: the late joiner's snapshot, then every stroke, addressed to the asker alone — the
+     * web's `answerSync`. A phone holds no questions, poll, slides, timer or quiz, so those go
+     * out empty; a co-host therefore answers only when the class's own host is not in the room
+     * (otherwise its empty snapshot would land after the real one and blank it).
+     */
+    private fun answersSync(): Boolean {
+        val primary = hostIdentity
+        return primary == null || primary == localIdentity || room.remoteParticipants.keys.none { it.value == primary }
+    }
+
+    private suspend fun answerSync(identity: String) {
+        val to = listOf(Participant.Identity(identity))
+        val b = _board.value
+        publish(BoardWire.encode(BoardMessage.SyncState(b.show, b.strokes.size, b.grant)), DataPublishReliability.RELIABLE, to)
+        for (s in b.strokes) publish(BoardWire.encode(BoardMessage.StrokeMsg(s)), DataPublishReliability.RELIABLE, to)
+    }
+
+    /** Student: ask the host for the board — on connect, on reconnect and when the host arrives. */
+    private fun askForBoard() {
+        if (_state.value.isHost || !_state.value.tools.whiteboard) return
+        val host = hostIdentity ?: return
+        boardOut.trySend { publish(BoardWire.encode(BoardMessage.SyncRequest), DataPublishReliability.RELIABLE, listOf(Participant.Identity(host))) }
+    }
+
+    private suspend fun publish(bytes: ByteArray, reliability: DataPublishReliability, to: List<Participant.Identity>?) {
+        val result = runCatching { room.localParticipant.publishData(bytes, reliability, ClassWire.CLASS_TOPIC, to) }
+        val failure = result.exceptionOrNull() ?: result.getOrNull()?.exceptionOrNull()
+        if (failure != null) android.util.Log.w("LiveRoom", "board message not sent", failure)
+    }
+
+    /** One reliable board message: applied here at once (our own messages do not echo), then sent in order. */
+    private fun sendBoard(msg: BoardMessage) {
+        val me = Sender(localIdentity, _state.value.isHost)
+        _board.update { BoardReducer.apply(it, msg, me) }
+        boardOut.trySend { publish(BoardWire.encode(msg), DataPublishReliability.RELIABLE, null) }
+    }
+
+    /** A finished stroke, fitted under the message cap. Only someone who may draw sends one. */
+    fun boardStroke(stroke: Stroke) {
+        if (canDraw()) sendBoard(BoardMessage.StrokeMsg(fitStroke(stroke)))
+    }
+
+    /** The eraser and undo: a host removes anything, a student only their own (the reducer decides). */
+    fun boardRemove(ids: List<String>) {
+        if (ids.isNotEmpty() && canDraw()) sendBoard(BoardMessage.Remove(ids))
+    }
+
+    /** A stroke in progress — lossy, so a dropped frame costs nothing. */
+    fun boardDraft(draft: DraftStroke) {
+        if (!canDraw()) return
+        val bytes = BoardWire.encode(BoardMessage.DraftMsg(draft))
+        viewModelScope.launch { publish(bytes, DataPublishReliability.LOSSY, null) }
+    }
+
+    fun boardClear() {
+        if (_state.value.isHost) sendBoard(BoardMessage.Clear)
+    }
+
+    /** Host: who besides the hosts may draw — everyone (`*`), one identity, or no one (null). */
+    fun boardGrant(to: String?) {
+        if (_state.value.isHost) sendBoard(BoardMessage.Grant(to))
+    }
+
+    /** Host: put the board on everyone's stage, or take it down. */
+    fun boardShow(on: Boolean) {
+        if (_state.value.isHost && _state.value.tools.whiteboard) sendBoard(BoardMessage.Show(on))
+    }
+
+    /** Remote drafts that stopped growing are dropped; a ticker runs only while there are drafts. */
+    private fun pruneDraftsSoon() {
+        if (draftPruner?.isActive == true) return
+        draftPruner = viewModelScope.launch {
+            while (_board.value.drafts.isNotEmpty()) {
+                delay(BoardReducer.DRAFT_TTL_MS / 2)
+                _board.update { BoardReducer.pruneDrafts(it, System.currentTimeMillis()) }
+            }
+        }
+    }
+
+    /**
+     * Host, best-effort: put the saved board back when this room's is empty (each stroke
+     * broadcast, as the web's board memory does), then save the page four seconds after it
+     * last changed. Any failure is silent.
+     */
+    private fun rememberBoard() {
+        viewModelScope.launch {
+            val saved = runCatching { repository.getBoard(sessionId) }.getOrNull() ?: JsonArray(emptyList())
+            if (_board.value.strokes.isEmpty()) {
+                saved.mapNotNull { BoardWire.strokeFrom(it) }.forEach { sendBoard(BoardMessage.StrokeMsg(it)) }
+            }
+            boardSavedKey = _board.value.strokes.map { it.id }
+            boardRestored = true
+        }
+        viewModelScope.launch {
+            _board.map { it.strokes }.distinctUntilChanged { a, b -> a === b }.collectLatest { strokes ->
+                val key = strokes.map { it.id }
+                if (!boardRestored || key == boardSavedKey) return@collectLatest
+                delay(BOARD_SAVE_AFTER_MS)
+                boardSavedKey = key
+                runCatching {
+                    repository.saveBoard(sessionId, JsonArray(strokes.takeLast(MAX_STROKES).map { BoardWire.strokeElement(it) }))
+                }
+            }
         }
     }
 
@@ -440,6 +609,7 @@ class LiveRoomViewModel @Inject constructor(
                 // Sharing with sound keeps the mic track live; the teacher's own switch is what counts.
                 micOn = if (p == room.localParticipant && screenAudio != null) !voiceSilenced else mic != null && !mic.muted,
                 speaking = p.isSpeaking,
+                identity = identity,
             )
         }.sortedWith(compareByDescending<Tile> { it.isHost }.thenBy { it.isLocal })
         // Hands: the attributes every client reads, ordered by when they went up.
@@ -479,6 +649,9 @@ class LiveRoomViewModel @Inject constructor(
         room.release()
     }
 }
+
+/** The host's board is saved this long after it last changed (the web's `SAVE_AFTER_MS`). */
+private const val BOARD_SAVE_AFTER_MS = 4_000L
 
 /** The shared sound against the teacher's voice in the one mic track (1.0 = as played). */
 private const val SHARE_AUDIO_GAIN = 0.8f

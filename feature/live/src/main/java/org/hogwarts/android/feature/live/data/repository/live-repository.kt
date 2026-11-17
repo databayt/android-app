@@ -15,4 +15,8 @@ interface LiveRepository {
     suspend fun recordChat(id: String, messageId: String, text: String)
     /** Host: mute every student. True when the server did it. */
     suspend fun muteAll(id: String): Boolean
+    /** Host: the saved whiteboard's strokes (the wire's `Stroke` objects); empty on any failure. */
+    suspend fun getBoard(id: String): kotlinx.serialization.json.JsonArray = kotlinx.serialization.json.JsonArray(emptyList())
+    /** Host: save the whiteboard. Best-effort — a failure is silent. */
+    suspend fun saveBoard(id: String, strokes: kotlinx.serialization.json.JsonArray) {}
 }

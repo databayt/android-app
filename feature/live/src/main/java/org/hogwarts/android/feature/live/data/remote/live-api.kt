@@ -9,10 +9,13 @@ import org.hogwarts.android.feature.live.data.remote.dto.MuteRequestDto
 import org.hogwarts.android.feature.live.data.remote.dto.RecordChatRequestDto
 import org.hogwarts.android.feature.live.data.remote.dto.RoomChatResponseDto
 import org.hogwarts.android.feature.live.data.remote.dto.SimpleResultDto
+import org.hogwarts.android.feature.live.data.remote.dto.BoardResponseDto
+import org.hogwarts.android.feature.live.data.remote.dto.BoardSaveDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -53,4 +56,12 @@ interface LiveApi {
     /** Host: mute every student's microphone (`live/moderation-core.ts`). */
     @POST("api/mobile/conference/{id}/mute")
     suspend fun mute(@Path("id") id: String, @Body body: MuteRequestDto): Response<SimpleResultDto>
+
+    /** Host: the whiteboard saved for this class, to put back after a reload. */
+    @GET("api/mobile/conference/{id}/board")
+    suspend fun getBoard(@Path("id") id: String): Response<BoardResponseDto>
+
+    /** Host: save the whiteboard (best-effort, a few seconds after it last changed). */
+    @PUT("api/mobile/conference/{id}/board")
+    suspend fun saveBoard(@Path("id") id: String, @Body body: BoardSaveDto): Response<SimpleResultDto>
 }

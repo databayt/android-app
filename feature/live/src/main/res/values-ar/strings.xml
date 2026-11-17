@@ -143,4 +143,19 @@
     <string name="live_room_no_messages">لا توجد رسائل بعد</string>
     <string name="live_room_message_placeholder">اكتب رسالة…</string>
     <string name="live_room_send">إرسال</string>
+    <string name="live_board_title">السبورة</string>
+    <string name="live_board_pen">قلم</string>
+    <string name="live_board_highlighter">قلم تحديد</string>
+    <string name="live_board_eraser">ممحاة</string>
+    <string name="live_board_undo">تراجع</string>
+    <string name="live_board_clear">مسح الكل</string>
+    <string name="live_board_grant">السماح للطلاب بالرسم</string>
+    <string name="live_board_grant_everyone">للكل</string>
+    <string name="live_board_grant_nobody">لا أحد</string>
+    <string name="live_board_color">اللون</string>
+    <string name="live_board_thin">رفيع</string>
+    <string name="live_board_medium">متوسط</string>
+    <string name="live_board_thick">سميك</string>
+    <string name="live_board_hide">إخفاء السبورة</string>
+    <string name="live_board_show">إظهار السبورة</string>
 </resources>

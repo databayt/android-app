@@ -37,3 +37,18 @@ data class MuteRequestDto(val identity: String? = null)
 
 @Serializable
 data class SimpleResultDto(val success: Boolean = false, val error: String? = null)
+
+/** `GET /api/mobile/conference/{id}/board` — the host's saved board; strokes are the wire's `Stroke` objects. */
+@Serializable
+data class BoardResponseDto(
+    val success: Boolean = false,
+    val data: BoardMemoryDto? = null,
+    val error: String? = null,
+)
+
+@Serializable
+data class BoardMemoryDto(val strokes: kotlinx.serialization.json.JsonArray = kotlinx.serialization.json.JsonArray(emptyList()))
+
+/** `PUT /api/mobile/conference/{id}/board` — save the page (the last 400 strokes). */
+@Serializable
+data class BoardSaveDto(val strokes: kotlinx.serialization.json.JsonArray)

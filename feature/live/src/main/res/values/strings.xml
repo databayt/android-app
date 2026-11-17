@@ -143,4 +143,19 @@
     <string name="live_room_no_messages">No messages yet</string>
     <string name="live_room_message_placeholder">Write a message…</string>
     <string name="live_room_send">Send</string>
+    <string name="live_board_title">Whiteboard</string>
+    <string name="live_board_pen">Pen</string>
+    <string name="live_board_highlighter">Highlighter</string>
+    <string name="live_board_eraser">Eraser</string>
+    <string name="live_board_undo">Undo</string>
+    <string name="live_board_clear">Clear all</string>
+    <string name="live_board_grant">Let students draw</string>
+    <string name="live_board_grant_everyone">Everyone</string>
+    <string name="live_board_grant_nobody">No one</string>
+    <string name="live_board_color">Color</string>
+    <string name="live_board_thin">Thin</string>
+    <string name="live_board_medium">Medium</string>
+    <string name="live_board_thick">Thick</string>
+    <string name="live_board_hide">Hide the whiteboard</string>
+    <string name="live_board_show">Show the whiteboard</string>
 </resources>

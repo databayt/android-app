@@ -40,6 +40,9 @@ internal object LiveIcons {
             "M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15",
         )
     }
+    val Presentation by lazy {
+        icon("Presentation", "M2 3h20", "M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3", "m7 21 5-5 5 5")
+    }
     val Message by lazy { icon("MessageCircle", "M7.9 20A9 9 0 1 0 4 16.1L2 22Z") }
     val Send by lazy {
         icon(

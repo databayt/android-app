@@ -54,6 +54,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
+import android.content.res.Configuration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -70,6 +72,9 @@ import io.livekit.android.room.Room
 import io.livekit.android.room.track.VideoTrack
 import livekit.org.webrtc.RendererCommon
 import org.hogwarts.android.feature.live.R
+import org.hogwarts.android.feature.live.ui.room.board.BoardPanel
+import org.hogwarts.android.feature.live.ui.room.board.BoardPerson
+import org.hogwarts.android.feature.live.ui.room.board.BoardReducer
 import org.hogwarts.android.feature.live.ui.session.LiveIcons
 
 private val STAGE = Color(0xFF000000)
@@ -86,8 +91,8 @@ private val LIVE_RED = Color(0xFFFF3B30)
  * at the foot, with the class tools the school switched on: screen share
  * (the teacher; a student with the student-share tool), raised hands, chat
  * and the host's mute-all — on the web room's own wire (`ClassWire`), so app
- * and web sit in one class. Still left to the web: questions, polls, the
- * whiteboard, slides and the quality menu.
+ * and web sit in one class. The whiteboard (`board/`) is the class channel's `wb.*` messages. Still
+ * left to the web: questions, polls, slides and the quality menu.
  */
 @Composable
 fun LiveRoomScreen(
@@ -191,13 +196,19 @@ fun LiveRoomScreen(
     }
     var panel by remember { mutableStateOf<Panel?>(null) }
     LaunchedEffect(panel) { viewModel.setChatOpen(panel == Panel.Chat) }
+    // The whiteboard fills the stage while the host has it up; anyone may fold it away for themselves.
+    val board by viewModel.board.collectAsStateWithLifecycle()
+    var boardFolded by remember { mutableStateOf(false) }
+    LaunchedEffect(board.show) { if (board.show) boardFolded = false }
+    val boardVisible = board.show && !boardFolded
+    val canDrawBoard = BoardReducer.canDrawOn(board.grant, viewModel.localIdentity, state.isHost)
     val leave = {
         viewModel.leave()
         onClose()
     }
     // Back inside a class asks first: teachers pressed it by mistake and dropped out of their own class.
     var confirmLeave by remember { mutableStateOf(false) }
-    BackHandler(onBack = { if (panel != null) panel = null else confirmLeave = true })
+    BackHandler(onBack = { if (panel != null) panel = null else if (boardVisible) boardFolded = true else confirmLeave = true })
     if (confirmLeave) {
         AlertDialog(
             onDismissRequest = { confirmLeave = false },
@@ -254,9 +265,44 @@ fun LiveRoomScreen(
                 onSecondary = { onOpenHref("/live/${viewModel.sessionId}") },
             )
             RoomPhase.Connected, RoomPhase.Reconnecting -> {
-                Stage(viewModel.room, state)
+                if (boardVisible) {
+                    BoardPanel(
+                        board = board,
+                        isHost = state.isHost,
+                        canDraw = canDrawBoard,
+                        localIdentity = viewModel.localIdentity,
+                        people = state.tiles.filter { !it.isLocal && !it.isHost && it.identity.isNotEmpty() }.map { BoardPerson(it.identity, it.name) },
+                        onStroke = viewModel::boardStroke,
+                        onDraft = viewModel::boardDraft,
+                        onRemove = viewModel::boardRemove,
+                        onClear = viewModel::boardClear,
+                        onGrant = viewModel::boardGrant,
+                    )
+                    // An upright phone has no strip for the teacher: their picture floats in the corner.
+                    val teacher = state.tiles.firstOrNull { it.isHost && !it.isLocal && it.camera != null }
+                    if (teacher != null && LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        Box(
+                            Modifier.align(Alignment.TopEnd).statusBarsPadding().padding(top = 72.dp, end = 12.dp)
+                                .size(width = 80.dp, height = 107.dp),
+                        ) { TileView(viewModel.room, teacher, lone = false, modifier = Modifier.fillMaxSize()) }
+                    }
+                } else {
+                    Stage(viewModel.room, state)
+                }
                 Chrome(
                     state = state,
+                    board = BoardButton(
+                        shown = state.tools.whiteboard && (state.isHost || board.show),
+                        up = boardVisible,
+                    ),
+                    onBoard = {
+                        when {
+                            !state.isHost -> boardFolded = !boardFolded
+                            !board.show -> viewModel.boardShow(true)
+                            boardFolded -> boardFolded = false
+                            else -> viewModel.boardShow(false)
+                        }
+                    },
                     onClose = leave,
                     onMic = { if (state.micOn) viewModel.setMic(false) else turnOn(Manifest.permission.RECORD_AUDIO) { viewModel.setMic(true) } },
                     onCamera = { if (state.cameraOn) viewModel.setCamera(false) else turnOn(Manifest.permission.CAMERA) { viewModel.setCamera(true) } },
@@ -403,6 +449,8 @@ private fun VideoView(room: Room, track: VideoTrack, fit: Boolean, modifier: Mod
 @Composable
 private fun Chrome(
     state: RoomUiState,
+    board: BoardButton,
+    onBoard: () -> Unit,
     onClose: () -> Unit,
     onMic: () -> Unit,
     onCamera: () -> Unit,
@@ -469,6 +517,13 @@ private fun Chrome(
                     fill = if (state.shareOn) SHARE_BLUE else null, onClick = onShare,
                 )
             }
+            if (board.shown) {
+                GlassButton(
+                    LiveIcons.Presentation,
+                    stringResource(if (state.isHost) (if (board.up) R.string.live_board_hide else R.string.live_board_show) else R.string.live_board_title),
+                    fill = if (board.up) SHARE_BLUE else null, onClick = onBoard,
+                )
+            }
             if (state.tools.chat) {
                 GlassButton(LiveIcons.Message, stringResource(R.string.live_room_chat), badge = state.chatUnread, onClick = onChat)
             }
@@ -511,6 +566,9 @@ private val AMBER = Color(0xFFFBBF24)
 private val SHARE_BLUE = Color(0xFF0284C7).copy(alpha = 0.9f)
 
 private enum class Panel { Chat, Hands }
+
+/** The whiteboard disc in the bottom row: [shown] when there is one to reach, [up] while it fills the stage. */
+private data class BoardButton(val shown: Boolean, val up: Boolean)
 
 /** `pending` marker: the microphone permission was asked on the way to a screen share. */
 private const val SHARE_WITH_SOUND = "share-with-sound"

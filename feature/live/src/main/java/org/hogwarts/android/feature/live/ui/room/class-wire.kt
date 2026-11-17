@@ -60,6 +60,8 @@ data class RoomTools(
     val hands: Boolean = true,
     val studentShare: Boolean = false,
     val joinMuted: Boolean = false,
+    /** The school's whiteboard switch (`roomConfig.tools.whiteboard`). */
+    val whiteboard: Boolean = false,
 ) {
     companion object {
         fun from(config: JsonObject?): RoomTools {
@@ -71,6 +73,7 @@ data class RoomTools(
                 hands = flag(tools, "hands", true),
                 studentShare = flag(tools, "studentShare", false),
                 joinMuted = flag(config, "joinMuted", false),
+                whiteboard = flag(tools, "whiteboard", false),
             )
         }
     }

@@ -40,6 +40,13 @@ class LiveRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getBoard(id: String): kotlinx.serialization.json.JsonArray =
+        runCatching { api.getBoard(id).body()?.data?.strokes }.getOrNull() ?: kotlinx.serialization.json.JsonArray(emptyList())
+
+    override suspend fun saveBoard(id: String, strokes: kotlinx.serialization.json.JsonArray) {
+        runCatching { api.saveBoard(id, org.hogwarts.android.feature.live.data.remote.dto.BoardSaveDto(strokes)) }
+    }
+
     override suspend fun muteAll(id: String): Boolean =
         runCatching {
             api.mute(id, org.hogwarts.android.feature.live.data.remote.dto.MuteRequestDto()).body()?.success == true
