@@ -25,6 +25,8 @@ data class SessionPageDto(
     @SerialName("attendance_link") val attendanceLink: String? = null,
     val labels: Map<String, String> = emptyMap(),
     val references: ReferencesDto? = null,
+    /** The reader's next class, sent when this one is ended or cancelled; null or absent otherwise. */
+    val next: NextClassDto? = null,
 )
 
 @Serializable
@@ -75,4 +77,31 @@ data class JoinTicketDto(
     val hostIdentity: String? = null,
     val roomConfig: JsonObject? = null,
     val expiresAt: String,
+)
+
+/** The next class on the reader's timetable (`next` of the class page and of `join-slot`). */
+@Serializable
+data class NextClassDto(
+    @SerialName("timetable_id") val timetableId: String = "",
+    val title: String = "",
+    @SerialName("starts_at") val startsAt: String? = null,
+    @SerialName("ends_at") val endsAt: String? = null,
+)
+
+/**
+ * `GET /api/mobile/live/join-slot/{timetableId}` — what tapping a timetable period should do.
+ * [kind]: `room` | `external` | `early` | `over` | `cancelled` | `not_today` | `not_online` | `unavailable`.
+ */
+@Serializable
+data class JoinSlotDto(
+    val kind: String = "unavailable",
+    @SerialName("session_id") val sessionId: String? = null,
+    val url: String? = null,
+    @SerialName("opens_at") val opensAt: String? = null,
+    @SerialName("starts_at") val startsAt: String? = null,
+    /** A JSON number; read as a double so a fractional value still decodes. */
+    @SerialName("opens_in_ms") val opensInMs: Double? = null,
+    val reason: String? = null,
+    val message: String? = null,
+    val next: NextClassDto? = null,
 )

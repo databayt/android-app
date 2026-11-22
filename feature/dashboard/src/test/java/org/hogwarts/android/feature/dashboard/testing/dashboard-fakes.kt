@@ -1,7 +1,11 @@
 package org.hogwarts.android.feature.dashboard.testing
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import org.hogwarts.android.core.connectivity.ConnectivityObserver
+import org.hogwarts.android.core.connectivity.ConnectivityStatus
 import org.hogwarts.android.core.data.tenant.CurrentUser
 import org.hogwarts.android.core.data.tenant.SessionManager
 import org.hogwarts.android.core.data.tenant.TenantContext
@@ -26,9 +30,19 @@ class FakeSessionManager(role: UserRole) : SessionManager {
     override suspend fun clearSession() { currentUser = null }
 }
 
+/** A phone whose validated-network state the test flips by hand. */
+class FakeConnectivityObserver(online: Boolean = true) : ConnectivityObserver {
+    val onlineFlow = MutableStateFlow(online)
+    override val online: Flow<Boolean> = onlineFlow
+    override val status: Flow<ConnectivityStatus> =
+        onlineFlow.map { if (it) ConnectivityStatus.Available else ConnectivityStatus.Unavailable }
+    override fun isOnline() = onlineFlow.value
+    override fun isValidated() = onlineFlow.value
+}
+
 fun tenant(role: UserRole) = TenantContext(FakeSessionManager(role))
 
-class FakeDashboardRepository(private var result: DashboardResult) : DashboardRepository {
+class FakeDashboardRepository(var result: DashboardResult) : DashboardRepository {
     private val _latest = MutableStateFlow<DashboardDto?>(null)
     override val latest: StateFlow<DashboardDto?> = _latest
     var cached: DashboardDto? = null

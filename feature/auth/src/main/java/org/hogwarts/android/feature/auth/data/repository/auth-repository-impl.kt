@@ -101,8 +101,12 @@ class AuthRepositoryImpl @Inject constructor(
 
         val response = call { authApi.refreshToken(refreshToken) }
         if (!response.isSuccessful) {
-            tokenManager.clearTokens()
-            sessionManager.clearSession()
+            // Only a refusal ends the session. A 5xx or a gateway error is the server's bad minute, not
+            // the reader's: signing them out for it would cost a teacher her class on a slow morning.
+            if (response.code() == 401 || response.code() == 403) {
+                tokenManager.clearTokens()
+                sessionManager.clearSession()
+            }
             throw AuthException(authErrorFor(AuthEndpoint.Login, response.code(), null))
         }
         return saveAuthResult(response.body() ?: throw AuthException(AuthError.Generic))

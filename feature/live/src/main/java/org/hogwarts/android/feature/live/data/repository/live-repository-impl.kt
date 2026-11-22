@@ -28,6 +28,27 @@ class LiveRepositoryImpl @Inject constructor(
             ?: org.hogwarts.android.feature.live.data.remote.dto.JoinResponseDto(error = "HTTP_${response.code()}")
     }
 
+    override suspend fun joinSlot(timetableId: String): JoinSlotResult = try {
+        val response = api.joinSlot(timetableId, if (Locale.getDefault().language == "en") "en" else "ar")
+        val body = response.body()
+        when {
+            response.isSuccessful && body != null -> JoinSlotResult.Resolved(body)
+            response.code() == 403 -> JoinSlotResult.Forbidden
+            // Not deployed yet: 404 / 405, or a 2xx with nothing the endpoint would have sent.
+            response.code() == 404 || response.code() == 405 || response.isSuccessful -> JoinSlotResult.NotDeployed
+            else -> JoinSlotResult.Failed("HTTP_${response.code()}")
+        }
+    } catch (e: kotlinx.coroutines.CancellationException) {
+        throw e
+    } catch (e: kotlinx.serialization.SerializationException) {
+        // A body that is not the endpoint's JSON (a web page from a server without it).
+        JoinSlotResult.NotDeployed
+    } catch (e: java.io.IOException) {
+        JoinSlotResult.Failed(e.message)
+    } catch (e: Exception) {
+        JoinSlotResult.Failed(e.message)
+    }
+
     override suspend fun getChat(id: String) =
         runCatching { api.getChat(id).body()?.data?.messages }.getOrNull().orEmpty()
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The status-bar icon of the class-in-progress notification (LiveClassService).
+  A status-bar icon is drawn by the system, outside the app's theme: one flat
+  path and a literal colour. The app logo is a themed, multi-colour vector and
+  the system cannot draw it there — a foreground-service notification it cannot
+  draw crashes the app ("Bad notification … Couldn't create icon").
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M17,10.5V7c0,-0.55 -0.45,-1 -1,-1H4c-0.55,0 -1,0.45 -1,1v10c0,0.55 0.45,1 1,1h12c0.55,0 1,-0.45 1,-1v-3.5l4,4v-11l-4,4z" />
+</vector>

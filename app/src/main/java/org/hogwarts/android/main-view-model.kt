@@ -62,11 +62,16 @@ class MainViewModel @Inject constructor(
                         try {
                             authRepository.refreshToken()
                         } catch (_: Exception) {
-                            // Refresh failed — existing token may still work,
-                            // let the auth interceptor handle 401s
+                            // A refresh the server could not answer (offline, a bad minute) leaves the
+                            // tokens in place: the token may still work, and the authenticator retries
+                            // on the first 401. A refresh the server REFUSED has cleared them.
                         }
                     }
-                    _uiState.update { it.copy(isAuthenticated = true) }
+                    // Read the tokens again instead of assuming them. A refused refresh ends the session
+                    // (the school re-issued the PIN, the password changed): this used to say "signed in"
+                    // regardless, so the reader sat on yesterday's home screen with every request
+                    // failing — shown as "offline" — until they force-closed the app.
+                    _uiState.update { it.copy(isAuthenticated = tokenManager.hasTokens) }
                 } else {
                     _uiState.update { it.copy(isAuthenticated = false) }
                 }

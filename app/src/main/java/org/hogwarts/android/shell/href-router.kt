@@ -9,6 +9,7 @@ import org.hogwarts.android.feature.exams.navigation.ExamDetail
 import org.hogwarts.android.feature.exams.navigation.ExamsUpcoming
 import org.hogwarts.android.feature.exams.navigation.QuestionBank
 import org.hogwarts.android.feature.library.navigation.LibraryBookDetail
+import org.hogwarts.android.feature.live.navigation.LiveJoinSlot
 import org.hogwarts.android.feature.live.navigation.LiveRecordings
 import org.hogwarts.android.feature.lumos.navigation.LumosCertificate
 import org.hogwarts.android.feature.lumos.navigation.LumosCourseDetail
@@ -60,6 +61,12 @@ private fun nestedRoute(path: String, role: UserRole?): Any? {
     // The textbook reader is the one three-segment page with a native mirror.
     if (segments.size == 3 && segments[0] == "subjects" && segments[2] == "textbook") {
         return SubjectTextbook(segments[1])
+    }
+    // A timetable or dashboard tap is a SLOT link (`/live/join/<timetableId>`): the room behind it is
+    // today's, decided by the server. It used to fall through to the web, which put a teacher in the
+    // browser's room — no screen share, no background audio — from inside the app.
+    if (segments.size == 3 && segments[0] == "live" && segments[1] == "join") {
+        return LiveJoinSlot(segments[2])
     }
     if (segments.size == 3 && segments[0] == "live" && segments[1] !in LIVE_WEB_PAGES) {
         when (segments[2]) {

@@ -152,4 +152,18 @@
     <string name="update_available_body">تتوفر نسخة أحدث من التطبيق جاهزة للتنزيل.</string>
     <string name="update_action">تحديث</string>
     <string name="update_later">لاحقاً</string>
+    <string name="update_downloading">جاري التنزيل… %1$s٪</string>
+    <string name="update_downloading_plain">جاري التنزيل…</string>
+    <string name="update_verifying">جاري التحقق من الملف…</string>
+    <string name="update_installing">جاري فتح برنامج التثبيت…</string>
+    <string name="update_install">ثبّت التحديث</string>
+    <string name="update_retry">جرّب تاني</string>
+    <string name="update_open_browser">فتح الرابط في المتصفح</string>
+    <string name="update_allow_install">اسمح للتطبيق بتثبيت التحديث، وبعدها ارجع</string>
+    <string name="update_allow_button">فتح الإعدادات</string>
+    <string name="update_protect_hint">لو طلعت رسالة حماية: دوس \"المزيد من التفاصيل\" ثم \"التثبيت على أي حال\"</string>
+    <string name="update_failed_network">ما قدرنا ننزّل — اتأكد من النت وجرّب تاني</string>
+    <string name="update_failed_incomplete">التنزيل ما اكتمل — جرّب تاني</string>
+    <string name="update_failed_space">مساحة الجهاز ما كافية — فضّي شوية وجرّب تاني</string>
+    <string name="update_failed_installer">ما قدرنا نفتح برنامج التثبيت — استخدم رابط المتصفح تحت</string>
 </resources>

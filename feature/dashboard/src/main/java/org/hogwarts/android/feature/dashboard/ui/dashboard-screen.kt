@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hogwarts.android.core.designsystem.kit.PillButton
 import org.hogwarts.android.core.designsystem.kit.PillVariant
@@ -52,6 +54,8 @@ fun DashboardScreen(
     viewModel: DashboardViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    // Back in the foreground (app switch, screen on): look for fresh data.
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.onResume() }
     DashboardContent(
         state = state,
         onOpenHref = onOpenHref,
@@ -83,8 +87,15 @@ fun DashboardContent(
                 .padding(horizontal = 16.dp, vertical = 24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            if (state.isOffline) {
-                Text(stringResource(R.string.dash_offline), style = type.caption, color = colors.mutedForeground)
+            // Only over content that is on screen: with no data the error block below speaks for itself.
+            if (state.data != null) {
+                when (state.notice) {
+                    RefreshNotice.Offline ->
+                        Text(stringResource(R.string.dash_offline), style = type.caption, color = colors.mutedForeground)
+                    RefreshNotice.CouldNotRefresh ->
+                        Text(stringResource(R.string.dash_refresh_failed), style = type.caption, color = colors.mutedForeground)
+                    RefreshNotice.None -> Unit
+                }
             }
 
             HomeBlock(eventsToday = state.data?.eventsToday, onOpen = onOpenHref)

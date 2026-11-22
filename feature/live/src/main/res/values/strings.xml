@@ -158,4 +158,21 @@
     <string name="live_board_thick">Thick</string>
     <string name="live_board_hide">Hide the whiteboard</string>
     <string name="live_board_show">Show the whiteboard</string>
+
+    <!-- The class kept alive in the background (LiveClassService) and the timetable-tap resolver (/live/join/[timetableId]). -->
+    <string name="live_service_channel">Class in progress</string>
+    <string name="live_service_title_fallback">Live class</string>
+    <string name="live_service_text">Class in progress — tap to return</string>
+    <string name="live_slot_early_title">The class hasn\'t opened yet</string>
+    <string name="live_slot_opens_in">Opens in %1$s</string>
+    <string name="live_slot_over">This class is over</string>
+    <string name="live_slot_cancelled">This class was cancelled</string>
+    <string name="live_slot_not_today">This class isn\'t scheduled for today</string>
+    <string name="live_slot_not_online">This class isn\'t taught online</string>
+    <string name="live_slot_unavailable">The class isn\'t available right now</string>
+    <string name="live_slot_forbidden">You can\'t open this class</string>
+    <string name="live_slot_failed">Couldn\'t open the class. Check your connection and try again.</string>
+    <string name="live_slot_retry">Try again</string>
+    <string name="live_slot_next">Your next class · %1$s</string>
+    <string name="live_slot_back">Back</string>
 </resources>

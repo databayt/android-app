@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,10 +30,27 @@ class LiveSessionViewModel @Inject constructor(
     private val _state = MutableStateFlow<LoadState<SessionPageDto>>(LoadState.Loading)
     val state: StateFlow<LoadState<SessionPageDto>> = _state.asStateFlow()
 
-    init {
-        viewModelScope.launch {
-            _state.value = runCatching { repository.getSession(id) }
-                .fold({ LoadState.Ready(it) }, { LoadState.Failed(it.message) })
+    private var loadJob: Job? = null
+
+    init { load() }
+
+    /**
+     * Read the page again (screen resumed, every 30 s). Only the first read shows the loader: a later
+     * read keeps the page on screen, and a failed one leaves what is already there.
+     */
+    fun refreshQuietly() {
+        if (loadJob?.isActive == true) return
+        load()
+    }
+
+    private fun load() {
+        loadJob = viewModelScope.launch {
+            runCatching { repository.getSession(id) }
+                .onSuccess { _state.value = LoadState.Ready(it) }
+                .onFailure { error ->
+                    if (error is kotlinx.coroutines.CancellationException) throw error
+                    if (_state.value !is LoadState.Ready) _state.value = LoadState.Failed(error.message)
+                }
         }
     }
 }

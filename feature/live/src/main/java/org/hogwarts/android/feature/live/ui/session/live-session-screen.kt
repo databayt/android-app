@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -43,8 +44,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
 import org.hogwarts.android.core.designsystem.icon.LucideIcons
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
+import org.hogwarts.android.feature.live.R
 import org.hogwarts.android.feature.live.data.remote.dto.LinkDto
 import org.hogwarts.android.feature.live.data.remote.dto.SessionPageDto
+import org.hogwarts.android.feature.live.ui.RefreshWhileResumed
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -65,6 +68,8 @@ fun LiveSessionScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val c = HogwartsTheme.colors
+    // Resumed or still open: read the page again quietly (a class that just ended gains its next one).
+    RefreshWhileResumed(viewModel::refreshQuietly)
     Box(Modifier.fillMaxSize().background(c.background)) {
         when (val s = state) {
             LoadState.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
@@ -94,6 +99,13 @@ private fun SessionPage(p: SessionPageDto, onOpenHref: (String) -> Unit, onOpenU
         }
 
         SessionState(p, onOpenHref, onOpenUrl)
+
+        // An ended or cancelled class comes with the reader's next one (the router opens /live/join/<id> natively).
+        p.next?.takeIf { it.timetableId.isNotBlank() }?.let { next ->
+            SolidButton(stringResource(R.string.live_slot_next, next.title), null, height = 40.dp) {
+                onOpenHref("/live/join/${next.timetableId}")
+            }
+        }
 
         p.description?.takeIf { it.isNotBlank() }?.let {
             Text(it, color = c.foreground, fontSize = 16.sp, lineHeight = 1.75.em)
@@ -272,7 +284,7 @@ private fun Banner(tone: Tone, icon: ImageVector, content: @Composable () -> Uni
 }
 
 @Composable
-private fun SolidButton(label: String, icon: ImageVector?, height: Dp = 32.dp, onClick: () -> Unit) {
+internal fun SolidButton(label: String, icon: ImageVector?, height: Dp = 32.dp, onClick: () -> Unit) {
     val c = HogwartsTheme.colors
     Row(
         Modifier.height(height).clip(RoundedCornerShape(8.dp)).background(c.primary)
@@ -285,7 +297,7 @@ private fun SolidButton(label: String, icon: ImageVector?, height: Dp = 32.dp, o
 }
 
 @Composable
-private fun OutlineButton(label: String, icon: ImageVector?, onClick: () -> Unit) {
+internal fun OutlineButton(label: String, icon: ImageVector?, onClick: () -> Unit) {
     val c = HogwartsTheme.colors
     Row(
         Modifier.height(32.dp).clip(RoundedCornerShape(8.dp)).border(1.dp, c.border, RoundedCornerShape(8.dp)).background(c.background)

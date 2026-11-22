@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import org.hogwarts.android.R
 import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.core.designsystem.atom.UserAvatar
+import org.hogwarts.android.core.designsystem.kit.LocalReportIssue
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 
 /**
@@ -28,8 +29,8 @@ import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
  *
  * `UserButton variant="platform"` is a dropdown, not a link: the reader's name
  * over the account links `getUserMenuItems` returns for the platform surface —
- * Profile, My Account, School Settings for an admin, Help & Support — and
- * Logout under a rule at the end. Tapping the avatar used to jump straight to
+ * Profile, My Account, School Settings for an admin, Help & Support — then
+ * Report an issue, and Logout under a rule at the end. Tapping the avatar used to jump straight to
  * the profile, which reached one of the five and hid the rest.
  *
  * The web also prints the reader's email under their name. `TenantContext`
@@ -84,6 +85,26 @@ fun AccountControl(
                 },
             )
         }
+
+        // "Report an issue" is otherwise only the underlined line at the foot
+        // of a few screens, below the fold: a parent told to report a problem
+        // looked through the menu and the timetable and never found it. Here
+        // it is one tap from every screen. Filed against the dashboard, the
+        // page this menu sits on.
+        val reportIssue = LocalReportIssue.current
+        DropdownMenuItem(
+            text = {
+                Text(
+                    stringResource(org.hogwarts.android.core.designsystem.R.string.report_issue_trigger),
+                    style = type.body,
+                    color = colors.foreground,
+                )
+            },
+            onClick = {
+                open = false
+                reportIssue.open("/dashboard")
+            },
+        )
 
         HorizontalDivider(color = colors.border)
         DropdownMenuItem(

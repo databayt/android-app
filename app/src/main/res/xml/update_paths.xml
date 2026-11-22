@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FileProvider paths for the in-app update: only cacheDir/updates/ is ever shared. -->
+<paths>
+    <cache-path
+        name="updates"
+        path="updates/" />
+</paths>

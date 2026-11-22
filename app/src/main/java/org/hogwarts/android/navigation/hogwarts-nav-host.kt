@@ -173,6 +173,7 @@ fun HogwartsNavHost(
 ) {
     val hrefOpener = LocalHrefOpener.current
     val context = androidx.compose.ui.platform.LocalContext.current
+    val webLink = org.hogwarts.android.core.designsystem.component.LocalWebLink.current
     val startDestination: Any = if (isAuthenticated) {
         Dashboard
     } else {
@@ -211,6 +212,12 @@ fun HogwartsNavHost(
                 )
             },
             onClose = { navController.popBackStack() },
+            // A slot link the server cannot resolve yet (an older server) opens the web page it
+            // used to open — straight to the site, never back through the router, which would
+            // send `/live/join/<id>` to the resolver again.
+            onOpenWeb = { href ->
+                org.hogwarts.android.shell.WebHandoff.open(context, android.net.Uri.parse(webLink.url(href)))
+            },
         )
 
         // The menu's first control. Its rows are web paths too, resolved the

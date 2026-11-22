@@ -8,6 +8,9 @@ import org.hogwarts.android.feature.exams.navigation.ExamDetail
 import org.hogwarts.android.feature.exams.navigation.ExamsUpcoming
 import org.hogwarts.android.feature.exams.navigation.QuestionBank
 import org.hogwarts.android.feature.guardian.navigation.GuardianChildren
+import org.hogwarts.android.feature.live.navigation.LiveJoinSlot
+import org.hogwarts.android.feature.live.navigation.LiveRoom
+import org.hogwarts.android.feature.live.navigation.LiveSession
 import org.hogwarts.android.feature.messaging.navigation.Messaging
 import org.hogwarts.android.feature.notifications.navigation.NotificationPreferences
 import org.hogwarts.android.feature.notifications.navigation.NotificationsUnread
@@ -34,6 +37,15 @@ class HrefRouterTest {
         assertNull(routeForHref("/announcements/archived", UserRole.ADMIN))
         assertEquals(NotificationsUnread, routeForHref("/notifications/unread", UserRole.STUDENT))
         assertEquals(NotificationPreferences, routeForHref("/notifications/preferences", UserRole.STUDENT))
+    }
+
+    @Test fun `a timetable tap opens the class natively, not the web join page`() {
+        // `/live/join/<timetableId>` is a slot link: the server decides today's room.
+        assertEquals(LiveJoinSlot("tt-1"), routeForHref("/live/join/tt-1", UserRole.TEACHER))
+        assertEquals(LiveJoinSlot("tt-1"), routeForHref("/live/join/tt-1", UserRole.STUDENT))
+        // A class id keeps its own screens.
+        assertEquals(LiveRoom("s-1"), routeForHref("/live/s-1/room", UserRole.TEACHER))
+        assertEquals(LiveSession("s-1"), routeForHref("/live/s-1", UserRole.STUDENT))
     }
 
     @Test fun `guardian my-children door opens the parent portal`() {

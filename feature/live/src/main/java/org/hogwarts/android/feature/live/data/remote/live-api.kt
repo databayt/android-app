@@ -4,6 +4,7 @@ import org.hogwarts.android.feature.live.data.remote.dto.LiveLandingResponse
 import org.hogwarts.android.feature.live.data.remote.dto.LiveRecordingListResponse
 import org.hogwarts.android.feature.live.data.remote.dto.RecordingUrlResponse
 import org.hogwarts.android.feature.live.data.remote.dto.JoinResponseDto
+import org.hogwarts.android.feature.live.data.remote.dto.JoinSlotDto
 import org.hogwarts.android.feature.live.data.remote.dto.SessionPageDto
 import org.hogwarts.android.feature.live.data.remote.dto.MuteRequestDto
 import org.hogwarts.android.feature.live.data.remote.dto.RecordChatRequestDto
@@ -40,6 +41,13 @@ interface LiveApi {
     /** `/live/[id]` — the page's loader, words included. */
     @GET("api/mobile/live/sessions/{id}")
     suspend fun getSession(@Path("id") id: String, @Query("lang") lang: String): SessionPageDto
+
+    /**
+     * A timetable period's tap, resolved by the server: the room, an external link, or why not yet / no more.
+     * A [Response] so 403 / 404 / 405 are answers, not exceptions.
+     */
+    @GET("api/mobile/live/join-slot/{timetableId}")
+    suspend fun joinSlot(@Path("timetableId") timetableId: String, @Query("lang") lang: String): Response<JoinSlotDto>
 
     /** The room ticket (`performLiveClassJoin`), errors in-band. */
     @GET("api/mobile/conference/{id}/join")

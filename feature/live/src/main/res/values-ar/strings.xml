@@ -158,4 +158,21 @@
     <string name="live_board_thick">سميك</string>
     <string name="live_board_hide">إخفاء السبورة</string>
     <string name="live_board_show">إظهار السبورة</string>
+
+    <!-- The class kept alive in the background (LiveClassService) and the timetable-tap resolver (/live/join/[timetableId]). -->
+    <string name="live_service_channel">الحصة شغّالة</string>
+    <string name="live_service_title_fallback">حصة مباشرة</string>
+    <string name="live_service_text">الحصة شغّالة — دوس للرجوع</string>
+    <string name="live_slot_early_title">الحصة لسّه ما فتحت</string>
+    <string name="live_slot_opens_in">بتفتح بعد %1$s</string>
+    <string name="live_slot_over">الحصة دي خلصت</string>
+    <string name="live_slot_cancelled">الحصة دي اتلغت</string>
+    <string name="live_slot_not_today">الحصة دي ما في جدول اليوم</string>
+    <string name="live_slot_not_online">الحصة دي ما أونلاين</string>
+    <string name="live_slot_unavailable">الحصة ما متاحة هسّه</string>
+    <string name="live_slot_forbidden">ما عندك صلاحية تدخل الحصة دي</string>
+    <string name="live_slot_failed">ما قدرنا نفتح الحصة. اتأكّد من النت وحاول تاني.</string>
+    <string name="live_slot_retry">حاول تاني</string>
+    <string name="live_slot_next">حصتك التالية · %1$s</string>
+    <string name="live_slot_back">رجوع</string>
 </resources>

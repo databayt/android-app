@@ -72,6 +72,7 @@
     <string name="dash_qa_announcements">الإعلانات</string>
     <string name="dash_qa_events">الأحداث</string>
     <string name="dash_offline">غير متصل — تُعرض آخر نسخة محفوظة</string>
+    <string name="dash_refresh_failed">ما قدرنا نحدّث — اسحب لتحت للتحديث</string>
     <string name="dash_error">تعذّر تحميل لوحة التحكم</string>
     <string name="dash_retry">أعد المحاولة</string>
     <string name="dash_next_classes">الحصص القادمة</string>

@@ -2,6 +2,7 @@ package org.hogwarts.android.feature.dashboard.data.repository
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,9 +20,9 @@ import javax.inject.Singleton
 
 sealed interface DashboardResult {
     data class Fresh(val data: DashboardDto) : DashboardResult
-    /** Served from the last good response because the network failed. */
-    data class Cached(val data: DashboardDto) : DashboardResult
-    data class Failed(val message: String?) : DashboardResult
+    /** Served from the last good response because the refresh failed; [failure] says why. */
+    data class Cached(val data: DashboardDto, val failure: RefreshFailure) : DashboardResult
+    data class Failed(val message: String?, val failure: RefreshFailure) : DashboardResult
 }
 
 interface DashboardRepository {
@@ -74,10 +75,19 @@ class DashboardRepositoryImpl @Inject constructor(
                 _latest.value = body
                 DashboardResult.Fresh(body)
             } else {
-                cached()?.let { DashboardResult.Cached(it) } ?: DashboardResult.Failed("HTTP ${response.code()}")
+                fallback(RefreshFailure.Server, "HTTP ${response.code()}")
             }
         } catch (e: IOException) {
-            cached()?.let { DashboardResult.Cached(it) } ?: DashboardResult.Failed(e.message)
+            fallback(classifyFailure(e), e.message)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            // An unreadable body is a server problem, never a reason to crash the home screen.
+            Timber.w(e, "Dashboard refresh failed")
+            fallback(RefreshFailure.Server, e.message)
         }
     }
+
+    private suspend fun fallback(failure: RefreshFailure, message: String?): DashboardResult =
+        cached()?.let { DashboardResult.Cached(it, failure) } ?: DashboardResult.Failed(message, failure)
 }

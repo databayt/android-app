@@ -7,8 +7,8 @@ import org.hogwarts.android.feature.dashboard.data.remote.DashboardSectionsDto
 data class DashboardUiState(
     val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
-    /** The data on screen came from the offline cache. */
-    val isOffline: Boolean = false,
+    /** What to say about the last refresh: nothing, "offline", or a neutral "couldn't refresh". */
+    val notice: RefreshNotice = RefreshNotice.None,
     val error: String? = null,
     val role: UserRole = UserRole.UNKNOWN,
     val data: DashboardDto? = null,
@@ -25,5 +25,7 @@ data class DashboardUiState(
     /** Indexes of next actions the reader acknowledged this session. */
     val dismissedActions: Set<Int> = emptySet(),
 ) {
+    /** The phone really has no connection (see [refreshNotice]). */
+    val isOffline get() = notice == RefreshNotice.Offline
     val nextActions get() = data?.nextActions.orEmpty().filterIndexed { i, _ -> i !in dismissedActions }
 }

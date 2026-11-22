@@ -22,7 +22,18 @@ enum class ConnectivityStatus {
 
 interface ConnectivityObserver {
     val status: Flow<ConnectivityStatus>
+
+    /**
+     * True while the default network is validated (the system has confirmed it reaches the internet,
+     * not merely that it is connected). Emits the current value first, then every change.
+     */
+    val online: Flow<Boolean>
+
+    /** True when the default network has internet access. */
     fun isOnline(): Boolean
+
+    /** True only when the default network is validated; a connected but captive or dead line is false. */
+    fun isValidated(): Boolean
 }
 
 @Singleton
@@ -65,6 +76,31 @@ class NetworkConnectivityObserver @Inject constructor(
             connectivityManager.unregisterNetworkCallback(callback)
         }
     }.distinctUntilChanged()
+
+    override val online: Flow<Boolean> = callbackFlow {
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                trySend(networkCapabilities.isValidatedInternet())
+            }
+
+            override fun onLost(network: Network) {
+                trySend(false)
+            }
+        }
+        connectivityManager.registerDefaultNetworkCallback(callback)
+        trySend(isValidated())
+        awaitClose { connectivityManager.unregisterNetworkCallback(callback) }
+    }.distinctUntilChanged()
+
+    override fun isValidated(): Boolean {
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.isValidatedInternet()
+    }
+
+    private fun NetworkCapabilities.isValidatedInternet(): Boolean =
+        hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+            hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
 
     override fun isOnline(): Boolean {
         val network = connectivityManager.activeNetwork ?: return false

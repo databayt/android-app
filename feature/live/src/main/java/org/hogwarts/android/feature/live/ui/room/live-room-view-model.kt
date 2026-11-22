@@ -38,6 +38,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonArray
 import org.hogwarts.android.feature.live.data.repository.LiveRepository
+import org.hogwarts.android.feature.live.service.LiveClassService
 import org.hogwarts.android.feature.live.ui.room.board.BoardMessage
 import org.hogwarts.android.feature.live.ui.room.board.BoardReducer
 import org.hogwarts.android.feature.live.ui.room.board.BoardState
@@ -47,6 +48,7 @@ import org.hogwarts.android.feature.live.ui.room.board.MAX_STROKES
 import org.hogwarts.android.feature.live.ui.room.board.Sender
 import org.hogwarts.android.feature.live.ui.room.board.Stroke
 import org.hogwarts.android.feature.live.ui.room.board.fitStroke
+import java.lang.ref.WeakReference
 import java.nio.ByteBuffer
 import javax.inject.Inject
 
@@ -137,6 +139,17 @@ class LiveRoomViewModel @Inject constructor(
 ) : ViewModel() {
     val sessionId: String = checkNotNull(savedStateHandle["id"])
     val room: Room = LiveKit.create(context)
+
+    /**
+     * One connected [Room] per class on this phone. A second back-stack entry for a class this phone is
+     * already in (the room, "back to the class page", Join again) builds a second view-model; it must not
+     * join again — the server would answer DUPLICATE_IDENTITY and drop the first. It stays idle and the
+     * screen shows this one instead.
+     */
+    val twin: LiveRoomViewModel? = Live.twinOf(sessionId, this)
+    /** The class service was started by this view-model (only the owner stops it). */
+    private var serviceOn = false
+    private var joinJob: kotlinx.coroutines.Job? = null
     private var hostIdentity: String? = null
     private var roomHosts: Set<String> = emptySet()
     /** When this phone first saw each hand go up — the queue's tiebreak. */
@@ -178,8 +191,11 @@ class LiveRoomViewModel @Inject constructor(
                     is RoomEvent.Connected -> _state.update { it.copy(phase = RoomPhase.Connected) }
                     // The host arriving after us: ask again, they may have no board state for us yet.
                     is RoomEvent.ParticipantConnected -> if (event.participant.identity?.value == hostIdentity) askForBoard()
-                    is RoomEvent.Disconnected -> _state.update {
-                        if (it.phase is RoomPhase.Over) it else it.copy(phase = RoomPhase.Over(why(event.reason)))
+                    is RoomEvent.Disconnected -> {
+                        stopClassService()
+                        _state.update {
+                            if (it.phase is RoomPhase.Over) it else it.copy(phase = RoomPhase.Over(why(event.reason)))
+                        }
                     }
                     is RoomEvent.RoomMetadataChanged -> roomHosts = ClassWire.roomHosts(event.newMetadata)
                     is RoomEvent.DataReceived -> if (event.topic == ClassWire.CLASS_TOPIC) onClassMessage(event)
@@ -189,12 +205,18 @@ class LiveRoomViewModel @Inject constructor(
             }
         }
         viewModelScope.launch { for (job in boardOut) runCatching { job() } }
-        join()
+        if (twin == null) {
+            Live.register(sessionId, this)
+            join()
+        }
     }
 
     fun join() {
+        // One connected room per class: already in (or on the way in), the call is a no-op.
+        val phase = _state.value.phase
+        if (joinJob?.isActive == true || phase is RoomPhase.Connected || phase is RoomPhase.Reconnecting) return
         _state.update { it.copy(phase = RoomPhase.Joining) }
-        viewModelScope.launch {
+        joinJob = viewModelScope.launch {
             val page = runCatching { repository.getSession(sessionId) }.getOrNull()
             page?.let { p -> _state.update { it.copy(title = p.title) } }
             if (page?.isExternal == true) {
@@ -233,6 +255,7 @@ class LiveRoomViewModel @Inject constructor(
                 .onSuccess {
                     roomHosts = ClassWire.roomHosts(room.metadata)
                     _state.update { it.copy(phase = RoomPhase.Connected, entryPending = live) }
+                    startClassService()
                     refresh()
                     if (tools.chat) loadChatHistory()
                     // A student asks the host for the board; the host puts back what it saved.
@@ -257,6 +280,8 @@ class LiveRoomViewModel @Inject constructor(
             if (ok) _state.update { it.copy(cameraOn = true) }
         }
         _state.update { it.copy(entryPending = false) }
+        // The microphone permission may have just arrived: the service takes the microphone type.
+        if (micGranted) startClassService()
         refresh()
     }
 
@@ -269,6 +294,7 @@ class LiveRoomViewModel @Inject constructor(
         }
         val ok = runCatching { room.localParticipant.setMicrophoneEnabled(on) }.getOrDefault(false)
         if (ok) _state.update { it.copy(micOn = on) }
+        if (ok && on) startClassService()
         refresh()
     }
 
@@ -584,7 +610,26 @@ class LiveRoomViewModel @Inject constructor(
 
     fun leave() {
         _state.update { it.copy(phase = RoomPhase.Over(RoomPhase.Why.Left)) }
+        stopClassService()
         room.disconnect()
+    }
+
+    /**
+     * The foreground service that keeps the class alive in the background (see [LiveClassService]).
+     * Started once connected, with the activity in front; called again it re-enters foreground, which
+     * is how a microphone permission granted mid-class upgrades it. Never throws.
+     */
+    private fun startClassService() {
+        if (twin != null) return
+        val phase = _state.value.phase
+        if (phase !is RoomPhase.Connected && phase !is RoomPhase.Reconnecting) return
+        if (LiveClassService.start(context, sessionId, _state.value.title)) serviceOn = true
+    }
+
+    private fun stopClassService() {
+        if (!serviceOn) return
+        serviceOn = false
+        LiveClassService.stop(context, sessionId)
     }
 
     private fun refresh() {
@@ -643,10 +688,33 @@ class LiveRoomViewModel @Inject constructor(
     }
 
     override fun onCleared() {
+        stopClassService()
+        Live.unregister(sessionId, this)
         screenAudio?.let { runCatching { it.releaseAudioResources() } }
         screenAudio = null
         room.disconnect()
         room.release()
+    }
+
+    /** The view-models that own a room on this phone, by class id. */
+    private object Live {
+        private val owners = java.util.concurrent.ConcurrentHashMap<String, WeakReference<LiveRoomViewModel>>()
+
+        /** The view-model already in (or joining) [id]'s room, other than [self]; null when there is none. */
+        fun twinOf(id: String, self: LiveRoomViewModel): LiveRoomViewModel? {
+            val other = owners[id]?.get()?.takeIf { it !== self } ?: return null
+            return when (other.state.value.phase) {
+                RoomPhase.Joining, RoomPhase.Connected, RoomPhase.Reconnecting -> other
+                else -> null
+            }
+        }
+
+        fun register(id: String, vm: LiveRoomViewModel) { owners[id] = WeakReference(vm) }
+
+        fun unregister(id: String, vm: LiveRoomViewModel) {
+            val current = owners[id] ?: return
+            if (current.get() === vm) owners.remove(id, current)
+        }
     }
 }
 

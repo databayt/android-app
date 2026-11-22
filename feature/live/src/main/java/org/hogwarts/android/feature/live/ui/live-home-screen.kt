@@ -85,6 +85,8 @@ fun LiveHomeScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val colors = HogwartsTheme.colors
     val landing = state.landing
+    // Back on the list (or still on it): read again quietly, so the next class appears without a pull.
+    RefreshWhileResumed(viewModel::refreshQuietly)
 
     PullToRefreshBox(
         isRefreshing = state.isRefreshing,

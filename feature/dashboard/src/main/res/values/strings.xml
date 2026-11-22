@@ -72,6 +72,7 @@
     <string name="dash_qa_announcements">Announcements</string>
     <string name="dash_qa_events">Events</string>
     <string name="dash_offline">Offline — showing your last saved dashboard</string>
+    <string name="dash_refresh_failed">Couldn\'t refresh — pull down to try again</string>
     <string name="dash_error">Couldn\'t load the dashboard</string>
     <string name="dash_retry">Try again</string>
     <string name="dash_next_classes">Next classes</string>

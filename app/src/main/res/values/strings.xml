@@ -152,4 +152,18 @@
     <string name="update_available_body">A newer version of the app is ready to download.</string>
     <string name="update_action">Update</string>
     <string name="update_later">Later</string>
+    <string name="update_downloading">Downloading… %1$s%%</string>
+    <string name="update_downloading_plain">Downloading…</string>
+    <string name="update_verifying">Checking the file…</string>
+    <string name="update_installing">Opening the installer…</string>
+    <string name="update_install">Install update</string>
+    <string name="update_retry">Try again</string>
+    <string name="update_open_browser">Open the link in the browser</string>
+    <string name="update_allow_install">Allow the app to install the update, then come back</string>
+    <string name="update_allow_button">Open settings</string>
+    <string name="update_protect_hint">If a protection message appears: tap \"More details\", then \"Install anyway\"</string>
+    <string name="update_failed_network">Couldn\'t download — check your connection and try again</string>
+    <string name="update_failed_incomplete">The download didn\'t finish — try again</string>
+    <string name="update_failed_space">Not enough free space — free some up and try again</string>
+    <string name="update_failed_installer">Couldn\'t open the installer — use the browser link below</string>
 </resources>

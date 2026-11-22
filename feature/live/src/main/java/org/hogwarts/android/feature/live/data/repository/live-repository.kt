@@ -15,6 +15,11 @@ interface LiveRepository {
     suspend fun recordChat(id: String, messageId: String, text: String)
     /** Host: mute every student. True when the server did it. */
     suspend fun muteAll(id: String): Boolean
+    /**
+     * Resolve a timetable period (`/live/join/<timetableId>`). Defaulted so a fake that predates it still
+     * compiles: it answers [JoinSlotResult.NotDeployed], the web fallback.
+     */
+    suspend fun joinSlot(timetableId: String): JoinSlotResult = JoinSlotResult.NotDeployed
     /** Host: the saved whiteboard's strokes (the wire's `Stroke` objects); empty on any failure. */
     suspend fun getBoard(id: String): kotlinx.serialization.json.JsonArray = kotlinx.serialization.json.JsonArray(emptyList())
     /** Host: save the whiteboard. Best-effort — a failure is silent. */

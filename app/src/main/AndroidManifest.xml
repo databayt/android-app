@@ -12,6 +12,8 @@
     <!-- The teacher's voice while she shares another app: see ScreenCaptureService below. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- In-app update: hand the downloaded APK to the system installer. -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- Camera feature (optional - for QR scanning) -->
     <uses-feature
@@ -98,6 +100,17 @@
                 android:name="androidx.work.WorkManagerInitializer"
                 android:value="androidx.startup"
                 tools:node="remove" />
+        </provider>
+
+        <!-- In-app update: shares cacheDir/updates/ with the system installer (own subclass, own authority). -->
+        <provider
+            android:name=".update.UpdateFileProvider"
+            android:authorities="${applicationId}.updates"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_paths" />
         </provider>
 
         <!-- Default notification channel -->

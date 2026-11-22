@@ -3,6 +3,7 @@ package org.hogwarts.android.feature.live.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -34,21 +35,35 @@ class LiveHomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(LiveHomeUiState())
     val uiState: StateFlow<LiveHomeUiState> = _uiState.asStateFlow()
 
+    private var loadJob: Job? = null
+
     init { load() }
 
+    /** Pull to refresh: the spinner shows, a read in flight is replaced. */
     fun refresh() {
         _uiState.update { it.copy(isRefreshing = true) }
+        loadJob?.cancel()
+        load()
+    }
+
+    /**
+     * A background read (screen resumed, every 30 s): no spinner, the old content stays until the new
+     * lands, and a read already in flight is left to finish.
+     */
+    fun refreshQuietly() {
+        if (loadJob?.isActive == true) return
         load()
     }
 
     private fun load() {
-        viewModelScope.launch {
+        loadJob = viewModelScope.launch {
             try {
                 val landing = repository.getLanding()
                 _uiState.update {
                     it.copy(isLoading = false, isRefreshing = false, landing = landing, error = null)
                 }
             } catch (error: Exception) {
+                if (error is kotlinx.coroutines.CancellationException) throw error
                 Timber.w(error, "Live landing failed to load")
                 _uiState.update {
                     it.copy(isLoading = false, isRefreshing = false, error = error.message)

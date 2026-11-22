@@ -101,8 +101,24 @@ fun LiveRoomScreen(
     onOpenUrl: (String) -> Unit = {},
     viewModel: LiveRoomViewModel = hiltViewModel(),
 ) {
+    // A second entry for a class this phone is already in shows the first one's room instead of joining again.
+    LiveRoomContent(onClose, onOpenHref, onOpenUrl, viewModel.twin ?: viewModel)
+}
+
+@Composable
+private fun LiveRoomContent(
+    onClose: () -> Unit,
+    onOpenHref: (String) -> Unit,
+    onOpenUrl: (String) -> Unit,
+    viewModel: LiveRoomViewModel,
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    // Coming back to a room already left (a stale entry under the one just closed): nothing to show, close it.
+    LaunchedEffect(Unit) {
+        val phase = state.phase
+        if (phase is RoomPhase.Over && phase.why == RoomPhase.Why.Left) onClose()
+    }
     // The update check stays silent while a class is on (see LiveRoomPresence).
     DisposableEffect(Unit) {
         org.hogwarts.android.core.common.brand.LiveRoomPresence.enter()
