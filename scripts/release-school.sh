@@ -14,7 +14,7 @@
 # --publish uploads to the CDN (databayt-cdn → cdn.databayt.org):
 #   balqalam/app/<school>/<school>-<versionName>.apk   (kept)
 #   balqalam/app/<school>/<school>.apk                 (stable alias the school shares)
-#   balqalam/app/<school>/version.json                 (the in-app update channel)
+#   balqalam/app/<school>/version.json                 (the in-app update channel; its apkUrl is the kept, versioned file)
 # plus any extra alias keys listed in brand.properties `aliases=` (comma-separated).
 # minCode defaults to the new versionCode: everyone below it is made to update.
 set -euo pipefail
@@ -91,7 +91,14 @@ EOF
 [ "$PUBLISH" = 1 ] || { echo "(dry run — pass --publish to upload)"; exit 0; }
 
 MIN_CODE="${MIN_CODE:-$CODE}"
-APK_URL="$CDN/balqalam/app/$SCHOOL/$SCHOOL.apk"
+ALIAS_URL="$CDN/balqalam/app/$SCHOOL/$SCHOOL.apk"
+# The update channel names the VERSIONED file, never the alias. The app (1.3.3+) downloads this
+# URL itself and checks its SHA-256 against the manifest: an alias still cached at the edge for a
+# minute after a publish would be the previous build, fail the check and tell a teacher her
+# "download did not complete". The versioned file is immutable, so it can never disagree with the
+# manifest. Older apps open the URL in the browser, where a file named after its version also ends
+# the "which alabidae (4).apk do I open" problem. Never publish two builds under one version name.
+APK_URL="$CDN/balqalam/app/$SCHOOL/$SCHOOL-$NAME.apk"
 put_apk() {
   aws s3 cp "$OUT/$SCHOOL-$NAME.apk" "s3://$BUCKET/$1" --only-show-errors \
     --content-type application/vnd.android.package-archive \
@@ -125,4 +132,4 @@ rm -f "$VJ"
 
 aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION" --paths "${PATHS[@]}" \
   --query 'Invalidation.Id' --output text
-echo "published: $APK_URL  (minCode $MIN_CODE, latestCode $CODE)"
+echo "published: $ALIAS_URL  (update channel → $APK_URL; minCode $MIN_CODE, latestCode $CODE)"
