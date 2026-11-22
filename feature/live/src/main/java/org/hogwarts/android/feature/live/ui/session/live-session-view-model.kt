@@ -25,7 +25,13 @@ sealed interface LoadState<out T> {
 class LiveSessionViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val repository: LiveRepository,
+    // Defaulted so a test (or a preview) can build the view-model with two arguments; Hilt passes the app's.
+    private val schoolZone: org.hogwarts.android.core.common.time.SchoolZone =
+        org.hogwarts.android.core.common.time.SchoolZone(""),
 ) : ViewModel() {
+    /** The school's zone: the page prints its times on the school's clock, like the timetable. */
+    val zone: java.time.ZoneId get() = schoolZone.id
+
     private val id: String = checkNotNull(savedStateHandle["id"])
     private val _state = MutableStateFlow<LoadState<SessionPageDto>>(LoadState.Loading)
     val state: StateFlow<LoadState<SessionPageDto>> = _state.asStateFlow()

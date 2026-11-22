@@ -74,13 +74,18 @@ fun LiveSessionScreen(
         when (val s = state) {
             LoadState.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
             is LoadState.Failed -> Text(s.message.orEmpty(), color = c.mutedForeground, modifier = Modifier.align(Alignment.Center).padding(24.dp))
-            is LoadState.Ready -> SessionPage(s.value, onOpenHref, onOpenUrl)
+            is LoadState.Ready -> SessionPage(s.value, viewModel.zone, onOpenHref, onOpenUrl)
         }
     }
 }
 
 @Composable
-private fun SessionPage(p: SessionPageDto, onOpenHref: (String) -> Unit, onOpenUrl: (String) -> Unit) {
+private fun SessionPage(
+    p: SessionPageDto,
+    zone: java.time.ZoneId,
+    onOpenHref: (String) -> Unit,
+    onOpenUrl: (String) -> Unit,
+) {
     val c = HogwartsTheme.colors
     val l = p.labels
     Column(
@@ -98,7 +103,7 @@ private fun SessionPage(p: SessionPageDto, onOpenHref: (String) -> Unit, onOpenU
             )
         }
 
-        SessionState(p, onOpenHref, onOpenUrl)
+        SessionState(p, zone, onOpenHref, onOpenUrl)
 
         // An ended or cancelled class comes with the reader's next one (the router opens /live/join/<id> natively).
         p.next?.takeIf { it.timetableId.isNotBlank() }?.let { next ->
@@ -210,7 +215,12 @@ private fun RefList(title: String, items: List<LinkDto>, onOpenHref: (String) ->
  * with where the recording stands.
  */
 @Composable
-private fun SessionState(p: SessionPageDto, onOpenHref: (String) -> Unit, onOpenUrl: (String) -> Unit) {
+private fun SessionState(
+    p: SessionPageDto,
+    zone: java.time.ZoneId,
+    onOpenHref: (String) -> Unit,
+    onOpenUrl: (String) -> Unit,
+) {
     val c = HogwartsTheme.colors
     val l = p.labels
     val join: (() -> Unit)? = when {
@@ -230,7 +240,14 @@ private fun SessionState(p: SessionPageDto, onOpenHref: (String) -> Unit, onOpen
             val countdown = if (diffMin >= 120) l["hours"].orEmpty().replace("{n}", (diffMin / 60.0).roundToInt().toString())
             else l["minutes"].orEmpty().replace("{n}", diffMin.toString())
             val soon = diffMin <= 10
-            val time = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(Date(start))
+            // On the SCHOOL's clock, like the timetable and the header above. The phone's own zone
+            // put this line an hour ahead of the timetable for a teacher in Bahrain — two clocks on
+            // one page, which she read as "its timing is Saudi".
+            val time = remember(start, zone) {
+                SimpleDateFormat("hh:mm a", Locale.getDefault())
+                    .apply { timeZone = java.util.TimeZone.getTimeZone(zone) }
+                    .format(Date(start))
+            }
             Banner(if (soon) Tone.Primary else Tone.Muted, LucideIcons.Clock) {
                 Text(l["upcoming"].orEmpty(), color = c.foreground, fontWeight = FontWeight.Medium)
                 Text(
