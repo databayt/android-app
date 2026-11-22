@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
+import org.hogwarts.android.core.common.time.SchoolZone
 import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.feature.dashboard.data.remote.DashboardApi
 import org.hogwarts.android.feature.dashboard.data.remote.DashboardDto
@@ -44,6 +45,7 @@ class DashboardRepositoryImpl @Inject constructor(
     private val api: DashboardApi,
     private val json: Json,
     private val tenantContext: TenantContext,
+    private val schoolZone: SchoolZone,
     @ApplicationContext private val context: Context,
 ) : DashboardRepository {
 
@@ -61,7 +63,10 @@ class DashboardRepositoryImpl @Inject constructor(
         runCatching { cacheFile()?.takeIf { it.exists() }?.readText()?.let { json.decodeFromString<DashboardDto>(it) } }
             .onFailure { Timber.w(it, "Dashboard cache unreadable") }
             .getOrNull()
-            ?.also { if (_latest.value == null) _latest.value = it }
+            ?.also {
+                schoolZone.accept(it.school?.timezone)
+                if (_latest.value == null) _latest.value = it
+            }
     }
 
     override suspend fun refresh(): DashboardResult {
@@ -72,6 +77,7 @@ class DashboardRepositoryImpl @Inject constructor(
                 withContext(Dispatchers.IO) {
                     runCatching { cacheFile()?.writeText(json.encodeToString(DashboardDto.serializer(), body)) }
                 }
+                schoolZone.accept(body.school?.timezone)
                 _latest.value = body
                 DashboardResult.Fresh(body)
             } else {

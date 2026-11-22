@@ -1,3 +1,4 @@
+import java.time.ZoneId
 import java.util.Properties
 
 plugins {
@@ -65,6 +66,9 @@ val brandProps = Properties().apply {
         listOf("school", "package", "updateUrl", "apkUrl").forEach { key ->
             require(!getProperty(key).isNullOrBlank()) { "${dir.path}/brand.properties is missing `$key`." }
         }
+        getProperty("timezone")?.trim()?.takeIf { it.isNotEmpty() }?.let { zone ->
+            ZoneId.of(zone) // a typo fails the build, not the app
+        }
     }
 }
 fun brandProp(key: String): String = brandProps.getProperty(key).orEmpty().trim()
@@ -105,6 +109,7 @@ android {
             buildConfigField("String", "BRAND_SCHOOL", quoted(""))
             buildConfigField("String", "BRAND_UPDATE_URL", quoted("https://cdn.databayt.org/balqalam/app/version.json"))
             buildConfigField("String", "BRAND_APK_URL", quoted("https://cdn.databayt.org/balqalam/app/balqalam.apk"))
+            buildConfigField("String", "BRAND_TIMEZONE", quoted(""))
             buildConfigField("boolean", "BRAND_LOCKED", "false")
         }
         // One school's own build (only with -Phogwarts.brand=...): same signing key, its own identity.
@@ -114,6 +119,7 @@ android {
             buildConfigField("String", "BRAND_SCHOOL", quoted(brandProp("school")))
             buildConfigField("String", "BRAND_UPDATE_URL", quoted(brandProp("updateUrl")))
             buildConfigField("String", "BRAND_APK_URL", quoted(brandProp("apkUrl")))
+            buildConfigField("String", "BRAND_TIMEZONE", quoted(brandProp("timezone")))
             buildConfigField("boolean", "BRAND_LOCKED", "true")
         }
     }

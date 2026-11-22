@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.hogwarts.android.core.common.time.SchoolZone
 import org.hogwarts.android.feature.timetable.data.remote.TimetableApi
 import org.hogwarts.android.feature.timetable.data.repository.TimetableRepository
 import org.hogwarts.android.feature.timetable.data.repository.TimetableRepositoryImpl
@@ -13,7 +14,7 @@ import java.time.Clock
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-/** The device clock the views compare wall-clock periods against; tests pin it. */
+/** The school's clock (see [SchoolZone]) the views compare wall-clock periods against; tests pin it. */
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class TimetableClock
@@ -28,7 +29,7 @@ object TimetableModule {
 
     @Provides
     @TimetableClock
-    fun provideClock(): Clock = Clock.systemDefaultZone()
+    fun provideClock(zone: SchoolZone): Clock = zone.clock()
 }
 
 @Module

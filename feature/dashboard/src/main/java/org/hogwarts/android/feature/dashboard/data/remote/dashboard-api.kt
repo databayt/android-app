@@ -40,6 +40,8 @@ data class SchoolDto(
     @SerialName("logo_url") val logoUrl: String? = null,
     /** null = every module enabled. */
     @SerialName("enabled_modules") val enabledModules: List<String>? = null,
+    /** The school's IANA zone; older servers do not send it. */
+    val timezone: String? = null,
 )
 
 @Serializable

@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.hogwarts.android.core.common.time.SchoolZone
 import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.feature.dashboard.data.repository.DashboardResult
 import org.hogwarts.android.feature.dashboard.data.repository.RefreshFailure
@@ -46,6 +47,7 @@ class DashboardViewModelTest {
         FakeSectionsRepository(sections),
         tenant(role),
         connectivity,
+        SchoolZone("Africa/Khartoum"),
     )
 
     @Test

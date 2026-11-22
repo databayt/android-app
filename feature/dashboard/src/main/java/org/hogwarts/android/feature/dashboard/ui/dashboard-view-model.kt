@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.hogwarts.android.core.common.time.SchoolZone
 import org.hogwarts.android.core.connectivity.ConnectivityObserver
 import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.core.data.tenant.UserRole
@@ -21,7 +22,6 @@ import org.hogwarts.android.feature.dashboard.data.repository.DashboardResult
 import org.hogwarts.android.feature.dashboard.data.repository.DashboardSectionsRepository
 import org.hogwarts.android.feature.dashboard.data.repository.RefreshFailure
 import org.hogwarts.android.feature.dashboard.data.repository.SectionsResult
-import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +30,7 @@ class DashboardViewModel @Inject constructor(
     private val sectionsRepository: DashboardSectionsRepository,
     private val tenantContext: TenantContext,
     private val connectivity: ConnectivityObserver,
+    private val schoolZone: SchoolZone,
 ) : ViewModel() {
 
     /** Test seam for the resume throttle. */
@@ -42,7 +43,7 @@ class DashboardViewModel @Inject constructor(
     private var lastLoadStartMs = 0L
 
     private val _uiState = MutableStateFlow(
-        DashboardUiState(role = tenantContext.userRole ?: UserRole.UNKNOWN, weekday = deviceWeekday()),
+        DashboardUiState(role = tenantContext.userRole ?: UserRole.UNKNOWN, weekday = schoolWeekday()),
     )
     val uiState: StateFlow<DashboardUiState> = _uiState.asStateFlow()
 
@@ -105,7 +106,7 @@ class DashboardViewModel @Inject constructor(
 
     private suspend fun load(refreshing: Boolean) {
         lastLoadStartMs = clock()
-        _uiState.update { it.copy(isRefreshing = refreshing, weekday = deviceWeekday()) }
+        _uiState.update { it.copy(isRefreshing = refreshing, weekday = schoolWeekday()) }
         when (val result = repository.refresh()) {
             is DashboardResult.Fresh -> {
                 retryJob?.cancel()
@@ -148,6 +149,6 @@ class DashboardViewModel @Inject constructor(
         _uiState.update { it.copy(sections = sections) }
     }
 
-    /** 0 = Sunday, matching the server's `day_of_week`. */
-    private fun deviceWeekday(): Int = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - Calendar.SUNDAY
+    /** 0 = Sunday, matching the server's `day_of_week`, in the school's zone. */
+    private fun schoolWeekday(): Int = schoolZone.weekday()
 }

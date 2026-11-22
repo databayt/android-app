@@ -10,6 +10,8 @@ data class BrandConfig(
     val locked: Boolean,
     val updateUrl: String,
     val apkUrl: String,
+    /** The school's IANA zone (e.g. Africa/Khartoum); empty when the build has none. */
+    val timezone: String = "",
 )
 
 /** The installed build's identity, sent on every API request. Values come from the app's BuildConfig. */
