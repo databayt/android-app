@@ -241,10 +241,15 @@ class LiveRoomViewModel @Inject constructor(
                 )
             }
             listenForChat()
-            // A teacher's screen at 720p/15 — the web's `ScreenSharePresets.h720fps15`.
+            // A teacher's screen at 720p/15 — the web's `ScreenSharePresets.h720fps15`, capture AND
+            // encoding. Only the capture was set before, so the SDK sized the top layer for the screen
+            // at 7 Mbps; on a teacher's mobile uplink in Sudan the students heard her and never saw the
+            // screen (أفراح restarted the share 18 times in one class, 11-22). Same ceiling as the web.
             runCatching {
                 room.screenShareTrackCaptureDefaults =
                     room.screenShareTrackCaptureDefaults.copy(captureParams = ScreenSharePresets.H720_FPS15.capture)
+                room.screenShareTrackPublishDefaults =
+                    room.screenShareTrackPublishDefaults.copy(videoEncoding = ScreenSharePresets.H720_FPS15.encoding)
             }
             // A phone camera at 360p — enough for a face, light enough for an old phone on Sudanese data.
             runCatching {
