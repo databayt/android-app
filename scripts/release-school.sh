@@ -110,10 +110,23 @@ put_apk() {
     --content-type application/vnd.android.package-archive \
     --cache-control "$2" --content-disposition "attachment; filename=\"$(basename "$1")\""
 }
+# A versioned file is cached as immutable: a second build under the same version name keeps
+# being served from the edge while version.json names the new checksum, and every in-app update
+# fails its SHA check (11-23 09:04, fixed by an invalidation). Refuse, unless it is the same file.
+EXISTING_SHA="$(curl -sf "$CDN/balqalam/app/$SCHOOL/$SCHOOL-$NAME.apk" | shasum -a 256 | cut -d' ' -f1 || true)"
+if [ -n "$EXISTING_SHA" ] && [ "$EXISTING_SHA" != "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855" ] && [ "$EXISTING_SHA" != "$SHA" ]; then
+  if [ "${REPUBLISH_SAME_VERSION:-0}" = 1 ]; then
+    echo "→ $SCHOOL-$NAME.apk exists with another build: replacing it and invalidating the edge copy"
+    PATHS_EXTRA="/balqalam/app/$SCHOOL/$SCHOOL-$NAME.apk"
+  else
+    echo "$SCHOOL-$NAME.apk is already published with another build (sha $EXISTING_SHA). Bump the version, or set REPUBLISH_SAME_VERSION=1." >&2
+    exit 1
+  fi
+fi
 echo "→ upload"
 put_apk "balqalam/app/$SCHOOL/$SCHOOL-$NAME.apk" "public, max-age=31536000, immutable"
 put_apk "balqalam/app/$SCHOOL/$SCHOOL.apk" "public, max-age=60"
-PATHS=("/balqalam/app/$SCHOOL/$SCHOOL.apk" "/balqalam/app/$SCHOOL/version.json")
+PATHS=("/balqalam/app/$SCHOOL/$SCHOOL.apk" "/balqalam/app/$SCHOOL/version.json" ${PATHS_EXTRA:+"$PATHS_EXTRA"})
 IFS=',' read -r -a EXTRA <<<"$(prop aliases)"
 for key in "${EXTRA[@]}"; do
   [ -n "$key" ] || continue
