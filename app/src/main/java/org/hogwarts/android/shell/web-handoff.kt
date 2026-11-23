@@ -22,7 +22,12 @@ object WebHandoff {
         return Uri.parse("https://$host/$lang$href")
     }
 
-    fun open(context: Context, uri: Uri) {
+    fun open(context: Context, rawUri: Uri) {
+        // Marks the visit as the app's own: an app school's web gate shows Android browsers only
+        // «افتح التطبيق», and a Custom Tab is indistinguishable from Chrome without this (11-23).
+        val uri = if (rawUri.getQueryParameter("app") == null) {
+            rawUri.buildUpon().appendQueryParameter("app", "1").build()
+        } else rawUri
         try {
             CustomTabsIntent.Builder().setShowTitle(true).build().launchUrl(context, uri)
         } catch (e: ActivityNotFoundException) {
