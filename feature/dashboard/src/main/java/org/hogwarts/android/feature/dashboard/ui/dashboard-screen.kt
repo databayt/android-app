@@ -30,6 +30,9 @@ import org.hogwarts.android.feature.dashboard.data.remote.NextActionDto
 import org.hogwarts.android.feature.dashboard.ui.components.ChartSection
 import org.hogwarts.android.feature.dashboard.ui.components.HomeBlock
 import org.hogwarts.android.feature.dashboard.ui.components.NextActionBanner
+import org.hogwarts.android.feature.dashboard.ui.components.NotificationOffBanner
+import org.hogwarts.android.feature.dashboard.ui.components.NotificationPromptSheet
+import org.hogwarts.android.feature.dashboard.ui.components.rememberNotificationPermissionRequest
 import org.hogwarts.android.feature.dashboard.ui.components.QuickActions
 import org.hogwarts.android.feature.dashboard.ui.components.RoleSections
 import org.hogwarts.android.feature.dashboard.ui.components.TodayTimetable
@@ -56,12 +59,36 @@ fun DashboardScreen(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     // Back in the foreground (app switch, screen on): look for fresh data.
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.onResume() }
-    DashboardContent(
-        state = state,
-        onOpenHref = onOpenHref,
-        onAcknowledge = viewModel::acknowledge,
-        onRefresh = viewModel::refresh,
-    )
+
+    // Notifications: re-read the system state on every resume; ask once, with a reason.
+    val notifications = hiltViewModel<NotificationPermissionViewModel>()
+    val notifState by notifications.state.collectAsStateWithLifecycle()
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { notifications.onResume() }
+    val requestPermission = rememberNotificationPermissionRequest(notifications::onPermissionResult)
+    if (notifState.showPrompt) {
+        NotificationPromptSheet(
+            onAllow = {
+                notifications.onAllowTapped()
+                requestPermission()
+            },
+            onLater = notifications::onLater,
+        )
+    }
+
+    Column(Modifier.fillMaxSize()) {
+        NotificationOffBanner(
+            status = notifState.status,
+            onOpenSettings = notifications::openSettings,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp),
+        )
+        DashboardContent(
+            state = state,
+            onOpenHref = onOpenHref,
+            onAcknowledge = viewModel::acknowledge,
+            onRefresh = viewModel::refresh,
+            modifier = Modifier.weight(1f),
+        )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -71,13 +98,14 @@ fun DashboardContent(
     onOpenHref: (href: String) -> Unit,
     onAcknowledge: (NextActionDto) -> Unit,
     onRefresh: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val colors = HogwartsTheme.colors
     val type = HogwartsTheme.type
     PullToRefreshBox(
         isRefreshing = state.isRefreshing,
         onRefresh = onRefresh,
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         Column(
             modifier = Modifier

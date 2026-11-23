@@ -31,6 +31,7 @@ import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
 import org.hogwarts.android.core.security.BiometricHelper
 import org.hogwarts.android.navigation.HogwartsNavHost
+import org.hogwarts.android.core.push.PushDeepLink
 import org.hogwarts.android.shell.AppShell
 import org.hogwarts.android.shell.IncomingLink
 import javax.inject.Inject
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.isLoading }
 
         enableEdgeToEdge()
-        if (savedInstanceState == null) incomingLink.value = IncomingLink.path(intent)
+        if (savedInstanceState == null) incomingLink.value = linkOf(intent)
 
         // Version check on every start/return to the foreground (the checker throttles to 30 min).
         lifecycleScope.launch {
@@ -88,8 +89,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        IncomingLink.path(intent)?.let { incomingLink.value = it }
+        setIntent(intent)
+        linkOf(intent)?.let { incomingLink.value = it }
     }
+
+    /**
+     * The page this launch asks for: a web link ("open in the app"), or a tapped push notification,
+     * whose launch intent carries `deep_link` (app killed, backgrounded or foreground alike). Both
+     * end in the shell's href router.
+     */
+    private fun linkOf(intent: Intent?): String? = IncomingLink.path(intent) ?: PushDeepLink.fromIntent(intent)
 }
 
 @Composable

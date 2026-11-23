@@ -38,6 +38,15 @@
         android:theme="@style/Theme.Hogwarts"
         android:usesCleartextTraffic="false"
         tools:targetApi="35">
+        <!-- Pushes Firebase shows itself (app in the background): our flat bell-less class icon
+             instead of the system's blank ring, and the general channel when none is named. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_live_class" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="hogwarts_general" />
+
 
         <!-- Main Activity -->
         <activity

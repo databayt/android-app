@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    // RegisterDeviceTokenRequest is @Serializable: without the compiler plugin no serializer is
+    // generated and every token registration failed at runtime ("Serializer for class … is not
+    // found") — no release ever registered a phone for push (found 2026-11-23).
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -25,6 +29,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:network"))
 
+    implementation(libs.androidx.core.ktx)
     implementation(libs.work.runtime)
     implementation(libs.hilt.work)
     ksp(libs.hilt.work.compiler)

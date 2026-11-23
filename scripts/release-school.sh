@@ -57,6 +57,12 @@ else
   echo "→ brand resources"
   python3 "$ROOT/tools/brand-res.py" "$BRAND"
 
+  # Production Firebase (project hogwarts-4bb67, owner osmanabdout.jr): one Android app
+  # org.hogwarts.android serves every school brand. Kept outside git (public repo).
+  FIREBASE_CONFIG="$HOME/.config/hogwarts-android/firebase/google-services.json"
+  [ -f "$FIREBASE_CONFIG" ] || { echo "no production Firebase config at $FIREBASE_CONFIG" >&2; exit 1; }
+  cp "$FIREBASE_CONFIG" "$ROOT/app/google-services.json"
+
   echo "→ assemble schoolRelease"
   PASS="$(security find-generic-password -a "$USER" -s hogwarts-android-keystore-password -w)"
   ( cd "$ROOT" && HOGWARTS_KEYSTORE="$KEYSTORE" HOGWARTS_KEYSTORE_PASSWORD="$PASS" \

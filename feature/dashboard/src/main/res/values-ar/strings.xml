@@ -233,4 +233,11 @@
     <string name="dash_chart_developer_radial_label">وقت التشغيل</string>
     <string name="dash_chart_developer_radial_trend">توفر المنصة</string>
     <string name="dash_chart_developer_area_trend">اتجاه النمو عبر الزمن</string>
+    <string name="notif_prompt_title">فعّل الإشعارات</string>
+    <string name="notif_prompt_body">فعّل الإشعارات عشان تصلك الحصة قبل ما تبدأ، والحصص التعويضية وأي تغيير</string>
+    <string name="notif_prompt_allow">السماح</string>
+    <string name="notif_prompt_later">لاحقاً</string>
+    <string name="notif_off_banner">الإشعارات مقفولة — ما حتصلك تنبيهات الحصص</string>
+    <string name="notif_live_off_banner">تنبيهات الحصص المباشرة مقفولة — ما حتعرف متى تبدأ الحصة</string>
+    <string name="notif_open_settings">فتح الإعدادات</string>
 </resources>

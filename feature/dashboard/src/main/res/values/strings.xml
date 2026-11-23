@@ -233,4 +233,11 @@
     <string name="dash_chart_developer_radial_label">Uptime</string>
     <string name="dash_chart_developer_radial_trend">Platform availability</string>
     <string name="dash_chart_developer_area_trend">Growth trend over time</string>
+    <string name="notif_prompt_title">Turn on notifications</string>
+    <string name="notif_prompt_body">Turn on notifications so you get the class before it starts, make-up classes and any change.</string>
+    <string name="notif_prompt_allow">Allow</string>
+    <string name="notif_prompt_later">Later</string>
+    <string name="notif_off_banner">Notifications are off — you won\'t get class alerts</string>
+    <string name="notif_live_off_banner">Live-class alerts are off — you won\'t be told when a class starts</string>
+    <string name="notif_open_settings">Open settings</string>
 </resources>

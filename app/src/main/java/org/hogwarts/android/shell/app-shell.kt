@@ -115,8 +115,13 @@ fun AppShell(
     // which is where the link came from.
     LaunchedEffect(pendingHref) {
         val href = pendingHref ?: return@LaunchedEffect
-        routeForHref(href, state.role)?.takeIf { it != Dashboard }?.let {
-            navController.navigate(it) { launchSingleTop = true }
+        val route = routeForHref(href, state.role)
+        if (route != null) {
+            if (route != Dashboard) navController.navigate(route) { launchSingleTop = true }
+        } else if (isWebOnlyPushTarget(href)) {
+            // A supervisor's "class without a teacher" push opens the cover page, which has no
+            // native screen: the web page is where they choose to teach it or book a make-up.
+            WebHandoff.open(context, WebHandoff.url(state.schoolDomain, lang, href))
         }
         onHrefOpened()
     }
@@ -330,3 +335,10 @@ internal fun nativeRoute(key: String, role: UserRole?): Any? = when (key) {
     "settings" -> Settings
     else -> null
 }
+
+/** Push targets that exist only on the web (no native mirror): `/live/<id>/cover`. */
+internal fun isWebOnlyPushTarget(href: String): Boolean {
+    val segments = href.substringBefore('?').trim('/').split('/')
+    return segments.size == 3 && segments[0] == "live" && segments[2] == "cover"
+}
+

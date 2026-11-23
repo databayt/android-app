@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="push_channel_live_class">Live classes</string>
+    <string name="push_channel_live_class_desc">Class starting soon, make-up classes and schedule changes</string>
+</resources>

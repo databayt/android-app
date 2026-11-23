@@ -1,9 +1,8 @@
 package org.hogwarts.android
 
+import org.hogwarts.android.core.push.NotificationChannels
 import android.app.Application
-import android.app.NotificationChannel
 import android.app.LocaleManager
-import android.app.NotificationManager
 import android.os.Build
 import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
@@ -72,7 +71,9 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
             appPreferences.themeMode.first()
         }
 
-        createNotificationChannels()
+        // The push channels (incl. the high-importance live-class one) exist before the first push, so
+        // the system settings page and the dashboard's "open channel settings" can always find them.
+        NotificationChannels.ensure(this)
     }
 
     /**
@@ -111,72 +112,6 @@ class HogwartsApplication : Application(), Configuration.Provider, ImageLoaderFa
             AppCompatDelegate.getApplicationLocales().isEmpty
         }
 
-    private fun createNotificationChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = getSystemService(NotificationManager::class.java)
-
-            // Attendance notifications channel
-            val attendanceChannel = NotificationChannel(
-                CHANNEL_ATTENDANCE,
-                getString(R.string.notification_channel_attendance),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = getString(R.string.notification_channel_attendance_desc)
-            }
-
-            // Grades notifications channel
-            val gradesChannel = NotificationChannel(
-                CHANNEL_GRADES,
-                getString(R.string.notification_channel_grades),
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = getString(R.string.notification_channel_grades_desc)
-            }
-
-            // Fees notifications channel
-            val feesChannel = NotificationChannel(
-                CHANNEL_FEES,
-                getString(R.string.notification_channel_fees),
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = getString(R.string.notification_channel_fees_desc)
-            }
-
-            // Messages notifications channel
-            val messagesChannel = NotificationChannel(
-                CHANNEL_MESSAGES,
-                getString(R.string.notification_channel_messages),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = getString(R.string.notification_channel_messages_desc)
-            }
-
-            // Announcements notifications channel
-            val announcementsChannel = NotificationChannel(
-                CHANNEL_ANNOUNCEMENTS,
-                getString(R.string.notification_channel_announcements),
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description = getString(R.string.notification_channel_announcements_desc)
-            }
-
-            notificationManager.createNotificationChannels(
-                listOf(
-                    attendanceChannel,
-                    gradesChannel,
-                    feesChannel,
-                    messagesChannel,
-                    announcementsChannel
-                )
-            )
-        }
-    }
-
     companion object {
-        const val CHANNEL_ATTENDANCE = "attendance"
-        const val CHANNEL_GRADES = "grades"
-        const val CHANNEL_FEES = "fees"
-        const val CHANNEL_MESSAGES = "messages"
-        const val CHANNEL_ANNOUNCEMENTS = "announcements"
     }
 }

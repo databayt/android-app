@@ -16,7 +16,8 @@ class RegisterDeviceTokenWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted params: WorkerParameters,
     private val api: DeviceTokenApi,
-    private val tokenProvider: TokenProvider
+    private val tokenProvider: TokenProvider,
+    private val store: PushStore,
 ) : CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
@@ -27,7 +28,11 @@ class RegisterDeviceTokenWorker @AssistedInject constructor(
         return try {
             val response = api.register(RegisterDeviceTokenRequest(deviceToken))
             when {
-                response.isSuccessful -> Result.success()
+                response.isSuccessful -> {
+                    // Only a landed registration counts: a failure leaves the version unset, so the next start retries.
+                    store.registeredVersionCode = installedVersionCode(applicationContext)
+                    Result.success()
+                }
                 response.code() in 400..499 -> {
                     Timber.w("Device token rejected: ${response.code()}")
                     Result.failure()

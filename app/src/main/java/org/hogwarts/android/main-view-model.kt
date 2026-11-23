@@ -84,9 +84,19 @@ class MainViewModel @Inject constructor(
     private fun observeAuthState() {
         viewModelScope.launch {
             // StateFlow already skips repeats; registering on each launch is idempotent server-side.
+            // The first value is the app start (already signed in or not); a later false -> true is a sign-in.
+            var firstValue = true
             tokenManager.isAuthenticated.collect { isAuthenticated ->
                 _uiState.update { it.copy(isAuthenticated = isAuthenticated) }
-                if (isAuthenticated) deviceTokenRegistrar.registerCurrentToken() else dashboardRepository.clearSession()
+                if (!isAuthenticated) {
+                    dashboardRepository.clearSession()
+                } else if (firstValue) {
+                    // Start: only when this app version has not registered its token yet (a failed run retries here).
+                    deviceTokenRegistrar.registerIfVersionChanged(signedIn = true)
+                } else {
+                    deviceTokenRegistrar.registerCurrentToken()
+                }
+                firstValue = false
             }
         }
     }

@@ -23,9 +23,25 @@ import javax.inject.Singleton
  */
 @Singleton
 class DeviceTokenRegistrar @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val store: PushStore,
 ) {
 
+    /** The installed app's versionCode, the key for "register again after an update". */
+    fun currentVersionCode(): Long = installedVersionCode(context)
+
+    /**
+     * App start: send the token only if this app version has not registered it yet. Failures leave
+     * the version unrecorded, so the next start tries again. Signed-out callers never reach the server
+     * (the worker also refuses without tokens).
+     */
+    fun registerIfVersionChanged(signedIn: Boolean) {
+        if (NotificationPolicy.shouldRegisterOnStart(signedIn, store.registeredVersionCode, currentVersionCode())) {
+            registerCurrentToken()
+        }
+    }
+
+    /** Sign-in, a rotated token and a fresh permission grant: always send. */
     fun registerCurrentToken() {
         FirebaseMessaging.getInstance().token
             .addOnSuccessListener(::enqueue)
@@ -48,6 +64,7 @@ class DeviceTokenRegistrar @Inject constructor(
     }
 
     fun unregister() {
+        store.registeredVersionCode = null
         WorkManager.getInstance(context).cancelUniqueWork(RegisterDeviceTokenWorker.WORK_NAME)
         FirebaseMessaging.getInstance().deleteToken()
             .addOnFailureListener { Timber.w(it, "FCM token delete failed") }
