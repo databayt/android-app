@@ -25,6 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.hogwarts.android.core.designsystem.kit.PillButton
 import org.hogwarts.android.core.designsystem.kit.PillVariant
 import org.hogwarts.android.core.designsystem.theme.HogwartsTheme
+import org.hogwarts.android.core.data.tenant.UserRole
 import org.hogwarts.android.feature.dashboard.R
 import org.hogwarts.android.feature.dashboard.data.remote.NextActionDto
 import org.hogwarts.android.feature.dashboard.ui.components.ChartSection
@@ -34,6 +35,7 @@ import org.hogwarts.android.feature.dashboard.ui.components.NotificationOffBanne
 import org.hogwarts.android.feature.dashboard.ui.components.NotificationPromptSheet
 import org.hogwarts.android.feature.dashboard.ui.components.rememberNotificationPermissionRequest
 import org.hogwarts.android.feature.dashboard.ui.components.QuickActions
+import org.hogwarts.android.feature.dashboard.ui.components.ReadinessEntry
 import org.hogwarts.android.feature.dashboard.ui.components.RoleSections
 import org.hogwarts.android.feature.dashboard.ui.components.TodayTimetable
 
@@ -149,6 +151,9 @@ fun DashboardContent(
                 onOpenTimetable = { onOpenHref("/timetable") },
             )
             QuickActions(actions = data.quickActions, onOpen = onOpenHref)
+            if (data.canViewReadiness || state.role == UserRole.ADMIN || state.role == UserRole.DEVELOPER) {
+                ReadinessEntry(onClick = { onOpenHref("/school/analysis") })
+            }
             ChartSection(role = state.role)
             state.sections?.let { sections ->
                 RoleSections(role = state.role, resources = sections.resourceUsage, invoices = sections.invoices)

@@ -1,6 +1,7 @@
 package org.hogwarts.android.shell
 
 import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.feature.admin.navigation.AdminReadiness
 import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.announcements.navigation.Announcements
 import org.hogwarts.android.feature.attendance.navigation.Attendance
@@ -59,5 +60,19 @@ class HrefRouterTest {
         assertNull(routeForHref("/assignments", UserRole.TEACHER))
         assertNull(routeForHref("/timetable", UserRole.ADMIN))
         assertNull(routeForHref("/timetable/generate", UserRole.ADMIN))
+    }
+
+    @Test fun `the assistant link opens the web dashboard with the chat, not the native dashboard`() {
+        assertNull(routeForHref("/dashboard?chat=1", UserRole.TEACHER))
+        assertEquals(Dashboard, routeForHref("/dashboard", UserRole.TEACHER))
+    }
+
+    @Test fun `class readiness deep links open the native screen for admins and teachers`() {
+        assertEquals(AdminReadiness, routeForHref("/school/analysis", UserRole.ADMIN))
+        assertEquals(AdminReadiness, routeForHref("/readiness", UserRole.DEVELOPER))
+        assertEquals(AdminReadiness, routeForHref("/school/analysis?date=2026-11-24", UserRole.TEACHER))
+        assertNull(routeForHref("/school/analysis", UserRole.STUDENT))
+        // The /school menu page itself still goes to the web.
+        assertNull(routeForHref("/school", UserRole.ADMIN))
     }
 }

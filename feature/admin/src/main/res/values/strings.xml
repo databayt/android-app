@@ -81,4 +81,38 @@
     <string name="admin_staff_role_teacher">Teacher</string>
     <string name="admin_staff_role_counselor">Counselor</string>
     <string name="admin_staff_role_staff">Staff</string>
+
+    <!-- Class readiness -->
+    <string name="readiness_title">Class readiness</string>
+    <string name="readiness_menu_subtitle">Who is set up for online classes</string>
+    <string name="readiness_previous_day">Previous day</string>
+    <string name="readiness_next_day">Next day</string>
+    <string name="readiness_supervisor_name">Supervisor: %1$s</string>
+    <string name="readiness_no_supervisor">No supervisor set</string>
+    <string name="readiness_count_on_app">On app %1$d</string>
+    <string name="readiness_count_android_web">Android web %1$d</string>
+    <string name="readiness_count_not_attending">Not attending %1$d</string>
+    <string name="readiness_count_sign_in_trouble">Sign-in trouble %1$d</string>
+    <string name="readiness_section_supervisor">Supervisor</string>
+    <string name="readiness_section_sessions">Sessions</string>
+    <string name="readiness_section_students">Students (%1$d)</string>
+    <string name="readiness_can_cover">Can cover</string>
+    <string name="readiness_cannot_cover">Cannot cover a missing teacher</string>
+    <string name="readiness_no_subject">Class</string>
+    <string name="readiness_no_teacher_login">Teacher has no login</string>
+    <string name="readiness_empty_title">No classes</string>
+    <string name="readiness_empty_subtitle">No classes are scheduled on this day.</string>
+    <string name="readiness_not_supervisor_title">Not a class supervisor</string>
+    <string name="readiness_not_supervisor_subtitle">This page is for class supervisors and school admins.</string>
+    <string name="readiness_offline_title">You are offline</string>
+    <string name="readiness_offline_subtitle">Connect to the internet and pull down to refresh.</string>
+    <string name="readiness_error_subtitle">Could not load class readiness. Pull down to try again.</string>
+    <string name="readiness_on_app">✅ App</string>
+    <string name="readiness_allowed_web">🖥️ Computer / iPhone</string>
+    <string name="readiness_android_web">⚠️ Android browser</string>
+    <string name="readiness_old_app">⚠️ Old app</string>
+    <string name="readiness_password_trouble">🔑 Password trouble</string>
+    <string name="readiness_never_signed_in">❌ Never signed in</string>
+    <string name="readiness_no_class_recent">❌ Not joining classes</string>
+    <string name="readiness_push_off">🔕 Notifications off</string>
 </resources>

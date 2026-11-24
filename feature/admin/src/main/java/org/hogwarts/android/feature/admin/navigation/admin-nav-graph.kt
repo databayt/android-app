@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import kotlinx.serialization.Serializable
 import org.hogwarts.android.feature.admin.ui.AdminDashboardScreen
+import org.hogwarts.android.feature.admin.ui.ClassReadinessScreen
 import org.hogwarts.android.feature.admin.ui.ClassRosterScreen
 import org.hogwarts.android.feature.admin.ui.SchoolInfoScreen
 import org.hogwarts.android.feature.admin.ui.SchoolStatsScreen
@@ -15,13 +16,15 @@ import org.hogwarts.android.feature.admin.ui.StaffDirectoryScreen
 @Serializable data object AdminClassRoster
 @Serializable data class AdminClassRosterDetail(val classId: String)
 @Serializable data object AdminStats
+@Serializable data object AdminReadiness
 
 fun NavGraphBuilder.adminDashboardScreen(
     onNavigateBack: () -> Unit,
     onNavigateToSchoolInfo: () -> Unit,
     onNavigateToStaff: () -> Unit,
     onNavigateToClassRoster: () -> Unit,
-    onNavigateToStats: () -> Unit
+    onNavigateToStats: () -> Unit,
+    onNavigateToReadiness: () -> Unit = {}
 ) {
     composable<AdminDashboard> {
         AdminDashboardScreen(
@@ -29,7 +32,8 @@ fun NavGraphBuilder.adminDashboardScreen(
             onNavigateToSchoolInfo = onNavigateToSchoolInfo,
             onNavigateToStaff = onNavigateToStaff,
             onNavigateToClassRoster = onNavigateToClassRoster,
-            onNavigateToStats = onNavigateToStats
+            onNavigateToStats = onNavigateToStats,
+            onNavigateToReadiness = onNavigateToReadiness
         )
     }
 }
@@ -71,5 +75,13 @@ fun NavGraphBuilder.schoolStatsScreen(
 ) {
     composable<AdminStats> {
         SchoolStatsScreen(onNavigateBack = onNavigateBack)
+    }
+}
+
+fun NavGraphBuilder.classReadinessScreen(
+    onNavigateBack: () -> Unit
+) {
+    composable<AdminReadiness> {
+        ClassReadinessScreen(onNavigateBack = onNavigateBack)
     }
 }

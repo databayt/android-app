@@ -81,4 +81,38 @@
     <string name="admin_staff_role_teacher">معلم</string>
     <string name="admin_staff_role_counselor">مرشد</string>
     <string name="admin_staff_role_staff">موظف</string>
+
+    <!-- Class readiness -->
+    <string name="readiness_title">جاهزية الصفوف</string>
+    <string name="readiness_menu_subtitle">من جاهز للحصص عن بعد</string>
+    <string name="readiness_previous_day">اليوم السابق</string>
+    <string name="readiness_next_day">اليوم التالي</string>
+    <string name="readiness_supervisor_name">المشرف: %1$s</string>
+    <string name="readiness_no_supervisor">ما في مشرف للفصل</string>
+    <string name="readiness_count_on_app">على التطبيق %1$d</string>
+    <string name="readiness_count_android_web">متصفح الأندرويد %1$d</string>
+    <string name="readiness_count_not_attending">ما بيحضر %1$d</string>
+    <string name="readiness_count_sign_in_trouble">مشكلة دخول %1$d</string>
+    <string name="readiness_section_supervisor">المشرف</string>
+    <string name="readiness_section_sessions">الحصص</string>
+    <string name="readiness_section_students">الطلاب (%1$d)</string>
+    <string name="readiness_can_cover">تقدر تغطي</string>
+    <string name="readiness_cannot_cover">ما تقدر تغطي لو غاب المعلم</string>
+    <string name="readiness_no_subject">حصة</string>
+    <string name="readiness_no_teacher_login">المعلم ما عنده حساب</string>
+    <string name="readiness_empty_title">ما في حصص</string>
+    <string name="readiness_empty_subtitle">ما في حصص مجدولة في هذا اليوم.</string>
+    <string name="readiness_not_supervisor_title">لست مشرف فصل</string>
+    <string name="readiness_not_supervisor_subtitle">هذه الصفحة لمشرفي الفصول وإدارة المدرسة.</string>
+    <string name="readiness_offline_title">لا يوجد اتصال</string>
+    <string name="readiness_offline_subtitle">اتصل بالإنترنت واسحب للأسفل للتحديث.</string>
+    <string name="readiness_error_subtitle">تعذّر تحميل جاهزية الصفوف. اسحب للأسفل للمحاولة مرة أخرى.</string>
+    <string name="readiness_on_app">✅ التطبيق</string>
+    <string name="readiness_allowed_web">🖥️ كمبيوتر/آيفون</string>
+    <string name="readiness_android_web">⚠️ متصفح الأندرويد</string>
+    <string name="readiness_old_app">⚠️ تطبيق قديم</string>
+    <string name="readiness_password_trouble">🔑 مشكلة كلمة المرور</string>
+    <string name="readiness_never_signed_in">❌ ما سجّل دخول</string>
+    <string name="readiness_no_class_recent">❌ ما بيدخل الحصص</string>
+    <string name="readiness_push_off">🔕 الإشعارات مقفولة</string>
 </resources>

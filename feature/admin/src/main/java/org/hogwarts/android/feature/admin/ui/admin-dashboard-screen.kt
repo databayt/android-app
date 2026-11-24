@@ -17,6 +17,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Class
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,6 +48,7 @@ fun AdminDashboardScreen(
     onNavigateToStaff: () -> Unit,
     onNavigateToClassRoster: () -> Unit,
     onNavigateToStats: () -> Unit,
+    onNavigateToReadiness: () -> Unit = {},
     viewModel: AdminDashboardViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -142,6 +144,12 @@ fun AdminDashboardScreen(
                     title = stringResource(R.string.admin_menu_school_stats),
                     subtitle = stringResource(R.string.admin_menu_school_stats_subtitle),
                     onClick = onNavigateToStats
+                )
+                AdminMenuItem(
+                    icon = Icons.Default.TaskAlt,
+                    title = stringResource(R.string.readiness_title),
+                    subtitle = stringResource(R.string.readiness_menu_subtitle),
+                    onClick = onNavigateToReadiness
                 )
             }
         }

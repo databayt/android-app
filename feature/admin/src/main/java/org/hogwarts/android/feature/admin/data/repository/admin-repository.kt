@@ -1,6 +1,7 @@
 package org.hogwarts.android.feature.admin.data.repository
 
 import org.hogwarts.android.feature.admin.domain.model.ClassRoster
+import org.hogwarts.android.feature.admin.domain.model.ReadinessDay
 import org.hogwarts.android.feature.admin.domain.model.SchoolInfo
 import org.hogwarts.android.feature.admin.domain.model.SchoolStats
 import org.hogwarts.android.feature.admin.domain.model.StaffMember
@@ -18,4 +19,5 @@ interface AdminRepository {
     suspend fun addStudentToClass(classId: String, studentId: String)
     suspend fun removeStudentFromClass(classId: String, studentId: String)
     suspend fun getSchoolStats(): SchoolStats
+    suspend fun getReadiness(date: String? = null): ReadinessDay
 }

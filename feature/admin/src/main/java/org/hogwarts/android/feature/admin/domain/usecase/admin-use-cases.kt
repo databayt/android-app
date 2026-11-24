@@ -3,6 +3,7 @@ package org.hogwarts.android.feature.admin.domain.usecase
 import org.hogwarts.android.core.common.result.Result
 import org.hogwarts.android.feature.admin.data.repository.AdminRepository
 import org.hogwarts.android.feature.admin.domain.model.ClassRoster
+import org.hogwarts.android.feature.admin.domain.model.ReadinessDay
 import org.hogwarts.android.feature.admin.domain.model.SchoolInfo
 import org.hogwarts.android.feature.admin.domain.model.SchoolStats
 import org.hogwarts.android.feature.admin.domain.model.StaffMember
@@ -100,6 +101,18 @@ class GetSchoolStatsUseCase @Inject constructor(
     suspend operator fun invoke(): Result<SchoolStats> {
         return try {
             Result.Success(repository.getSchoolStats())
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+}
+
+class GetClassReadinessUseCase @Inject constructor(
+    private val repository: AdminRepository
+) {
+    suspend operator fun invoke(date: String? = null): Result<ReadinessDay> {
+        return try {
+            Result.Success(repository.getReadiness(date))
         } catch (e: Exception) {
             Result.Error(e)
         }

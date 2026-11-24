@@ -23,6 +23,8 @@ data class DashboardDto(
     /** School events dated today — the calendar card's bottom line. */
     @SerialName("events_today") val eventsToday: Int? = null,
     val school: SchoolDto? = null,
+    /** Admins always; a teacher only when they are a class's homeroom supervisor. Older servers omit it. */
+    @SerialName("can_view_readiness") val canViewReadiness: Boolean = false,
     @SerialName("next_actions") val nextActions: List<NextActionDto> = emptyList(),
     @SerialName("quick_actions") val quickActions: List<QuickActionDto> = emptyList(),
     @SerialName("today_timetable") val todayTimetable: TodayTimetableDto? = null,

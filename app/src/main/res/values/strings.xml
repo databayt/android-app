@@ -132,6 +132,7 @@
     <string name="account_profile">Profile</string>
     <string name="account_my_account">My Account</string>
     <string name="account_school_settings">School Settings</string>
+    <string name="account_assistant">Assistant</string>
     <string name="account_help">Help &amp; Support</string>
     <string name="account_logout">Logout</string>
     <!-- report an issue — report-issue/dictionary.ts (en) -->

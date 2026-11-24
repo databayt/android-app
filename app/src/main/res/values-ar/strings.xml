@@ -132,6 +132,7 @@
     <string name="account_profile">الملف الشخصي</string>
     <string name="account_my_account">حسابي</string>
     <string name="account_school_settings">إعدادات المدرسة</string>
+    <string name="account_assistant">المساعد</string>
     <string name="account_help">المساعدة والدعم</string>
     <string name="account_logout">تسجيل الخروج</string>
     <!-- report an issue — report-issue/dictionary.ts (ar) -->

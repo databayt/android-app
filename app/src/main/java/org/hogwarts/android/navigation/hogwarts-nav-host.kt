@@ -134,7 +134,9 @@ import org.hogwarts.android.feature.admin.navigation.AdminDashboard
 import org.hogwarts.android.feature.admin.navigation.AdminSchoolInfo
 import org.hogwarts.android.feature.admin.navigation.AdminStaff
 import org.hogwarts.android.feature.admin.navigation.AdminClassRoster
+import org.hogwarts.android.feature.admin.navigation.AdminReadiness
 import org.hogwarts.android.feature.admin.navigation.AdminStats
+import org.hogwarts.android.feature.admin.navigation.classReadinessScreen
 import org.hogwarts.android.feature.admin.navigation.adminDashboardScreen
 import org.hogwarts.android.feature.admin.navigation.schoolInfoScreen
 import org.hogwarts.android.feature.admin.navigation.staffDirectoryScreen
@@ -747,7 +749,15 @@ fun HogwartsNavHost(
             },
             onNavigateToStats = {
                 navController.navigate(AdminStats)
+            },
+            onNavigateToReadiness = {
+                navController.navigate(AdminReadiness)
             }
+        )
+
+        // Admin - Class readiness («جاهزية الصفوف»)
+        classReadinessScreen(
+            onNavigateBack = { navController.popBackStack() }
         )
 
         // Admin - School Info

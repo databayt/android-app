@@ -240,4 +240,6 @@
     <string name="notif_off_banner">الإشعارات مقفولة — ما حتصلك تنبيهات الحصص</string>
     <string name="notif_live_off_banner">تنبيهات الحصص المباشرة مقفولة — ما حتعرف متى تبدأ الحصة</string>
     <string name="notif_open_settings">فتح الإعدادات</string>
+    <string name="dash_readiness_title">جاهزية الصفوف</string>
+    <string name="dash_readiness_subtitle">من جاهز للحصص عن بعد</string>
 </resources>

@@ -74,6 +74,7 @@ fun AccountControl(
             if (role == UserRole.ADMIN || role == UserRole.DEVELOPER) {
                 add(R.string.account_school_settings to "/admin/settings")
             }
+            add(R.string.account_assistant to "/dashboard?chat=1")
             add(R.string.account_help to "/help")
         }
         items.forEach { (label, href) ->

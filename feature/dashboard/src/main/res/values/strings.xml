@@ -240,4 +240,6 @@
     <string name="notif_off_banner">Notifications are off — you won\'t get class alerts</string>
     <string name="notif_live_off_banner">Live-class alerts are off — you won\'t be told when a class starts</string>
     <string name="notif_open_settings">Open settings</string>
+    <string name="dash_readiness_title">Class readiness</string>
+    <string name="dash_readiness_subtitle">Who is set up for online classes</string>
 </resources>

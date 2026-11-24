@@ -2,6 +2,7 @@ package org.hogwarts.android.shell
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.feature.admin.navigation.AdminReadiness
 import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.dashboard.navigation.Dashboard
 import org.hogwarts.android.feature.events.navigation.EventsList
@@ -37,6 +38,8 @@ val LocalHrefOpener = staticCompositionLocalOf<HrefOpener> { HrefOpener { } }
 
 /** Native route for a locale-less web path, or null to hand off to the web. */
 internal fun routeForHref(href: String, role: UserRole?): Any? {
+    // «المساعد»: the school's support assistant lives on the web dashboard (`?chat=1` opens it).
+    if (href.contains("chat=1")) return null
     val path = href.substringBefore('?').substringBefore('#').trimEnd('/').ifEmpty { "/dashboard" }
     when (path) {
         "/dashboard" -> return Dashboard
@@ -45,6 +48,10 @@ internal fun routeForHref(href: String, role: UserRole?): Any? {
         "/notifications/preferences" -> return NotificationPreferences
         "/messages" -> return Messaging
         "/events" -> return EventsList
+        // «جاهزية الصفوف» — the web page is /school/analysis; admins, and teachers who supervise a class.
+        // The server decides (403 renders a friendly "not a supervisor" state), so a teacher's tap still opens it.
+        "/school/analysis", "/readiness" ->
+            return if (role in READINESS_ROLES) AdminReadiness else null
         "/parents" -> return if (role == UserRole.GUARDIAN) GuardianChildren else null
     }
     nestedRoute(path, role)?.let { return it }
@@ -112,5 +119,8 @@ private val EXAM_WEB_PAGES = setOf(
     "new", "manage", "generate", "mark", "result", "quiz", "mock", "templates",
     "certificates", "paper", "progress", "quick", "report-cards",
 )
+
+/** Roles that can open class readiness; a teacher without a homeroom class gets a 403 state on the screen. */
+private val READINESS_ROLES = setOf(UserRole.ADMIN, UserRole.DEVELOPER, UserRole.TEACHER)
 
 private val QUESTION_BANK_ROLES = setOf(UserRole.TEACHER, UserRole.ADMIN, UserRole.DEVELOPER)

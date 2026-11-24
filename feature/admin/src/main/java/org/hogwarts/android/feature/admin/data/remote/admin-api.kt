@@ -1,6 +1,7 @@
 package org.hogwarts.android.feature.admin.data.remote
 
 import org.hogwarts.android.feature.admin.data.remote.dto.ClassRosterDto
+import org.hogwarts.android.feature.admin.data.remote.dto.ReadinessResponseDto
 import org.hogwarts.android.feature.admin.data.remote.dto.SchoolInfoDto
 import org.hogwarts.android.feature.admin.data.remote.dto.SchoolStatsDto
 import org.hogwarts.android.feature.admin.data.remote.dto.StaffMemberDto
@@ -64,6 +65,10 @@ interface AdminApi {
         @Path("classId") classId: String,
         @Path("studentId") studentId: String
     )
+
+    /** Class readiness for a school day (`YYYY-MM-DD`); null = the school's today. 403 = not a class supervisor. */
+    @GET("api/mobile/admin/readiness")
+    suspend fun getReadiness(@Query("date") date: String? = null): ReadinessResponseDto
 
     @GET("api/mobile/admin/stats")
     suspend fun getSchoolStats(): SchoolStatsDto
