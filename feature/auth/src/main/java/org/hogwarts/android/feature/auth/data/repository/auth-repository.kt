@@ -18,6 +18,14 @@ interface AuthRepository {
      */
     suspend fun loginWithGoogle(idToken: String, schoolId: String? = null): SocialLogin
 
+    /**
+     * Sign in with the browser hand-off [code]. Null on any failure (used, expired, offline) — the
+     * caller routes as if there were no code. The same user already signed in just gets fresh tokens;
+     * another user's session is replaced: [onReplacingSession] runs (local clean-up, no server logout)
+     * before the new session is saved. A hand-off never stores a password.
+     */
+    suspend fun signInWithHandoff(code: String, onReplacingSession: suspend () -> Unit = {}): AuthResult?
+
     /** Register a new user. */
     suspend fun register(
         firstName: String,

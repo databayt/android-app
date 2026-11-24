@@ -8,6 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import org.hogwarts.android.core.common.api.RememberedLogin
 import org.hogwarts.android.core.common.api.TokenProvider
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,7 +20,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class TokenManager @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ApplicationContext private val context: Context,
+    private val credentialManager: CredentialManager
 ) : TokenProvider {
 
     private companion object {
@@ -50,6 +52,11 @@ class TokenManager @Inject constructor(
 
     override val refreshToken: String?
         get() = encryptedPrefs.getString(KEY_REFRESH_TOKEN, null)
+
+    override val rememberedLogin: RememberedLogin?
+        get() = credentialManager.rememberedLogin
+
+    override fun forgetRememberedPassword() = credentialManager.forgetPassword()
 
     override val hasTokens: Boolean
         get() = !accessToken.isNullOrEmpty()

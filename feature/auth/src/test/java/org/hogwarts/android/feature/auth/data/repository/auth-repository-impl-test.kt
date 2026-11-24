@@ -34,6 +34,7 @@ class AuthRepositoryImplTest {
     private lateinit var api: AuthApi
     private lateinit var tokens: TokenManager
     private lateinit var session: SessionManager
+    private lateinit var credentials: org.hogwarts.android.core.security.CredentialManager
     private lateinit var repository: AuthRepositoryImpl
 
     /** The exact body prod answered for admin@balqalam.com on 2026-09-14. */
@@ -48,7 +49,8 @@ class AuthRepositoryImplTest {
         api = mockk()
         tokens = mockk(relaxed = true)
         session = mockk(relaxed = true)
-        repository = AuthRepositoryImpl(api, tokens, session)
+        credentials = mockk(relaxed = true)
+        repository = AuthRepositoryImpl(api, tokens, session, credentials)
     }
 
     private fun <T> error(code: Int, body: String): Response<T> =

@@ -4,11 +4,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.Authenticator
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.Route
+import org.hogwarts.android.core.common.api.RememberedLogin
+import org.hogwarts.android.core.common.api.SilentReSignIn
 import org.hogwarts.android.core.common.api.TokenProvider
 import timber.log.Timber
 import java.io.IOException
@@ -23,7 +26,8 @@ import javax.inject.Singleton
  * replaced by another thread is retried with the new token without a second
  * refresh. Refresh uses `PUT /api/mobile/auth` with `X-Refresh-Token` on a bare
  * client (no interceptors, so no recursion). The session ends only when the
- * server rejects the refresh token — a network failure keeps the user signed in.
+ * server rejects the refresh token AND the remembered login (one silent
+ * `POST api/mobile/auth`) — a network failure keeps the user signed in.
  */
 @Singleton
 class TokenAuthenticator @Inject constructor(
@@ -57,10 +61,7 @@ class TokenAuthenticator @Inject constructor(
             }
 
             val refreshToken = tokenProvider.refreshToken
-            if (refreshToken.isNullOrEmpty()) {
-                tokenProvider.onSessionExpired()
-                return null
-            }
+            if (refreshToken.isNullOrEmpty()) return reSignInOrExpire(request)
 
             return when (val result = refresh(request, refreshToken)) {
                 is RefreshResult.Success -> {
@@ -71,12 +72,69 @@ class TokenAuthenticator @Inject constructor(
                     )
                     request.withToken(result.body.accessToken)
                 }
-                RefreshResult.Rejected -> {
-                    tokenProvider.onSessionExpired()
-                    null
-                }
+                RefreshResult.Rejected -> reSignInOrExpire(request)
                 RefreshResult.Unavailable -> null
             }
+        }
+    }
+
+    /**
+     * The refresh token is gone or refused. Before the login screen, ONE silent re-sign-in with the
+     * remembered login (already inside [lock], so concurrent 401s share it). A refusal means the
+     * password changed: forget it (the next decision is the login screen, never a loop) and end the
+     * session. A network failure keeps everything for the next 401.
+     */
+    private fun reSignInOrExpire(failed: Request): Request? {
+        val login = tokenProvider.rememberedLogin
+        if (SilentReSignIn.decide(login) == SilentReSignIn.Decision.GoToLogin || login == null) {
+            tokenProvider.onSessionExpired()
+            return null
+        }
+        return when (val result = signIn(failed, login)) {
+            is RefreshResult.Success -> {
+                tokenProvider.saveRefreshedTokens(
+                    accessToken = result.body.accessToken,
+                    refreshToken = result.body.refreshToken,
+                    expiresAtMillis = result.body.expiresAt
+                )
+                failed.withToken(result.body.accessToken)
+            }
+            RefreshResult.Rejected -> {
+                tokenProvider.forgetRememberedPassword()
+                tokenProvider.onSessionExpired()
+                null
+            }
+            RefreshResult.Unavailable -> null
+        }
+    }
+
+    private fun signIn(failed: Request, login: RememberedLogin): RefreshResult {
+        val url = failed.url.newBuilder().encodedPath(AUTH_PATH).query(null).build()
+        val body = json.encodeToString(
+            SignInRequest.serializer(),
+            SignInRequest(login.identifier, login.password, login.school)
+        )
+        val call = Request.Builder()
+            .url(url)
+            .post(body.toRequestBody("application/json".toMediaType()))
+            .build()
+        return try {
+            refreshClient.newCall(call).execute().use { res ->
+                when {
+                    res.isSuccessful -> {
+                        val text = res.body?.string() ?: return RefreshResult.Unavailable
+                        RefreshResult.Success(json.decodeFromString<RefreshResponse>(text))
+                    }
+                    res.code == 401 || res.code == 403 -> RefreshResult.Rejected
+                    else -> RefreshResult.Unavailable
+                }
+            }
+        } catch (e: IOException) {
+            Timber.w(e, "Silent re-sign-in failed: network")
+            RefreshResult.Unavailable
+        } catch (e: IllegalArgumentException) {
+            Timber.e(e, "Silent re-sign-in failed: unreadable response")
+            RefreshResult.Unavailable
         }
     }
 
@@ -120,6 +178,13 @@ class TokenAuthenticator @Inject constructor(
         data object Rejected : RefreshResult
         data object Unavailable : RefreshResult
     }
+
+    @Serializable
+    private data class SignInRequest(
+        val identifier: String,
+        val password: String,
+        val school: String? = null
+    )
 
     @Serializable
     private data class RefreshResponse(

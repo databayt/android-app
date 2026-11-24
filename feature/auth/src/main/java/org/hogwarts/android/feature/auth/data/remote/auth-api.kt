@@ -2,6 +2,7 @@ package org.hogwarts.android.feature.auth.data.remote
 
 import org.hogwarts.android.feature.auth.data.remote.dto.AuthResponseDto
 import org.hogwarts.android.feature.auth.data.remote.dto.GoogleAuthRequestDto
+import org.hogwarts.android.feature.auth.data.remote.dto.HandoffRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.LoginRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.NewPasswordRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.ResetPasswordRequestDto
@@ -29,6 +30,10 @@ interface AuthApi {
     /** Tokens, or `200 { needs_school, schools }` for a platform-level Google identity. */
     @POST("api/mobile/auth/google")
     suspend fun loginWithGoogle(@Body request: GoogleAuthRequestDto): Response<SocialAuthResponseDto>
+
+    /** Browser hand-off: `{ code }` → the same body as [login]; 401 when the code is used or expired. */
+    @POST("api/mobile/auth/handoff")
+    suspend fun handoff(@Body request: HandoffRequestDto): Response<AuthResponseDto>
 
     @POST("api/mobile/auth/register")
     suspend fun register(@Body request: SignUpRequestDto): Response<AuthResponseDto>

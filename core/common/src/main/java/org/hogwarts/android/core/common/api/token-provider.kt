@@ -22,4 +22,11 @@ interface TokenProvider {
 
     /** The refresh token was rejected: clear tokens so the app returns to login. */
     fun onSessionExpired()
+
+    /** The remembered password login, or null when none is stored (or it was forgotten). */
+    val rememberedLogin: RememberedLogin?
+        get() = null
+
+    /** A silent re-sign-in was refused (the password changed): drop the password, keep the username. */
+    fun forgetRememberedPassword() {}
 }

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.hogwarts.android.core.data.preferences.AppPreferences
@@ -101,6 +102,38 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * The web's "open the app" brought a one-time [code]: sign in with it, then [onDone] (success or not —
+     * a failed code is ignored and the link routes as today). Waits for the startup session check first,
+     * and holds the splash meanwhile so the login screen never flashes.
+     */
+    fun signInWithHandoff(code: String, onDone: () -> Unit) {
+        _uiState.update { it.copy(handingOff = true) }
+        viewModelScope.launch {
+            try {
+                _uiState.first { !it.isLoading }
+                try {
+                    authRepository.signInWithHandoff(code, onReplacingSession = {
+                        // Another person's session: local clean-up only, no server logout call.
+                        database.clearAllTables()
+                        dashboardRepository.clearSession()
+                    })?.let {
+                        // Same user: nothing changed for the push token. A replaced session registers the new one.
+                        if (tokenManager.hasTokens) deviceTokenRegistrar.registerCurrentToken()
+                        _uiState.update { it.copy(isAuthenticated = true) }
+                    }
+                } catch (e: kotlinx.coroutines.CancellationException) {
+                    throw e
+                } catch (_: Exception) {
+                    // Ignored: route as if there were no code.
+                }
+            } finally {
+                _uiState.update { it.copy(handingOff = false) }
+                onDone()
+            }
+        }
+    }
+
     fun logout() {
         viewModelScope.launch {
             credentialManager.clearCredentials()
@@ -116,5 +149,7 @@ class MainViewModel @Inject constructor(
  */
 data class MainUiState(
     val isAuthenticated: Boolean = false,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    /** A browser hand-off is signing in; hold the splash and the first frame. */
+    val handingOff: Boolean = false
 )

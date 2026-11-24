@@ -4,10 +4,13 @@ import kotlinx.coroutines.CancellationException
 import org.hogwarts.android.core.data.tenant.CurrentUser
 import org.hogwarts.android.core.data.tenant.SessionManager
 import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.core.common.api.SilentReSignIn
+import org.hogwarts.android.core.security.CredentialManager
 import org.hogwarts.android.core.security.TokenManager
 import org.hogwarts.android.feature.auth.data.remote.AuthApi
 import org.hogwarts.android.feature.auth.data.remote.dto.AuthResponseDto
 import org.hogwarts.android.feature.auth.data.remote.dto.GoogleAuthRequestDto
+import org.hogwarts.android.feature.auth.data.remote.dto.HandoffRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.LoginRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.NewPasswordRequestDto
 import org.hogwarts.android.feature.auth.data.remote.dto.ResetPasswordRequestDto
@@ -33,7 +36,8 @@ import javax.inject.Singleton
 class AuthRepositoryImpl @Inject constructor(
     private val authApi: AuthApi,
     private val tokenManager: TokenManager,
-    private val sessionManager: SessionManager
+    private val sessionManager: SessionManager,
+    private val credentialManager: CredentialManager
 ) : AuthRepository {
 
     override suspend fun login(identifier: String, password: String, school: String?): AuthResult {
@@ -57,6 +61,34 @@ class AuthRepositoryImpl @Inject constructor(
         return SocialLogin.Authenticated(
             saveAuthResult(AuthResponseDto(accessToken, body.refreshToken, body.expiresAt, user))
         )
+    }
+
+    override suspend fun signInWithHandoff(code: String, onReplacingSession: suspend () -> Unit): AuthResult? {
+        val body = try {
+            val response = call { authApi.handoff(HandoffRequestDto(code)) }
+            if (!response.isSuccessful) return null
+            response.body() ?: return null
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            return null
+        }
+        val signedIn = tokenManager.hasTokens
+        val sameUser = HandoffPolicy.isSameUser(signedIn, sessionManager.currentUser?.id, body.user.id)
+        // The browser's person is the person at the phone: another user's session is replaced.
+        if (signedIn && !sameUser) {
+            onReplacingSession()
+            tokenManager.clearTokens()
+            sessionManager.clearSession()
+            credentialManager.clearCredentials()
+        }
+        return try {
+            saveAuthResult(body)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            null
+        }
     }
 
     override suspend fun register(
@@ -104,12 +136,35 @@ class AuthRepositoryImpl @Inject constructor(
             // Only a refusal ends the session. A 5xx or a gateway error is the server's bad minute, not
             // the reader's: signing them out for it would cost a teacher her class on a slow morning.
             if (response.code() == 401 || response.code() == 403) {
+                // One silent re-sign-in with the remembered login before the login screen.
+                reSignInSilently()?.let { return it }
                 tokenManager.clearTokens()
                 sessionManager.clearSession()
             }
             throw AuthException(authErrorFor(AuthEndpoint.Login, response.code(), null))
         }
         return saveAuthResult(response.body() ?: throw AuthException(AuthError.Generic))
+    }
+
+    /** The refresh token was refused: one login with the remembered password. A refusal forgets it. */
+    private suspend fun reSignInSilently(): AuthResult? {
+        val login = credentialManager.rememberedLogin
+        if (SilentReSignIn.decide(login) == SilentReSignIn.Decision.GoToLogin || login == null) return null
+        return try {
+            val response = call { authApi.login(LoginRequestDto(login.identifier, login.password, login.school)) }
+            when {
+                response.isSuccessful -> response.body()?.let { saveAuthResult(it) }
+                response.code() == 401 || response.code() == 403 -> {
+                    credentialManager.forgetPassword()
+                    null
+                }
+                else -> null
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            null
+        }
     }
 
     override suspend fun logout() {
@@ -202,3 +257,10 @@ class AuthRepositoryImpl @Inject constructor(
 }
 
 private fun SchoolDto.toInfo() = SchoolInfo(id = id, name = name, nameEn = nameEn, logoUrl = logoUrl, domain = domain)
+
+/** Who the browser hand-off signs in, relative to the phone's current session. */
+object HandoffPolicy {
+    /** Same user = signed in AND the stored user id equals the hand-off's; an unknown stored user is "different". */
+    fun isSameUser(signedIn: Boolean, currentUserId: String?, handoffUserId: String): Boolean =
+        signedIn && currentUserId != null && currentUserId == handoffUserId
+}

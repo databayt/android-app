@@ -196,7 +196,7 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `credentials are remembered only when biometrics exist`() = runTest(dispatcher) {
+    fun `credentials are remembered on every phone, biometric only where it exists`() = runTest(dispatcher) {
         every { biometricHelper.isBiometricAvailable } returns true
         coEvery { loginUseCase(any(), any()) } returns Result.Success(fakeAuthResult)
         val vm = viewModel()
@@ -204,7 +204,19 @@ class LoginViewModelTest {
         vm.onPasswordChange("1234")
         vm.login()
         advanceUntilIdle()
-        verify { credentialManager.saveCredentials("admin@balqalam.com", "1234") }
+        verify { credentialManager.rememberSignIn("admin@balqalam.com", "1234", null, true) }
+    }
+
+    @Test
+    fun `credentials are remembered without biometric hardware`() = runTest(dispatcher) {
+        every { biometricHelper.isBiometricAvailable } returns false
+        coEvery { loginUseCase(any(), any()) } returns Result.Success(fakeAuthResult)
+        val vm = viewModel()
+        vm.onIdentifierChange("admin@balqalam.com")
+        vm.onPasswordChange("1234")
+        vm.login()
+        advanceUntilIdle()
+        verify { credentialManager.rememberSignIn("admin@balqalam.com", "1234", null, false) }
     }
 
     // Google + needs_school
@@ -315,7 +327,7 @@ class LoginViewModelTest {
         val vm = viewModel()
         vm.onBiometricSuccess()
         advanceUntilIdle()
-        verify { credentialManager.clearCredentials() }
+        verify { credentialManager.forgetPassword() }
         assertEquals(AuthError.BiometricFailed, vm.uiState.value.error)
         assertFalse(vm.uiState.value.canUseBiometric)
     }

@@ -5,39 +5,44 @@ import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import org.hogwarts.android.core.common.api.RememberedLogin
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Manages encrypted credential storage for biometric unlock.
+ * Manages encrypted credential storage: the remembered login and biometric unlock.
  *
- * After a successful email/password login, credentials are stored encrypted.
- * When the user authenticates with biometrics, stored credentials are used
- * to re-authenticate with the backend (maintaining valid server sessions).
+ * After every successful password sign-in the login is remembered (encrypted), so a refused
+ * refresh token costs a silent re-sign-in instead of a retyped PIN. Whether biometric unlock is
+ * on is a separate flag over the same stored login.
  */
 @Singleton
-class CredentialManager @Inject constructor(
-    @ApplicationContext private val context: Context
+class CredentialManager internal constructor(
+    private val encryptedPrefs: SharedPreferences
 ) {
+    @Inject
+    constructor(@ApplicationContext context: Context) : this(createPrefs(context))
+
     private companion object {
         const val PREFS_FILE_NAME = "hogwarts_biometric_creds"
         const val KEY_EMAIL = "biometric_email"
         const val KEY_PASSWORD = "biometric_password"
         const val KEY_BIOMETRIC_ENABLED = "biometric_enabled"
         const val KEY_SCHOOL = "login_school"
+
+        fun createPrefs(context: Context): SharedPreferences {
+            val masterKey = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+            return EncryptedSharedPreferences.create(
+                context,
+                PREFS_FILE_NAME,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+        }
     }
-
-    private val masterKey = MasterKey.Builder(context)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .build()
-
-    private val encryptedPrefs: SharedPreferences = EncryptedSharedPreferences.create(
-        context,
-        PREFS_FILE_NAME,
-        masterKey,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
 
     /**
      * Whether biometric login has been set up with stored credentials.
@@ -68,6 +73,40 @@ class CredentialManager @Inject constructor(
     }
 
     /**
+     * A password sign-in succeeded: remember the login on every phone. Biometric unlock is
+     * switched on only where the hardware can offer it ([enableBiometric]).
+     */
+    fun rememberSignIn(identifier: String, password: String, school: String?, enableBiometric: Boolean) {
+        val edit = encryptedPrefs.edit()
+            .putString(KEY_EMAIL, identifier)
+            .putString(KEY_PASSWORD, password)
+        if (school != null) edit.putString(KEY_SCHOOL, school)
+        if (enableBiometric) edit.putBoolean(KEY_BIOMETRIC_ENABLED, true)
+        edit.apply()
+    }
+
+    /** The username kept for the login screen's prefill, even after the password is forgotten. */
+    val rememberedIdentifier: String?
+        get() = encryptedPrefs.getString(KEY_EMAIL, null)?.takeIf { it.isNotBlank() }
+
+    /** The login a silent re-sign-in sends, or null without a stored password. */
+    val rememberedLogin: RememberedLogin?
+        get() {
+            val identifier = rememberedIdentifier ?: return null
+            val password = encryptedPrefs.getString(KEY_PASSWORD, null)?.takeIf { it.isNotEmpty() } ?: return null
+            val school = if (identifier.contains('@')) null else lastSchool?.takeIf { it.isNotBlank() }
+            return RememberedLogin(identifier, password, school)
+        }
+
+    /** The password stopped working: drop it (and biometric unlock with it), keep the username. */
+    fun forgetPassword() {
+        encryptedPrefs.edit()
+            .remove(KEY_PASSWORD)
+            .putBoolean(KEY_BIOMETRIC_ENABLED, false)
+            .apply()
+    }
+
+    /**
      * Retrieve stored credentials for biometric re-authentication.
      */
     fun getCredentials(): Pair<String, String>? {
@@ -77,7 +116,8 @@ class CredentialManager @Inject constructor(
     }
 
     /**
-     * Clear stored credentials (on logout or biometric disable).
+     * Clear the whole remembered login (explicit sign-out): username, password, biometric.
+     * The school stays: a teacher types it once.
      */
     fun clearCredentials() {
         encryptedPrefs.edit()

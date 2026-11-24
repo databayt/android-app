@@ -22,6 +22,10 @@ data class LoginRequestDto(
     val school: String? = null,
 )
 
+/** `POST api/mobile/auth/handoff` — the one-time code the web's "open the app" put in `?app_login=`. */
+@Serializable
+data class HandoffRequestDto(val code: String)
+
 /**
  * Authentication response DTO.
  */

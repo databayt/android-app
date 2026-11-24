@@ -66,6 +66,8 @@ class LoginViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(
         LoginUiState(
+            // The username a phone remembers: a refused password leaves it prefilled.
+            identifier = credentialManager.rememberedIdentifier.orEmpty(),
             // A school's own build never offers the demo school.
             demoRoles = if (brand.locked) emptyList() else DemoAccounts.roles,
             // Admin is preselected, as on the web, so Login works on first tap.
@@ -173,7 +175,7 @@ class LoginViewModel @Inject constructor(
             when (val result = loginUseCase(identifier, password, school)) {
                 is Result.Success -> _uiState.update { it.copy(isLoading = false, signedIn = true) }
                 is Result.Error -> {
-                    credentialManager.clearCredentials()
+                    credentialManager.forgetPassword()
                     val error = result.exception.toAuthError()
                     _uiState.update {
                         it.copy(
@@ -200,8 +202,11 @@ class LoginViewModel @Inject constructor(
             when (val result = loginUseCase(identifier, password, school)) {
                 is Result.Success -> {
                     if (school != null) credentialManager.lastSchool = school
-                    if (rememberForBiometric && biometricHelper.isBiometricAvailable) {
-                        credentialManager.saveCredentials(identifier, password)
+                    // Remembered on every phone; biometric unlock only where the hardware offers it.
+                    if (rememberForBiometric) {
+                        credentialManager.rememberSignIn(
+                            identifier, password, school, enableBiometric = biometricHelper.isBiometricAvailable
+                        )
                     }
                     _uiState.update { it.copy(isLoading = false, signedIn = true) }
                 }

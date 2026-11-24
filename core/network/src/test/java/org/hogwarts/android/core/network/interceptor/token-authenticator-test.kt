@@ -7,6 +7,7 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
+import org.hogwarts.android.core.common.api.RememberedLogin
 import org.hogwarts.android.core.common.api.TokenProvider
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -27,6 +28,8 @@ class TokenAuthenticatorTest {
     private val refreshCalls = AtomicInteger(0)
 
     @Volatile private var refreshStatus = 200
+    @Volatile private var signInStatus = 200
+    private val signInCalls = AtomicInteger(0)
 
     @Before
     fun setUp() {
@@ -35,6 +38,13 @@ class TokenAuthenticatorTest {
         server.dispatcher = object : Dispatcher() {
             override fun dispatch(request: RecordedRequest): MockResponse {
                 val path = request.path.orEmpty()
+                if (path == TokenAuthenticator.AUTH_PATH && request.method == "POST") {
+                    signInCalls.incrementAndGet()
+                    if (signInStatus != 200) return MockResponse().setResponseCode(signInStatus)
+                    return MockResponse().setBody(
+                        """{"access_token":"new-access","refresh_token":"refresh-3","expires_at":456,"user":{}}"""
+                    )
+                }
                 if (path == TokenAuthenticator.AUTH_PATH && request.method == "PUT") {
                     refreshCalls.incrementAndGet()
                     Thread.sleep(50)
@@ -113,7 +123,56 @@ class TokenAuthenticatorTest {
         assertEquals(0, refreshCalls.get())
     }
 
+    @Test
+    fun `rejected refresh with a remembered login signs in silently and retries`() {
+        refreshStatus = 401
+        tokens.login = RememberedLogin("s123456", "1234", "alabidae")
+        get().use { assertEquals(200, it.code) }
+        assertEquals(1, signInCalls.get())
+        assertFalse(tokens.expired)
+        assertEquals("refresh-3", tokens.refreshToken)
+    }
+
+    @Test
+    fun `rejected refresh without a remembered login goes to the login screen`() {
+        refreshStatus = 401
+        get().use { assertEquals(401, it.code) }
+        assertEquals(0, signInCalls.get())
+        assertTrue(tokens.expired)
+    }
+
+    @Test
+    fun `a refused silent sign-in forgets the password and never loops`() {
+        refreshStatus = 401
+        signInStatus = 401
+        tokens.login = RememberedLogin("s123456", "1234", "alabidae")
+        get().use { assertEquals(401, it.code) }
+        assertEquals(1, signInCalls.get())
+        assertTrue(tokens.expired)
+        assertTrue(tokens.forgot)
+        // The next 401 has no password left: login screen, no second attempt.
+        tokens.accessToken = "old-access"
+        tokens.refreshToken = "refresh-1"
+        get().use { assertEquals(401, it.code) }
+        assertEquals(1, signInCalls.get())
+    }
+
+    @Test
+    fun `a network-level silent sign-in failure keeps the remembered password`() {
+        refreshStatus = 401
+        signInStatus = 503
+        tokens.login = RememberedLogin("s123456", "1234", "alabidae")
+        get().use { assertEquals(401, it.code) }
+        assertFalse(tokens.forgot)
+        assertFalse(tokens.expired)
+    }
+
     private class FakeTokenProvider(access: String?, refresh: String?) : TokenProvider {
+        @Volatile var login: RememberedLogin? = null
+        @Volatile var forgot = false
+        override val rememberedLogin: RememberedLogin? get() = login
+        override fun forgetRememberedPassword() { forgot = true; login = null }
+
         @Volatile override var accessToken: String? = access
         @Volatile override var refreshToken: String? = refresh
         @Volatile var expiresAt: Long = 0

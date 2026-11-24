@@ -62,10 +62,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Hold splash screen until auth state is determined
-        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.isLoading }
+        splashScreen.setKeepOnScreenCondition { viewModel.uiState.value.let { it.isLoading || it.handingOff } }
 
         enableEdgeToEdge()
-        if (savedInstanceState == null) incomingLink.value = linkOf(intent)
+        if (savedInstanceState == null) openLink(intent)
 
         // Version check on every start/return to the foreground (the checker throttles to 30 min).
         lifecycleScope.launch {
@@ -90,7 +90,21 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
-        linkOf(intent)?.let { incomingLink.value = it }
+        openLink(intent)
+    }
+
+    /**
+     * A web link may carry `?app_login=<code>` (the browser hand-off): sign in with it first, then
+     * route the rest of the link. Otherwise the link (or push deep link) routes straight away.
+     */
+    private fun openLink(intent: Intent?) {
+        val parsed = IncomingLink.parse(intent)
+        val code = parsed?.code
+        if (parsed != null && code != null) {
+            viewModel.signInWithHandoff(code) { incomingLink.value = parsed.href }
+        } else {
+            linkOf(intent)?.let { incomingLink.value = it }
+        }
     }
 
     /**
