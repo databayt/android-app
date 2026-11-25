@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- In-app update: hand the downloaded APK to the system installer. -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <!-- API 34+: the app that installs an update owns later updates of itself (no confirm screen). -->
+    <uses-permission android:name="android.permission.ENFORCE_UPDATE_OWNERSHIP" />
 
     <!-- Camera feature (optional - for QR scanning) -->
     <uses-feature
@@ -118,6 +120,11 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/update_paths" />
         </provider>
+
+        <!-- In-app update: the PackageInstaller session result (confirm screen, success, failure). -->
+        <receiver
+            android:name=".update.UpdateInstallReceiver"
+            android:exported="false" />
 
         <!-- Default notification channel -->
         <meta-data

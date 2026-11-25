@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -108,27 +107,8 @@ fun UpdateGate(
                 }
             }
         }
-        UpdateDecision.Optional -> AlertDialog(
-            onDismissRequest = viewModel::dismissOptional,
-            title = { Text(stringResource(R.string.update_available_title)) },
-            text = {
-                Column {
-                    Text(notes ?: stringResource(R.string.update_available_body))
-                    Spacer(Modifier.height(16.dp))
-                    StageStatus(ui.stage)
-                    TextButton(onClick = { openApk(context, ui.apkUrl) }) {
-                        Text(stringResource(R.string.update_open_browser))
-                    }
-                }
-            },
-            // The dialog stays open through the download and the install: "Later" cancels it.
-            confirmButton = {
-                PrimaryAction(stage = ui.stage, idleLabel = stringResource(R.string.update_action), viewModel = viewModel)
-            },
-            dismissButton = {
-                TextButton(onClick = viewModel::dismissOptional) { Text(stringResource(R.string.update_later)) }
-            },
-        )
+        // Optional updates are silent (downloaded and installed by the view-model): nothing to draw.
+        UpdateDecision.Optional -> Unit
     }
 }
 

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -63,8 +64,9 @@ data class UpdateUi(
 )
 
 /**
- * Runs the version check and turns its result into [UpdateUi]. The decision is deferred (not lost)
- * while a live class room is open: [LiveRoomPresence] flips it back on when the room is left.
+ * Runs the version check and updates the app by itself: any newer version downloads quietly in the
+ * background and installs when verified (no dialog, no "later"). Only a REQUIRED update draws the gate
+ * UI. Nothing happens while a live class room is open: [LiveRoomPresence] releases it when the room is left.
  */
 @HiltViewModel
 class UpdateViewModel @javax.inject.Inject constructor(
@@ -76,49 +78,54 @@ class UpdateViewModel @javax.inject.Inject constructor(
     private val app: AppVersionInfo,
 ) : ViewModel() {
 
-    private val prefs = context.getSharedPreferences("update_prompt", Context.MODE_PRIVATE)
     private val manifest = MutableStateFlow<UpdateManifest?>(null)
-    private val optionalOnScreen = MutableStateFlow(false)
-    private val optionalDismissed = MutableStateFlow(false)
 
     // Lives in the view-model, so a rotation or recomposition never loses the download.
     private val stage = MutableStateFlow<UpdateStage>(UpdateStage.Idle)
     private var downloadJob: Job? = null
-    private var resumed = false
-    private var installWhenResumed = false
+    private var installWhenReady = false
 
     private val _events = Channel<UpdateEvent>(Channel.BUFFERED)
     val events: Flow<UpdateEvent> = _events.receiveAsFlow()
 
-    val ui: StateFlow<UpdateUi> = combine(
-        manifest, LiveRoomPresence.inRoom, optionalOnScreen, optionalDismissed, stage,
-    ) { m, inRoom, onScreen, dismissed, currentStage ->
+    val ui: StateFlow<UpdateUi> = combine(manifest, LiveRoomPresence.inRoom, stage) { m, inRoom, currentStage ->
         if (m == null) return@combine UpdateUi()
-        val now = System.currentTimeMillis()
-        // Once the optional prompt is up it stays until answered, even though "shown" is now recorded.
-        val lastShown = if (onScreen) 0L else prefs.getLong(KEY_LAST_OPTIONAL, 0L)
-        var decision = decideUpdate(app.versionCode, m.latestCode, m.minCode, lastShown, now, inRoom)
-        if (decision == UpdateDecision.Optional && dismissed) decision = UpdateDecision.None
-        if (decision == UpdateDecision.Optional && !onScreen) {
-            prefs.edit().putLong(KEY_LAST_OPTIONAL, now).apply()
-            optionalOnScreen.value = true
-        }
+        val decision = decideUpdate(app.versionCode, m.latestCode, m.minCode, inRoom)
+        // Optional updates are silent: the screen only ever learns about a REQUIRED one.
         UpdateUi(decision, m.apkUrl?.takeIf { it.isNotBlank() } ?: brand.apkUrl, m.notesAr, m.notesEn, currentStage)
     }.stateIn(viewModelScope, SharingStarted.Eagerly, UpdateUi())
+
+    init {
+        // The whole automatic flow: every change of manifest / room / stage asks "what is next?".
+        viewModelScope.launch {
+            combine(manifest, LiveRoomPresence.inRoom, stage) { m, inRoom, st -> Triple(m, inRoom, st) }
+                .collect { (m, inRoom, st) -> reconcile(m, inRoom, st) }
+        }
+    }
+
+    private fun reconcile(m: UpdateManifest?, inRoom: Boolean, st: UpdateStage) {
+        if (m == null) return
+        val held = st is UpdateStage.ReadyToInstall && installWhenReady
+        val action = nextUpdateAction(
+            decision = decideUpdate(app.versionCode, m.latestCode, m.minCode, inRoom),
+            inRoom = inRoom,
+            downloaded = held,
+            busy = st != UpdateStage.Idle && !held,
+        )
+        when (action) {
+            UpdateAction.Download -> startUpdate()
+            UpdateAction.Install -> install()
+            UpdateAction.Nothing -> Unit
+        }
+    }
 
     /** Called on every activity start; the checker throttles to once per 30 min. */
     fun check() {
         viewModelScope.launch {
+            // A failed attempt is retried on the next start / return to the app.
+            if (stage.value is UpdateStage.Failed && downloadJob?.isActive != true) stage.value = UpdateStage.Idle
             checker.check(brand.updateUrl)?.let { manifest.value = it }
         }
-    }
-
-    /** "Later": also stops a running download (the partial file stays for the next try). */
-    fun dismissOptional() {
-        downloadJob?.cancel()
-        stage.value = UpdateStage.Idle
-        optionalDismissed.value = true
-        optionalOnScreen.value = false
     }
 
     /** The update button: download in-app, verify, then open the installer. Also the retry. */
@@ -127,7 +134,7 @@ class UpdateViewModel @javax.inject.Inject constructor(
         val url = m.apkUrl?.takeIf { it.isNotBlank() } ?: brand.apkUrl
         if (url.isBlank() || downloadJob?.isActive == true) return
         val target = targetFile(m)
-        installWhenResumed = false
+        installWhenReady = false
         stage.value = UpdateStage.Downloading(-1)
         downloadJob = viewModelScope.launch {
             val outcome = downloader.fetch(
@@ -155,43 +162,40 @@ class UpdateViewModel @javax.inject.Inject constructor(
 
     /** Screen is in the foreground (ON_RESUME). */
     fun onResume() {
-        resumed = true
+        UpdateForeground.resumed = true
         when (stage.value) {
             // Back from the settings page: continue as soon as the permission is on.
             UpdateStage.NeedsPermission -> if (installer.canInstall()) install()
             // Back from the installer and still running the old version: it was refused or backed out.
             UpdateStage.Installing -> stage.value = UpdateStage.ReadyToInstall(afterBackOut = true)
-            is UpdateStage.ReadyToInstall -> if (installWhenResumed) install()
+            is UpdateStage.ReadyToInstall -> if (installWhenReady) install()
             else -> Unit
         }
     }
 
     fun onPause() {
-        resumed = false
+        UpdateForeground.resumed = false
     }
 
     private fun targetFile(m: UpdateManifest) =
         File(File(context.cacheDir, UPDATES_DIR), apkFileName(m.versionName, m.latestCode))
 
     private fun openInstaller(file: File) {
-        // Android 10+ silently drops activity starts from the background, and a live class must not be covered.
-        if (!resumed || LiveRoomPresence.inRoom.value) {
-            installWhenResumed = true
+        // A session install needs no foreground activity, but a live class must never be interrupted.
+        if (LiveRoomPresence.inRoom.value) {
+            installWhenReady = true
             stage.value = UpdateStage.ReadyToInstall(afterBackOut = false)
             return
         }
-        installWhenResumed = false
+        installWhenReady = false
         when (installer.launch(file)) {
             InstallLaunch.Launched -> stage.value = UpdateStage.Installing
             InstallLaunch.NeedsPermission -> stage.value = UpdateStage.NeedsPermission
             InstallLaunch.NoInstaller -> {
                 stage.value = UpdateStage.Failed(FailReason.Installer)
-                _events.trySend(UpdateEvent.OpenBrowser)
+                // Only the blocking gate may send the user to a browser; a silent update just waits for the next start.
+                if (ui.value.decision == UpdateDecision.Required) _events.trySend(UpdateEvent.OpenBrowser)
             }
         }
-    }
-
-    private companion object {
-        const val KEY_LAST_OPTIONAL = "last_optional_shown_ms"
     }
 }
