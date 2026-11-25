@@ -4,6 +4,7 @@ import org.hogwarts.android.core.data.tenant.TenantContext
 import org.hogwarts.android.feature.admin.data.remote.AdminApi
 import org.hogwarts.android.feature.admin.data.remote.dto.SchoolInfoDto
 import org.hogwarts.android.feature.admin.domain.model.ClassRoster
+import org.hogwarts.android.feature.admin.domain.model.SchoolAnalysis
 import org.hogwarts.android.feature.admin.domain.model.ReadinessDay
 import org.hogwarts.android.feature.admin.domain.model.SchoolInfo
 import org.hogwarts.android.feature.admin.domain.model.SchoolStats
@@ -65,5 +66,9 @@ class AdminRepositoryImpl @Inject constructor(
 
     override suspend fun getReadiness(date: String?): ReadinessDay {
         return api.getReadiness(date).toDomain()
+    }
+
+    override suspend fun getAnalysis(): SchoolAnalysis {
+        return api.getAnalysis().toDomain()
     }
 }

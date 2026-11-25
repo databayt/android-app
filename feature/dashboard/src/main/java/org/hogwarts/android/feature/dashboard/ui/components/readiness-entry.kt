@@ -32,3 +32,21 @@ fun ReadinessEntry(onClick: () -> Unit, modifier: Modifier = Modifier) {
         Text(stringResource(R.string.dash_readiness_subtitle), style = type.caption, color = colors.mutedForeground)
     }
 }
+
+/** Door to «تحليل المدرسة» — the school's progress report, for admins (`/school/analysis`). */
+@Composable
+fun AnalysisEntry(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val colors = HogwartsTheme.colors
+    val type = HogwartsTheme.type
+    Column(
+        modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(colors.muted)
+            .clickable(onClick = onClick)
+            .padding(16.dp)
+    ) {
+        Text(stringResource(R.string.dash_analysis_title), style = type.body, color = colors.foreground)
+        Text(stringResource(R.string.dash_analysis_subtitle), style = type.caption, color = colors.mutedForeground)
+    }
+}

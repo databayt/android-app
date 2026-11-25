@@ -115,4 +115,25 @@
     <string name="readiness_never_signed_in">❌ ما سجّل دخول</string>
     <string name="readiness_no_class_recent">❌ ما بيدخل الحصص</string>
     <string name="readiness_push_off">🔕 الإشعارات مقفولة</string>
+
+    <!-- Analysis («التحليل») -->
+    <string name="analysis_title">التحليل</string>
+    <string name="analysis_kpi_attendance">حضور الحصص (١٤ يوم)</string>
+    <string name="analysis_kpi_readiness">جاهزية المنصة</string>
+    <string name="analysis_kpi_on_app">الأعضاء على التطبيق</string>
+    <string name="analysis_kpi_push_on">الإشعارات مفعّلة</string>
+    <string name="analysis_attendance_title">حضور الحصص</string>
+    <string name="analysis_legend_joined">دخلوا</string>
+    <string name="analysis_legend_expected">المتوقع</string>
+    <string name="analysis_joins_title">طريقة الدخول للحصص</string>
+    <string name="analysis_chart_empty">ما في حصص في آخر ٧ أيام.</string>
+    <string name="analysis_attention_title">يحتاج متابعة</string>
+    <string name="analysis_attention_empty">الكل جاهز. ما في شي يحتاج متابعة.</string>
+    <string name="analysis_role_teacher">معلم</string>
+    <string name="analysis_role_student">طالب</string>
+    <string name="analysis_role_guardian">ولي أمر</string>
+    <string name="analysis_role_staff">موظف</string>
+    <string name="analysis_forbidden_title">لإدارة المدرسة فقط</string>
+    <string name="analysis_forbidden_subtitle">تحليل المدرسة متاح لإدارة المدرسة.</string>
+    <string name="analysis_error_subtitle">تعذّر تحميل التحليل. اسحب للأسفل للمحاولة مرة أخرى.</string>
 </resources>

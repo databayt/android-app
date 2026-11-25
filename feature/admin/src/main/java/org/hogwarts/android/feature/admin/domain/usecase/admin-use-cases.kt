@@ -4,6 +4,7 @@ import org.hogwarts.android.core.common.result.Result
 import org.hogwarts.android.feature.admin.data.repository.AdminRepository
 import org.hogwarts.android.feature.admin.domain.model.ClassRoster
 import org.hogwarts.android.feature.admin.domain.model.ReadinessDay
+import org.hogwarts.android.feature.admin.domain.model.SchoolAnalysis
 import org.hogwarts.android.feature.admin.domain.model.SchoolInfo
 import org.hogwarts.android.feature.admin.domain.model.SchoolStats
 import org.hogwarts.android.feature.admin.domain.model.StaffMember
@@ -113,6 +114,18 @@ class GetClassReadinessUseCase @Inject constructor(
     suspend operator fun invoke(date: String? = null): Result<ReadinessDay> {
         return try {
             Result.Success(repository.getReadiness(date))
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+}
+
+class GetSchoolAnalysisUseCase @Inject constructor(
+    private val repository: AdminRepository
+) {
+    suspend operator fun invoke(): Result<SchoolAnalysis> {
+        return try {
+            Result.Success(repository.getAnalysis())
         } catch (e: Exception) {
             Result.Error(e)
         }

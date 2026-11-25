@@ -242,4 +242,6 @@
     <string name="notif_open_settings">فتح الإعدادات</string>
     <string name="dash_readiness_title">جاهزية الصفوف</string>
     <string name="dash_readiness_subtitle">من جاهز للحصص عن بعد</string>
+    <string name="dash_analysis_title">تحليل المدرسة</string>
+    <string name="dash_analysis_subtitle">الحضور والجاهزية ومن يحتاج متابعة</string>
 </resources>

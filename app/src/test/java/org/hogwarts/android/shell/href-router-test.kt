@@ -1,6 +1,7 @@
 package org.hogwarts.android.shell
 
 import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.feature.admin.navigation.AdminAnalysis
 import org.hogwarts.android.feature.admin.navigation.AdminReadiness
 import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.announcements.navigation.Announcements
@@ -68,7 +69,9 @@ class HrefRouterTest {
     }
 
     @Test fun `class readiness deep links open the native screen for admins and teachers`() {
-        assertEquals(AdminReadiness, routeForHref("/school/analysis", UserRole.ADMIN))
+        assertEquals(AdminAnalysis, routeForHref("/school/analysis", UserRole.ADMIN))
+        assertEquals(AdminAnalysis, routeForHref("/school/analysis", UserRole.DEVELOPER))
+        assertEquals(AdminReadiness, routeForHref("/readiness", UserRole.ADMIN))
         assertEquals(AdminReadiness, routeForHref("/readiness", UserRole.DEVELOPER))
         assertEquals(AdminReadiness, routeForHref("/school/analysis?date=2026-11-24", UserRole.TEACHER))
         assertNull(routeForHref("/school/analysis", UserRole.STUDENT))

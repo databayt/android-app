@@ -25,6 +25,8 @@ data class DashboardDto(
     val school: SchoolDto? = null,
     /** Admins always; a teacher only when they are a class's homeroom supervisor. Older servers omit it. */
     @SerialName("can_view_readiness") val canViewReadiness: Boolean = false,
+    /** Admins only — shows «تحليل المدرسة». Older servers omit it. */
+    @SerialName("can_view_analysis") val canViewAnalysis: Boolean = false,
     @SerialName("next_actions") val nextActions: List<NextActionDto> = emptyList(),
     @SerialName("quick_actions") val quickActions: List<QuickActionDto> = emptyList(),
     @SerialName("today_timetable") val todayTimetable: TodayTimetableDto? = null,

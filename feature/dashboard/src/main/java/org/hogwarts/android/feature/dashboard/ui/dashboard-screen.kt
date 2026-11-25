@@ -35,6 +35,7 @@ import org.hogwarts.android.feature.dashboard.ui.components.NotificationOffBanne
 import org.hogwarts.android.feature.dashboard.ui.components.NotificationPromptSheet
 import org.hogwarts.android.feature.dashboard.ui.components.rememberNotificationPermissionRequest
 import org.hogwarts.android.feature.dashboard.ui.components.QuickActions
+import org.hogwarts.android.feature.dashboard.ui.components.AnalysisEntry
 import org.hogwarts.android.feature.dashboard.ui.components.ReadinessEntry
 import org.hogwarts.android.feature.dashboard.ui.components.RoleSections
 import org.hogwarts.android.feature.dashboard.ui.components.TodayTimetable
@@ -152,7 +153,10 @@ fun DashboardContent(
             )
             QuickActions(actions = data.quickActions, onOpen = onOpenHref)
             if (data.canViewReadiness || state.role == UserRole.ADMIN || state.role == UserRole.DEVELOPER) {
-                ReadinessEntry(onClick = { onOpenHref("/school/analysis") })
+                ReadinessEntry(onClick = { onOpenHref("/readiness") })
+            }
+            if (data.canViewAnalysis || state.role == UserRole.ADMIN || state.role == UserRole.DEVELOPER) {
+                AnalysisEntry(onClick = { onOpenHref("/school/analysis") })
             }
             ChartSection(role = state.role)
             state.sections?.let { sections ->

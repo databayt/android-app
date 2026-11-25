@@ -115,4 +115,25 @@
     <string name="readiness_never_signed_in">❌ Never signed in</string>
     <string name="readiness_no_class_recent">❌ Not joining classes</string>
     <string name="readiness_push_off">🔕 Notifications off</string>
+
+    <!-- Analysis («التحليل») -->
+    <string name="analysis_title">Analysis</string>
+    <string name="analysis_kpi_attendance">Class attendance (14 days)</string>
+    <string name="analysis_kpi_readiness">Platform readiness</string>
+    <string name="analysis_kpi_on_app">Members on the app</string>
+    <string name="analysis_kpi_push_on">Notifications on</string>
+    <string name="analysis_attendance_title">Class attendance</string>
+    <string name="analysis_legend_joined">Joined</string>
+    <string name="analysis_legend_expected">Expected</string>
+    <string name="analysis_joins_title">How people join classes</string>
+    <string name="analysis_chart_empty">No classes were held in the last 7 days.</string>
+    <string name="analysis_attention_title">Needs follow-up</string>
+    <string name="analysis_attention_empty">Everyone is set up. Nothing to follow up.</string>
+    <string name="analysis_role_teacher">Teacher</string>
+    <string name="analysis_role_student">Student</string>
+    <string name="analysis_role_guardian">Guardian</string>
+    <string name="analysis_role_staff">Staff</string>
+    <string name="analysis_forbidden_title">Admins only</string>
+    <string name="analysis_forbidden_subtitle">The school analysis is for school admins.</string>
+    <string name="analysis_error_subtitle">Could not load the analysis. Pull down to try again.</string>
 </resources>

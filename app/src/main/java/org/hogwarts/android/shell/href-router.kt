@@ -2,6 +2,7 @@ package org.hogwarts.android.shell
 
 import androidx.compose.runtime.staticCompositionLocalOf
 import org.hogwarts.android.core.data.tenant.UserRole
+import org.hogwarts.android.feature.admin.navigation.AdminAnalysis
 import org.hogwarts.android.feature.admin.navigation.AdminReadiness
 import org.hogwarts.android.feature.announcements.navigation.AnnouncementDetail
 import org.hogwarts.android.feature.dashboard.navigation.Dashboard
@@ -50,8 +51,13 @@ internal fun routeForHref(href: String, role: UserRole?): Any? {
         "/events" -> return EventsList
         // «جاهزية الصفوف» — the web page is /school/analysis; admins, and teachers who supervise a class.
         // The server decides (403 renders a friendly "not a supervisor" state), so a teacher's tap still opens it.
-        "/school/analysis", "/readiness" ->
-            return if (role in READINESS_ROLES) AdminReadiness else null
+        // /school/analysis is also the school analysis report for admins («التحليل»); a teacher keeps readiness.
+        "/school/analysis" -> return when (role) {
+            UserRole.ADMIN, UserRole.DEVELOPER -> AdminAnalysis
+            UserRole.TEACHER -> AdminReadiness
+            else -> null
+        }
+        "/readiness" -> return if (role in READINESS_ROLES) AdminReadiness else null
         "/parents" -> return if (role == UserRole.GUARDIAN) GuardianChildren else null
     }
     nestedRoute(path, role)?.let { return it }

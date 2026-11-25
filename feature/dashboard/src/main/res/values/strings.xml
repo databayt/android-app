@@ -242,4 +242,6 @@
     <string name="notif_open_settings">Open settings</string>
     <string name="dash_readiness_title">Class readiness</string>
     <string name="dash_readiness_subtitle">Who is set up for online classes</string>
+    <string name="dash_analysis_title">School analysis</string>
+    <string name="dash_analysis_subtitle">Attendance, readiness and who needs follow-up</string>
 </resources>
