@@ -10,4 +10,5 @@
     <!-- Exclude sensitive shared preferences -->
     <exclude domain="sharedpref" path="hogwarts_secure_prefs.xml" />
     <exclude domain="sharedpref" path="hogwarts_biometric_creds.xml" />
+        <exclude domain="sharedpref" path="hogwarts_session.xml" />
 </full-backup-content>

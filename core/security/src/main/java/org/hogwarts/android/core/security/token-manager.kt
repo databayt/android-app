@@ -32,17 +32,7 @@ class TokenManager @Inject constructor(
         const val REFRESH_THRESHOLD_MS = 5 * 60 * 1000L // 5 minutes
     }
 
-    private val masterKey = MasterKey.Builder(context)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .build()
-
-    private val encryptedPrefs: SharedPreferences = EncryptedSharedPreferences.create(
-        context,
-        PREFS_FILE_NAME,
-        masterKey,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
+    private val encryptedPrefs: SharedPreferences = openSecurePrefs(context, PREFS_FILE_NAME)
 
     private val _isAuthenticated = MutableStateFlow(hasTokens)
     val isAuthenticated: StateFlow<Boolean> = _isAuthenticated.asStateFlow()

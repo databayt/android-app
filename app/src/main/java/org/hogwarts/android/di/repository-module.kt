@@ -60,17 +60,8 @@ class SessionManagerImpl @javax.inject.Inject constructor(
         const val KEY_GRADE = "grade"
     }
 
-    private val masterKey = MasterKey.Builder(context)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .build()
-
-    private val prefs: SharedPreferences = EncryptedSharedPreferences.create(
-        context,
-        PREFS_FILE,
-        masterKey,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
+    // Never crash on start: see openSecurePrefs (hogwarts_session was backed up without its key).
+    private val prefs: SharedPreferences = org.hogwarts.android.core.security.openSecurePrefs(context, PREFS_FILE)
 
     @Volatile
     private var _currentUser: CurrentUser? = restoreUser()

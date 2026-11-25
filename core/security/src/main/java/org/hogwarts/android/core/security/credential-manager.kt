@@ -30,18 +30,7 @@ class CredentialManager internal constructor(
         const val KEY_BIOMETRIC_ENABLED = "biometric_enabled"
         const val KEY_SCHOOL = "login_school"
 
-        fun createPrefs(context: Context): SharedPreferences {
-            val masterKey = MasterKey.Builder(context)
-                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                .build()
-            return EncryptedSharedPreferences.create(
-                context,
-                PREFS_FILE_NAME,
-                masterKey,
-                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-            )
-        }
+        fun createPrefs(context: Context): SharedPreferences = openSecurePrefs(context, PREFS_FILE_NAME)
     }
 
     /**

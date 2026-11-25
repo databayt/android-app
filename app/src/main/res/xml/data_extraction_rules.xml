@@ -11,6 +11,7 @@
         <!-- Exclude sensitive shared preferences -->
         <exclude domain="sharedpref" path="hogwarts_secure_prefs.xml" />
         <exclude domain="sharedpref" path="hogwarts_biometric_creds.xml" />
+        <exclude domain="sharedpref" path="hogwarts_session.xml" />
     </cloud-backup>
 
     <device-transfer>
@@ -20,5 +21,6 @@
         <!-- Exclude sensitive data -->
         <exclude domain="sharedpref" path="hogwarts_secure_prefs.xml" />
         <exclude domain="sharedpref" path="hogwarts_biometric_creds.xml" />
+        <exclude domain="sharedpref" path="hogwarts_session.xml" />
     </device-transfer>
 </data-extraction-rules>
