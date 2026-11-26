@@ -175,4 +175,23 @@
     <string name="live_slot_retry">Try again</string>
     <string name="live_slot_next">Your next class · %1$s</string>
     <string name="live_slot_back">Back</string>
+    <string name="live_perm_mic_rationale_title">Allow the microphone?</string>
+    <string name="live_perm_camera_rationale_title">Allow the camera?</string>
+    <string name="live_perm_mic_rationale">We need the microphone so the teacher and students can hear you.</string>
+    <string name="live_perm_camera_rationale">We need the camera so they can see you.</string>
+    <string name="live_perm_allow">Allow</string>
+    <string name="live_perm_later">Later</string>
+    <string name="live_perm_mic_blocked_title">The microphone is blocked</string>
+    <string name="live_perm_camera_blocked_title">The camera is blocked</string>
+    <string name="live_perm_step_1">1. Tap \"Open settings\"</string>
+    <string name="live_perm_step_2">2. Choose \"Permissions\"</string>
+    <string name="live_perm_step_3_mic">3. Choose \"Microphone\" then \"Allow only while using the app\"</string>
+    <string name="live_perm_step_3_camera">3. Choose \"Camera\" then \"Allow only while using the app\"</string>
+    <string name="live_perm_then_return">Then come back to the class.</string>
+    <string name="live_perm_open_settings">Open settings</string>
+    <string name="live_perm_share_needs_mic">Sharing your screen needs the microphone too.</string>
+    <string name="live_perm_chip_mic">Microphone blocked — tap to fix</string>
+    <string name="live_perm_chip_camera">Camera blocked — tap to fix</string>
+    <string name="live_perm_mic_on_done">Microphone is on ✓</string>
+    <string name="live_perm_camera_on_done">Camera is on ✓</string>
 </resources>

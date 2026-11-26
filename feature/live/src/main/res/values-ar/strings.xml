@@ -175,4 +175,23 @@
     <string name="live_slot_retry">حاول تاني</string>
     <string name="live_slot_next">حصتك التالية · %1$s</string>
     <string name="live_slot_back">رجوع</string>
+    <string name="live_perm_mic_rationale_title">نسمح بالمايك؟</string>
+    <string name="live_perm_camera_rationale_title">نسمح بالكاميرا؟</string>
+    <string name="live_perm_mic_rationale">نحتاج المايك عشان الأستاذ والطلاب يسمعوك</string>
+    <string name="live_perm_camera_rationale">نحتاج الكاميرا عشان يشوفوك</string>
+    <string name="live_perm_allow">سماح</string>
+    <string name="live_perm_later">لاحقاً</string>
+    <string name="live_perm_mic_blocked_title">المايك ممنوع</string>
+    <string name="live_perm_camera_blocked_title">الكاميرا ممنوعة</string>
+    <string name="live_perm_step_1">١. اضغط «فتح الإعدادات»</string>
+    <string name="live_perm_step_2">٢. اختر «الأذونات»</string>
+    <string name="live_perm_step_3_mic">٣. اختر «الميكروفون» ← «السماح أثناء استخدام التطبيق»</string>
+    <string name="live_perm_step_3_camera">٣. اختر «الكاميرا» ← «السماح أثناء استخدام التطبيق»</string>
+    <string name="live_perm_then_return">ثم ارجع للحصة.</string>
+    <string name="live_perm_open_settings">فتح الإعدادات</string>
+    <string name="live_perm_share_needs_mic">مشاركة الشاشة تحتاج المايك كمان.</string>
+    <string name="live_perm_chip_mic">المايك ممنوع — اضغط للحل</string>
+    <string name="live_perm_chip_camera">الكاميرا ممنوعة — اضغط للحل</string>
+    <string name="live_perm_mic_on_done">تم تشغيل المايك ✓</string>
+    <string name="live_perm_camera_on_done">تم تشغيل الكاميرا ✓</string>
 </resources>
