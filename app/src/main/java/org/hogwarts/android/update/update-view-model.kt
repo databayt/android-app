@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import org.hogwarts.android.BuildConfig
 import org.hogwarts.android.core.common.brand.AppVersionInfo
 import org.hogwarts.android.core.common.brand.BrandConfig
 import org.hogwarts.android.core.common.brand.LiveRoomPresence
@@ -104,7 +105,7 @@ class UpdateViewModel @javax.inject.Inject constructor(
     }
 
     private fun reconcile(m: UpdateManifest?, inRoom: Boolean, st: UpdateStage) {
-        if (m == null) return
+        if (!BuildConfig.SELF_UPDATE || m == null) return
         val held = st is UpdateStage.ReadyToInstall && installWhenReady
         val action = nextUpdateAction(
             decision = decideUpdate(app.versionCode, m.latestCode, m.minCode, inRoom),
@@ -121,6 +122,7 @@ class UpdateViewModel @javax.inject.Inject constructor(
 
     /** Called on every activity start; the checker throttles to once per 30 min. */
     fun check() {
+        if (!BuildConfig.SELF_UPDATE) return
         viewModelScope.launch {
             // A failed attempt is retried on the next start / return to the app.
             if (stage.value is UpdateStage.Failed && downloadJob?.isActive != true) stage.value = UpdateStage.Idle
@@ -130,6 +132,7 @@ class UpdateViewModel @javax.inject.Inject constructor(
 
     /** The update button: download in-app, verify, then open the installer. Also the retry. */
     fun startUpdate() {
+        if (!BuildConfig.SELF_UPDATE) return
         val m = manifest.value ?: return
         val url = m.apkUrl?.takeIf { it.isNotBlank() } ?: brand.apkUrl
         if (url.isBlank() || downloadJob?.isActive == true) return
@@ -155,6 +158,7 @@ class UpdateViewModel @javax.inject.Inject constructor(
 
     /** "Install update": the verified file is still on disk, so do not download again. */
     fun install() {
+        if (!BuildConfig.SELF_UPDATE) return
         val m = manifest.value ?: return
         val target = targetFile(m)
         if (!target.exists()) startUpdate() else openInstaller(target)

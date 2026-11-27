@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Google Play channel: Play owns updates. The self-updater (CDN version.json -> download -> PackageInstaller)
+    and everything it needs is removed, so the Play build holds no install permission and no updater component.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission
+        android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+        tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ENFORCE_UPDATE_OWNERSHIP"
+        tools:node="remove" />
+
+    <application>
+        <receiver
+            android:name="org.hogwarts.android.update.UpdateInstallReceiver"
+            tools:node="remove" />
+        <provider
+            android:name="org.hogwarts.android.update.UpdateFileProvider"
+            tools:node="remove" />
+    </application>
+</manifest>

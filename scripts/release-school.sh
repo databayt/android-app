@@ -63,12 +63,12 @@ else
   [ -f "$FIREBASE_CONFIG" ] || { echo "no production Firebase config at $FIREBASE_CONFIG" >&2; exit 1; }
   cp "$FIREBASE_CONFIG" "$ROOT/app/google-services.json"
 
-  echo "→ assemble schoolRelease"
+  echo "→ assemble schoolDirectRelease"
   PASS="$(security find-generic-password -a "$USER" -s hogwarts-android-keystore-password -w)"
   ( cd "$ROOT" && HOGWARTS_KEYSTORE="$KEYSTORE" HOGWARTS_KEYSTORE_PASSWORD="$PASS" \
-      ./gradlew --quiet :app:assembleSchoolRelease -Phogwarts.brand="$BRAND" )
+      ./gradlew --quiet :app:assembleSchoolDirectRelease -Phogwarts.brand="$BRAND" )
   unset PASS
-  APK="$(ls "$ROOT"/app/build/outputs/apk/school/release/*.apk | head -1)"
+  APK="$(ls "$ROOT"/app/build/outputs/apk/schoolDirect/release/*.apk | head -1)"
 fi
 "$BT/apksigner" verify "$APK"
 BADGING="$("$BT/aapt2" dump badging "$APK")"

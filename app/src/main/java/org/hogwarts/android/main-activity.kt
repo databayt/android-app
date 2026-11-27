@@ -68,8 +68,11 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) openLink(intent)
 
         // Version check on every start/return to the foreground (the checker throttles to 30 min).
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) { updateViewModel.check() }
+        // Play build: Play owns updates, so nothing is checked, downloaded or installed.
+        if (BuildConfig.SELF_UPDATE) {
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) { updateViewModel.check() }
+            }
         }
 
         setContent {
@@ -81,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     onLinkOpened = { incomingLink.value = null },
                 )
                 HogwartsTheme(darkTheme = isSystemInDarkTheme()) {
-                    UpdateGate(viewModel = updateViewModel, onExit = { finish() })
+                    if (BuildConfig.SELF_UPDATE) UpdateGate(viewModel = updateViewModel, onExit = { finish() })
                 }
             }
         }

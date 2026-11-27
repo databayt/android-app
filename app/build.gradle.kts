@@ -82,8 +82,8 @@ android {
         applicationId = "org.hogwarts.android"
         minSdk = 26
         targetSdk = 36
-        versionCode = 20
-        versionName = "1.3.10"
+        versionCode = 21
+        versionName = "1.4.0"
 
         // x86 is emulator-only; shipping arm only shrinks the APK a lot.
         ndk { abiFilters += listOf("arm64-v8a", "armeabi-v7a") }
@@ -100,7 +100,7 @@ android {
         // API and socket URLs live in core/network's BuildConfig (single source of truth).
     }
 
-    flavorDimensions += "brand"
+    flavorDimensions += listOf("brand", "channel")
     productFlavors {
         // Generic Balqalam app: any school, signs in to whichever one the user names.
         create("balqalam") {
@@ -121,6 +121,21 @@ android {
             buildConfigField("String", "BRAND_APK_URL", quoted(brandProp("apkUrl")))
             buildConfigField("String", "BRAND_TIMEZONE", quoted(brandProp("timezone")))
             buildConfigField("boolean", "BRAND_LOCKED", "true")
+        }
+    }
+
+    productFlavors {
+        // Sideloaded / CDN build: updates itself from the brand's version.json (today's behaviour).
+        create("direct") {
+            dimension = "channel"
+            isDefault = true
+            buildConfigField("boolean", "SELF_UPDATE", "true")
+        }
+        // Google Play build: Play owns updates. No REQUEST_INSTALL_PACKAGES, no updater components
+        // (src/play/AndroidManifest.xml), and every update entry point is gated on SELF_UPDATE.
+        create("play") {
+            dimension = "channel"
+            buildConfigField("boolean", "SELF_UPDATE", "false")
         }
     }
 
@@ -218,6 +233,24 @@ android {
  * catches per-module gaps.
  */
 androidComponents {
+    // The Play listing of the generic app is its own package; every other combination keeps
+    // the defaultConfig / brand applicationId. Debug keeps its `.debug` suffix.
+    onVariants(selector().all()) { variant ->
+        val flavors = variant.productFlavors.map { it.second }
+        if ("balqalam" in flavors && "play" in flavors) {
+            variant.applicationId.set(
+                "com.balqalam.app" + if (variant.buildType == "debug") ".debug" else ""
+            )
+        }
+    }
+    // School store apps are published from each school's own account later: no schoolPlay yet.
+    beforeVariants(selector().all()) { variant ->
+        if (variant.productFlavors.any { it.second == "school" } &&
+            variant.productFlavors.any { it.second == "play" }
+        ) {
+            variant.enable = false
+        }
+    }
     // No brand directory: a `school` build cannot exist, so assemble/test/lint all stay generic.
     beforeVariants(selector().all()) { variant ->
         if (brandDir == null && variant.productFlavors.any { it.second == "school" }) {
