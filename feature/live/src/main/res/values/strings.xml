@@ -185,8 +185,8 @@
     <string name="live_perm_camera_blocked_title">The camera is blocked</string>
     <string name="live_perm_step_1">1. Tap \"Open settings\"</string>
     <string name="live_perm_step_2">2. Choose \"Permissions\"</string>
-    <string name="live_perm_step_3_mic">3. Choose \"Microphone\" then \"Allow only while using the app\"</string>
-    <string name="live_perm_step_3_camera">3. Choose \"Camera\" then \"Allow only while using the app\"</string>
+    <string name="live_perm_step_3_mic">3. Choose \"Microphone\" then \"Allow\" (the first option)</string>
+    <string name="live_perm_step_3_camera">3. Choose \"Camera\" then \"Allow\" (the first option)</string>
     <string name="live_perm_then_return">Then come back to the class.</string>
     <string name="live_perm_open_settings">Open settings</string>
     <string name="live_perm_share_needs_mic">Sharing your screen needs the microphone too.</string>
